@@ -1,0 +1,655 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: 技术规范 -->
+  <head>
+    <title>CUPS 光栅格式</title>
+    <link rel="STYLESHEET" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+
+    <h1 class="title">CUPS 光栅格式</h1>
+    <p>&emsp;&emsp;CUPS 光栅文件是设备相关的光栅图像文件，包含 PostScript 页面设备字典和文档中每个页面的设备相关光栅图像。这些文件用于将光栅数据从 PostScript 和图像文件 RIP 传输到设备相关筛选器，这些筛选器将光栅数据转换为可打印格式。</p>
+    <p>&emsp;&emsp;CUPS 1.0 和 1.1 使用了光栅格式的版本 1 。CUPS 1.2 及更高版本使用版本 2（压缩）和版本 3（未压缩），这是版本 1 光栅格式的超集。CUPS 光栅的所有三个版本都是可流化格式，使用 CUPS 成像 API（ cupsRaster* 函数）的应用程序可以读取所有格式，而无需更改代码。</p>
+    <p>&emsp;&emsp;CUPS 光栅文件注册的 MIME 媒体类型为 <code>application/vnd.cups-raster</code> 。</p>
+
+
+    <h2 class="title"><a name="ORGANIZATION">CUPS 光栅文件的组织</a></h2>
+    <p>&emsp;&emsp;<a href="FILEFORMAT">图1，“光栅组织”</a>，显示所有 CUPS 光栅文件的常规组织。每个文件都以一个 32 位同步字开头，后跟零个或多个页面。每个页面由页眉（ PostScript 页面设备字典和光栅特定值）和页面的位图图像组成。</p>
+    <div class="figure">
+      <table summary="Raster Organization">
+        <caption><a name="FILEFORMAT">图1：光栅组织</a></caption>
+        <tr><td><img src="../images/raster-organization.png" width="446" height="1056" alt="光栅组织"></td></tr>
+      </table>
+    </div>
+    <p>&emsp;&emsp;每个页面位图按页眉中的 <code>cupsBitsPerColor</code> 、 <code>cupsBytesPerLine</code> 、 <code>cupsColorOrder</code> 、 <code>cupsColorSpace</code> 、 <code>cupsHeight</code> 和 <code>cupsWidth</code> 值存储。纸张正面的像素始终从左到右、从上到下存储。进行双面打印时，根据 PPD 文件中 <code>cupsBackSide</code> 关键字（“Normal” 、 “ManualTumble” 、 “Rotated” 或 “Flipped”）的值以及页眉中的 <code>Tumble</code> 值（“true” 或 “false”），纸张背面的像素可能会以不同的方式存储<a href="#PAGEBITMAPS">图2，“页面位图”</a>，显示了每个组合的像素顺序。</p>
+    <div class="figure">
+      <table summary="Page Bitmaps">
+        <caption><a name="PAGEBITMAPS">图2：页面位图</a></caption>
+        <tr><td><img src="../images/raster.png" width="624" height="448" alt="页面位图"></td></tr>
+      </table>
+    </div>
+
+
+    <h2 class="title"><a name="V1">第 1 版光栅文件格式</a></h2>
+    <p>&emsp;&emsp;版本 1 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615374（“RaSt”），对于小端体系结构，为 0x74536152（“tSaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。CUPS 成像 API 光栅函数自动执行此功能。</p>
+    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以页面设备字典标题开始，紧接着是该页面的（未压缩/原始）光栅数据。</p>
+    <div class="table">
+      <table summary="CUPS Version 1 Raster Page Device Dictionary">
+        <caption><a name="TABLE1">表1：CUPS 第 1 版光栅页面设备字典</a></caption>
+        <thead>
+        <tr>
+          <th>比特</th>
+          <th>类型</th>
+          <th>说明</th>
+          <th>值</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>0-63</td>
+          <td>C String</td>
+          <td>媒体类</td>
+          <td>媒体类字符串</td>
+        </tr>
+        <tr>
+          <td>64-127</td>
+          <td>C String</td>
+          <td>媒体颜色</td>
+          <td>媒体颜色字符串</td>
+        </tr>
+        <tr>
+          <td>128-191</td>
+          <td>C String</td>
+          <td>媒体类型</td>
+          <td>媒体类型字符串</td>
+        </tr>
+        <tr>
+          <td>192-255</td>
+          <td>C String</td>
+          <td>OutputType</td>
+          <td>输出类型字符串</td>
+        </tr>
+        <tr>
+          <td>256-259</td>
+          <td>Unsigned Integer</td>
+          <td>AdvanceDistance</td>
+          <td>0 to 2<sup>32</sup> - 1 points</td>
+        </tr>
+        <tr>
+          <td>260-263</td>
+          <td>Unsigned Integer</td>
+          <td>AdvanceMedia</td>
+          <td>0 = 不要提前滚动<br>
+              1 = 在文件后向前滚动<br>
+              2 = 在任务后向前滚动<br>
+              3 = 在设置后向前滚动<br>
+              4 = 在每页后向前滚动
+          </td>
+        </tr>
+        <tr>
+          <td>264-267</td>
+          <td>Unsigned Integer</td>
+          <td>Collate</td>
+          <td>0 = 不要核对副本<br>
+              1 = 校对副本
+          </td>
+        </tr>
+        <tr>
+          <td>268-271</td>
+          <td>Unsigned Integer</td>
+          <td>CutMedia</td>
+          <td>0 = 不要裁切介质<br>
+              1 = 在文件后裁切<br>
+              2 = 在任务后裁切<br>
+              3 = 在设置后裁切<br>
+              4 = 在每页后裁切
+          </td>
+        </tr>
+        <tr>
+          <td>272-275</td>
+          <td>Unsigned Integer</td>
+          <td>Duplex</td>
+          <td>0 = 单面打印<br>
+              1 = 双面打印</td>
+        </tr>
+        <tr>
+          <td>276-283</td>
+          <td>Unsigned Integers (2)</td>
+          <td>HWResolution</td>
+          <td>水平和垂直分辨率，单位为每英寸点数。</td>
+        </tr>
+        <tr>
+          <td>284-299</td>
+          <td>Unsigned Integers (4)</td>
+          <td>ImagingBoundingBox</td>
+          <td>四个整数，以点表示页面边界框的左、下、右和上位置</td>
+        </tr>
+        <tr>
+          <td>300-303</td>
+          <td>Unsigned Integer</td>
+          <td>InsertSheet</td>
+          <td>0 = 不要插入分隔页<br>
+              1 = 插入分隔页</td>
+        </tr>
+        <tr>
+          <td>304-307</td>
+          <td>Unsigned Integer</td>
+          <td>Jog</td>
+          <td>0 = Do no jog pages<br>
+              1 = Jog pages after file<br>
+              2 = Jog pages after job<br>
+              3 = Jog pages after set</td>
+        </tr>
+        <tr>
+          <td>308-311</td>
+          <td>Unsigned Integer</td>
+          <td>LeadingEdge</td>
+          <td>0 = 顶边优先<br>
+              1 = 右边优先<br>
+              2 = 下边优先<br>
+              3 = 左边优先</td>
+        </tr>
+        <tr>
+          <td>312-319</td>
+          <td>Unsigned Integers (2)</td>
+          <td>Margins</td>
+          <td>以点为单位的图像左原点和下原点</td>
+        </tr>
+        <tr>
+          <td>320-323</td>
+          <td>Unsigned Integer</td>
+          <td>ManualFeed</td>
+          <td>0 = 不要手动进纸<br>
+              1 = 手动进纸</td>
+        </tr>
+        <tr>
+          <td>324-327</td>
+          <td>Unsigned Integer</td>
+          <td>MediaPosition</td>
+          <td>输入从 0 到 N 的槽位号</td>
+        </tr>
+        <tr>
+          <td>328-331</td>
+          <td>Unsigned Integer</td>
+          <td>MediaWeight</td>
+          <td>介质重量（单位：克/平方米），0 = 打印机默认值</td>
+        </tr>
+        <tr>
+          <td>332-335</td>
+          <td>Unsigned Integer</td>
+          <td>MirrorPrint</td>
+          <td>0 = 不要镜像打印<br>
+              1 = 镜像打印</td>
+        </tr>
+        <tr>
+          <td>336-339</td>
+          <td>Unsigned Integer</td>
+          <td>NegativePrint</td>
+          <td>0 = 不要反转打印<br>
+              1 = 反转打印</td>
+        </tr>
+        <tr>
+          <td>340-343</td>
+          <td>Unsigned Integer</td>
+          <td>NumCopies</td>
+          <td>0 to 2<sup>32</sup> - 1, 0 = 打印机默认值</td>
+        </tr>
+        <tr>
+          <td>344-347</td>
+          <td>Unsigned Integer</td>
+          <td>Orientation</td>
+          <td>0 = 不旋转页面<br>
+              1 = 逆时针旋转页面<br>
+              2 = 翻转页面<br>
+              3 = 顺时针旋转页面</td>
+        </tr>
+        <tr>
+          <td>348-351</td>
+          <td>Unsigned Integer</td>
+          <td>OutputFaceUp</td>
+          <td>0 = 输出面朝下<br>
+              1 = 输出面朝上</td>
+        </tr>
+        <tr>
+          <td>352-359</td>
+          <td>Unsigned Integers (2)</td>
+          <td>PageSize</td>
+          <td>以点为单位的宽度和长度</td>
+        </tr>
+        <tr>
+          <td>360-363</td>
+          <td>Unsigned Integer</td>
+          <td>Separations</td>
+          <td>0 = Print composite image<br>
+              1 = Print color separations</td>
+        </tr>
+        <tr>
+          <td>364-367</td>
+          <td>Unsigned Integer</td>
+          <td>TraySwitch</td>
+          <td>0 = 如果所选托盘为空，请勿更换托盘<br>
+              1 = 如果所选托盘为空，则更改托盘</td>
+        </tr>
+        <tr>
+          <td>368-371</td>
+          <td>Unsigned Integer</td>
+          <td>Tumble</td>
+          <td>0 = 双面打印时不要旋转偶数页<br>
+              1 = 双面打印时旋转偶数页</td>
+        </tr>
+        <tr>
+          <td>372-375</td>
+          <td>Unsigned Integer</td>
+          <td>cupsWidth</td>
+          <td>页面图像的宽度（像素）</td>
+        </tr>
+        <tr>
+          <td>376-379</td>
+          <td>Unsigned Integer</td>
+          <td>cupsHeight</td>
+          <td>页面图像的高度（像素）</td>
+        </tr>
+        <tr>
+          <td>380-383</td>
+          <td>Unsigned Integer</td>
+          <td>cupsMediaType</td>
+          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+        </tr>
+        <tr>
+          <td>384-387</td>
+          <td>Unsigned Integer</td>
+          <td>cupsBitsPerColor</td>
+          <td>1, 2, 4, 8 bits for version 1 raster files<br>
+              1, 2, 4, 8, and 16 bits for version 2/3 raster files</td>
+        </tr>
+        <tr>
+          <td>388-391</td>
+          <td>Unsigned Integer</td>
+          <td>cupsBitsPerPixel</td>
+          <td>1 to 32 bits for version 1 raster files<br>
+              1 to 240 bits for version 2/3 raster files</td>
+        </tr>
+        <tr>
+          <td>392-395</td>
+          <td>Unsigned Integer</td>
+          <td>cupsBytesPerLine</td>
+          <td>1 to 2<sup>32</sup> - 1 bytes</td>
+        </tr>
+        <tr>
+          <td>396-399</td>
+          <td>Unsigned Integer</td>
+          <td>cupsColorOrder</td>
+          <td>0 = 粗像素 (CMYK CMYK CMYK)<br>
+              1 = 带状像素 (CCC MMM YYY KKK)<br>
+              2 = 平面像素 (CCC... MMM... YYY... KKK...)</td>
+        </tr>
+        <tr>
+          <td>400-403</td>
+          <td>Unsigned Integer</td>
+          <td>cupsColorSpace</td>
+          <td>0 = gray (device, typically sRGB-based)<br>
+          1 = RGB (device, typically sRGB)<br>
+          2 = RGBA (device, typically sRGB)<br>
+          3 = black<br>
+          4 = CMY<br>
+          5 = YMC<br>
+          6 = CMYK<br>
+          7 = YMCK<br>
+          8 = KCMY<br>
+          9 = KCMYcm<br>
+          10 = GMCK<br>
+          11 = GMCS<br>
+          12 = WHITE<br>
+          13 = GOLD<br>
+          14 = SILVER<br>
+          15 = CIE XYZ<br>
+          16 = CIE Lab<br>
+          17 = RGBW (sRGB)<br>
+          18 = sGray (gray using sRGB gamma/white point)<br>
+          19 = sRGB<br>
+          20 = AdobeRGB<br>
+          32 = ICC1 (CIE Lab with hint for 1 color)<br>
+          33 = ICC2 (CIE Lab with hint for 2 colors)<br>
+          34 = ICC3 (CIE Lab with hint for 3 colors)<br>
+          35 = ICC4 (CIE Lab with hint for 4 colors)<br>
+          36 = ICC5 (CIE Lab with hint for 5 colors)<br>
+          37 = ICC6 (CIE Lab with hint for 6 colors)<br>
+          38 = ICC7 (CIE Lab with hint for 7 colors)<br>
+          39 = ICC8 (CIE Lab with hint for 8 colors)<br>
+          40 = ICC9 (CIE Lab with hint for 9 colors)<br>
+          41 = ICCA (CIE Lab with hint for 10 colors)<br>
+          42 = ICCB (CIE Lab with hint for 11 colors)<br>
+          43 = ICCC (CIE Lab with hint for 12 colors)<br>
+          44 = ICCD (CIE Lab with hint for 13 colors)<br>
+          45 = ICCE (CIE Lab with hint for 14 colors)<br>
+          46 = ICCF (CIE Lab with hint for 15 colors)<br>
+          48 = Device1 (DeviceN for 1 color)<br>
+          49 = Device2 (DeviceN for 2 colors)<br>
+          50 = Device3 (DeviceN for 3 colors)<br>
+          51 = Device4 (DeviceN for 4 colors)<br>
+          52 = Device5 (DeviceN for 5 colors)<br>
+          53 = Device6 (DeviceN for 6 colors)<br>
+          54 = Device7 (DeviceN for 7 colors)<br>
+          55 = Device8 (DeviceN for 8 colors)<br>
+          56 = Device9 (DeviceN for 9 colors)<br>
+          57 = DeviceA (DeviceN for 10 colors)<br>
+          58 = DeviceB (DeviceN for 11 colors)<br>
+          59 = DeviceC (DeviceN for 12 colors)<br>
+          60 = DeviceD (DeviceN for 13 colors)<br>
+          61 = DeviceE (DeviceN for 14 colors)<br>
+          62 = DeviceF (DeviceN for 15 colors)
+          </td>
+        </tr>
+        <tr>
+          <td>404-407</td>
+          <td>Unsigned Integer</td>
+          <td>cupsCompression</td>
+          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+        </tr>
+        <tr>
+          <td>408-411</td>
+          <td>Unsigned Integer</td>
+          <td>cupsRowCount</td>
+          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+        </tr>
+        <tr>
+          <td>412-415</td>
+          <td>Unsigned Integer</td>
+          <td>cupsRowFeed</td>
+          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+        </tr>
+        <tr>
+          <td>416-419</td>
+          <td>Unsigned Integer</td>
+          <td>cupsRowStep</td>
+          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <h2 class="title"><a name="V2">版本 2 光栅文件格式</a></h2>
+    <p>&emsp;&emsp;版本 2 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615332（“RaS2”），对于小端体系结构，为 0x32536152（“2SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。CUPS 成像 API 光栅函数自动执行此功能。</p>
+    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以版本 2 页面设备字典标题开始，紧接着是该页面的压缩光栅数据。</p>
+    <div class="table">
+      <table summary="CUPS Version 2 Raster Page Device Dictionary">
+        <caption><a name="TABLE2">表2：CUPS 第 2 版光栅页面设备字典</a></caption>
+        <thead>
+        <tr>
+          <th>比特</th>
+          <th>类型</th>
+          <th>说明</th>
+          <th>值</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>0-419</td>
+          <td>Version 1 header data</td>
+          <td>见表1</td>
+        </tr>
+        <tr>
+          <td>420-423</td>
+          <td>Unsigned Integer</td>
+          <td>cupsNumColors</td>
+          <td>1 到 15 的颜色</td>
+        </tr>
+        <tr>
+          <td>424-427</td>
+          <td>IEEE Single Precision</td>
+          <td>cupsBorderlessScalingFactor</td>
+          <td>0.0 或 1.0 或之后</td>
+        </tr>
+        <tr>
+          <td>428-435</td>
+          <td>IEEE Single Precision (2)</td>
+          <td>cupsPageSize</td>
+          <td>以点为单位的宽度和长度</td>
+        </tr>
+        <tr>
+          <td>436-451</td>
+          <td>IEEE Single Precision (4)</td>
+          <td>cupsImagingBBox</td>
+          <td>四个浮点数，以点表示页面边界框的左、下、右和上位置</td>
+        </tr>
+        <tr>
+          <td>452-515</td>
+          <td>Unsigned Integers (16)</td>
+          <td>cupsInteger</td>
+          <td>16 驱动程序定义的整数值</td>
+        </tr>
+        <tr>
+          <td>516-579</td>
+          <td>IEEE Single Precision (16)</td>
+          <td>cupsReal</td>
+          <td>16 驱动程序定义的浮点值</td>
+        </tr>
+        <tr>
+          <td>580-1603</td>
+          <td>C Strings (16x64)</td>
+          <td>cupsString</td>
+          <td>16 驱动程序定义的字符串</td>
+        </tr>
+        <tr>
+          <td>1604-1667</td>
+          <td>C String</td>
+          <td>cupsMarkerType</td>
+          <td>墨水/碳粉类型字符串</td>
+        </tr>
+        <tr>
+          <td>1668-1731</td>
+          <td>C String</td>
+          <td>cupsRenderingIntent</td>
+          <td>渲染意图字符串</td>
+        </tr>
+        <tr>
+          <td>1732-1795</td>
+          <td>C String</td>
+          <td>cupsPageSizeName</td>
+          <td>PPD 中的页面大小名称/关键字字符串</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><a name="COMPRESSION">压缩光栅数据格式</a></h3>
+    <p>&emsp;&emsp;版本 2 的光栅数据使用类似 PackBits 的算法进行压缩。根据 <code>cupsColorOrder</code> 设置，行被分组为整数个颜色值：</p>
+    <div class="table">
+      <table summary="Color Value Sizes">
+        <caption><a name="TABLE3">表3：颜色值大小</a></caption>
+        <tr>
+          <th>CUPS 颜色顺序</th>
+          <th>每个颜色值的字节数</th>
+        </tr>
+        <tr>
+          <td>0 (chunky)</td>
+          <td>(<code>cupsBitsPerPixel</code> + 7) / 8</td>
+        </tr>
+        <tr>
+          <td>1 (banded)</td>
+          <td>(<code>cupsBitsPerColor</code> + 7) / 8</td>
+        </tr>
+        <tr>
+          <td>2 (planar)</td>
+          <td>(<code>cupsBitsPerColor</code> + 7) / 8</td>
+        </tr>
+      </table>
+    </div>
+    <p>&emsp;&emsp;光栅数据的每一行都以 1 到 256 的重复计数开始，该重复计数使用单个字节 “count - 1” 进行编码。</p>
+    <p>&emsp;&emsp;重复计数后，该行的整个颜色值使用类似 PackBits 的运行长度编码算法进行运行长度编码：1 到 128 个重复颜色使用 “count - 1” 的初始字节和颜色值字节进行编码，而 2 到 128 个非重复颜色使用 “257 - count” 的初始字节进行编码后跟颜色值字节。</p>
+    <p>&emsp;&emsp;例如，<a href="#SAMPLEIMAGE">图3，“示例图像”</a>中显示的 8 x 8 24位 sRGB 图像将被编码为以下 89 个八位字节：</p>
+    <pre class="example">
+%x00 %x00.FF.FF.FF %x02.FF.FF.00 %x03.FF.FF.FF
+%x00 %xFE.FF.FF.00.00.00.FF.FF.FF.00 %x02.FF.FF.FF %x00.00.FF.00 %x00.FF.FF.FF
+%x00 %x01.FF.FF.00 %x02.FF.FF.FF %x02.00.FF.00
+%x00 %x02.FF.FF.00 %x02.FF.FF.FF %x00.00.FF.00 %x00.FF.FF.FF
+%x00 %x00.FF.FF.FF %x02.FF.FF.00 %x03.FF.FF.FF
+%x00 %x07.FF.FF.FF
+%x01 %x07.FF.00.00</pre>
+    <p>&emsp;&emsp;第一行（%x00）包含 1 个白色像素（%x00.FF.FF.FF）、3 个黄色像素（%x02.FF.FF.00）和 4 个白色像素（%x03.FF.FF.FF）。</p>
+    <p>&emsp;&emsp;第二行（%x00）包含一系列黄色 + 蓝色 + 黄色像素（%xFE.FF.FF.00.00.FF.FF.FF.00）、3 个白色像素（%x02.FF.FF.FF）、1 个绿色像素（%x00.00.FF.00）和 1 个白色像素（%x00.FF.FF.FF）。</p>
+    <p>&emsp;&emsp;第三行（%x00）包含 2 个黄色像素（%x01.FF.FF.00）、3 个白色像素（%x02.FF.FF.FF）和 3 个绿色像素（%x02.00.FF.00）。</p>
+    <p>&emsp;&emsp;第四行（%x00）包含 3 个黄色像素（%x02.FF.FF.00）、3 个白色像素（%x02.FF.FF.FF）、1 个绿色像素（%x00.00.FF.00）和 1 个白色像素（%x00.FF.FF.FF）。</p>
+    <p>&emsp;&emsp;第五行（%x00）包含 1 个白色像素（%x00.FF.FF.FF）、3 个黄色像素（%x02.FF.FF.00）和 4 个白色像素（%x03.FF.FF.FF）。</p>
+    <p>&emsp;&emsp;第六行（%x00）包含 8 个白色像素（%x07.FF.FF.FF）。</p>
+    <p>&emsp;&emsp;第七行和第八行（%x01）包含 8 个红色像素（%x07.FF.00.00）。</p>
+    <div class="figure">
+      <table summary="Sample Image">
+        <caption><a name="SAMPLEIMAGE">图3：示例图像</a></caption>
+        <tr><td><img src="../images/sample-image.png" width="257" height="257" alt="示例图像"></td></tr>
+      </table>
+    </div>
+
+
+    <h2 class="title"><a name="V3">版本 3 光栅文件格式</a></h2>
+    <p>&emsp;&emsp;版本 3 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615333（“RaS3”），对于小端体系结构，为 0x33536152（“3SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。CUPS 成像 API 光栅函数自动执行此功能。</p>
+    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面以版本2页面设备字典标题开始，紧接着是该页面的未压缩/原始光栅数据。</p>
+
+    <h2 class="title"><a name="ENCODING">像素值编码</a></h2>
+    <p>&emsp;&emsp;以下各节介绍 CUPS 光栅文件中颜色值的编码和解码。通常，颜色被压缩到最小字节数中，并特别考虑编码和访问的效率。多字节值以本机字节顺序存储，并在使用 CUPS 成像 API 读取它们时根据需要自动交换。</p>
+    <h3>CUPS_ORDER_CHUNKED</h3>
+    <p>&emsp;&emsp;分块顺序提供压缩在单个位置的像素值。每种颜色具有 8 位或更多位的像素值按顺序存储为颜色数组，例如，对于 <code>CUPS_CSPACE_RGB</code> 您将看到 8/16 位的红色、蓝色、绿色、红色、绿色、蓝色等。每种颜色小于 8 位的像素值被打包在一起，如表 4 所示。<i> 多字节像素值以本机字顺序存储，就像 16 位颜色值一样。</i></p>
+    <div class="table">
+      <table summary="Chunked Color Values">
+        <caption><a name="TABLE4">表4：分块颜色值</a></caption>
+        <thead>
+        <tr>
+          <th>位</th>
+          <th>1-color</th>
+          <th>3-color</th>
+          <th>4-color</th>
+          <th>6-color</th>
+       </tr>
+       </thead>
+       <tbody>
+       <tr>
+          <td>1</td>
+          <td>W/W/W/W/W/W/W/W</td>
+          <td>0RGB/0RGB</td>
+          <td>CMYK/CMYK</td>
+          <td>00KCMYcm</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>WW/WW/WW/WW</td>
+          <td>00RRGGBB</td>
+          <td>CCMMYYKK</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>WWWW/WWWW</td>
+          <td>0000RRRRGGGGBBBB<br>
+          <i>(multi-byte)</i></td>
+          <td>CCCCMMMMYYYYKKKK<br>
+          <i>(multi-byte)</i></td>
+          <td>N/A</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>CUPS_ORDER_BANDED</h3>
+    <p>&emsp;&emsp;带状顺序将每种颜色作为单独的数据行提供。一条线的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code> 颜色空间，您将看到一条线的所有青色像素，然后是该线的洋红、黄色和黑色像素。对页面上的所有行重复此操作。颜色值从最高有效位（MSB）开始打包。</p>
+    <h3>CUPS_ORDER_PLANAR</h3>
+    <p>&emsp;&emsp;平面顺序使用共享页眉将每种颜色作为单独的数据页提供。页面的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code>颜色空间，您将看到页面的所有青色像素，然后是该页面的洋红、黄色和黑色像素。颜色值从最高有效位（MSB）开始打包。每行从 8 位边界开始。</p>
+    <h3>CUPS_CSPACE_RGBW</h3>
+    <p>&emsp;&emsp;此颜色空间提供专用的黑色文本通道，并为 RGB 颜色通道使用 sRGB 颜色空间定义和白点。对于文本（或“true”）黑色，白色通道为 0 ，否则它必须包含最大颜色值：1 表示 1 位，3 表示 2 位，15 表示 4 位，255 表示 8 位，或 65535 表示 16 位。</p>
+    <h3>CUPS_CSPACE_KCMYcm</h3>
+    <p>&emsp;&emsp;当 <code>cupsBitsPerColor</code> 为 1 时，将提供 6 个颜色平面 － 黑色、青色、品红、黄色、浅青色和浅品红。当 <code>cupsBitsPerColor</code> 大于 1 时，将使用 <code>CUPS_CSPACE_KCMY</code> 颜色空间提供 4 个颜色平面。</p>
+    <p>&emsp;&emsp;当 <code>cupsColorOrder</code> 是 <code>CUPS_ORDER_CHUNKED</code> 时，位 5 对应于黑色，位 0 对应于浅品红。对于 <code>CUPS_ORDER_BANDED</code> 和 <code>CUPS_ORDER_PLANAR</code> ，每个颜色平面都单独编码。</p>
+    <h3>CUPS_CSPACE_CIELab 和 CUPS_CSPACE_ICCn</h3>
+    <p>&emsp;&emsp;这些颜色空间将带有 D65 白点的 CIE Lab 颜色值映射为每种颜色分块（<code>CUPS_ORDER_CHUNKED</code>）格式的 8 位或 16 位；不支持带状（<code>CUPS_ORDER_BANDED</code>）和平面（<code>CUPS_ORDER_PLANAR</code>）颜色顺序。</p>
+    <p>&emsp;&emsp;使用以下公式对值进行编码和解码：</p>
+    <ul>
+      <li>8-bit 编码：<br>
+          <i>L8 = 2.55 * L + 0.5<br>
+          a8 = a + 128.5<br>
+          b8 = b + 128.5<br>
+          &nbsp;</i></li>
+
+      <li>8-bit 解码：<br>
+          <i>L = L8 / 2.55<br>
+          a = a8 - 128<br>
+          b = b8 - 128<br>
+          &nbsp;</i></li>
+
+      <li>16-bit 编码：<br>
+          <i>L16 = 655.35 * L + 0.5<br>
+          a16 = 256 * (a + 128) + 0.5<br>
+          b16 = 256 * (b + 128) + 0.5<br>
+          &nbsp;</i></li>
+
+      <li>16-bit 解码：<br>
+          <i>L = L16 / 655.35<br>
+          a = a16 / 256 - 128<br>
+          b = b16 / 256 - 128<br>
+          &nbsp;</i></li>
+    </ul>
+
+    <h3>CUPS_CSPACE_CIEXYZ</h3>
+    <p>&emsp;&emsp;这些颜色空间将带有 D65 白点的 CIE XYZ 颜色值映射为每种颜色块 8 位或 16 位（<code>CUPS_ORDER_CHUNKED</code>）格式；不支持带状（<code>CUPS_ORDER_BANDED</code>）和平面（<code>CUPS_ORDER_PLANAR</code>）颜色顺序。</p>
+    <p>&emsp;&emsp;使用以下公式对值进行编码和解码：</p>
+    <ul>
+      <li>8-bit 编码：<br>
+          <i>X8 = 231.8181 * X + 0.5<br>
+          Y8 = 231.8181 * Y + 0.5<br>
+          Z8 = 231.8181 * Z + 0.5<br>
+          &nbsp;</i></li>
+
+      <li>8-bit 解码：<br>
+          <i>X = X8 / 231.8181<br>
+          Y = Y8 / 231.8181<br>
+          Z = Z8 / 231.8181<br>
+          &nbsp;</i></li>
+
+      <li>16-bit 编码：<br>
+          <i>X16 = 59577.2727 * X + 0.5<br>
+          Y16 = 59577.2727 * Y + 0.5<br>
+          Z16 = 59577.2727 * Z + 0.5<br>
+          &nbsp;</i></li>
+
+      <li>16-bit 解码：<br>
+          <i>X = X16 / 59577.2727<br>
+          Y = Y16 / 59577.2727<br>
+          Z = Z16 / 59577.2727<br>
+          &nbsp;</i></li>
+    </ul>
+    <p>&emsp;&emsp;XYZ 值的比例因子为 1/1.1 ，8 位值为 231.8181 ，16 位值为 59577.2727 。这允许在从 RGB 转换时 XYZ 值稍微溢出，从而提高精度。</p>
+
+
+    <h2 class="title"><a name="HISTORY">改变历史</a></h2>
+    <h3>CUPS 1.4.7 的变化</h3>
+    <ul>
+      <li>极大地改善了细节，现在包括一个位图压缩的例子。</li>
+      <li>添加了所有缺少的 cupsColorSpace 值和 CUPS_CSPACE_RGBW 的单独说明。</li>
+    </ul>
+
+    <h3>CUPS 1.2.2 的变化</h3>
+    <ul>
+      <li>添加了版本 3（未压缩）格式。</li>
+    </ul>
+
+    <h3>CUPS 1.2.1 的变化</h3>
+    <ul>
+      <li>增加了关于编码像素值的新章节。</li>
+      <li>澄清颜色空间的定义。</li>
+    </ul>
+
+    <h3>CUPS 1.2 的变化</h3>
+    <ul>
+      <li>将光栅版本升级为 2</li>
+      <li>添加了 RGBW 颜色空间</li>
+      <li>增加了 16 位每种颜色的支持</li>
+      <li>在页面设备字典中添加了 cupsumColor 、 cupsOrderlessCalingFactor 、 cupsPageSize 、 cupsMagingBBox 、 cupsInteger 、 cupsReal 、 cupsString 、 cupsMarkerType 、 cupsRenderingContent 和 cupsPageSizeName 属性</li>
+      <li>添加了光栅数据压缩</li>
+      <li>在设备字典文档中添加了数据类型列。</li>
+    </ul>
+
+    <h3>CUPS 1.1.19 的变化</h3>
+    <ul>
+      <li>添加了 ICC 和 CIE 颜色空间。</li>
+    </ul>
+  </body>
+</html>

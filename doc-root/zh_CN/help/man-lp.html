@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lp(1)</title>
+  </head>
+  <body>
+    <h1 class="title">lp(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lp - 打印文件
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lp</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [<b>-c</b>] [<b>-d</b> <i>destination</i>[<b>/</b><i>instance</i>]] [<b>-h</b> <i>hostname</i>[<b>:</b><i>port</i>]] [<b>-m</b>] [<b>-n</b> <i>num-copies</i>] [<b>-o</b> <i>option</i>[<b>=</b><i>value</i>]] [<b>-q</b> <i>priority</i>] [<b>-s</b>] [<b>-t</b> <i>title</i>] [<b>-H</b> <i>handling</i>] [ <b>-P</b> <i>page-list</i>] [<b>--</b>] [<i>file(s)</i>]<br>
+       &emsp;&emsp;<b>lp</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [<b>-c</b>] [<b>-h</b> <i>hostname</i>[<b>:</b><i>port</i>]] [<b>-i</b> <i>job-id</i>] [<b>-n</b> <i>num-copies</i>] [<b>-o</b> <i>option</i>[<b>=</b><i>value</i>]] [<b>-q</b> <i>priority</i>] [<b>-t</b> <i>title</i>] [<b>-H</b> <i>handling</i>] [<b>-P</b> <i>page-list</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lp</b> 提交文件以进行打印或更改挂起的任务。使用 “-” 文件名从标准输入强制打印。
+    <h3><a name="THE_DEFAULT_DESTINATION">默认目标</a></h3>
+    <p>&emsp;&emsp;CUPS 提供了许多设置默认目标的方法。首先参考 <b>LPDEST</b> 和 <b>PRINTER</b> 环境变量。如果两者都未设置，则使用当前默认设置（使用 <b>lpoptions</b>(1) 命令），然后使用默认设置（使用 <b>lpadmin</b>(8) 命令）。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;以下选项由 <i>lp</i> 识别：
+    <dl class="man">
+      <dt><b>--</b>
+      <dd style="margin-left: 5.0em">标志着选项的结束；使用此选项打印名称以破折号（ - ）开头的文件。
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-U</b> <i>username</i>
+      <dd style="margin-left: 5.0em">指定连接到服务器时要使用的用户名。
+      <dt><b>-c</b>
+      <dd style="margin-left: 5.0em">此选项仅用于向后兼容。在支持该选项的系统上，此选项强制打印文件在打印之前复制到假脱机目录。在 CUPS 中，打印文件始终通过具有相同效果的 IPP 发送到调度程序。
+      <dt><b>-d</b> <i>destination</i>
+      <dd style="margin-left: 5.0em">将文件打印到指定的打印机。
+      <dt><b>-h</b> <i>hostname</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">选择备用服务器。
+      <dt><b>-i</b> <i>job-id</i>
+      <dd style="margin-left: 5.0em">指定要修改的现有任务。
+      <dt><b>-m</b>
+      <dd style="margin-left: 5.0em">任务完成时发送电子邮件。
+      <dt><b>-n </b><i>copies</i>
+      <dd style="margin-left: 5.0em">设置要打印的份数。
+      <dt><b>-o "</b><i>name</i><b>=</b><i>value </i>[ ... <i>name</i><b>=</b><i>value </i>]<b>"</b>
+      <dd style="margin-left: 5.0em">设置一个或多个任务选项。请参阅下面的“常见任务选项”。
+      <dt><b>-q </b><i>priority</i>
+      <dd style="margin-left: 5.0em">将任务优先级从 1 （最低）设置为 100 （最高）。默认优先级为 50 。
+      <dt><b>-s</b>
+      <dd style="margin-left: 5.0em">不报告生成的任务 ID （静默模式）。
+      <dt><b>-t "</b><i>name</i><b>"</b>
+      <dd style="margin-left: 5.0em">设置任务名称。
+      <dt><b>-H </b><i>hh:mm</i>
+      <dt><b>-H hold</b>
+      <dt><b>-H immediate</b>
+      <dt><b>-H restart</b>
+      <dt><b>-H resume</b>
+      <dd style="margin-left: 5.0em">指定打印任务的时间。值 <i>immediate</i> 将立即打印文件，值 <i>hold</i> 将无限期保留任务，UTC 时间值（ HH:MM ）将保留任务直到指定的 UTC （非本地）时间。将值 <i>resume</i> 与 <i>-i</i> 选项一起使用，以恢复保留的任务。使用值 <i>restart</i> 和 <i>-i</i> 选项重新启动已完成的任务。
+      <dt><b>-P </b><i>page-list</i>
+      <dd style="margin-left: 5.0em">指定要在文档中打印的页面。该列表可以包含由逗号分隔的数字和范围（ #-# ）列表，例如 “1,3-5,16” 。页码指的是输出页面，而不是文档的原始页面， “number-up” 等选项可能会影响页面的编号。
+    </dd>
+    <h3><a name="COMMON_JOB_OPTIONS">常见任务选择</a></h3>
+    <p>&emsp;&emsp;除了由 <b>lpoptions</b>(1) 命令报告的 printer-specific 选项外，还提供以下通用选项：
+    <dl class="man">
+      <dt><b>-o job-sheets=</b><i>name</i>
+      <dd style="margin-left: 5.0em">打印包含文档的封面（ banner ）。“name” 可以是 “classified” 、 “confidential” 、 “secret” 、 “standard” 、 “topsecret” 或 “unclassified” 。
+      <dt><b>-o media=</b><i>size</i>
+      <dd style="margin-left: 5.0em">将页面大小设置为 <i>size</i> 。大多数打印机至少支持尺寸名称 “a4” 、 “letter” 和 “legal” 。
+      <dt><b>-o number-up=</b>{<i>2|4|6|9|16</i>}
+      <dd style="margin-left: 5.0em">在每个输出页面上打印 2、4、6、9 或 16个文档（输入）页面。
+      <dt><b>-o orientation-requested=4</b>
+      <dd style="margin-left: 5.0em">在横向打印任务（逆时针旋转 90 度）。
+      <dt><b>-o orientation-requested=5</b>
+      <dd style="margin-left: 5.0em">在横向打印任务（顺时针旋转 90 度）。
+      <dt><b>-o orientation-requested=6</b>
+      <dd style="margin-left: 5.0em">以反向纵向打印任务（旋转 180 度）。
+      <dt><b>-o print-quality=3</b>
+      <dt><b>-o print-quality=4</b>
+      <dt><b>-o print-quality=5</b>
+      <dd style="margin-left: 5.0em">指定输出质量 － 草稿(3) 、正常(4) 或 最佳(5) 。
+      <dt><b>-o sides=one-sided</b>
+      <dd style="margin-left: 5.0em">打印在纸的一面。
+      <dt><b>-o sides=two-sided-long-edge</b>
+      <dd style="margin-left: 5.0em">打印在纸张的两面，用于纵向输出。
+      <dt><b>-o sides=two-sided-short-edge</b>
+      <dd style="margin-left: 5.0em">打印在纸张的两面，用于横向输出。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;与 System V 打印系统不同，CUPS 允许打印机名称包含除空格、制表符、 “/” 或 “#” 之外的任何可打印字符。此外，打印机名和类名不区分大小写。
+    <p>&emsp;&emsp;<i>-q</i> 选项接受的值范围与 Solaris lp 命令不同，与 IPP 任务优先级值（ 1-100，100 为最高优先级）匹配，而不是与 Solaris 值（0-39，0 为最高优先级）匹配。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;将文档的两份副本打印到默认打印机：
+    <pre class="man">lp -n 2 filename</pre>
+    <p>&emsp;&emsp;将双面 legal 文件打印到名为 “foo” 的打印机上：
+    <pre class="man">lp -d foo -o media=legal -o sides=two-sided-long-edge filename</pre>
+    <p>&emsp;&emsp;将演示文稿文档打印到名为 “bar” 的打印机上：
+    <pre class="man">lp -d bar -o number-up=2 filename</pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpoptions</b>(1) 、 <b>lpq</b>(1) 、 <b>lpr</b>(1) 、 <b>lprm</b>(1) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

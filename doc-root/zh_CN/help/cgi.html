@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 快速入门 -->
+  <head>
+    <title>使用CGI程序</title>
+    <link rel="STYLESHEET" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+    <h1 class="title">使用 CGI 程序</h1>
+    <p>&emsp;&emsp;CUPS 通过用户在 CUPS 服务器上打开特殊目录时执行的专用 CGI 程序提供动态 Web 界面。每个 CGI 按照用户的指示执行管理、类、帮助、任务和打印机功能，但实际运行的程序和可用的功能仅限于最初设计到调度器中的程序。</p>
+    <p>&emsp;&emsp;CUPS 还支持 CGI 程序和特定脚本语言（Java、Perl、PHP 和 Python），用于您想要提供的页面。这些语言的解释器当前在编译时配置，并与 MIME 媒体类型关联。<a href="#TABLE1">表 1</a> 显示了为每种页面类型保留的 MIME 媒体类型，这些媒体类型与 Apache Web 服务器使用的媒体类型相同。</p>
+    <div class="table">
+      <table summary="CGI MIME Media Types">
+        <caption><a name="TABLE1">表 1</a>: CGI MIME 媒体类型</caption>
+        <tr>
+          <th>MIME 媒体类型</th>
+          <th>说明</th>
+        </tr>
+        <tr>
+          <td>application/x-httpd-cgi</td>
+          <td>CGI 脚本/程序</td>
+        </tr>
+        <tr>
+          <td>application/x-httpd-java</td>
+          <td>Java 程序</td>
+        </tr>
+        <tr>
+          <td>application/x-httpd-perl</td>
+          <td>Perl 脚本</td>
+        </tr>
+        <tr>
+          <td>application/x-httpd-php</td>
+          <td>PHP 脚本</td>
+        </tr>
+        <tr>
+          <td>application/x-httpd-python</td>
+          <td>Python 脚本</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2><a name="CONFIG">配置服务器</a></h2>
+    <p>&emsp;&emsp;为了启用相应的类型，必须创建一个新的 <var>/etc/cups/cgi.types</var> 文件，该文件将文件扩展名映射到适当的 MIME 类型，例如：</p>
+    <pre class="command">
+application/x-httpd-cgi cgi
+application/x-httpd-java class
+application/x-httpd-perl pl
+application/x-httpd-php php
+application/x-httpd-python py</pre>
+    <p>&emsp;&emsp;CGI 脚本/程序（application/x-httpd-cgi）必须归 root 所有，具有执行权限，并且作为 CGI 脚本或处理程序的文件不应有全局或组的写权限。</p>
+
+    <h2><a name="LIMITS">局限性</a></h2>
+    <p>&emsp;&emsp;CUPS 实现了大部分 CGI/1.1 规范，但有以下例外：</p>
+    <ul>
+      <li>没有 PATH_INFO 或 PATH_TRANSLATED 支持</li>
+      <li>有限的 HTTP 现场支持；此时，只有内容长度（CONTENT_LENGTH）、内容类型（CONTENT_TYPE）、Cookie（HTTP_COOKIE）、referer（HTTP_REFERRER）和用户代理（HTTP_USER_AGENT）字段放置在环境变量中</li>
+    </ul>
+  </body>
+</html>

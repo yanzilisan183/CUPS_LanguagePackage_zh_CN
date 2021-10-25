@@ -1,0 +1,39 @@
+<FORM ACTION="/help/{?HELPFILE}" METHOD="GET">
+{TOPIC?<INPUT TYPE="HIDDEN" NAME="TOPIC" VALUE="{TOPIC}">:}
+<P ALIGN="CENTER"><B>搜索{HELPTITLE?{HELPTITLE}:{TOPIC?{TOPIC}:所有文档}}:</B>
+<INPUT TYPE="SEARCH" NAME="QUERY" VALUE="{?QUERY}" SIZE="40" PLACEHOLDER="" AUTOSAVE="org.cups.help" RESULTS="20">
+<INPUT TYPE="SUBMIT" NAME="SEARCH" VALUE="搜索">
+<INPUT TYPE="SUBMIT" NAME="CLEAR" VALUE="清除">
+</P>
+</FORM>
+
+<!-- Bookmarks -->
+<DIV CLASS="sidebar">
+<TABLE CLASS="inset" SUMMARY="Contents">
+  <TR>
+    <TD>
+      <H3 CLASS="title">在线帮助文档</H3>
+      <P CLASS="l0"><A HREF="/help/{QUERY??QUERY={QUERY}:}">所有文档</A></P>
+      <HR>
+      {[BMTEXT]<P CLASS="l{BMINDENT}"><A HREF="{BMLINK}">{BMTEXT}</A></P>}
+      <P>&nbsp;</P>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+{QUERY?<P>搜索结果{HELPFILE?{HELPTITLE}:{TOPIC?{TOPIC}:所有文档}}\:</P>
+{QTEXT?<UL>
+{[QTEXT]  <LI><A HREF="{QLINK}">{QTEXT}</A>{QPTEXT? (in <I><A HREF="{QPLINK}">{QPTEXT}</A></I>):}</LI>}
+{QTEXT?</UL>:}
+:<P>没有找到匹配的结果。</P>}
+<HR NOSHADE>:}
+{HELPTITLE?<FORM ACTION="/help/{?HELPFILE}" METHOD="GET"><INPUT TYPE="HIDDEN" NAME="PRINTABLE" VALUE="YES"><INPUT TYPE="SUBMIT" VALUE="查看可打印版本"></FORM>:
+
+<H1>在线帮助</H1>
+
+<P>这是 CUPS 在线帮助界面。在上面输入搜索关键词，或单击任何文档链接，获取在线帮助信息。</P>
+
+<P>如果您是首次使用 CUPS，推荐先阅读 "<a href="/help/overview.html">CUPS 概述</a>"。</P>
+
+<P><A HREF="http://www.cups.org/">CUPS 主页</A> 也提供许多资源，包括用户讨论论坛、常见问题答案，以及提交错误和特征请求的表单。</P>}

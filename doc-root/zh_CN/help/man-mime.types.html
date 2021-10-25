@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>mime.types(5)</title>
+  </head>
+  <body>
+    <h1 class="title">mime.types(5)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;mime.types - cups 的 mime 类型描述文件
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>mime.types</b> 文件定义了可识别的文件类型。
+    <p>&emsp;&emsp;其他文件类型在 CUPS 配置目录中扩展名为 <i>.types</i> 的文件中指定。
+    <p>&emsp;&emsp;<b>mime.types</b> 文件中的每一行都是注释行、空白行或规则行。注释行以 # 字符开头。规则行以 MIME 媒体类型开头，后面可选地跟着一系列文件识别规则：
+    <pre class="man"><i>mime/type </i>[ <i>rule </i>... <i>rule </i>]</pre>
+    <p>&emsp;&emsp;可以使用反斜杠字符（ \ ）将规则扩展到多行：
+    <pre class="man"><i>mime/type </i>[ <i>really-really-really-long-rule </i>... <b>\
+      </b><i>rule </i>]</pre>
+    <p>&emsp;&emsp;由 <i>mime/type</i> 字段指定的 MIME 媒体类型不区分大小写，并按字母数字升序排序以进行匹配。有关更多信息，请参阅 “类型匹配和优先级” 部分。
+    <p>&emsp;&emsp;这些规则可以使用括号分组，对于逻辑与使用 “+” 连接，对于逻辑或使用 “,” 或连接，或用于逻辑或的空格，并使用 “!” 进行否定。
+    <h3><a name="RULES">规则</a></h3>
+    <p>&emsp;&emsp;规则有两种形式 － 文件扩展名本身和带有括号内测试值的函数。以下功能可用：
+    <dl class="man">
+      <dt><b>match("</b><i>pattern</i><b>")</b>
+      <dd style="margin-left: 5.0em">如果文件名与给定的 shell 通配符 <i>pattern</i> 匹配，则为 true 。
+      <dt><b>ascii(</b><i>offset</i><b>,</b><i>length</i><b>)</b>
+      <dd style="margin-left: 5.0em">如果从 <i>offset</i> 开始的 <i>length</i> 字节是有效的可打印 ASCII （ CR 、 NL 、 TAB 、 BS 、 32-126 ），则为 true 。
+      <dt><b>printable(</b><i>offset</i><b>,</b><i>length</i><b>)</b>
+      <dd style="margin-left: 5.0em">如果从 <i>offset</i> 开始的 <i>length</i> 字节是可打印的 8 位字符（ CR 、 NL 、 TAB 、 BS 、 32-126 、 128-254 ），则为 true 。
+      <dt><b>priority(</b><i>number</i><b>)</b>
+      <dd style="margin-left: 5.0em">指定此 MIME 媒体类型的相对优先级。默认优先级为 100 。值越大优先级越高，而值越小优先级越低。
+      <dt><b>string(</b><i>offset</i><b>,"</b><i>string</i><b>")</b>
+      <dd style="margin-left: 5.0em">如果从 <i>offset</i> 开始的字节与 <i>string</i> 相同，则为 true 。
+      <dt><b>istring(</b><i>offset</i><b>,"</b><i>string</i><b>")</b>
+      <dd style="margin-left: 5.0em">如果从 <i>offset</i> 开始的字节与 <i>string</i> 匹配而不考虑大小写，则为 true 。
+      <dt><b>char(</b><i>offset</i><b>,</b><i>value</i><b>)</b>
+      <dd style="margin-left: 5.0em">如果 <i>offset</i> 处的字节与 <i>value</i> 相同，则为 true 。
+      <dt><b>short(</b><i>offset</i><b>,</b><i>value</i><b>)</b>
+      <dd style="margin-left: 5.0em">如果 <i>offset</i> 处的 16 位大端整数与 <i>value</i> 相同，则为 true 。
+      <dt><b>int(</b><i>offset</i><b>,</b><i>value</i><b>)</b>
+      <dd style="margin-left: 5.0em">如果 <i>offset</i> 处的 32 位大端整数与 <i>value</i> 相同，则为 true 。
+      <dt><b>locale("</b><i>string</i><b>")</b>
+      <dd style="margin-left: 5.0em">如果当前区域设置与 <i>string</i> 匹配，则为 true 。
+      <dt><b>contains(</b><i>offset</i><b>,</b><i>range</i><b>,"</b><i>string</i><b>")</b>
+      <dd style="margin-left: 5.0em">如果 <i>range</i> 字节的 <i>offset</i> 处开始的字节包含 <i>string</i> ，则为 true 。
+    </dd>
+    <h3><a name="STRING_CONSTANTS">字符串常量</a></h3>
+    <p>&emsp;&emsp;对于包含空格的字符串，可以在引号（ "" ）中指定字符串常量；对于十六进制字符串，可以在尖括号（ &lt;> ）中指定字符串常量。
+    <h3><a name="TYPE_MATCHING_AND_PRIORITY">类型匹配和优先级</a></h3>
+    <p>&emsp;&emsp;当 CUPS 需要确定给定文件的 MIME 媒体类型时，它会检查 <i>.types</i> 文件中定义的每个 MIME 媒体类型。当两个或多个类型与给定文件匹配时，所选类型将取决于类型名称和优先级，优先级较高的类型将优于优先级较低的类型。如果类型具有相同的优先级，则类型名称按字母数字升序排序，并选择第一个类型。
+    <p>&emsp;&emsp;例如，如果将两种类型 “text/bar” 和 “text/foo” 定义为与扩展名 “doc” 匹配，则通常会选择类型 “text/bar” ，因为其名称的字母数字小于 “text/foo” 。但是，如果 “text/foo” 也定义了比 “text/bar” 更高的优先级，则将选择 “text/foo” 。
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <p>&emsp;&emsp;<i>/etc/cups</i> - 典型的 CUPS 配置目录。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;为光栅数据定义两种 MIME 媒体类型，其中一种是具有较高优先级的子集：
+    <pre class="man">
+    application/vnd.cups-raster  string(0,"RaSt") string(0,"tSaR") \
+                                  string(0,"RaS2") string(0,"2SaR") \
+                                  string(0,"RaS3") string(0,"3SaR")
+
+    image/pwg-raster              string(0,"RaS2") + \
+                                  string(4,PwgRaster&lt;00>) priority(150)</pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cups-files.conf</b>(5) 、 <b>cupsd.conf</b>(5) 、 <b>cupsd</b>(8) 、 <b>cupsfilter</b>(8) 、 <b>mime.convs</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

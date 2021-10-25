@@ -1,0 +1,452 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cupsd.conf(5)</title>
+  </head>
+  <body>
+    <h1 class="title">cupsd.conf(5)</h1>
+    
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cupsd.conf - cups 的服务器配置文件
+    
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<i>cupsd.conf</i> 文件配置 CUPS 调度程序，<b>cupsd</b>(8)。它通常位于 <i>/etc/cups</i> 目录中。文件中的每一行都可以是配置指令、空行或注释。配置指令通常由一个名称和零个或多个由空格分隔的值组成。配置指令名称和值不区分大小写。注释行以 # 字符开头。
+    <h3><a name="TOP_LEVEL_DIRECTIVES">顶级指令</a></h3>
+    <p>&emsp;&emsp;以下顶级指可以被 <b>cupsd</b>(8) 理解：
+    <dl class="man">
+      <dt><a name="AccessLogLevel"></a><b>AccessLogLevel config</b>
+      <dt><b>AccessLogLevel actions</b>
+      <dt><b>AccessLogLevel all</b>
+      <dd style="margin-left: 5.0em">指定 AccessLog 文件的日志记录级别。“config” 级别记录添加、删除或修改打印机和类以及访问或更新配置文件的时间。当打印任务被提交、保持、释放、修改或取消，以及任何 “config” 条件时， “actions” 级别记录日志。 “all” 级别记录所有请求。默认访问日志级别为 “actions” 。
+      <dt><a name="AutoPurgeJobs"></a><b>AutoPurgeJobs Yes</b>
+      <dt><b>AutoPurgeJobs No</b>
+      <dd style="margin-left: 5.0em"><br>指定当配额不再需要任务历史记录数据时，是否自动清除该数据。默认值为 “No” 。
+      <dt><a name="BrowseDNSSDSubTypes"></a><b>BrowseDNSSDSubTypes</b><i>_subtype[,...]</i>
+      <dd style="margin-left: 5.0em">指定要为每个共享打印机发布的 Bonjour 子类型列表。例如， “BrowseDNSSDSubTypes _cups,_print” 将告诉网络客户端 CUPS 共享和 IPP Everywhere 都受支持。默认值为 “_cups” ，这是在使用 CUPS 的系统之间进行打印机共享所必需的。
+      <dt><a name="BrowseLocalProtocols"></a><b>BrowseLocalProtocols all</b>
+      <dt><b>BrowseLocalProtocols dnssd</b>
+      <dt><b>BrowseLocalProtocols none</b>
+      <dd style="margin-left: 5.0em">指定用于本地打印机共享的协议。在支持 Bonjour 的系统上默认为 “dnssd” ，否则为 “none” 。
+      <dt><a name="BrowseWebIF"></a><b>BrowseWebIF Yes</b>
+      <dt><b>BrowseWebIF No</b>
+      <dd style="margin-left: 5.0em"><br>指定是否发布 CUPS Web 界面。默认值为 “No” 。
+      <dt><a name="Browsing"></a><b>Browsing Yes</b>
+      <dt><b>Browsing No</b>
+      <dd style="margin-left: 5.0em"><br>指定是否发布共享打印机。默认值为 “No” 。
+      <dt><a name="DefaultAuthType"></a><b>DefaultAuthType Basic</b>
+      <dt><b>DefaultAuthType Negotiate</b>
+      <dd style="margin-left: 5.0em"><br>指定要使用的默认身份验证类型。默认值为 “Basic” 。
+      <dt><a name="DefaultEncryption"></a><b>DefaultEncryption Never</b>
+      <dt><b>DefaultEncryption IfRequested</b>
+      <dt><b>DefaultEncryption Required</b>
+      <dd style="margin-left: 5.0em">指定是否将加密用于经过身份验证的请求。默认值为 “Required” 。
+      <dt><a name="DefaultLanguage"></a><b>DefaultLanguage </b><i>locale</i>
+      <dd style="margin-left: 5.0em">指定用于文本和 Web 内容的默认语言。默认值为 “en” 。
+      <dt><a name="DefaultPaperSize"></a><b>DefaultPaperSize Auto</b>
+      <dt><b>DefaultPaperSize None</b>
+      <dt><b>DefaultPaperSize </b><i>sizename</i>
+      <dd style="margin-left: 5.0em">指定新打印队列的默认纸张大小。“Auto” 使用特定于区域设置的默认值，而 “None” 指定没有默认纸张大小。具体尺寸名称通常为 “Letter” 或 “A4” 。默认值为 “Auto” 。
+      <dt><a name="DefaultPolicy"></a><b>DefaultPolicy </b><i>policy-name</i>
+      <dd style="margin-left: 5.0em">指定要使用的默认访问策略。默认访问策略为 “default” 。
+      <dt><a name="DefaultShared"></a><b>DefaultShared Yes</b>
+      <dt><b>DefaultShared No</b>
+      <dd style="margin-left: 5.0em">指定默认情况下是否共享本地打印机。默认值为 “Yes” 。
+      <dt><a name="DirtyCleanInterval"></a><b>DirtyCleanInterval </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定更新配置和状态文件的延迟。值为 0 会导致更新尽快发生，通常在几毫秒内发生。默认值为 “30” 。
+      <dt><a name="DNSSDHostName"></a><b>DNSSDHostName</b><i>hostname.example.com</i>
+      <dd style="margin-left: 5.0em">指定用于 Bonjour 共享的服务器的完全限定域名。默认值通常是服务器的 “.local” 主机名。
+      <dt><a name="ErrorPolicy"></a><b>ErrorPolicy abort-job</b>
+      <dd style="margin-left: 5.0em">指定应中止（放弃）失败的打印任务，除非为打印机另行指定。
+      <dt><b>ErrorPolicy retry-current-job</b>
+      <dd style="margin-left: 5.0em">指定应立即重试失败的打印任务，除非为打印机另行指定。
+      <dt><b>ErrorPolicy retry-job</b>
+      <dd style="margin-left: 5.0em">指定失败的打印任务应在以后重试，除非为打印机另行指定。“retry-job” 错误策略是默认策略。
+      <dt><b>ErrorPolicy stop-printer</b>
+      <dd style="margin-left: 5.0em">指定失败的打印任务应停止打印机，除非为打印机另行指定。
+      <dt><a name="FilterLimit"></a><b>FilterLimit </b><i>limit</i>
+      <dd style="margin-left: 5.0em">指定并发运行的筛选器的最大成本，可用于最小化磁盘、内存和 CPU 资源问题。限制为 0 将禁用筛选器限制。非 PostScript 打印机的平均打印需要大约 200 的筛选限制。 PostScript 打印机需要大约一半（ 100 ）。将限制设置为低于这些阈值将有效地限制调度程序在任何时候打印单个任务。默认限制为 “0” 。
+      <dt><a name="FilterNice"></a><b>FilterNice </b><i>nice-value</i>
+      <dd style="margin-left: 5.0em">指定为打印任务而运行的筛选器的计划优先级（ <b>nice</b>(8) 值）。nice 值的范围从 0（最高优先级）到 19（最低优先级）。默认值为 0 。
+      <dt><a name="GSSServiceName"></a><b>GSSServiceName </b><i>name</i>
+      <dd style="margin-left: 5.0em">指定使用 Kerberos 身份验证时的服务名称。默认的服务名称是 “http”。
+      <dt><b>HostNameLookups On</b>
+      <dt><a name="HostNameLookups"></a><b>HostNameLookups Off</b>
+      <dt><b>HostNameLookups Double</b>
+      <dd style="margin-left: 5.0em">指定是否对连接的客户端执行反向查找。“Double” 设置会导致 <b>cupsd</b>(8) 验证从该地址解析的主机名是否与为该主机名返回的其中一个地址匹配。双重查找还可以防止具有未注册地址的客户端连接到您的服务器。默认设置为 “Off” ，以避免主机名查找时可能出现的服务器性能问题。仅在绝对需要时才将此选项设置为 “On” 或 “Double” 。
+      <dt><a name="IdleExitTimeout"></a><b>IdleExitTimeout </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定由于不活动而关闭前等待的时间长度。默认值为 “60” 秒。注：仅适用于按需运行的 <b>cupsd</b>(8) （例如，使用 <b>-l</b> ）。
+      <dt><a name="JobKillDelay"></a><b>JobKillDelay </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定在终止与已取消或保留的任务关联的筛选器和后端之前等待的秒数。默认值为 “30” 。
+      <dt><a name="JobRetryInterval"></a><b>JobRetryInterval </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定任务重试之间的间隔（以秒为单位）。这通常用于传真队列，但也可用于错误策略为 “retry-job” 或 “retry-current-job” 的正常打印队列。默认值为 “30” 。
+      <dt><a name="JobRetryLimit"></a><b>JobRetryLimit </b><i>count</i>
+      <dd style="margin-left: 5.0em">指定对任务执行的重试次数。这通常用于传真队列，但也可用于错误策略为 “retry-job” 或 “retry-current-job” 的正常打印队列。默认值为 “5” 。
+      <dt><a name="KeepAlive"></a><b>KeepAlive Yes</b>
+      <dt><b>KeepAlive No</b>
+      <dd style="margin-left: 5.0em">指定是否支持 HTTP 保持活动连接。默认值为 “Yes” 。
+      <dt><a name="KeepAliveTimeout"></a><b>KeepAliveTimeout </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定空闲客户端连接保持打开的时间。默认值为 “30” 。
+      <dt><a name="LimitIPP"></a><b>&lt;Limit </b><i>operation </i>...<b>> </b>... <b>&lt;/Limit></b>
+      <dd style="margin-left: 5.0em">指定被限制在策略节内的 IPP 操作。IPP 操作名称列在下面的 “IPP 操作名称” 一节中。
+      <dt><a name="Limit"></a><b>&lt;Limit </b><i>method </i>...<b>> </b>... <b>&lt;/Limit></b>
+      <dt><a name="LimitExcept"></a><b>&lt;LimitExcept </b><i>method </i>...<b>> </b>... <b>&lt;/LimitExcept></b>
+      <dd style="margin-left: 5.0em">指定限制在位置节内的 HTTP 方法。HTTP 方法名称列在下面的 “HTTP 方法名称” 部分中。
+      <dt><a name="LimitRequestBody"></a><b>LimitRequestBody </b><i>size</i>
+      <dd style="margin-left: 5.0em">指定打印文件、IPP 请求和 HTML 表单数据的最大大小。默认值为 “0” ，禁用限制检查。
+      <dt><a name="Listen"></a><b>Listen </b><i>ipv4-address</i><b>:</b><i>port</i>
+      <dt><b>Listen [</b><i>ipv6-address</i><b>]:</b><i>port</i>
+      <dt><b>Listen *:</b><i>port</i>
+      <dt><b>Listen </b><i>/path/to/domain/socket</i>
+      <dd style="margin-left: 5.0em">侦听连接的指定地址和端口或域套接字路径。可以提供多个侦听指令来侦听多个地址。Listen 指令与 Port 指令类似，但允许您限制对特定接口或网络的访问。
+      <dt><a name="ListenBackLog"></a><b>ListenBackLog </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定将允许的挂起连接数。这通常只影响已达到 MaxClient 限制的非常繁忙的服务器，但也可能由大量同时连接触发。当达到限制时，操作系统将拒绝额外的连接，直到调度程序可以接受挂起的连接为止。默认值是操作系统定义的默认限制，对于较旧的操作系统，通常为 “5” ，对于较新的操作系统，通常为 “128” 。
+      <dt><a name="Location"></a><b>&lt;Location </b><i>/path</i><b>> </b>... <b>&lt;/Location></b>
+      <dd style="margin-left: 5.0em">指定指定位置的访问控制。路径记录在 “位置路径” 一节中。
+      <dt><a name="LogDebugHistory"></a><b>LogDebugHistory </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定在打印任务中发生错误时保留用于记录的调试消息数。无论日志级别设置如何，都会记录调试消息。
+      <dt><a name="LogLevel"></a><b>LogLevel </b>none
+      <dt><b>LogLevel </b>emerg
+      <dt><b>LogLevel </b>alert
+      <dt><b>LogLevel </b>crit
+      <dt><b>LogLevel </b>error
+      <dt><b>LogLevel </b>warn
+      <dt><b>LogLevel </b>notice
+      <dt><b>LogLevel </b>info
+      <dt><b>LogLevel </b>debug
+      <dt><b>LogLevel </b>debug2
+      <dd style="margin-left: 5.0em">指定 ErrorLog 文件的日志记录级别。值 “none” 停止所有日志记录，而 “debug2” 记录所有内容。默认值为 “warn” 。
+      <dt><a name="LogTimeFormat"></a><b>LogTimeFormat </b>standard
+      <dt><b>LogTimeFormat </b>usecs
+      <dd style="margin-left: 5.0em">指定日志文件中日期和时间的格式。值 “standard” 是默认值，记录整秒，而 “usecs” 记录微秒。
+      <dt><a name="MaxClients"></a><b>MaxClients </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定调度程序允许的最大同时客户端数。默认值为 “100” 。
+      <dt><a name="MaxClientPerHost"></a><b>MaxClientsPerHost </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定允许来自单个地址的同时客户端的最大数量。默认值是 MaxClients 值。
+      <dt><a name="MaxCopies"></a><b>MaxCopies </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定用户可以打印每个任务的最大份数。默认值为 “9999” 。
+      <dt><a name="MaxHoldTime"></a><b>MaxHoldTime </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定在取消任务之前，任务可以保持在 “indefinite” 保留状态的最长时间。默认值为 “0” ，这将禁用取消保留的任务。
+      <dt><a name="MaxJobs"></a><b>MaxJobs </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定允许的最大同时任务数。设置为 “0” 以允许无限数量的任务。默认值为 “500” 。
+      <dt><a name="MaxJobsPerPrinter"></a><b>MaxJobsPerPrinter </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定每台打印机允许的最大同时任务数。默认值为 “0” ，允许每个打印机最多有 MaxJobs 任务。
+      <dt><a name="MaxJobsPerUser"></a><b>MaxJobsPerUser </b><i>number</i>
+      <dd style="margin-left: 5.0em">指定每个用户允许的最大同时任务数。默认值为 “0” ，允许每个用户最多有 MaxJobs 任务。
+      <dt><a name="MaxJobTime"></a><b>MaxJobTime </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定取消任务之前打印任务所需的最长时间。设置为 “0” 可禁用 “stuck” 任务的取消。默认值为 “10800”（3小时）。
+      <dt><a name="MaxLogSize"></a><b>MaxLogSize </b><i>size</i>
+      <dd style="margin-left: 5.0em">指定日志文件在轮换之前的最大大小。值 “0” 禁用日志轮换。默认值为 “1048576”（1MB）。
+      <dt><a name="MultipleOperationTimeout"></a><b>MultipleOperationTimeout </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定多文件打印任务中文件之间允许的最长时间。默认值为 “900”（15分钟）。
+      <dt><a name="Policy"></a><b>&lt;Policy </b><i>name</i><b>> </b>... <b>&lt;/Policy></b>
+      <dd style="margin-left: 5.0em">指定命名策略的访问控制。
+      <dt><a name="Port"></a><b>Port </b><i>number</i>
+      <dd style="margin-left: 5.0em">侦听连接的指定端口号。
+      <dt><a name="PreserveJobFiles"></a><b>PreserveJobFiles Yes</b>
+      <dt><b>PreserveJobFiles No</b>
+      <dt><b>PreserveJobFiles </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定打印任务后是否保留任务文件（文档）。如果指定了数值，任务文件将在打印后保留指定的秒数。默认值为 “86400”（保留 1 天）。
+      <dt><a name="PreserveJobHistory"></a><b>PreserveJobHistory Yes</b>
+      <dt><b>PreserveJobHistory No</b>
+      <dt><b>PreserveJobHistory </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定打印任务后是否保留任务历史记录。如果指定了数值，任务历史记录将在打印后保留指定的秒数。如果 “Yes” ，任务历史记录将被保留，直到达到 MaxJobs 限制。默认值为 “Yes” 。
+      <dt><a name="ReloadTimeout"></a><b>ReloadTimeout </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定重新启动调度程序之前等待任务完成的时间量。默认值为 “30” 。
+      <dt><a name="ServerAdmin"></a><b>ServerAdmin </b><i>email-address</i>
+      <dd style="margin-left: 5.0em">指定服务器管理员的电子邮件地址。默认值为 “root@ServerName" 。
+      <dt><a name="ServerAlias"></a><b>ServerAlias </b><i>hostname </i>[ ... <i>hostname </i>]
+      <dt><b>ServerAlias *</b>
+      <dd style="margin-left: 5.0em">当客户端从外部接口连接到调度程序时，ServerAlias 指令用于 HTTP 主机头验证。使用特殊名称 “*” 会使您的系统暴露于已知的基于浏览器的 DNS 重新绑定攻击，即使是通过防火墙访问站点。如果备用名称的自动发现不起作用，建议使用 ServerAlias 指令列出每个备用名称，而不是使用 “*” 。
+      <dt><a name="ServerName"></a><b>ServerName </b><i>hostname</i>
+      <dd style="margin-left: 5.0em">指定服务器的完全限定主机名。默认值是 <b>hostname</b>(1) 命令报告的值。
+      <dt><a name="ServerTokens"></a><b>ServerTokens None</b>
+      <dt><b>ServerTokens ProductOnly</b>
+      <dt><b>ServerTokens Major</b>
+      <dt><b>ServerTokens Minor</b>
+      <dt><b>ServerTokens Minimal</b>
+      <dt><b>ServerTokens OS</b>
+      <dt><b>ServerTokens Full</b>
+      <dd style="margin-left: 5.0em">指定 HTTP 响应的服务器标头中包含的信息。“None” 将禁用服务器头。 “ProductOnly” 报告 “CUPS” 。 “Major” 报告 “CUPS/major IPP/2” 。 “Minor” 报告 “CUPS/major.Minor IPP/2.1” 。 “Minimal” 报告 “CUPS/major.minor.patch IPP/2.1” 。 “OS” 报告 “CUPS/major.minor.path (osname osversion) IPP/2.1” 。 “Full” 报告 “CUPS/major.minor.path (osname osversion; architecture) IPP/2.1”。默认值为 “Minimal” 。
+      <dt><a name="SSLListen"></a><b>SSLListen </b><i>ipv4-address</i><b>:</b><i>port</i>
+      <dt><b>SSLListen [</b><i>ipv6-address</i><b>]:</b><i>port</i>
+      <dt><b>SSLListen *:</b><i>port</i>
+      <dd style="margin-left: 5.0em">侦听指定地址和端口上的加密连接。
+      <dt><a name="SSLOptions"></a><dt><b>SSLOptions </b>[<i>AllowDH</i>] [<i>AllowRC4</i>] [<i>AllowSSL3</i>] [<i>DenyCBC</i>] [<i>DenyTLS1.0</i>] [<i>MaxTLS1.0</i>] [<i>MaxTLS1.1</i>] [<i>MaxTLS1.2</i>] [<i>MaxTLS1.3</i>] [<i>MinTLS1.0</i>] [<i>MinTLS1.1</i>] [<i>MinTLS1.2</i>] [<i>MinTLS1.3</i>]
+      <dt><b>SSLOptions None</b>
+      <dd style="margin-left: 5.0em">设置加密选项（仅在 /etc/cups/client.conf 中）。默认情况下，CUPS 仅支持使用已知安全密码套件使用 TLS v1.0 或更高版本进行加密。当使用 <i>Allow</i> 选项时，安全性会降低。当使用 <i>Deny</i> 选项时，安全性得到增强。<i>AllowDH</i> 选项启用使用普通 Diffie-Hellman 密钥协商的密码套件（在使用 GNU TLS 的系统上不受支持）。 <i>AllowRC4</i> 选项启用 128 位 RC4 密码套件，这是一些旧客户端所必需的。 <i>AllowSSL3</i> 选项启用 SSL v3.0 ，这是一些不支持 TLS v1.0 的旧客户端所必需的。 <i>DenyCBC</i> 选项禁用所有 CBC 密码套件。 <i>DenyTLS1.0</i> 选项禁用 TLS v1.0 支持 － 这将最低协议版本设置为 TLS v1.1 。 <i>MinTLS</i> 选项设置要支持的最低 TLS 版本。 <i>MaxTLS</i> 选项设置要支持的最大 TLS 版本。目前并非所有操作系统都支持 TLS 1.3。
+      <dt><a name="SSLPort"></a><b>SSLPort </b><i>port</i>
+      <dd style="margin-left: 5.0em">侦听指定端口上的加密连接。
+      <dt><a name="StrictConformance"></a><b>StrictConformance Yes</b>
+      <dt><b>StrictConformance No</b>
+      <dd style="margin-left: 5.0em">指定调度程序是否要求客户端严格遵守 IPP 规范。默认值为 “No”。
+      <dt><a name="Timeout"></a><b>Timeout </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定 HTTP 请求超时。默认值为 “900”（ 15 分钟）。
+      <dt><a name="WebInterface"></a><b>WebInterface yes</b>
+      <dt><b>WebInterface no</b>
+      <dd style="margin-left: 5.0em">指定是否启用 Web 界面。默认值为 “No” 。
+    </dd>
+    <h3><a name="HTTP_METHOD_NAMES">Http 方法名称</a></h3>
+    <p>&emsp;&emsp;<b>cupsd</b>(8) 支持以下 HTTP 方法：
+    <dl class="man">
+      <dt>GET
+      <dd style="margin-left: 5.0em">客户端用于下载图标和其他打印机资源以及访问 CUPS Web 界面。
+      <dt>HEAD
+      <dd style="margin-left: 5.0em">客户端用于获取资源的类型、大小和修改日期。
+      <dt>OPTIONS
+      <dd style="margin-left: 5.0em">客户端用于建立安全（ SSL/TLS ）连接。
+      <dt>POST
+      <dd style="margin-left: 5.0em">客户端用于从 CUPS Web 界面提交 IPP 请求和 HTML 表单。
+      <dt>PUT
+      <dd style="margin-left: 5.0em">客户端用于上载配置文件。
+    </dd>
+    <h3><a name="IPP_OPERATION_NAMES">Ipp 操作名称</a></h3>
+    <p>&emsp;&emsp;以下 IPP 操作由 <b>cupsd</b>(8) 支持：
+    <dl class="man">
+      <dt>CUPS-Accept-Jobs
+      <dd style="margin-left: 5.0em">允许打印机接受新任务。
+      <dt>CUPS-Add-Modify-Class
+      <dd style="margin-left: 5.0em">添加或修改打印机类。
+      <dt>CUPS-Add-Modify-Printer
+      <dd style="margin-left: 5.0em">添加或修改打印机。
+      <dt>CUPS-Authenticate-Job
+      <dd style="margin-left: 5.0em">释放为进行身份验证而保留的任务。
+      <dt>CUPS-Delete-Class
+      <dd style="margin-left: 5.0em">删除打印机类。
+      <dt>CUPS-Delete-Printer
+      <dd style="margin-left: 5.0em">删除打印机。
+      <dt>CUPS-Get-Classes
+      <dd style="margin-left: 5.0em">获取打印机类的列表。
+      <dt>CUPS-Get-Default
+      <dd style="margin-left: 5.0em">获取服务器默认打印机或打印机类。
+      <dt>CUPS-Get-Devices
+      <dd style="margin-left: 5.0em">获取当前可用设备的列表。
+      <dt>CUPS-Get-Document
+      <dd style="margin-left: 5.0em">获取任务的文档文件。
+      <dt>CUPS-Get-PPD
+      <dd style="margin-left: 5.0em">获取一个 PPD 文件。
+      <dt>CUPS-Get-PPDs
+      <dd style="margin-left: 5.0em">获取已安装 PPD 文件的列表。
+      <dt>CUPS-Get-Printers
+      <dd style="margin-left: 5.0em">获取打印机列表。
+      <dt>CUPS-Move-Job
+      <dd style="margin-left: 5.0em">移动任务。
+      <dt>CUPS-Reject-Jobs
+      <dd style="margin-left: 5.0em">阻止打印机接受新任务。
+      <dt>CUPS-Set-Default
+      <dd style="margin-left: 5.0em">设置服务器默认打印机或打印机类。
+      <dt>Cancel-Job
+      <dd style="margin-left: 5.0em">取消任务。
+      <dt>Cancel-Jobs
+      <dd style="margin-left: 5.0em">取消一个或多个任务。
+      <dt>Cancel-My-Jobs
+      <dd style="margin-left: 5.0em">取消用户创建的一个或多个任务。
+      <dt>Cancel-Subscription
+      <dd style="margin-left: 5.0em">取消订阅。
+      <dt>Close-Job
+      <dd style="margin-left: 5.0em">关闭正在等待更多文档的任务。
+      <dt>Create-Job
+      <dd style="margin-left: 5.0em">创建没有文档的新任务。
+      <dt>Create-Job-Subscriptions
+      <dd style="margin-left: 5.0em">创建任务事件的订阅。
+      <dt>Create-Printer-Subscriptions
+      <dd style="margin-left: 5.0em">创建打印机事件的订阅。
+      <dt>Get-Job-Attributes
+      <dd style="margin-left: 5.0em">获取有关任务的信息。
+      <dt>Get-Jobs
+      <dd style="margin-left: 5.0em">获取任务列表。
+      <dt>Get-Notifications
+      <dd style="margin-left: 5.0em">获取订阅的事件通知列表。
+      <dt>Get-Printer-Attributes
+      <dd style="margin-left: 5.0em">获取有关打印机或打印机类的信息。
+      <dt>Get-Subscription-Attributes
+      <dd style="margin-left: 5.0em">获取有关订阅的信息。
+      <dt>Get-Subscriptions
+      <dd style="margin-left: 5.0em">获取订阅的列表。
+      <dt>Hold-Job
+      <dd style="margin-left: 5.0em">保留打印中的任务。
+      <dt>Hold-New-Jobs
+      <dd style="margin-left: 5.0em">保留全部新的打印任务。
+      <dt>Pause-Printer
+      <dd style="margin-left: 5.0em">停止打印机或打印机类对任务的处理。
+      <dt>Pause-Printer-After-Current-Job
+      <dd style="margin-left: 5.0em">在当前任务完成后，停止打印机或打印机类对任务的处理。
+      <dt>Print-Job
+      <dd style="margin-left: 5.0em">使用单个文档创建新任务。
+      <dt>Purge-Jobs
+      <dd style="margin-left: 5.0em">取消一个或多个任务并删除任务历史记录。
+      <dt>Release-Held-New-Jobs
+      <dd style="margin-left: 5.0em">允许打印以前保留的任务。
+      <dt>Release-Job
+      <dd style="margin-left: 5.0em">允许打印任务。
+      <dt>Renew-Subscription
+      <dd style="margin-left: 5.0em">续订。
+      <dt>Restart-Job
+      <dd style="margin-left: 5.0em">如果可能，重新打印任务。
+      <dt>Send-Document
+      <dd style="margin-left: 5.0em">将文档添加到任务中。
+      <dt>Set-Job-Attributes
+      <dd style="margin-left: 5.0em">更改任务信息。
+      <dt>Set-Printer-Attributes
+      <dd style="margin-left: 5.0em">更改打印机或打印机类信息。
+      <dt>Validate-Job
+      <dd style="margin-left: 5.0em">验证新任务的选项。
+    </dd>
+    <h3><a name="LOCATION_PATHS">位置路径</a></h3>
+    <p>&emsp;&emsp;配置<b>cupsd</b>(8) 时通常使用以下路径：
+    <dl class="man">
+      <dt>/
+      <dd style="margin-left: 5.0em">所有获取操作（ 获取打印机、获取任务等）的路径
+      <dt>/admin
+      <dd style="margin-left: 5.0em">所有管理操作（添加打印机、删除打印机、启动打印机等）的路径
+      <dt>/admin/conf
+      <dd style="margin-left: 5.0em">访问 CUPS 配置文件（ cupsd.conf 、 client.conf 等）的路径
+      <dt>/admin/log
+      <dd style="margin-left: 5.0em">访问 CUPS 日志文件的路径（访问日志、错误日志、页面日志）
+      <dt>/classes
+      <dd style="margin-left: 5.0em">所有打印机类的路径
+      <dt>/classes/name
+      <dd style="margin-left: 5.0em">指定打印机类的资源
+      <dt>/jobs
+      <dd style="margin-left: 5.0em">所有任务（保留任务、释放任务等）的路径
+      <dt>/jobs/id
+      <dd style="margin-left: 5.0em">指定任务的路径
+      <dt>/printers
+      <dd style="margin-left: 5.0em">所有打印机的路径
+      <dt>/printers/name
+      <dd style="margin-left: 5.0em">指定打印机的路径
+      <dt>/printers/name.png
+      <dd style="margin-left: 5.0em">指定打印机的图标文件路径
+      <dt>/printers/name.ppd
+      <dd style="margin-left: 5.0em">指定打印机的 PPD 文件路径
+    </dd>
+    <h3><a name="DIRECTIVES_VALID_WITHIN_LOCATION_AND_LIMIT_SECTIONS">在位置和限制部分内有效的指令</a></h3>
+    <p>&emsp;&emsp;以下指令可以放在 <b>cupsd.conf</b> 文件的位置和限制部分中：
+    <dl class="man">
+      <dt><b>Allow all</b>
+      <dt><b>Allow none</b>
+      <dt><b>Allow </b><i>host.domain.com</i>
+      <dt><b>Allow *.</b><i>domain.com</i>
+      <dt><b>Allow </b><i>ipv4-address</i>
+      <dt><b>Allow </b><i>ipv4-address</i><b>/</b><i>netmask</i>
+      <dt><b>Allow </b><i>ipv4-address</i><b>/</b><i>mm</i>
+      <dt><b>Allow [</b><i>ipv6-address</i><b>]</b>
+      <dt><b>Allow [</b><i>ipv6-address</i><b>]/</b><i>mm</i>
+      <dt><b>Allow @IF(</b><i>name</i><b>)</b>
+      <dt><b>Allow @LOCAL</b>
+      <dd style="margin-left: 5.0em">允许从命名的主机、域、地址或接口进行访问。 @IF(name) 表单使用为命名接口配置的当前子网。 @LOCAL 表单使用为所有非点对点接口配置的当前子网，例如，使用以太网和 Wi-Fi 接口，但不使用 DSL 和 VPN 接口。 Order 指令控制是在拒绝行之前还是之后计算允许行。
+      <dt><b>AuthType None</b>
+      <dt><b>AuthType Basic</b>
+      <dt><b>AuthType Default</b>
+      <dt><b>AuthType Negotiate</b>
+      <dd style="margin-left: 5.0em">指定所需的身份验证类型。值 “Default” 对应于 DefaultAuthType 值。
+      <dt><b>Deny all</b>
+      <dt><b>Deny none</b>
+      <dt><b>Deny </b><i>host.domain.com</i>
+      <dt><b>Deny *.</b><i>domain.com</i>
+      <dt><b>Deny </b><i>ipv4-address</i>
+      <dt><b>Deny </b><i>ipv4-address</i><b>/</b><i>netmask</i>
+      <dt><b>Deny </b><i>ipv4-address</i><b>/</b><i>mm</i>
+      <dt><b>Deny [</b><i>ipv6-address</i><b>]</b>
+      <dt><b>Deny [</b><i>ipv6-address</i><b>]/</b><i>mm</i>
+      <dt><b>Deny @IF(</b><i>name</i><b>)</b>
+      <dt><b>Deny @LOCAL</b>
+      <dd style="margin-left: 5.0em">拒绝来自命名主机、域、地址或接口的访问。 @IF(name) 表单使用为命名接口配置的当前子网。 @LOCAL 表单使用为所有非点对点接口配置的当前子网，例如，使用以太网和 Wi-Fi 接口，但不使用 DSL 和 VPN 接口。 Order 指令控制是在允许行之前还是之后计算拒绝行。
+      <dt><b>Encryption IfRequested</b>
+      <dt><b>Encryption Never</b>
+      <dt><b>Encryption Required</b>
+      <dd style="margin-left: 5.0em">指定特定位置所需的加密级别。默认值为 “IfRequested” 。
+      <dt><b>Order allow,deny</b>
+      <dd style="margin-left: 5.0em">指定默认情况下拒绝访问。然后处理允许行，后跟拒绝行，以确定客户端是否可以访问特定资源。
+      <dt><b>Order deny,allow</b>
+      <dd style="margin-left: 5.0em">指定默认情况下允许访问。然后处理拒绝行，后跟允许行，以确定客户端是否可以访问特定资源。
+      <dt><b>Require group </b><i>group-name </i>[ <i>group-name </i>... ]
+      <dd style="margin-left: 5.0em">指定经过身份验证的用户必须是其中一个命名组的成员。
+      <dt><b>Require user {</b><i>user-name</i>|<b>@</b><i>group-name</i>} ...
+      <dd style="margin-left: 5.0em">指定经过身份验证的用户必须与其中一个命名用户匹配，或者是其中一个命名组的成员。组名 “@SYSTEM” 对应于 <b>cups-files.conf</b>(5) 文件中的 SystemGroup 指令定义的组列表。组名 “@OWNER” 对应于资源的所有者，例如提交打印任务的人员。注意： “root” 用户不是特殊用户，必须像其他用户帐户一样被授予特权。
+      <dt><b>Require valid-user</b>
+      <dd style="margin-left: 5.0em">指定任何经过身份验证的用户都是可接受的。
+      <dt><b>Satisfy all</b>
+      <dd style="margin-left: 5.0em">指定必须满足所有 Allow 、 AuthType 、 Deny 、 Order 和 Require 条件才能允许访问。
+      <dt><b>Satisfy any</b>
+      <dd style="margin-left: 5.0em">指定如果满足身份验证（ AuthType/Require ）或地址（ Allow/Deny/Order ）条件，则任何客户端都可以访问资源。例如，这可用于仅对远程访问要求身份验证。
+    </dd>
+    <h3><a name="DIRECTIVES_VALID_WITHIN_POLICY_SECTIONS">在策略部分内有效的指令</a></h3>
+    <p>&emsp;&emsp;以下指令可以放在 <b>cupsd.conf</b> 文件的策略部分中：
+    <dl class="man">
+      <dt><b>JobPrivateAccess all</b>
+      <dt><b>JobPrivateAccess default</b>
+      <dt><b>JobPrivateAccess </b>{<i>user</i>|<b>@</b><i>group</i>|<b>@ACL</b>|<b>@OWNER</b>|<b>@SYSTEM</b>} ...
+      <dd style="margin-left: 5.0em">指定任务私有值的访问列表。“default” 访问列表为 “@OWNER @SYSTEM” 。 “@ACL” 映射到打印机的 requesting-user-name-allowed 或 requesting-user-name-denied 值。 “@OWNER” 映射到任务的所有者。 “@SYSTEM” 映射到 <b>cups-files.conf</b>(5) 文件中 SystemGroup 指令中列出的组。
+      <dt><b>JobPrivateValues all</b>
+      <dt><b>JobPrivateValues default</b>
+      <dt><b>JobPrivateValues none</b>
+      <dt><b>JobPrivateValues </b><i>attribute-name </i>[ ... <i>attribute-name </i>]
+      <dd style="margin-left: 5.0em">指定要设置为私有的任务值列表。 “default” 值为 “job-name” 、 “job-originating-host-name” 、 “job-originating-user-name” 和 “phone” 。
+      <dt><b>SubscriptionPrivateAccess all</b>
+      <dt><b>SubscriptionPrivateAccess default</b>
+      <dt><b>SubscriptionPrivateAccess </b>{<i>user</i>|<b>@</b><i>group</i>|<b>@ACL</b>|<b>@OWNER</b>|<b>@SYSTEM</b>} ...
+      <dd style="margin-left: 5.0em">指定订阅私有值的访问列表。 “default” 访问列表为 “@OWNER @SYSTEM” 。 “@ACL” 映射到打印机的 requesting-user-name-allowed 或 requesting-user-name-denied 值。 “@OWNER” 映射到任务的所有者。 “@SYSTEM” 映射到 <b>cups-files.conf</b>(5) 文件中 SystemGroup 指令中列出的组。
+      <dt><b>SubscriptionPrivateValues all</b>
+      <dt><b>SubscriptionPrivateValues default</b>
+      <dt><b>SubscriptionPrivateValues none</b>
+      <dt><b>SubscriptionPrivateValues </b><i>attribute-name </i>[ ... <i>attribute-name </i>]
+      <dd style="margin-left: 5.0em">指定要设置为专用的订阅值列表。 “default” 值是 “notify-events” 、 “notify-pull-method” 、 “notify-recipient-uri” 、 “notify-subscriber-user-name” 和 “notify-user-data” 。
+    </dd>
+    <h3><a name="DEPRECATED_DIRECTIVES">不建议使用的指令</a></h3>
+    <p>&emsp;&emsp;以下指令已弃用，将在 CUPS 的未来版本中删除：
+    <dl class="man">
+      <dt><a name="Classification"></a><b>Classification </b><i>banner</i>
+      <dd style="margin-left: 5.0em"><br>指定服务器的安全分类。可以使用任何有效的标题名称，包括 “classified” 、 “confidential” 、 “secret” 、 “topsecret” 和 “unclassified” ，或者可以省略标题以禁用安全打印功能。默认设置为无分类 banner 。
+      <dt><a name="ClassifyOverride"></a><b>ClassifyOverride Yes</b>
+      <dt><b>ClassifyOverride No</b>
+      <dd style="margin-left: 5.0em"><br>指定用户是否可以使用 “job-sheets” 选项覆盖单个打印任务的分类（封面）。默认值为 “No” 。
+      <dt><a name="PageLogFormat"></a><b>PageLogFormat </b><i>format-string</i>
+      <dd style="margin-left: 5.0em">指定页面日志行的格式。以百分比（%）字符开头的序列将替换为相应的信息，而所有其他字符将按字面复制。可识别以下百分比序列：
+      <pre class="man">
+    "%%" inserts a single percent character.
+    "%{name}" inserts the value of the specified IPP attribute.
+    "%C" inserts the number of copies for the current page.
+    "%P" inserts the current page number.
+    "%T" inserts the current date and time in common log format.
+    "%j" inserts the job ID.
+    "%p" inserts the printer name.
+    "%u" inserts the username.</pre>
+      <p>&emsp;&emsp;默认值为空字符串，这将禁用页面日志记录。字符串 “%p %u %j %T %P %C %{job-billing} %{job-originating-host-name} %{job-name} %{media} %{sides}” 使用标准项创建页面日志。使用 “%{job-impressions-completed}” 插入已打印的页数（侧面），或使用 “%{job-media-sheets-completed}” 插入已打印的页数。
+      <dt><a name="RIPCache"></a><b>RIPCache </b><i>size</i>
+      <dd style="margin-left: 5.0em">指定将文档转换为打印机位图时要使用的最大内存量。默认值为 “128m” 。
+    </dd>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;以前允许在 <b>cupsd.conf</b> 文件中使用的文件、目录和用户配置指令现在存储在 <b>cups-files.conf</b>(5) 文件中，以防止某些类型的权限提升攻击。
+    <p>&emsp;&emsp;更改 <b>cupsd.conf</b> 文件后，必须手动重新启动调度程序。在 Linux 上，这通常使用 <b>systemctl</b>(8) 命令来完成，而在 macOS 上则使用 <b>launchctl</b>(8) 命令。
+    <p>&emsp;&emsp;@LOCAL 宏名称可能会令人困惑，因为运行 <b>cupsd</b> 的系统通常属于与其客户端不同的一组子网。
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;文件格式基于 Apache HTTP 服务器配置文件格式。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;以 32 MB 的最大日志文件大小记录所有内容：
+    <pre class="man">
+    AccessLogLevel all
+    LogLevel debug2
+    MaxLogSize 32m</pre>
+    <p>&emsp;&emsp;需要对 10. 以外的网络访问进行身份验证：
+    <pre class="man">
+    &lt;Location />
+    Order allow,deny
+    Allow from 10./8
+    AuthType Basic
+    Require valid-user
+    Satisfy any
+    &lt;/Location></pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <b>classes.conf</b>(5) 、 <b>cups-files.conf</b>(5) 、 <b>cupsd</b>(8) 、 <b>mime.convs</b>(5) 、 <b>mime.types</b>(5) 、 <b>printers.conf</b>(5) 、 <b>subscriptions.conf</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

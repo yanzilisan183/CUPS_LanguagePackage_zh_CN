@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>client.conf(5)</title>
+  </head>
+  <body>
+    <h1 class="title">client.conf(5)</h1>
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;client.conf - CUPS 的客户端配置文件（在 macos 上已弃用）</p>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>client.conf</b> 文件配置 CUPS 客户端，通常位于 <i>/etc/cups</i> 和/或 <i>~/.cups</i> 目录中。文件中的每一行都可以是配置指令、空行或注释。注释行以 # 字符开头。</p>
+    <p>&emsp;&emsp;<b>提示：</b>从 macOS 10.7 开始，此文件仅由命令行和 X11 应用程序以及 IPP 后端使用。macOS 上根本不支持 <b>ServerName</b> 指令。从 macOS 10.12 开始，所有应用程序都可以在 <i>/Library/Preferences/org.cups.PrintingPrefs.plist</i> 文件中访问这些设置。有关更多信息，请参阅下面的注释部分。</p>
+
+    <h3><a name="DIRECTIVES">指令</a></h3>
+    <p>&emsp;&emsp;客户理解以下指令。有关详细说明，请参阅联机帮助：</p>
+    <dl class="man">
+      <dt><a name="AllowAnyRoot"></a><b>AllowAnyRoot Yes</b>
+      <dt><b>AllowAnyRoot No</b>
+      <dd style="margin-left: 5.0em">指定是否允许 TLS 使用未经可信证书颁发机构签名的证书。默认值为 “Yes” 。
+      <dt><a name="AllowExpiredCerts"></a><b>AllowExpiredCerts Yes</b>
+      <dt><b>AllowExpiredCerts No</b>
+      <dd style="margin-left: 5.0em">指定是否允许证书过期的 TLS 。默认值为 “No”。
+      <dt><a name="DigestOptions"></a><b>DigestOptions DenyMD5</b>
+      <dt><b>DigestOptions None</b>
+      <dd style="margin-left: 5.0em">指定 HTTP 摘要身份验证选项 <b>DenyMD5</b> 禁用对原始 MD5 哈希算法的支持。
+      <dt><a name="Encryption"></a><b>Encryption IfRequested</b>
+      <dt><b>Encryption Never</b>
+      <dt><b>Encryption Required</b>
+      <dd style="margin-left: 5.0em">指定应使用的加密级别。
+      <dt><a name="GSSServiceName"></a><b>GSSServiceName </b><i>name</i>
+      <dd style="margin-left: 5.0em">指定用于身份验证的 Kerberos 服务名称，通常为 “host” 、 “http” 或 “ipp” 。 CUPS 为你添加远程主机名（ “name@server.example.com”）。默认名称为 “http” 。
+      <dt><a name="ServerName"></a><b>ServerName </b><i>hostname-or-ip-address</i>[<i>:port</i>]
+      <dt><b>ServerName </b><i>/domain/socket</i>
+      <dd style="margin-left: 5.0em">指定连接到服务器时要使用的地址和端口（可选）<b> 注意：macOS 10.7 或更高版本不支持此指令</b>
+      <dt><b>ServerName </b><i>hostname-or-ip-address</i>[<i>:port</i>]<b>/version=1.1</b>
+      <dd style="margin-left: 5.0em">指定连接到运行 CUPS 1.3.12 及更早版本的服务器时要使用的地址和端口（可选）。
+      <dt><a name="SSLOptions"></a><b>SSLOptions </b>[<i>AllowDH</i>] [<i>AllowRC4</i>] [<i>AllowSSL3</i>] [<i>DenyCBC</i>] [<i>DenyTLS1.0</i>] [<i>MaxTLS1.0</i>] [<i>MaxTLS1.1</i>] [<i>MaxTLS1.2</i>] [<i>MaxTLS1.3</i>] [<i>MinTLS1.0</i>] [<i>MinTLS1.1</i>] [<i>MinTLS1.2</i>] [<i>MinTLS1.3</i>]
+      <dt><b>SSLOptions None</b>
+      <dd style="margin-left: 5.0em">设置加密选项（仅在 /etc/cups/client.conf 中）。默认情况下，CUPS 仅支持使用已知安全密码套件使用 TLS v1.0 或更高版本进行加密。当使用 <i>Allow</i> 选项时，安全性会降低。当使用 <i>Deny</i> 选项时，安全性得到增强。 <i>AllowDH</i> 选项启用使用普通 Diffie-Hellman 密钥协商的密码套件（在使用 GNU TLS 的系统上不受支持）。 <i>AllowRC4</i> 选项启用 128 位 RC4 密码套件，这是一些旧客户端所必需的。<i>AllowSSL3</i> 选项启用 SSL v3.0 ，这是一些不支持 TLS v1.0 的旧客户端所必需的。 <i>DenyCBC</i> 选项禁用所有 CBC 密码套件。<i>DenyTLS1.0</i> 选项禁用 TLS v1.0 支持 － 这将最低协议版本设置为 TLS v1.1 。 <i>MinTLS</i> 选项设置要支持的最低 TLS 版本。 <i>MaxTLS</i> 选项设置要支持的最大 TLS 版本。目前并非所有操作系统都支持 TLS 1.3 。
+      <dt><a name="TrustOnFirstUse"></a><b>TrustOnFirstUse Yes</b>
+      <dt><b>TrustOnFirstUse No</b>
+      <dd style="margin-left: 5.0em">指定默认情况下是否信任新 TLS 证书。默认值为 “Yes” 。
+      <dt><a name="User"></a><b>User </b><i>name</i>
+      <dd style="margin-left: 5.0em">指定用于请求的默认用户名。
+      <dt><a name="UserAgentTokens"></a><b>UserAgentTokens None</b>
+      <dt><b>UserAgentTokens ProductOnly</b>
+      <dt><b>UserAgentTokens Major</b>
+      <dt><b>UserAgentTokens Minor</b>
+      <dt><b>UserAgentTokens Minimal</b>
+      <dt><b>UserAgentTokens OS</b>
+      <dt><b>UserAgentTokens Full</b>
+      <dd style="margin-left: 5.0em">指定 HTTP 请求的用户代理标头中包含的信息。 “None” 禁用用户代理标头。 “ProductOnly” 报告 “CUPS” 。 “Major” 报告 “CUPS/major IPP/2” 。 “Minor” 报告 “CUPS/major.Minor IPP/2.1” 。 “Minimal” 报告 “CUPS/major.minor.patch IPP/2.1” 。 “OS” 报告 “CUPS/major.minor.path (操作系统名称 操作系统版本）IPP/2.1” 。 “Full” 报告 “CUPS/major.minor.path (操作系统名称 操作系统版本; 架构）IPP/2.1” 。默认值为 “Minimal” 。
+      <dt><a name="ValidateCerts"></a><b>ValidateCerts Yes</b>
+      <dt><b>ValidateCerts No</b>
+      <dd style="margin-left: 5.0em">指定是否仅允许 TLS 具有公用名与主机名匹配的证书。默认值为 “No” 。
+    </dl>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;<b>client.conf</b> macOS 上已弃用该文件，未来版本的 CUPS 将不再支持该文件。相反，可以使用 <b>defaults</b>（1） 命令查看或更改配置设置：</p>
+    <pre class="man">
+defaults write /Library/Preferences/org.cups.PrintingPrefs.plist Encryption Required
+defaults write /Library/Preferences/org.cups.PrintingPrefs.plist TrustOnFirstUse -bool NO
+
+defaults read /Library/Preferences/org.cups.PrintingPrefs.plist Encryption</pre>
+    <p>&emsp;&emsp;在使用 GNU TLS 的 Linux 和其他系统上， <i>/etc/cups/ssl/site.crl</i> 文件（如果存在）提供已吊销的 X.509 证书列表，并在验证证书时使用。</p>
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cups</b>(1) 、 <b>default</b>(1)</p>
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）</p>
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

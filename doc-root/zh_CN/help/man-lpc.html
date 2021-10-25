@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpc(8)</title>
+  </head>
+  <body>
+    <h1 class="title">lpc(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpc - 行式打印机控制程序（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpc</b> [<i>command</i> [<i>parameter(s)</i>]]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpc</b> 对 CUPS 提供的打印机和类队列提供有限的控制。它还可用于查询队列的状态。
+    <p>&emsp;&emsp;如果命令行上未指定命令， <b>lpc</b> 将显示提示并接受来自标准输入的命令。
+    <h3><a name="COMMANDS">命令</a></h3>
+    <p>&emsp;&emsp;<b>lpc</b> 程序接受 Berkeley <b>lpc</b> 程序接受的同名命令子集：
+    <dl class="man">
+      <dt><b>exit</b>
+      <dd style="margin-left: 5.0em">退出命令解释器。
+      <dt><b>help </b>[<i>command</i>]
+      <dt><b>? </b>[<i>command</i>]
+      <dd style="margin-left: 5.0em">显示一条简短的帮助消息。
+      <dt><b>quit</b>
+      <dd style="margin-left: 5.0em">退出命令解释器。
+      <dt><b>status </b>[<i>queue</i>]
+      <dd style="margin-left: 5.0em">显示一个或多个打印机或类队列的状态。
+    </dd>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;此程序已弃用，将在 CUPS 的未来功能版本中删除。
+    <p>&emsp;&emsp;由于 <b>lpc</b> 面向 Berkeley 打印系统，因此无法使用 <b>lpc</b> 配置 CUPS 提供的打印机或类队列。要配置打印机或类队列，必须使用 <b>lpadmin</b>(8) 命令或具有该功能的其他 CUPS 兼容客户端。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <b>cancel</b>(1) 、 <b>cupsaccept</b>(8) 、 <b>cupsenable</b>(8) 、 <b>lp</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpr</b>(1) 、 <b>lprm</b>(1) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

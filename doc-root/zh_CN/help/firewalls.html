@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 快速入门 -->
+  <head>
+    <title>防火墙</title>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+    <h1 class="title">防火墙</h1>
+    <p>本帮助文档介绍 CUPS 使用的端口，以便防火墙管理员可以允许用于打印的流量。</p>
+
+
+    <h2 class="title" id="SHARING">用于打印机共享的端口</h2>
+    <p>表1列出了用于通过 CUPS 共享 IPP 打印机的端口。</p>
+    <div class="table">
+      <table summary="Ports Used for IPP Printer Sharing">
+        <caption>表1：用于IPP打印机共享的端口</caption>
+        <thead>
+          <tr><th>（目的）端口</th><th>传输协议</th><th>方向</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>53&nbsp;(DNS)</td><td>TCP/UDP</td><td>OUT</td><td>域名系统查找和服务注册。</td></tr>
+          <tr><td>631&nbsp;(IPP/IPPS)</td><td>TCP</td><td>IN</td><td>Internet 打印协议请求和响应（打印任务、状态监视等）。</td></tr>
+          <tr><td>5353&nbsp;(mDNS)</td><td>UDP</td><td>IN+OUT</td><td>多播DNS查找和服务注册。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>表2列出了用于 SMB (Windows) 打印机共享的端口，通常通过 Samba 软件进行共享。</p>
+    <div class="table">
+      <table summary="Ports Used for SMB Printer Sharing">
+        <caption>表2：用于 SMB 打印机共享的端口</caption>
+        <thead>
+          <tr><th>（目的）端口</th><th>传输协议</th><th>方向</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>137&nbsp;(WINS)</td><td>UDP</td><td>IN+OUT</td><td>Windows Internet 命名服务（ SMB 打印的名称查找）。</td></tr>
+          <tr><td>139&nbsp;(SMB)</td><td>TCP</td><td>IN</td><td>Windows SMB 共享打印。</td></tr>
+          <tr><td>445&nbsp;(SMBDS)</td><td>TCP</td><td>IN+OUT</td><td>Windows SMB 域服务器（经过身份验证的 SMB 打印）。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <h2 class="title" id="PRINTERS">用于网络打印机的端口</h2>
+    <p>表3列出了用于网络打印机的传出网络通信的端口。</p>
+    <blockquote>
+      <b>提示：</b>
+      <ol>
+        <li>DNS 和 MDN 用于除 SMB 之外的所有打印协议。</li>
+        <li>SNMP 用于为 AppSocket 和 LPD 打印机提供状态和供应级别信息。</li>
+      </ol>
+    </blockquote>
+    <div class="table">
+      <table summary="Outgoing Ports Used for Network Printers">
+        <caption>表3：用于网络打印机的传出端口</caption>
+        <thead>
+          <tr><th>（目的）端口</th><th>传输协议</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>53&nbsp;(DNS)</td><td>TCP/UDP</td><td> 域名系统查找。 </td></tr>
+          <tr><td>137&nbsp;(WINS)</td><td>UDP</td><td>Windows Internet 命名服务（ SMB 打印的名称查找）。</td></tr>
+          <tr><td>139&nbsp;(SMB)</td><td>TCP</td><td>Windows SMB 共享打印。</td></tr>
+          <tr><td>161&nbsp;(SNMP)</td><td>UDP</td><td>SNMP 浏览（广播）和状态监视（指向打印机 IP 地址）。</td></tr>
+          <tr><td>443&nbsp;(IPPS)</td><td>TCP</td><td>Internet 打印协议请求和响应（打印任务、状态监视等）</td></tr>
+          <tr><td>445&nbsp;(SMBDS)</td><td>TCP</td><td>Windows SMB 域服务器（经过身份验证的 SMB 打印）。</td></tr>
+          <tr><td>515&nbsp;(LPD)</td><td>TCP</td><td>行式打印机守护程序（LPD/lpr）打印任务提交和状态监视。</td></tr>
+          <tr><td>631&nbsp;(IPP/IPPS)</td><td>TCP</td><td>Internet 打印协议请求和响应（打印任务、状态监视等）。</td></tr>
+          <tr><td>5353&nbsp;(mDNS)</td><td>UDP</td><td>多播DNS查找。</td></tr>
+          <tr><td>9100-9102</td><td>TCP</td><td>原始打印数据流（AppSocket/JetDirect）。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cupstestppd(1)</title>
+  </head>
+  <body>
+    <h1 class="title">cupstestppd(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cupstestppd - 测试 ppd 文件的一致性
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>cupstestppd</b> [<b>-I</b> <i>category</i>] [ <b>-R</b> <i>rootdir</i>] [ <b>-W</b> <i>category</i>] [ <b>-q</b>] [<b>-r</b>] [<b>-v</b>[<b>v</b>]] <i>filename.ppd[.gz]</i> [ ... <i>filename.ppd[.gz]</i>]<br>
+    &emsp;&emsp;<b>cupstestppd</b> [<b>-R</b> <i>rootdir</i>] [ <b>-W</b> <i>category</i>] [ <b>-q</b>] [<b>-r</b>] [<b>-v</b>[<b>v</b>]] <b>-</b>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cupstestppd</b> 测试 PPD 文件与 Adobe PostScript 打印机描述文件格式规范版本 4.3 的一致性。它还可以用于列出 PPD 文件中支持的选项和可用字体。测试结果和任何其他输出被发送到标准输出。
+    <p>&emsp;&emsp;第一种形式的 <b>cupstestppd</b> 在命令行上测试一个或多个 PPD 文件。第二个表单测试标准输入上提供的 PPD 文件。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>cupstestppd</b> 支持以下选项：
+    <dl class="man">
+      <dt><b>-I filename</b>
+      <dd style="margin-left: 5.0em">忽略所有 PCFileName 警告。
+      <dt><b>-I filters</b>
+      <dd style="margin-left: 5.0em">忽略所有筛选器错误。
+      <dt><b>-I profiles</b>
+      <dd style="margin-left: 5.0em">忽略所有配置文件错误。
+      <dt><b>-R </b><i>rootdir</i>
+      <dd style="margin-left: 5.0em">为筛选器、预筛选器和其他支持文件检查指定备用根目录。
+      <dt><b>-W constraints</b>
+      <dd style="margin-left: 5.0em">将所有 UIConstraint 错误报告为警告。
+      <dt><b>-W defaults</b>
+      <dd style="margin-left: 5.0em">除与大小相关的选项外，将所有默认选项错误报告为警告。
+      <dt><b>-W filters</b>
+      <dd style="margin-left: 5.0em">将所有筛选器错误报告为警告。
+      <dt><b>-W profiles</b>
+      <dd style="margin-left: 5.0em">将所有配置文件错误报告为警告。
+      <dt><b>-W sizes</b>
+      <dd style="margin-left: 5.0em">将所有媒体大小错误报告为警告。
+      <dt><b>-W translations</b>
+      <dd style="margin-left: 5.0em">将所有翻译错误报告为警告。
+      <dt><b>-W all</b>
+      <dd style="margin-left: 5.0em">将所有以前的错误报告为警告。
+      <dt><b>-W none</b>
+      <dd style="margin-left: 5.0em">将所有以前的错误报告为错误。
+      <dt><b>-q</b>
+      <dd style="margin-left: 5.0em">指定不应显示任何信息。
+      <dt><b>-r</b>
+      <dd style="margin-left: 5.0em">放宽 PPD 一致性要求，使常见的空白、控制字符和格式问题不会被视为硬错误。
+      <dt><b>-v</b>
+      <dd style="margin-left: 5.0em">指定应显示详细的一致性测试结果，而不是简明的 PASS/FAIL/ERROR 状态。
+      <dt><b>-vv</b>
+      <dd style="margin-left: 5.0em">指定除详细的一致性测试结果外，还应显示 PPD 文件中的所有信息。
+    </dd>
+    <p><i>-q</i> 、 <i>-v</i> 、和 <i>-vv</i> 选择是相互排斥的。
+
+    <h2 class="title"><a name="EXIT_STATUS">退出状态</a></h2>
+    <p>&emsp;&emsp;<b>cupstestppd</b> 成功时返回零，错误时返回非零。错误代码如下所示：
+    <dl class="man">
+      <dt>1
+      <dd style="margin-left: 5.0em">命令行参数错误或缺少 PPD 文件名。
+      <dt>2
+      <dd style="margin-left: 5.0em">无法打开或读取 PPD 文件。
+      <dt>3
+      <dd style="margin-left: 5.0em">PPD 文件包含无法跳过的格式错误。
+      <dt>4
+      <dd style="margin-left: 5.0em">PPD 文件不符合 Adobe PPD 规范。
+    </dd>
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;以下命令将测试当前目录下的所有 PPD 文件，并打印不符合要求的每个文件的名称：
+    <pre class="man">find . -name \*.ppd \! -exec cupstestppd -q '{}' \; -print</pre>
+    <p>&emsp;&emsp;下一个命令测试当前目录下的所有 PPD 文件，并打印不符合要求的文件的详细符合性测试结果：
+    <pre class="man">find . -name \*.ppd \! -exec cupstestppd -q '{}' \; \
+        -exec cupstestppd -v '{}' \;</pre>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;PPD 文件已弃用，CUPS 的未来功能版本将不再支持 PPD 文件。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>lpadmin</b>(8)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a> ）
+    <p>&emsp;&emsp;Adobe PostScript 打印机说明文件格式规范，版本 4.3 。
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

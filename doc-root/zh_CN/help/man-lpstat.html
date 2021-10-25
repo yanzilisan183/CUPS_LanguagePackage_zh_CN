@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpstat(1)</title>
+  </head>
+  <body>
+    <h1 class="title">lpstat(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpstat - 打印 cups 状态信息
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpstat</b> [<b>-E</b>] [<b>-H</b>] [<b>-U</b> <i>username</i>] [<b>-h </b><i>hostname</i>[<b>:</b><i>port</i>]] [<b>-l</b>] [<b>-W</b> <i>which-jobs</i>] [<b>-a</b> [<i>destination(s)</i>]] [<b>-c</b> [<i>class(es)</i>]] [<b>-d</b>] [<b>-e</b>] [<b>-o</b> [<i>destination(s)</i>]] [<b>-p</b> [<i>printer(s)</i>]] [<b>-r</b>] [<b>-R</b>] [<b>-s</b>] [<b>-t</b>] [<b>-u</b> [<i>user(s)</i>]] [<b>-v</b> [<i>printer(s)</i>]]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpstat</b> 显示有关当前类、任务和打印机的状态信息。在不带参数运行时， <b>lpstat</b> 将列出当前用户排队的活动任务。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>lpstat</b> 命令支持以下选项：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-H</b>
+      <dd style="margin-left: 5.0em">显示服务器主机名和端口。
+      <dt><b>-R</b>
+      <dd style="margin-left: 5.0em">显示打印任务的排名。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定备用用户名。
+      <dt><b>-W </b><i>which-jobs</i>
+      <dd style="margin-left: 5.0em">指定要显示的任务为 “completed” 或 “not-completed”（默认值）。此选项<i>必须</i>出现在 <i>-o</i> 选项和/或任何打印机名称之前，否则将在向调度程序发出的请求中使用默认（ “not-completed” ）值。
+      <dt><b>-a </b>[<i>printer(s)</i>]
+      <dd style="margin-left: 5.0em">显示打印机队列的接受状态。如果未指定打印机，则列出所有打印机。
+      <dt><b>-c </b>[<i>class(es)</i>]
+      <dd style="margin-left: 5.0em">显示打印机类和属于它们的打印机。如果未指定任何类，则列出所有类。
+      <dt><b>-d</b>
+      <dd style="margin-left: 5.0em">显示当前默认目标。
+      <dt><b>-e</b>
+      <dd style="margin-left: 5.0em">显示本地网络上的所有可用目标。
+      <dt><b>-h </b><i>server</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">指定备用服务器。
+      <dt><b>-l</b>
+      <dd style="margin-left: 5.0em">显示打印机、类或任务的长列表。
+      <dt><b>-o </b>[<i>destination(s)</i>]
+      <dd style="margin-left: 5.0em">显示在指定目标上排队的任务。如果未指定目标，则显示所有任务。
+      <dt><b>-p </b>[<i>printer(s)</i>]
+      <dd style="margin-left: 5.0em">显示打印机及其是否已启用打印。如果未指定打印机，则列出所有打印机。
+      <dt><b>-r</b>
+      <dd style="margin-left: 5.0em">显示 CUPS 服务器是否正在运行。
+      <dt><b>-s</b>
+      <dd style="margin-left: 5.0em">显示状态摘要，包括默认目标、类及其成员打印机的列表，以及打印机及其关联设备的列表。这相当于使用 <i>-d</i> 、 <i>-c</i> 和 <i>-v</i> 选项。
+      <dt><b>-t</b>
+      <dd style="margin-left: 5.0em">显示所有状态信息。这相当于使用 <i>-r</i> 、 <i>-d</i> 、 <i>-c</i> 、 <i>-v</i> 、 <i>-a</i> 、 <i>-p</i> 和 <i>-o</i> 选项。
+      <dt><b>-u </b>[<i>user(s)</i>]
+      <dd style="margin-left: 5.0em">显示由指定用户排队的打印任务列表。如果未指定用户，则列出当前用户排队的任务。
+      <dt><b>-v </b>[<i>printer(s)</i>]
+      <dd style="margin-left: 5.0em">显示打印机及其连接到的设备。如果未指定打印机，则列出所有打印机。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;与 System V 打印系统不同， CUPS 允许打印机名称包含除空格、制表符、“/” 和 “#” 之外的任何可打印字符。此外，打印机名和类名不区分大小写。
+    <p>&emsp;&emsp;<i>-h</i> 、 <i>-e</i> 、 <i>-e</i> 、 <i>-U</i> 和 <i>-W</i> 选项是 CUPS 独有的。
+    <p>&emsp;&emsp;Solaris 的 <i>-f</i> 、 <i>-P</i> 和 <i>-S</i> 选项将被自动忽略。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <b>cancel</b>(1) 、 <b>lp</b>(1) 、 <b>lpq</b>(1) 、 <b>lpr</b>(1) 、 <b>lprm</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

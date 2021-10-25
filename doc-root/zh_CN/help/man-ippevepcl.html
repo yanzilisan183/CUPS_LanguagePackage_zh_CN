@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>ippevepcl/ps(7)</title>
+  </head>
+  <body>
+    <h1 class="title">ippevepcl/ps(7)</h1>
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;ippevepcl/ps - ippeveprinter 的 pcl 和 postscript 打印命令
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>ippevepcl</b> [<i>filename</i>]<br>
+       &emsp;&emsp;<b>ippeveps</b> [<i>filename</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>ippevepcl</b> 和 <b>ippeveps</b> 是 <b>ippeveprinter</b>(1) 的打印命令。与所有打印命令一样，这些命令可以读取命令行上指定的文件名，也可以从标准输入中读取文件名。输出被发送到标准输出。状态和进度消息将发送到标准错误。
+    <p>&emsp;&emsp;<b>ippevepcl</b> 打印到 B&amp;W HP PCL 激光打印机，支持打印 HP PCL（ application/vnd.hp-pcl ）、 PWG 光栅（ image/pwg-raster ）和 Apple 光栅（ image/urf ）打印文件。
+    <p>&emsp;&emsp;<b>ippeveps</b> 打印到 Adobe PostScript 打印机，并支持打印 PDF（ application/pdf ）、 PostScript（ application/postscript ）、 JPEG（ image/jpeg ）、 PWG 光栅（ image/pwg-raster ）和 Apple 光栅（ image/urf ）打印文件。从提供的 PPD 文件中读取特定于打印机的命令。如果未指定 PPD 文件，则使用适用于任何 2 级或 3 级 PostScript 打印机的通用命令来指定双面打印和介质大小。
+
+    <h2 class="title"><a name="EXIT_STATUS">退出状态</a></h2>
+    <p>&emsp;&emsp;这些程序出错时返回 1 ，成功时返回 0 。
+    
+    <h2 class="title"><a name="ENVIRONMENT">环境变量</a></h2>
+    <p>&emsp;&emsp;这些程序继承了 <b>ippeveprinter</b> 程序提供的环境。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>ippeveprinter</b>(8)
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2019 by Apple Inc.
+  </body>
+</html>

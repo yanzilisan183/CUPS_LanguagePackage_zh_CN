@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>ppdmerge(1)</title>
+  </head>
+  <body>
+    <h1 class="title">ppdmerge(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;ppdmerge - 合并 ppd 文件（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>ppdmerge</b> [<b>-o</b> <i>output-ppd-file</i>] <i>ppd-file</i> <i>ppd-file</i> [...<i>ppd-file</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>ppdmerge</b> 将两个或多个 PPD 文件合并为一个多语言 PPD 文件。<b>此程序已弃用，将在 CUPS 的未来版本中删除。</b>
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>ppdmerge</b> 支持以下选项：
+    <dl class="man">
+      <dt><b>-o </b><i>output-ppd-file</i>
+      <dd style="margin-left: 3.0em">指定要创建的 PPD 文件。如果未指定，则合并的 PPD 文件将写入标准输出。如果输出文件已存在，则会自动覆盖该文件。
+    </dd>
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;PPD 文件已弃用，CUPS 的未来功能版本将不再支持 PPD 文件。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+    <p>&emsp;&emsp;<b>ppdmerge</b> 不检查合并的 PPD 文件是否用于同一设备。合并不同的设备 PPD 将产生不可预测的结果。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>ppdc</b>(1) 、 <b>ppdhtml</b>(1) 、 <b>ppdi</b>(1) 、 <b>ppdpo</b>(1) 、 <b>ppdcfile</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

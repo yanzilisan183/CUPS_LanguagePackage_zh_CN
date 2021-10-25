@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>ppdpo(1)</title>
+  </head>
+  <body>
+    <h1 class="title">ppdpo(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;ppdpo - ppd 消息目录生成器（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>ppdpo</b> [<b>-D</b> <i>name</i>[<b>=</b><i>value</i>]] [<b>-I</b> <i>include-directory</i>] [<b>-o</b> <i>output-file</i>] <i>source-file</i>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>ppdpo</b> 从 PPDC 源文件中提取 UI 字符串，并更新 GNU gettext 或 macOS 字符串格式的消息目录源文件以进行翻译。<b>此程序已弃用，将在 CUPS 的未来版本中删除。</b>
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>ppdpo</b> 支持以下选项：
+    <dl class="man">
+      <dt><b>-D </b><i>name</i>[<b>=</b><i>value</i>]
+      <dd style="margin-left: 5.0em">设置要在源文件中使用的命名变量。它相当于在源文件中使用 <i>#define</i> 指令。
+      <dt><b>-I </b><i>include-directory</i>
+      <dd style="margin-left: 5.0em">指定备用包含目录。可以提供多个 <i>-I</i> 选项来添加其他目录。
+      <dt><b>-o </b><i>output-file</i>
+      <dd style="margin-left: 5.0em">指定输出文件。 GNU gettext 格式消息目录支持的扩展名是 <i>.po</i> 或 <i>.po.gz</i> ， macOS 字符串文件支持的扩展名是 <i>.strings</i> 。
+    </dd>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;PPD 文件已弃用， CUPS 的未来功能版本将不再支持 PPD 文件。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>ppdc</b>(1) 、 <b>ppdhtml</b>(1) 、 <b>ppdi</b>(1) 、 <b>ppdmerge</b>(1) 、 <b>ppdcfile(5)</b>
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

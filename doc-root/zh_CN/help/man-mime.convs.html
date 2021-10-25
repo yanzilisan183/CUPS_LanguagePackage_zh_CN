@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>mime.convs(5)</title>
+  </head>
+  <body>
+    <h1 class="title">mime.convs(5)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;mime.convs - cups 的 mime 类型转换文件（已弃用）
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>mime.convs</b> 文件定义了可用于将文件从一种格式转换为另一种格式的筛选器。
+    <p>&emsp;&emsp;标准筛选器支持文本、 PDF 、 PostScript 和多种类型的图像文件。
+    <p>&emsp;&emsp;附加筛选器在 CUPS 配置目录中扩展名为 <i>.convs</i> 的文件中指定。
+    <p>&emsp;&emsp;<b>mime.convs</b> 文件中的每一行都是注释行、空白行或筛选行。注释行以 # 字符开头。筛选器行指定源和目标 MIME 类型以及与筛选器和要运行的筛选器相关联的相对成本：
+    <pre class="man">source/type destination/type cost filter</pre>
+    <p>&emsp;&emsp;<i>source/type</i> 字段指定筛选器使用的源 MIME 媒体类型。
+    <p>&emsp;&emsp;<i>destination/type</i> 字段指定筛选器生成的目标 MIME 媒体类型。
+    <p>&emsp;&emsp;<i>cost</i> 字段指定运行筛选器的相对成本。值 100 表示筛选器使用大量资源，而值 0 表示筛选器使用很少的资源。
+    <p>&emsp;&emsp;<i>filter</i> 字段指定筛选器程序文件名。文件名相对于 CUPS 筛选器目录。
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <p>&emsp;&emsp;<i>/etc/cups</i> - 典型的 CUPS 配置目录。
+    <p>&emsp;&emsp;<i>/usr/lib/cups/filter</i> - 典型的 CUPS 筛选器目录。
+    <p>&emsp;&emsp;<i>/usr/libexec/cups/filter</i> - macOS 上的 CUPS 筛选器目录。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;定义将 PostScript 文档转换为 CUPS 光栅格式的筛选器：
+    <pre class="man">application/vnd.cups-postscript application/vnd.cups-raster 50 pstoraster</pre>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 筛选器已弃用，在未来的 CUPS 功能版本中将不再受支持。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cups-files.conf</b>(5) 、 <b>cupsd.conf</b>(5) 、 <b>cupsd</b>(8) 、 <b>cupsfilter</b>(8) 、 <b>mime.types</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

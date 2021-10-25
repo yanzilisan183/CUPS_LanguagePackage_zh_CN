@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpinfo(8)</title>
+  </head>
+  <body>
+    <h1 class="title">lpinfo(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpinfo - 显示可用设备或驱动程序（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpinfo</b> [<b>-E</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] [<b>-l</b>] [<b>--device-id</b> <i>device-id-string</i>] [<b>--exclude-schemes</b> <i>scheme-list</i>] [<b>--include-schemes</b> <i>scheme-list</i>] [<b>--language</b> <i>locale</i>] [<b>--make-and-model</b> <i>name</i>] [<b>--product</b> <i>name</i>] <b>-m</b><br>
+       &emsp;&emsp;<b>lpinfo</b> [<b>-E</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] [<b>-l</b>] [<b>--exclude-schemes</b> <i>scheme-list</i>] [<b>--include-schemes</b> <i>scheme-list</i>] [<b>--timeout</b> <i>seconds</i>] <b>-v</b>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpinfo</b> 列出 CUPS 服务器已知的可用设备或驱动程序。第一个表单（ <i>-m</i> ）列出了可用的驱动程序，而第二个表单（ <i>-v</i> ）列出了可用的设备。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>lpinfo</b> 接受以下选项：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-h </b><i>server</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">选择备用服务器。
+      <dt><b>-l</b>
+      <dd style="margin-left: 5.0em">显示设备或驱动程序的“长”列表。
+      <dt><b>--device-id </b><i>device-id-string</i>
+      <dd style="margin-left: 5.0em">指定在使用 <i>-m</i> 选项列出驱动程序时要匹配的 IEEE-1284 设备ID。
+      <dt><b>--exclude-schemes </b><i>scheme-list</i>
+      <dd style="margin-left: 5.0em">指定应从结果中排除的设备或 PPD 方案的逗号分隔列表。静态 PPD 文件使用 “file” 方案。
+      <dt><b>--include-schemes </b><i>scheme-list</i>
+      <dd style="margin-left: 5.0em">指定应包含在结果中的设备或 PPD 方案的逗号分隔列表。静态 PPD 文件使用 “file” 方案。
+      <dt><b>--language </b><i>locale</i>
+      <dd style="margin-left: 5.0em">指定使用 <i>-m</i> 选项列出驱动程序时要匹配的语言。
+      <dt><b>--make-and-model </b><i>name</i>
+      <dd style="margin-left: 5.0em">指定在使用 <i>-m</i> 选项列出驱动程序时要匹配的品牌和型号。
+      <dt><b>--product </b><i>name</i>
+      <dd style="margin-left: 5.0em">指定在使用 <i>-m</i> 选项列出驱动程序时要匹配的产品。
+      <dt><b>--timeout </b><i>seconds</i>
+      <dd style="margin-left: 5.0em">指定使用 <i>-v</i> 选项列出设备时的超时秒数。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<i>lpinfo</i> 命令是 CUPS 独有的。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;列出所有设备：
+    <pre class="man">lpinfo -v</pre>
+    <p>&emsp;&emsp;列出所有驱动程序：
+    <pre class="man">lpinfo -m</pre>
+    <p>&emsp;&emsp;列出与 “HP LaserJet” 匹配的驱动程序：
+    <pre class="man">lpinfo --make-and-model "HP LaserJet" -m</pre>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 打印机驱动程序和后端已弃用，在未来的 CUPS 功能版本中将不再受支持。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>lpadmin</b>(8)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

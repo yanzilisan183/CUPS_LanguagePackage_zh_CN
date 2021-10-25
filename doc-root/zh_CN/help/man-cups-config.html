@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cups-config(1)</title>
+  </head>
+  <body>
+    <h1 class="title">cups-config(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cups-config - 获取 cups api 、编译器、目录和链接信息。
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>cups-config</b> <i>--api-version</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--build</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--cflags</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--datadir</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--help</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--ldflags</i><br>
+       &emsp;&emsp;<b>cups-config</b> [<i>--image</i>] [<i>--static</i>] <i>--libs</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--serverbin</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--serverroot</i><br>
+       &emsp;&emsp;<b>cups-config</b> <i>--version</i></p>
+       
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cups-config</b> 命令允许应用程序开发人员确定编译器和链接器的必要命令行选项，以及筛选器、配置文件和驱动程序的安装目录。所有值都报告到标准输出。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>cups-config</b> 命令接受以下命令行选项：</p>
+    <dl class="man">
+      <dt><b>--api-version</b>
+      <dd style="margin-left: 5.0em">报告当前API版本（主要版本 次要版本）。
+      <dt><b>--build</b>
+      <dd style="margin-left: 5.0em">报告系统特定的内部版本号。
+      <dt><b>--cflags</b>
+      <dd style="margin-left: 5.0em">报告必要的编译器选项。
+      <dt><b>--datadir</b>
+      <dd style="margin-left: 5.0em">报告默认 CUPS 数据目录。
+      <dt><b>--help</b>
+      <dd style="margin-left: 5.0em">报告程序使用情况消息。
+      <dt><b>--ldflags</b>
+      <dd style="margin-left: 5.0em">报告必要的链接器选项。
+      <dt><b>--libs</b>
+      <dd style="margin-left: 5.0em">报告要链接到的必要库。
+      <dt><b>--serverbin</b>
+      <dd style="margin-left: 5.0em">报告存储筛选器和后端的默认 CUPS 二进制目录。
+      <dt><b>--serverroot</b>
+      <dd style="margin-left: 5.0em">报告默认 CUPS 配置文件目录。
+      <dt><b>--static</b>
+      <dd style="margin-left: 5.0em">与 <i>--libs</i> 一起使用时，报告静态库，而不是默认（共享）库。
+      <dt><b>--version</b>
+      <dd style="margin-left: 5.0em">报告 CUPS 安装的完整版本号（主版本.次版本.修订）。
+    </dd>
+    
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;显示 CUPS 的当前安装版本：
+    <pre class="man">cups-config --version</pre>
+    <p>&emsp;&emsp;编译一个简单的单文件 CUPS 筛选器：</p>
+    <pre class="man">
+    cc `cups-config --cflags --ldflags` -o filter filter.c \
+        `cups-config --libs`</pre>
+
+    <h2 class="title"><a name="DEPRECATED_OPTIONS">不建议使用的选项</a></h2>
+    <p>&emsp;&emsp;以下选项已弃用，但仍适用于向后兼容：</p>
+    <dl class="man">
+      <dt><b>--image</b>
+      <dd style="margin-left: 5.0em">以前用于将 CUPS 图像库添加到库列表中。
+    </dd>
+    
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cups</b>(1)</p>
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）</p>
+    
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

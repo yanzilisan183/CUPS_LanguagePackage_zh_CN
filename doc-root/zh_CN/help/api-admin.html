@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<!-- SECTION: 程序设计 -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>管理 API</title>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+  <!--
+  Administrative API header for CUPS.
+
+  Copyright © 2016 by Apple Inc.
+
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
+
+    <h1 class='title'>管理 API</h1>
+    <div class='summary'>
+      <table summary='一般资料'>
+        <thead>
+        <tr>
+          <th>Header</th>
+          <th>cups/adminutil.h</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th>Library</th>
+          <td>-lcups</td>
+        </tr>
+        <tr>
+          <th>另见</th>
+          <td>编程：<a href='api-overview.html'>CUPS 编程简介</a><br>
+              编程：<a href='api-cups.html'>CUPS API</a><br>
+              编程：<a href='api-httpipp.html'>HTTP 和 IPP API</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="contents">
+      <h2 class="title">目录</h2>
+      <ul class="contents">
+        <li><a href="#OVERVIEW">概述</a>
+          <ul class="subcontents">
+            <li><a href="#SETTINGS">计划程序设置</a></li>
+            <li><a href="#DEVICES">设备</a></li>
+          </ul>
+        </li>
+        <li><a href="#FUNCTIONS">函数</a>
+          <ul class="subcontents">
+            <li><a href="#cupsAdminCreateWindowsPPD">cupsAdminCreateWindowsPPD</a></li>
+            <li><a href="#cupsAdminExportSamba">cupsAdminExportSamba</a></li>
+            <li><a href="#cupsAdminGetServerSettings">cupsAdminGetServerSettings</a></li>
+            <li><a href="#cupsAdminSetServerSettings">cupsAdminSetServerSettings</a></li>
+            <li><a href="#cupsGetDevices">cupsGetDevices</a></li>
+          </ul>
+        </li>
+        <li><a href="#TYPES">数据类型</a>
+          <ul class="subcontents">
+            <li><a href="#cups_device_cb_t">cups_device_cb_t</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+<!--
+  Administrative API documentation for CUPS.
+
+  Copyright © 2016 by Apple Inc.
+
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more
+  information.
+-->
+
+    <h2 class="title"><a name="OVERVIEW">概述</a></h2>
+    <p>&emsp;&emsp;管理 API 提供了方便的功能，可以使用 CUPS 调度器执行某些管理功能。</p>
+    <blockquote>
+      <b>提示：</b>
+      <p>&emsp;&emsp;管理功能通常需要管理权限才能执行，不得在普通用户应用程序中使用！</p>
+    </blockquote>
+    <h3><a name="SETTINGS">计划程序设置</a></h3>
+    <p>&emsp;&emsp;<a href="#cupsAdminGetServerSettings"><code>cupsAdminGetServerSettings</code></a> 和 <a href="#cupsAdminSetServerSettings"><code>cupsAdminSetServerSettings</code></a> 函数允许您分别在 CUPS 调度程序的 <var>cupsd.conf</var> 文件中获取和设置简单指令及其值。设置存储在 CUPS 选项数组中，该数组提供字符串名称/值对的简单列表。虽然可以指定任何简单的 <var>cupsd.conf</var> 指令名，但也定义了以下方便的名称来控制常见的复杂指令：</p>
+    <ul>
+      <li><code>CUPS_SERVER_DEBUG_LOGGING</code></li>: 对于 <code>cupsAdminGetServerSettings</code>，值 “1” 表示 <code>LogLevel</code> 指令设置为 <code>debug</code> 或 <code>debug2</code> ，而值 “0” 表示设置为任何其他值。对于 <code>cupsAdminSetServerSettings</code> 而言，值 “1” 将 <code>LogLeveL</code> 设置为 <code>debug</code> ，而值 “0” 将其设置为 <code>warn</code> 。</li>
+      <li><code>CUPS_SERVER_REMOTE_ADMIN</code></li>: 值 “1” 指定从远程地址接受管理请求，而 “0” 指定仅从本地地址（环回接口和域套接字）接受请求。</li>
+      <li><code>CUPS_SERVER_REMOTE_ANY</code></li>: 值 “1” 指定从任何地址接受请求，而 “0” 指定仅从本地子网（启用共享时）或本地地址（环回接口和域套接字）接受请求。</li>
+      <li><code>CUPS_SERVER_SHARE_PRINTERS</code></li>: 值 “1” 指定为选定的打印机启用打印机共享并接受远程请求，而值 “0” 指定为禁用打印机共享且不接受远程请求。</li>
+      <li><code>CUPS_SERVER_USER_CANCEL_ANY</code></li>: 值 “1” 指定默认安全策略允许任何用户取消任何打印作业，而不考虑所有者。值 “0” 指定只有管理用户才能取消其他用户的作业。</li>
+    </ul>
+
+    <blockquote>
+      <b>提示：</b>
+      <p>&emsp;&emsp;更改设置将重新启动 CUPS 计划程序。</p>
+      <p>&emsp;&emsp;启用打印机共享或 Web 界面时，计划程序的按需启动功能将被有效禁用。这可能会影响电源使用、系统性能和系统的安全配置文件。</p>
+    </blockquote>
+    <p>&emsp;&emsp;建议更改 <var>cupsd.conf</var> 的方法是首先调用 <a href="#cupsAdminGetServerSettings"><code>cupsAdminGetServerSettings</code></a>，对返回的选项数组进行任何更改，然后调用 <a href="#cupsAdminSetServerSettings"><code>cupsAdminSetServerSettings</code></a> 保存这些设置。例如，要启用 Web 界面，请执行以下操作：</p>
+    <pre class="example">
+#include &lt;cups/cups.h&gt;
+#include &lt;cups/adminutil.h&gt;
+
+void
+enable_web_interface(void)
+{
+  int num_settings = 0;           /* Number of settings */
+  cups_option_t *settings = NULL; /* Settings */
+
+
+  if (!<a href="#cupsAdminGetServerSettings">cupsAdminGetServerSettings</a>(CUPS_HTTP_DEFAULT, &amp;num_settings, &amp;settings))
+  {
+    fprintf(stderr, "ERROR: Unable to get server settings: %s\n", cupsLastErrorString());
+    return;
+  }
+
+  num_settings = <a href="api-cups.html#cupsAddOption">cupsAddOption</a>("WebInterface", "Yes", num_settings, &amp;settings);
+
+  if (!<a href="#cupsAdminSetServerSettings">cupsAdminSetServerSettings</a>(CUPS_HTTP_DEFAULT, num_settings, settings))
+  {
+    fprintf(stderr, "ERROR: Unable to set server settings: %s\n", cupsLastErrorString());
+  }
+
+  <a href="api-cups.html#cupsFreeOptions">cupsFreeOptions</a>(num_settings, settings);
+}</pre>
+
+    <h3><a name="DEVICES">设备</a></h3>
+    <p>&emsp;&emsp;可以使用 <a href="#cupsGetDevices"><code>cupsGetDevices</code></a> API 通过 CUPS 计划程序查找打印机。通常，此 API 用于定位要添加到系统中的打印机。找到的每个设备都会导致执行提供的回调函数。例如，要列出可在 30 秒内找到的可用打印机设备，请执行以下操作：</p>
+    <pre class="example">
+#include &lt;cups/cups.h&gt;
+#include &lt;cups/adminutil.h&gt;
+
+
+void
+get_devices_cb(
+    const char *device_class,           /* I - Class */
+    const char *device_id,              /* I - 1284 device ID */
+    const char *device_info,            /* I - Description */
+    const char *device_make_and_model,  /* I - Make and model */
+    const char *device_uri,             /* I - Device URI */
+    const char *device_location,        /* I - Location */
+    void       *user_data)              /* I - User data */
+{
+  puts(device_uri);
+}
+
+
+void
+show_devices(void)
+{
+  <a href="#cupsGetDevices">cupsGetDevices</a>(CUPS_HTTP_DEFAULT, 30, NULL, NULL, get_devices_cb, NULL);
+}</pre>
+    <h2 class="title"><a id="FUNCTIONS">函数</a></h2>
+    <h3 class="function"><span class="info">不建议使用</span><a id="cupsAdminCreateWindowsPPD">cupsAdminCreateWindowsPPD</a></h3>
+    <p class="description">为打印机创建Windows PPD文件。</p>
+    <p class="code">char *cupsAdminCreateWindowsPPD(http_t *http, const char *dest, char *buffer, int bufsize);</p>
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>http</th>
+          <td class="description">连接到服务器或 <code>CUPS_HTTP_DEFAULT</code></td></tr>
+      <tr><th>dest</th>
+          <td class="description">打印机或类</td></tr>
+      <tr><th>buffer</th>
+          <td class="description">文件名缓冲区</td></tr>
+      <tr><th>bufsize</th>
+          <td class="description">文件名缓冲区的大小</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">PPD 文件或 NULL</p>
+    
+    <h3 class="function"><span class="info">不建议使用</span><a id="cupsAdminExportSamba">cupsAdminExportSamba</a></h3>
+    <p class="description">将打印机导出到 Samba 。</p>
+    <p class="code">int cupsAdminExportSamba(const char *dest, const char *ppd, const char *samba_server, const char *samba_user, const char *samba_password, FILE *logfile);</p>
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>dest</th>
+          <td class="description">导出的目的地</td></tr>
+      <tr><th>ppd</th>
+          <td class="description">PPD 文件</td></tr>
+      <tr><th>samba_server</th>
+          <td class="description">Samba 服务器</td></tr>
+      <tr><th>samba_user</th>
+          <td class="description">Samba 用户名</td></tr>
+      <tr><th>samba_password</th>
+          <td class="description">Samba 密码</td></tr>
+      <tr><th>logfile</th>
+          <td class="description">日志文件（如果有）</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">成功时为 1 ，失败时为 0</p>
+
+    <h3 class="function"><span class="info">CUPS 1.3/macOS 10.5</span><a id="cupsAdminGetServerSettings">cupsAdminGetServerSettings</a></h3>
+    <p class="description">从服务器获取设置。</p>
+    <p class="code">int cupsAdminGetServerSettings(http_t *http, int *num_settings, cups_option_t **settings);</p>
+    <h4 class="parameters">参数</h4>
+    <table class="list"><tbody>
+      <tr><th>http</th>
+          <td class="description">连接到服务器或 <code>CUPS_HTTP_DEFAULT</code></td></tr>
+      <tr><th>num_settings</th>
+          <td class="description">设置数字</td></tr>
+      <tr><th>settings</th>
+          <td class="description">设置</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">成功时为 1 ，失败时为 0</p>
+    <h4 class="discussion">讨论</h4>
+    <p class="discussion">使用完返回的设置后，应使用 cupsFreeOptions() 释放这些设置。</p>
+
+    <h3 class="function"><span class="info">CUPS 1.3/macOS 10.5</span><a id="cupsAdminSetServerSettings">cupsAdminSetServerSettings</a></h3>
+    <p class="description">在服务器上设置设置。</p>
+    <p class="code">int cupsAdminSetServerSettings(http_t *http, int num_settings, cups_option_t *settings);</p>
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>http</th>
+          <td class="description">连接到服务器或 <code>CUPS_HTTP_DEFAULT</code></td></tr>
+      <tr><th>num_settings</th>
+          <td class="description">设置数字</td></tr>
+      <tr><th>settings</th>
+          <td class="description">设置</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">成功时为 1 ，失败时为 0</p>
+    <h3 class="function"><span class="info">不建议使用</span><a id="cupsGetDevices">cupsGetDevices</a></h3>
+    <p class="description">获取可用的打印机设备。</p>
+    <p class="code">ipp_status_t cupsGetDevices(http_t *http, int timeout, const char *include_schemes, const char *exclude_schemes, <a href="#cups_device_cb_t">cups_device_cb_t</a> callback, void *user_data);</p>
+    <h4 class="parameters">参数</h4>
+    <table class="list"><tbody>
+      <tr><th>http</th>
+          <td class="description">连接到服务器或 <code>CUPS_HTTP_DEFAULT</code></td></tr>
+      <tr><th>timeout</th>
+          <td class="description">超时（秒）或 <code>CUPS_TIMEOUT_DEFAULT</code></td></tr>
+      <tr><th>include_schemes</th>
+          <td class="description">要包含的逗号分隔 URI 方案或 <code>CUPS_INCLUDE_ALL</code></td></tr>
+      <tr><th>exclude_schemes</th>
+          <td class="description">要排除或删除的逗号分隔 URI 方案或 <code>CUPS_EXCLUDE_NONE</code></td></tr>
+      <tr><th>callback</th>
+          <td class="description">回调函数</td></tr>
+      <tr><th>user_data</th>
+          <td class="description">用户数据指针</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">请求状态 － 成功时为 <code>IPP_OK</code> 。</p>
+    <h4 class="discussion">讨论</h4>
+    <p class="discussion">此函数发送 CUPS-Get-Devices 请求，并将发现的设备流式传输到指定的回调函数。“timeout” 参数控制请求持续的时间，而 “include_schemes” 和 “exclude_schemes” 参数分别提供以逗号分隔的后端列表，以便从请求中包括或省略。<br><br>
+    由于 IPP 打印机发现功能由 <a href="#cupsEnumDests"><code>cupsEnumDests</code></a>和 @cupsGetDests@ 函数提供，因此不推荐使用此功能。</p>
+
+
+    <h2 class="title"><a id="TYPES">数据类型</a></h2>
+    <h3 class="typedef"><a id="cups_device_cb_t"><span class="info">CUPS 1.4/macOS 10.6</span>cups_device_cb_t</a></h3>
+    <p class="description">设备回调</p>
+    <p class="code">typedef void (*cups_device_cb_t)(const char *device_class, const char *device_id, const char *device_info, const char *device_make_and_model, const char *device_uri, const char *device_location, void *user_data);</p>
+  </body>
+</html>

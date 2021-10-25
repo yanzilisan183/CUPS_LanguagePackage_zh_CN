@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cups(1)</title>
+  </head>
+  <body>
+    <h1 class="title">cups(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cups - 基于标准的开源打印系统
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>CUPS</b> 是用于从文字处理器、电子邮件阅读器、照片编辑器和 Web 浏览器等应用程序打印的软件。它将应用程序生成的页面描述（在此处放置段落、在此处划线等）转换为打印机可以理解的内容，然后将信息发送到打印机进行打印。</p>
+    <p>&emsp;&emsp;现在，由于每个打印机制造商的做法都不同，所以打印可能非常复杂。<b>CUPS</b> 尽最大努力向您和您的应用程序隐藏这一点，以便您能够专注于打印，而不是如何打印。一般来说，您只需要在第一次使用打印机时了解打印机的情况，即使是这样，<b>CUPS</b> 也可以自己解决问题。</p>
+    <h3><a name="HOW_DOES_IT_WORK_">它是如何工作的？</a></h3>
+    <p>&emsp;&emsp;第一次打印到打印机时，<b>CUPS</b> 会创建一个队列，以跟踪打印机的当前状态（一切正常、无纸等）以及您打印的任何页面。大多数情况下，队列指向通过 USB 端口直接连接到计算机的打印机，但也可以指向网络上的打印机、Internet 上的打印机或多台打印机，具体取决于配置。无论队列指向何处，对于您和您的应用程序来说，它都与任何其他打印机一样。</p>
+    <p>&emsp;&emsp;每次打印内容时，<b>CUPS</b> 都会创建一个任务，其中包含要将打印发送到的队列、要打印的文档的名称以及页面描述。任务已编号（队列 1 、队列 2 等），因此您可以在打印任务时监视任务，或者在看到错误时取消任务。当 CUPS 获得打印任务时，它会确定将页面转换为可打印格式的最佳程序（筛选器、打印机驱动程序、端口监视器和后端），然后运行这些程序以实际打印任务。</p>
+    <p>&emsp;&emsp;打印任务完全打印后，<b>CUPS</b> 将任务从队列中删除，并转到您提交的任何其他任务。任务完成时，或打印过程中出现任何错误时，还可以通过几种不同的方式通知您。</p>
+    <h3><a name="WHERE_DO_I_BEGIN_">我从哪里开始？</a></h3>
+    <p>&emsp;&emsp;最简单的启动方法是使用 Web 界面配置打印机。转到 “<a href="http://localhost:631">http://localhost:631</a>” 并选择页面顶部的“管理”选项卡。单击“添加打印机”按钮并按照提示操作。</p>
+    <p>&emsp;&emsp;当要求您输入用户名和密码时，请输入您的登录用户名和密码或 “root” 用户名和密码。</p>
+    <p>&emsp;&emsp;添加打印机后，系统将要求您设置打印机的默认打印机选项（纸张大小、输出模式等）。根据需要进行任何更改，然后单击“设置默认选项”按钮保存这些更改。某些打印机还支持自动配置 － 单击“查询打印机默认选项”按钮可自动更新选项。</p>
+    <p>&emsp;&emsp;添加打印机后，您可以从任何应用程序向其打印。您还可以从维护菜单中选择打印测试页，以打印简单的测试页，并验证一切正常任务。</p>
+    <p>&emsp;&emsp;您还可以使用 <b>lpadmin</b>(8) 和 <b>lpinfo</b>(8) 命令将打印机添加到 <b>CUPS</b> 。此外，操作系统可能包括图形用户界面，或者在将打印机连接到计算机时自动创建打印机队列。</p>
+    <h3><a name="HOW_DO_I_GET_HELP_">我如何得到帮助？</a></h3>
+    <p>&emsp;&emsp;<b>CUPS</b> Web 站点（<a href="http://www.CUPS.org">http://www.CUPS.org</a>）提供对 <i>cups</i> 和 <i>cups-devel</i> 邮件列表、其他文档和资源以及错误报告数据库的访问。大多数供应商还提供在线论坛，为您选择的操作系统询问打印问题。</p>
+
+    <h2 class="title"><a name="ENVIRONMENT">环境变量</a></h2>
+    <p>&emsp;&emsp;<b>CUPS</b> 命令使用以下环境变量替代文件的默认位置等。出于安全原因，setuid 程序将忽略以下环境变量：</p>
+    <dl class="man">
+      <dt><b>CUPS_ANYROOT</b>
+      <dd style="margin-left: 5.0em">是否允许任何 X.509 证书根（ Y 或 N ）。
+      <dt><b>CUPS_CACHEDIR</b>
+      <dd style="margin-left: 5.0em">可以在其中找到半持久缓存文件的目录。
+      <dt><b>CUPS_DATADIR</b>
+      <dd style="margin-left: 5.0em">可以找到数据文件的目录。
+      <dt><b>CUPS_ENCRYPTION</b>
+      <dd style="margin-left: 5.0em">默认加密级别（ Always 、 IfRequested 、 Never 、 Required ）。
+      <dt><b>CUPS_EXPIREDCERTS</b>
+      <dd style="margin-left: 5.0em">是否允许过期的 X.509 证书（ Y 或 N ）。
+      <dt><b>CUPS_GSSSERVICENAME</b>
+      <dd style="margin-left: 5.0em">用于身份验证的 Kerberos 服务名称。
+      <dt><b>CUPS_SERVER</b>
+      <dd style="margin-left: 5.0em">CUPS 调度程序的主机名 /IP 地址和端口号（主机名:端口 或 IP地址:端口）。
+      <dt><b>CUPS_SERVERBIN</b>
+      <dd style="margin-left: 5.0em">可以在其中找到服务器帮助程序、筛选器、后端等的目录。
+      <dt><b>CUPS_SERVERROOT</b>
+      <dd style="margin-left: 5.0em">服务器的根目录。
+      <dt><b>CUPS_STATEDIR</b>
+      <dd style="margin-left: 5.0em">可以在其中找到状态文件的目录。
+      <dt><b>CUPS_USER</b>
+      <dd style="margin-left: 5.0em">指定打印请求的用户名称。
+      <dt><b>HOME</b>
+      <dd style="margin-left: 5.0em">指定当前用户的主目录。
+      <dt><b>IPP_PORT</b>
+      <dd style="margin-left: 5.0em">指定 IPP 请求的默认端口号。
+      <dt><b>LOCALEDIR</b>
+      <dd style="margin-left: 5.0em">指定本地化文件的位置。
+      <dt><b>LPDEST</b>
+      <dd style="margin-left: 5.0em">指定默认打印队列（ System V 标准）。
+      <dt><b>PRINTER</b>
+      <dd style="margin-left: 5.0em">指定默认打印队列（ Berkeley 标准）。
+      <dt><b>TMPDIR</b>
+      <dd style="margin-left: 5.0em">指定临时文件的位置。
+    </dd>
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <pre class="man"><i>~/.cups/client.conf</i><br><i>~/.cups/lpoptions</i></pre>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<b>CUPS</b> 符合 Internet 打印协议版本 2.1，并实现 Berkeley 和 System V UNIX 打印命令。</p>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 打印机驱动程序、后端和 PPD 文件已弃用，在未来的 CUPS 功能版本中将不再受支持。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。</p>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>client.conf</b>(7) 、 <b>cupsctl</b>(8) 、 <b>cupsd</b>(8) 、 <b>lp</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpinfo</b>(8) 、 <b>lpoptions</b>(1) 、 <b>lpr</b>(1) 、 <b>lprm</b>(1) 、 <b>lpq</b>(1) 、 <b>lpstat</b>(1) </p>
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a> ）</p>
+    <p>&emsp;&emsp;CUPS Web 站点（<a href="http://www.CUPS.org">http://www.CUPS.org</a> ）</p>
+    <p>&emsp;&emsp;PWG Internet 打印协议任务组（<a href="http://www.pwg.org/ipp">http://www.pwg.org/ipp</a>）</p>
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

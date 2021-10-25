@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 快速入门 -->
+  <head>
+    <title>翻译和定制 CUPS</title>
+    <link rel="STYLESHEET" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+    <h1 class="title">翻译和定制 CUPS</h1>
+    <p>&emsp;&emsp;由于广泛使用模板、图像和消息目录，CUPS 可以轻松翻译（或定制）以满足您的需要。此帮助文件将引导您浏览 CUPS 本地化文件，以便您能够充分利用它。</p>
+
+    <h2 class="title" id="INTRO">快速入门</h2>
+    <p>&emsp;&emsp;首先从 <a href="https://www.cups.org/" TARGET="_blank">www.cups.org</a>下载源代码。从源存档（或克隆 Git 仓库）中提取文件后，您将需要复制以下文件和目录：</p>
+    <ul>
+      <li><var>desktop/cups.desktop</var> - 指向 CUPS Web界面的 GNOME/KDE 桌面文件</li>
+      <li><var>doc/index.html.in</var> - Web 界面主页</li>
+      <li><var>locale/cups.pot</var> - 邮件目录</li>
+      <li><var>templates/*.tmpl</var> 和 <var>templates/header.tmpl.in</var> - Web 界面模板文件</li>
+    </ul>
+    <p>&emsp;&emsp;除了消息目录和桌面文件外，本地化文件使用区域名称放置在 <var>doc</var> 和 <var>templates</var> 下的子目录中。地区名称可以是 <var>ll</var> 或 <var>ll_CC</var>，其中“ll”是两个字母的语言代码，“CC”是两个字母的国家代码 <em>CUPS 当前不使用或支持更新的 <var>ll-region</var> 语法作为区域名称</em>。</p>
+    <p>&emsp;&emsp;所有非图像文件必须使用 UTF-8 字符集进行编码。</p>
+
+    <h2 class="title" id="SUBMIT">提交 CUPS 的翻译</h2>
+    <p>&emsp;&emsp;要提交翻译以包含在 CUPS 中，请翻译桌面文件、所有模板文件、<var>index.html.in</var> 文件和消息目录。将这些文件放在 CUPS 源代码归档文件的正确子目录中，并运行以下命令以使用文件创建归档文件：</p>
+    <pre class="command">tar cvf <i>ll_CC</i>.tar.gz desktop/cups.desktop doc/<i>ll_CC</i> locale/cups_<i>ll_CC</i>.po templates/<i>ll_CC</i></pre>
+    <p>&emsp;&emsp;将“ll_CC”替换为翻译的区域名称。创建存档后，请转到 <a href="https://github.com/apple/cups" target="_blank">CUPS 项目页面</a> 并提交错误报告，将翻译附在报告中。</p>
+    <p>&emsp;&emsp;或者，您可以在 Github 上克隆 CUPS 项目，进行更改，并从同一链接提交请求。</p>
+
+    <h2 class="title" id="DESKTOP">桌面文件</h2>
+    <p>&emsp;&emsp;<var>desktop/cups.desktop</var> 文件提供了从 GNOME 和 KDE 等桌面环境到 CUPS Web 界面的链接。要翻译此文件，请在底部添加两行，其中包含 <tt>Name</tt> 和 <tt>Comment</tt> 键：</p>
+    <pre class="command">
+Name[<i>ll_CC</i>]=<i>“管理打印”的翻译</i>
+Comment[<i>ll_CC</i>]=<i>“CUPS Web 界面”的翻译</i></pre>
+
+    <h2 class="title" id="HOMEPAGE">主页</h2>
+    <p>&emsp;&emsp;<var>index.html.in</var> 文件是用户访问时显示的完整 HTML 文件“http://localhost:631/”. 编辑现有的 <var>doc/index.html.in</var> 文件，并将其保存在 <var>doc/ll_CC</var> 子目录中，以便配置脚本可以生成它。配置后，在 <var>doc</var> 子目录中运行“make install”以测试新主页。</p>
+
+    <h2 class="title" id="CATALOGS">消息目录</h2>
+    <p>&emsp;&emsp;CUPS 消息目录是 GNU gettext “.po”文本文件，为 CUPS 软件提供本地化消息字符串列表。消息目录名为 <var>cups_ll.po</var> 或 <var>cups_ll_CC.po</var>，其中“ll”是该语言的标准两个字母缩写，“CC”是该国家的标准两个字母缩写。</p>
+    <p>&emsp;&emsp;翻译新的消息目录时，请复制 CUPS 源代码的 <var>locale</var> 子目录中的 <var>cups.pot</var> 消息目录文件。例如，要开始将邮件目录翻译为加拿大法语，请键入以下命令：</p>
+    <pre class="command">cd locale<br>cp cups.pot cups_fr_CA.po</pre>
+    <p>&emsp;&emsp;或者，您可以复制现有的 <var>cups_fr.po</var> 消息目录，然后进行任何必要的更改。</p>
+    <p>&emsp;&emsp;制作文件副本后，请使用您喜爱的文本编辑器或翻译程序对其进行编辑，以将文本翻译为所需的语言。</p>
+    <p>&emsp;&emsp;然后使用 <var>locale/checkpo</var> 实用程序验证翻译：</p>
+    <pre class="command">cd locale<br>./checkpo cups_ll_CC.po</pre>
+    <p>&emsp;&emsp;修复翻译中的任何错误后，将您的区域设置添加到 <var>Makedefs</var> 文件中的 <code>LANGUAGES</code> 变量中，并在 <var>locale</var> 子目录中运行“make install”命令以测试翻译。<em>运行配置脚本时，此变量会自动更新。</em></p>
+
+    <h2 class="title" id="TEMPLATES">模板文件</h2>
+    <p>&emsp;&emsp;CUPS 调度程序提供了一个 Web 界面，可用于执行许多常见的打印和管理任务。内置 Web 服务器支持通过使用每个语言环境的子目录对网页进行本地化，例如法语为“fr”，德语为“de”，加拿大法语为“fr_ca”，等等。</p>
+    <p>&emsp;&emsp;模板文件是 HTML 文件，其中包含允许替换变量和数组的特殊格式字符。CUPS CGI程序（<code>admin.cgi</code>，<code>classes.cgi</code>，<code>help.cgi</code>，<code>jobs.cgi</code> 和 <code>printers.cgi</code>）使用这些模板文件为 Web 界面提供动态内容。默认情况下，模板文件安装在 <var>/usr/share/cups/templates</var> 目录中<a href="table1">表1</a>列出了各种模板文件及其用途。</p>
+    <p>&emsp;&emsp;模板文件的翻译版本应保存在 <var>templates/ll_CC</var> 子目录中。例如，加拿大法语模板文件应保存在 <var>templates/fr_CA</var> 子目录中。翻译完所有模板后，将区域设置添加到 <var>Makedefs</var> 文件中的 <code>LANGUAGES</code> 变量中，并在 <var>templates</var> 子目录中运行“make install”以测试翻译。</p>
+    <div class="table">
+    <table id="table1" summary="Web Interface Template Files">
+      <caption>表1：Web 界面模板文件</caption>
+      <thead>
+        <tr>
+          <th>文件名</th>
+          <th>目的</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>add-class.tmpl</td>
+          <td>这是显示的用于添加新打印机类的初始表单。</td>
+        </tr>
+        <tr>
+          <td>add-printer.tmpl</td>
+          <td>这是显示的用于添加新打印机的初始表单。</td>
+        </tr>
+        <tr>
+          <td>admin.tmpl</td>
+          <td>这是主管理页面。</td>
+        </tr>
+        <tr>
+          <td>choose-device.tmpl</td>
+          <td>这是显示可用设备列表的表单。</td>
+        </tr>
+        <tr>
+          <td>choose-make.tmpl</td>
+          <td>这是显示可用制造商列表的表格。</td>
+        </tr>
+        <tr>
+          <td>choose-model.tmpl</td>
+          <td>这是显示可用打印机型号/驱动程序列表的表单。</td>
+        </tr>
+        <tr>
+          <td>choose-serial.tmpl</td>
+          <td>此表单允许用户选择串行端口和任何选项。</td>
+        </tr>
+        <tr>
+          <td>choose-uri.tmpl</td>
+          <td>这是允许用户为网络打印机输入设备URI的表单。</td>
+        </tr>
+        <tr>
+          <td>class.tmpl</td>
+          <td>此模板显示有关单个类的信息。</td>
+        </tr>
+        <tr>
+          <td>class-added.tmpl</td>
+          <td>此模板显示“添加类”消息。</td>
+        </tr>
+        <tr>
+          <td>class-confirm.tmpl</td>
+          <td>这是用于确认删除类的模板。</td>
+        </tr>
+        <tr>
+          <td>class-deleted.tmpl</td>
+          <td>此模板显示“类已删除”消息。</td>
+        </tr>
+        <tr>
+          <td>class-jobs-header.tmpl</td>
+          <td>此模板显示类中任务的“任务”标题。</td>
+        </tr>
+        <tr>
+          <td>class-modified.tmpl</td>
+          <td>此模板显示“类已修改”消息。</td>
+        </tr>
+        <tr>
+          <td>classes.tmpl</td>
+          <td>此模板显示一个或多个打印机类。</td>
+        </tr>
+        <tr>
+          <td>classes-header.tmpl</td>
+          <td>此模板在类列表中显示“显示N个/M个类”标题。</td>
+        </tr>
+        <tr>
+          <td>command.tmpl</td>
+          <td>此模板显示命令任务的状态。</td>
+        </tr>
+        <tr>
+          <td>edit-config.tmpl</td>
+          <td>这是cupsd.conf编辑器页面。</td>
+        </tr>
+        <tr>
+          <td>error.tmpl</td>
+          <td>此模板显示一般错误消息。</td>
+        </tr>
+        <tr>
+          <td>error-op.tmpl</td>
+          <td>这是“未知操作”错误页。</td>
+        </tr>
+        <tr>
+          <td>header.tmpl(.in)</td>
+          <td>此模板用作所有动态内容的标准标题。编辑 <var>header.tmpl.in</var> 文件，并让配置脚本生成 <var>header.tmpl</var> 文件。</td>
+        </tr>
+        <tr>
+          <td>help-header.tmpl</td>
+          <td>这是帮助页面的顶部。</td>
+        </tr>
+        <tr>
+          <td>help-printable.tmpl</td>
+          <td>这是可打印版本的帮助文件的标准页眉。</td>
+        </tr>
+        <tr>
+          <td>help-trailer.tmpl</td>
+          <td>这是帮助页面的底部。</td>
+        </tr>
+        <tr>
+          <td>job-cancel.tmpl</td>
+          <td>此模板显示“任务已取消”。</td>
+        </tr>
+        <tr>
+          <td>job-hold.tmpl</td>
+          <td>此模板显示“任务已保留”。</td>
+        </tr>
+        <tr>
+          <td>job-move.tmpl</td>
+          <td>此模板显示移动任务表单。</td>
+        </tr>
+        <tr>
+          <td>job-moved.tmpl</td>
+          <td>此模板显示“任务已移动”。</td>
+        </tr>
+        <tr>
+          <td>job-release.tmpl</td>
+          <td>此模板显示“任务已继续”。</td>
+        </tr>
+        <tr>
+          <td>job-restart.tmpl</td>
+          <td>此模板显示“任务继续”。</td>
+        </tr>
+        <tr>
+          <td>jobs.tmpl</td>
+          <td>此模板用于列出服务器、类或打印机上的打印任务。</td>
+        </tr>
+        <tr>
+          <td>jobs-header.tmpl</td>
+          <td>此模板显示任务列表中的“显示N个或M个任务”标题。</td>
+        </tr>
+        <tr>
+          <td>list-available-printers.tmpl</td>
+          <td>此模板显示已找到的新打印机的列表。</td>
+        </tr>
+        <tr>
+          <td>modify-class.tmpl</td>
+          <td>修改类时，此模板用作第一个表单。</td>
+        </tr>
+        <tr>
+          <td>modify-printer.tmpl</td>
+          <td>修改打印机时，此模板用作第一个表单。</td>
+        </tr>
+        <tr>
+          <td>norestart.tmpl</td>
+          <td>此模板显示“服务器未重新启动，因为未对配置进行任何更改”。</td>
+        </tr>
+        <tr>
+          <td>option-boolean.tmpl</td>
+          <td>此模板用于选择布尔PPD选项。</td>
+        </tr>
+        <tr>
+          <td>option-conflict.tmpl</td>
+          <td>此模板显示冲突的选项。</td>
+        </tr>
+        <tr>
+          <td>option-header.tmpl</td>
+          <td>此模板用于启动PPD选项组。</td>
+        </tr>
+        <tr>
+          <td>option-pickmany.tmpl</td>
+          <td>此模板用于选择多值PPD选项。</td>
+        </tr>
+        <tr>
+          <td>option-pickone.tmpl</td>
+          <td>此模板用于选择单值PPD选项。</td>
+        </tr>
+        <tr>
+          <td>option-trailer.tmpl</td>
+          <td>此模板用于结束PPD选项组。</td>
+        </tr>
+        <tr>
+          <td>pager.tmpl</td>
+          <td>此模板显示上一页/下一页导航栏。</td>
+        </tr>
+        <tr>
+          <td>printer.tmpl</td>
+          <td>此模板显示有关单个打印机的信息。</td>
+        </tr>
+        <tr>
+          <td>printer-accept.tmpl</td>
+          <td>此模板显示“打印机正在接受任务”。</td>
+        </tr>
+        <tr>
+          <td>printer-added.tmpl</td>
+          <td>此模板显示“已添加打印机”。</td>
+        </tr>
+        <tr>
+          <td>printer-cancel-jobs.tmpl</td>
+          <td>此模板显示“打印机上的所有任务都已取消”</td>
+        </tr>
+        <tr>
+          <td>printer-configured.tmpl</td>
+          <td>此模板显示“已配置打印机”。</td>
+        </tr>
+        <tr>
+          <td>printer-confirm.tmpl</td>
+          <td>此模板要求用户确认删除打印机。</td>
+        </tr>
+        <tr>
+          <td>printer-default.tmpl</td>
+          <td>此模板显示“默认打印机设置”。</td>
+        </tr>
+        <tr>
+          <td>printer-deleted.tmpl</td>
+          <td>此模板显示“打印机已删除”。</td>
+        </tr>
+        <tr>
+          <td>printer-jobs-header.tmpl</td>
+          <td>此模板显示打印机上任务的“任务”标题。</td>
+        </tr>
+        <tr>
+          <td>printer-modified.tmpl</td>
+          <td>此模板显示“打印机已修改”。</td>
+        </tr>
+        <tr>
+          <td>printer-reject.tmpl</td>
+          <td>此模板显示“打印机正在拒绝任务”。</td>
+        </tr>
+        <tr>
+          <td>printer-start.tmpl</td>
+          <td>此模板显示“打印机已启动”。</td>
+        </tr>
+        <tr>
+          <td>printer-stop.tmpl</td>
+          <td>此模板显示“打印机已停止”。</td>
+        </tr>
+        <tr>
+          <td>printers.tmpl</td>
+          <td>此模板用于列出一台或多台打印机上的信息。</td>
+        </tr>
+        <tr>
+          <td>printers-header.tmpl</td>
+          <td>此模板显示打印机列表中的“显示打印机N/M”标题。</td>
+        </tr>
+        <tr>
+          <td>restart.tmpl</td>
+          <td>此模板显示“服务器重新启动”。</td>
+        </tr>
+        <tr>
+          <td>search.tmpl</td>
+          <td>此模板显示搜索表单。</td>
+        </tr>
+        <tr>
+          <td>set-printer-options-header.tmpl</td>
+          <td>此模板显示“设置打印机选项”窗体的第一部分。</td>
+        </tr>
+        <tr>
+          <td>set-printer-options-trailer.tmpl</td>
+          <td>此模板显示“设置打印机选项”窗体的最后一部分。</td>
+        </tr>
+        <tr>
+          <td>test-page.tmpl</td>
+          <td>此模板显示“打印测试页”。</td>
+        </tr>
+        <tr>
+          <td>trailer.tmpl</td>
+          <td>此模板用作所有动态内容的标准预告片。</td>
+        </tr>
+        <tr>
+          <td>users.tmpl</td>
+          <td>此模板显示“设置允许的用户”窗体。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 id="VARIABLE">插入属性和值</h4>
+    <p>&emsp;&emsp;模板文件由 HTML 组成，在大括号“{name}”内用变量替换命名。变量名通常是 IPP 属性名，其中连字符（“-”）替换为下划线（“_”）字符。例如，<tt>job-printer-uri</tt> 属性被重命名为 <tt>job_printer_uri</tt> 。</p>
+    <p>&emsp;&emsp;大括号（“{”和“}”）表示替换，反斜杠（“\”）字符表示引用。要按原样插入这些特殊字符，需要使用 HTML <code>&amp;name;</code>机制或在每个特殊字符前面加反斜杠（“\”）。</p>
+    <p>&emsp;&emsp;在模板文件中使用 <code>{NAME}</code> 替换变量的值。如果变量未定义，则 <code>{NAME}</code> 字符串按原样输出。</p>
+    <p>&emsp;&emsp;若要在变量未定义时替换空字符串，请改用 <code>{?NAME}</code>。</p>
+
+    <h4>数组替换</h4>
+    <p>&emsp;&emsp;可以使用 <code>{#NAME}</code> 插入数组元素的数量。如果数组未定义，则输出 0 。当前数组元素（从1开始）以 <code>{#}</code> 形式插入。</p>
+    <p>&emsp;&emsp;数组在节的开头使用 <code>{[NAME]</code> 标记，在结尾使用 <code>}</code> 标记。右括号（“]”）和右大括号（“}”）之间的信息对于命名数组中的元素重复。例如，以下模板将显示 <code>job_id</code> 数组中每个任务的列表：</p>
+    <pre class="command">
+&lt;TABLE&gt;
+&lt;TR&gt;
+	&lt;TH&gt;Job ID&lt;/TH&gt;
+	&lt;TH&gt;Destination&lt;/TH&gt;
+	&lt;TH&gt;Title&lt;/TH&gt;
+&lt;/TR&gt;
+
+{[job_id]
+&lt;TR&gt;
+	&lt;TD&gt;{?job_id}&lt;/TD&gt;
+	&lt;TD&gt;{?job_printer_name}&lt;/TD&gt;
+	&lt;TD&gt;{?job_name}&lt;/TD&gt;
+&lt;/TR&gt;
+}
+&lt;/TABLE&gt;</pre>
+    <p>&emsp;&emsp;数组可以嵌套，但是大括号（“{”和“}”）中的所有元素都使用最里面的数组进行索引。</p>
+
+    <h4>条件测试</h4>
+    <p>&emsp;&emsp;模板还可以根据特定值测试变量，并有条件地在模板中包含文本。格式为：</p>
+    <pre class="command">
+{<i>变量</i>?<i>true</i>:<i>false</i>}
+{<i>变量</i>=<i>值</i>?<i>true</i>:<i>false</i>}
+{<i>变量</i>!<i>值</i>?<i>true</i>:<i>false</i>}
+{<i>变量</i>&lt;<i>值</i>?<i>true</i>:<i>false</i>}
+{<i>变量</i>><i>值</i>?<i>true</i>:<i>false</i>}</pre>
+    <p>&emsp;&emsp;其中，<var>true</var> 是条件为真时包含的文本，<var>false</var> 是条件为假时包含的文本。值 <code>#</code> 替换为当前元素编号（从1开始）。变量名称后的字符指定要测试的条件。<a href="#table2">表2</a>显示了可用的测试条件。</p>
+    <div class="table">
+    <table id="table2" summary="Template Substitution Conditions">
+      <caption>表2：模板替换条件</caption>
+      <thead>
+        <tr>
+          <th>运算符</th>
+          <th>条件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>?</td>
+          <td>如果 <var>变量</var> 存在，则为真。</td>
+        </tr>
+        <tr>
+          <td>=</td>
+          <td>如果 <var>变量</var> 等于 <var>值</var>，则为真。</td>
+        </tr>
+        <tr>
+          <td>!</td>
+          <td>如果 <var>变量</var> 不等于 <var>值</var>，则为真。</td>
+        </tr>
+        <tr>
+          <td>&lt;</td>
+          <td>如果 <var>变量</var> 小于 <var>值</var>，则为真。</td>
+        </tr>
+        <tr>
+          <td>></td>
+          <td>如果 <var>变量</var> 大于 <var>值</var>，则为真。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 id="LOCTMPL">模板文件中要本地化的内容</h4>
+    <p>&emsp;&emsp;由于 HTML 同时包含标记（通常未本地化）和文本（本地化的），因此应小心避免更改标记，除非它包含人类可读的文本。以下 HTML 示例演示如何正确本地化模板文件：</p>
+    <p class="command">
+&lt;!-- 英文表格 --&gt;<br>
+&lt;table class="list" summary="Printer List"><br>
+<br>
+&lt;!-- 正确地本地化为汉语；类属性未更改，但摘要已本地化 --><br>
+&lt;table class="list" summary="打印机列表"><br>
+<br>
+<br>
+&lt;!-- 英文超链接 --><br>
+&lt;li>&lt;a {SECTION=help?class="active" :}href="/help/">Help&lt;/a>&lt;/li><br>
+<br>
+&lt;!-- 正确地本地化为汉语；链接文本本地化时，href属性保持不变 --><br>
+&lt;li>&lt;a {SECTION=help?class="active" :}href="/help/">帮助&lt;/a>&lt;/li><br>
+</p>
+
+    <h3 id="CGI">CGI 程序</h3>
+    <p>&emsp;&emsp;CUPS 使用五个 CGI 程序来管理动态 Web 界面：</p>
+    <ul>
+      <li><code>admin.cgi</code></li>
+      <li><code>classes.cgi</code></li>
+      <li><code>help.cgi</code></li>
+      <li><code>jobs.cgi</code></li>
+      <li><code>printers.cgi</code></li>
+    </ul>
+    <p>&emsp;&emsp;每个 CGI 程序都接受标准格式变量，例如要执行的操作的 <code>OP</code>、要操作的打印机或类名的 <code>PRINTER_NAME</code>、要显示的任何搜索词的 <code>QUERY</code>、要显示的第一个类、任务或打印机的 <code>FIRST</code>、以及控制类、任务或显示打印机顺序的 <code>ORDER</code>。</p>
+    <p>&emsp;&emsp;此外，<code>classes.cgi</code> 、 <code>jobs.cgi</code> 和 <code>printers.cgi</code> 程序支持一个 <code>WHICH_JOBS</code> 变量来控制显示哪些任务。<a href="#table3">表3</a>列出了支持的值。</p>
+    <div class="table">
+    <table id="table3" summary="WHICH_JOBS Values">
+      <caption>表3：WHICH_JOBS 值</caption>
+      <thead>
+        <tr>
+          <th>WHICH_JOBS 值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>all</td>
+          <td>显示所有任务</td>
+        </tr>
+        <tr>
+          <td>completed</td>
+          <td>显示已完成的任务</td>
+        </tr>
+        <tr>
+          <td>not-completed</td>
+          <td>显示活动中的任务</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 id="admin.cgi">admin.cgi</h4>
+    <p>&emsp;&emsp;<code>admin.cgi</code> 程序处理所有的打印机和类管理功能，并运行所有对 <var>/admin</var> 资源的直接访问。对于大多数操作，它使用 <code>PRINTER_NAME</code> 和 <code>OP</code> 表单变量来指定请求的操作。<a href="#table4">表4</a>显示了支持的 <code>OP</code> 值。</p>
+    <div class="table">
+    <table id="table4" summary="admin.cgi OP Values">
+      <caption>表4：admin.cgi OP 值</caption>
+      <thead>
+        <tr>
+          <th>OP 值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>add-class</td>
+          <td>添加一个新的打印机类。</td>
+        </tr>
+        <tr>
+          <td>add-printer</td>
+          <td>添加新打印机。</td>
+        </tr>
+        <tr>
+          <td>config-server</td>
+          <td>配置服务器。</td>
+        </tr>
+        <tr>
+          <td>delete-class</td>
+          <td>删除打印机类。表单变量 <code>CONFIRM</code> 可以设置为任何值以绕过确认页面。</td>
+        </tr>
+        <tr>
+          <td>delete-printer</td>
+          <td>删除打印机。表单变量 <code>CONFIRM</code> 可以设置为任何值以绕过确认页面。</td>
+        </tr>
+        <tr>
+          <td>find-new-printers</td>
+          <td>查找尚未添加的新打印机。</td>
+        </tr>
+        <tr>
+          <td>modify-class</td>
+          <td>修改打印机类。</td>
+        </tr>
+        <tr>
+          <td>modify-printer</td>
+          <td>修改打印机。</td>
+        </tr>
+        <tr>
+          <td>redirect</td>
+          <td>将 Web 浏览器重定向到 URL 表单变量引用的位置。</td>
+        </tr>
+        <tr>
+          <td>set-allowed-users</td>
+          <td>设置目标允许的用户。</td>
+        </tr>
+        <tr>
+          <td>set-as-default</td>
+          <td>设置默认目标。</td>
+        </tr>
+        <tr>
+          <td>set-printer-options</td>
+          <td>设置打印机的默认选项。</td>
+        </tr>
+        <tr>
+          <td>set-sharing</td>
+          <td>设置目标的“打印机是共享的”属性。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 id="classes.cgi">classes.cgi</h4>
+    <p>&emsp;&emsp;<code>classes.cgi</code> 程序负责列出类信息，包括指定给该类的任务。它适用于对 <var>/classes</var> 资源的所有直接访问，并支持可选的表单变量 <code>OP</code> 和 <code>WHICH_JOBS</code> 。如果没有提供表单变量，那么 CGI 将列出所有或特定类以及每个类上的活动任务。<a href="#table5">表5</a>显示了支持的 <code>OP</code> 值。</p>
+    <div class="table">
+    <table id="table5" summary="classes.cgi OP Values">
+      <caption>表5：classes.cgi OP 值</caption>
+      <thead>
+        <tr>
+          <th>OP 值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>accept-jobs</td>
+          <td>开始为班级接受工作。</td>
+        </tr>
+        <tr>
+          <td>cancel-jobs</td>
+          <td>取消一个类的所有任务。</td>
+        </tr>
+        <tr>
+          <td>move-jobs</td>
+          <td>将所有任务移动到其他目标。</td>
+        </tr>
+        <tr>
+          <td>print-test-page</td>
+          <td>打印PostScript测试页。</td>
+        </tr>
+        <tr>
+          <td>reject-jobs</td>
+          <td>不要再为班级接受工作了。</td>
+        </tr>
+        <tr>
+          <td>start-class</td>
+          <td>开始处理类的任务。</td>
+        </tr>
+        <tr>
+          <td>stop-class</td>
+          <td>停止处理类的任务。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 id="help.cgi">help.cgi</h4>
+    <p>&emsp;&emsp;<code>help.cgi</code> 程序处理所有联机帮助功能，并为所有对 <var>/help</var> 资源的直接访问而运行。</p>
+
+    <h4 id="jobs.cgi">jobs.cgi</h4>
+    <p>&emsp;&emsp;<code>jobs.cgi</code> 程序处理所有的任务功能，并为所有对 <var>/jobs</var> 资源的直接访问而运行。对于大多数操作，它使用<code>JOB_ID</code> 、 <code>OP</code> 和 <code>WHICH_JOBS</code> 表单变量来指定请求的操作。<a href="#table6">表6</a>显示了支持的 <code>OP</code> 值。</p>
+    <div class="table">
+    <table id="table6" summary="jobs.cgi OP Values">
+      <caption>表6：jobs.cgi OP 值</caption>
+      <thead>
+        <tr>
+          <th>OP 值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>cancel-job</td>
+          <td>取消任务。</td>
+        </tr>
+        <tr>
+          <td>hold-job</td>
+          <td>无限期地保留任务。</td>
+        </tr>
+        <tr>
+          <td>move-job</td>
+          <td>将任务移动到另一个目标。</td>
+        </tr>
+        <tr>
+          <td>release-job</td>
+          <td>恢复任务以进行打印。</td>
+        </tr>
+        <tr>
+          <td>restart-job</td>
+          <td>重启/重新打印停止、取消、完成或中止的打印任务。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 id="printers.cgi">printers.cgi</h4>
+    <p>&emsp;&emsp;<code>printers.cgi</code> 程序负责列出打印机信息，包括指定给该打印机的任务。它适用于对 <var>/printers</var> 资源的所有直接访问，并支持可选的表单变量 <code>OP</code> 和 <code>WHICH_JOBS</code> 。如果未提供任何表单变量，则 CGI 将列出所有打印机或特定打印机以及该打印机上的活动任务。<a href="#table7">表7</a>显示了支持的 <code>OP</code> 值。</p>
+    <div class="table">
+    <table id="table7" summary="printers.cgi OP Values">
+      <caption>表7：printers.cgi OP 值</caption>
+      <thead>
+        <tr>
+          <th>OP 值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>accept-jobs</td>
+          <td>开始接受打印任务。</td>
+        </tr>
+        <tr>
+          <td>cancel-jobs</td>
+          <td>取消打印机的所有任务。</td>
+        </tr>
+        <tr>
+          <td>clean-print-heads</td>
+          <td>清洁打印头。</td>
+        </tr>
+        <tr>
+          <td>move-jobs</td>
+          <td>将所有任务移动到其他目标。</td>
+        </tr>
+        <tr>
+          <td>print-self-test-page</td>
+          <td>打印打印机自检页。</td>
+        </tr>
+        <tr>
+          <td>print-test-page</td>
+          <td>打印 PostScript 测试页。</td>
+        </tr>
+        <tr>
+          <td>reject-jobs</td>
+          <td>停止接受打印任务。</td>
+        </tr>
+        <tr>
+          <td>start-printer</td>
+          <td>开始处理打印任务。</td>
+        </tr>
+        <tr>
+          <td>stop-printer</td>
+          <td>停止处理打印任务。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </body>
+</html>

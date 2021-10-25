@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>ipptool(1)</title>
+  </head>
+  <body>
+    <h1 class="title">ipptool(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;ipptool - 执行 Internet 打印协议请求
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>ipptool</b> [<b>--help</b>] [<b>--ippserver</b> <i>filename</i>] [<b>--stop-after-include-error</b>] [<b>--version</b>] [<b>-4</b>] [<b>-6</b>] [<b>-C</b>] [<b>-E</b>] [<b>-I</b>] [<b>-L</b>] [<b>-P</b> <i>filename.plist</i>] [<b>-S</b>] [<b>-T</b> <i>seconds</i>] [<b>-V</b> <i>version</i>] [<b>-X</b>] [<b>-c</b>] [<b>-d</b> <i>name=value</i>] [<b>-f</b> <i>filename</i>] [<b>-h</b>] [<b>-i</b> <i>seconds</i>] [<b>-n</b> <i>repeat-count</i>] [<b>-q</b>] [<b>-t</b>] [<b>-v</b><b>]</b> <i>printer-uri</i> <i>testfile</i> [ ... <i>testfile</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>ipptool</b> 将 IPP 请求发送到指定的 <i>printer-uri</i> ，并测试和/或显示结果。每个命名的 <i>testfile</i> 定义一个或多个请求，包括预期的响应状态、属性和值。输出是标准输出上的纯文本、格式化文本、 CSV 或 XML 报告，非零退出状态表示一个或多个测试失败。 <i>testfile</i> 格式在 <b>ipptoolfile</b>(5) 中描述。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;以下选项由 <b>ipptool</b> 识别：
+    <dl class="man">
+      <dt><b>--help</b>
+      <dd style="margin-left: 5.0em">显示程序帮助。
+      <dt><b>--ippserver </b><i>filename</i>
+      <dd style="margin-left: 5.0em">指定应将测试结果写入命名的 <b>ippserver</b> 属性文件。
+      <dt><b>--stop-after-include-error</b>
+      <dd style="margin-left: 5.0em">如果包含的文件中出现错误，则通知 <b>ipptool</b> 停止。通常情况下，<b>ipptool</b> 将在 INCLUDE 指令后继续进行后续测试。
+      <dt><b>--version</b>
+      <dd style="margin-left: 5.0em">显示正在使用的 <b>ipptool</b> 的版本。
+      <dt><b>-4</b>
+      <dd style="margin-left: 5.0em">指定 <b>ipptool</b> 必须使用 IPv4 连接到打印机或服务器。
+      <dt><b>-6</b>
+      <dd style="margin-left: 5.0em">指定 <b>ipptool</b> 必须使用 IPv6 连接到打印机或服务器。
+      <dt><b>-C</b>
+      <dd style="margin-left: 5.0em">指定应使用 HTTP/1.1 “Transfer-Encoding: chunked” 头发送请求，这是所有 IPP 版本一致性所必需的。默认情况下，对于带有附加文件的请求使用 “Transfer-Encoding: chunked” ，对于没有附加文件的请求使用 “Content-Length:” 。
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">使用 HTTP “Upgrade” 头连接到服务器时强制 TLS 加密。
+      <dt><b>-I</b>
+      <dd style="margin-left: 5.0em">指定 <b>ipptool</b> 将继续执行过去的错误。
+      <dt><b>-L</b>
+      <dd style="margin-left: 5.0em">指定应使用 HTTP/1.0 “Content-Length:” 标头发送请求，这是所有 IPP 版本一致性所必需的。默认情况下，对于带有附加文件的请求使用 “Transfer-Encoding: chunked” ，对于没有附加文件的请求使用 “Content-Length:” 。
+      <dt><b>-P</b><i> filename.plist</i>
+      <dd style="margin-left: 5.0em">指定除了常规测试报告（ <b>-t</b> ）之外，还应将测试结果写入命名的 XML（ Apple plist ）文件。此选项与 <b>-i</b>（ interval －间隔）和 <b>-n</b>（ repeat-count －重复计数）选项不兼容。
+      <dt><b>-S</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制（ dedicated －专用）TLS 加密。
+      <dt><b>-T</b><i> seconds</i>
+      <dd style="margin-left: 5.0em">指定 IPP 请求的超时时间（秒）。
+      <dt><b>-V</b><i> version</i>
+      <dd style="margin-left: 5.0em">指定要使用的默认 IPP 版本： 1.0 、 1.1 、 2.0 、 2.1 或 2.2 。如果未指定，则使用版本 1.1 。
+      <dt><b>-X</b>
+      <dd style="margin-left: 5.0em">指定需要 XML（ Apple plist ）输出而不是纯文本报告。此选项与 <b>-i</b>（ interval －间隔）和 <b>-n</b>（ repeat-count －重复计数）选项不兼容。
+      <dt><b>-c</b>
+      <dd style="margin-left: 5.0em">指定需要 CSV（逗号分隔值）输出，而不是纯文本输出。
+      <dt><b>-d</b><i> name=value</i>
+      <dd style="margin-left: 5.0em">定义命名变量。
+      <dt><b>-f</b><i> filename</i>
+      <dd style="margin-left: 5.0em">定义测试的默认请求文件名。
+      <dt><b>-h</b>
+      <dd style="margin-left: 5.0em">验证 HTTP 响应头。
+      <dt><b>-i</b><i> seconds</i>
+      <dd style="margin-left: 5.0em">指定（最后一个） <i>testfile</i> 应以指定的间隔重复。此选项与 <b>-X</b>（ XML plist 输出）选项不兼容。
+      <dt><b>-l</b>
+      <dd style="margin-left: 5.0em">指定需要纯文本输出。
+      <dt><b>-n</b><i> repeat-count</i>
+      <dd style="margin-left: 5.0em">指定（最后一个） <i>testfile</i> 应重复指定的次数。此选项与 <i>-X</i>（ XML plist输出 ）选项不兼容。
+      <dt><b>-q</b>
+      <dd style="margin-left: 5.0em">保持安静，不产生任何输出。
+      <dt><b>-t</b>
+      <dd style="margin-left: 5.0em">指定需要 CUPS 测试报告输出而不是纯文本输出。
+      <dt><b>-v</b>
+      <dd style="margin-left: 5.0em">指定所有请求和响应属性都应在 CUPS 测试模式下输出（ <b>-t</b> ）。这是 XML 输出的默认值。
+    </dd>
+
+    <h2 class="title"><a name="EXIT_STATUS">退出状态</a></h2>
+    <p>&emsp;&emsp;如果所有测试都成功，<b>ipptool</b> 程序返回 0 ，否则返回 1 。
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <p>&emsp;&emsp;以下标准文件可用：
+
+    <pre class="man">
+<i>color.jpg</i>
+<i>create-printer-subscription.test</i>
+<i>document-a4.pdf</i>
+<i>document-a4.ps</i>
+<i>document-letter.pdf</i>
+<i>document-letter.ps</i>
+<i>get-completed-jobs.test</i>
+<i>get-jobs.test</i>
+<i>get-notifications.test</i>
+<i>get-printer-attributes.test</i>
+<i>get-subscriptions.test</i>
+<i>gray.jpg</i>
+<i>ipp-1.1.test</i>
+<i>ipp-2.0.test</i>
+<i>ipp-2.1.test</i>
+<i>ipp-2.2.test</i>
+<i>ipp-everywhere.test</i>
+<i>onepage-a4.pdf</i>
+<i>onepage-a4.ps</i>
+<i>onepage-letter.pdf</i>
+<i>onepage-letter.ps</i>
+<i>print-job.test</i>
+<i>print-job-deflate.test</i>
+<i>print-job-gzip.test</i>
+<i>testfile.jpg</i>
+<i>testfile.pcl</i>
+<i>testfile.pdf</i>
+<i>testfile.ps</i>
+<i>testfile.txt</i>
+<i>validate-job.test</i>
+</pre>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<b>ipptool</b> 程序是 CUPS 独有的，并符合 2.2 版之前的互联网打印协议。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;获取 “myprinter” 已完成任务的列表：
+    <pre class="man">ipptool ipp://localhost/printers/myprinter get-completed-jobs.test</pre>
+    <p>&emsp;&emsp;当 “myprinter” 更改时将发送邮件通知到 “user@example.com” ：
+    <pre class="man">ipptool -d recipient=mailto:user@example.com \
+        ipp://localhost/printers/myprinter create-printer-subscription.test</pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>ipptoolfile</b>(5)
+    <p>&emsp;&emsp;IANA IPP 注册中心（ <a href="http://www.iana.org/assignments/ipp\-registrations">http://www.iana.org/assignments/ipp\-registrations</a> ）
+    <p>&emsp;&emsp;PWG 因特网打印协议任务组（ <a href="http://www.pwg.org/ipp">http://www.pwg.org/ipp</a> ）
+    <p>&emsp;&emsp;RFC 8011 （ <a href="http://tools.ietf.org/html/rfc8011">http://tools.ietf.org/html/rfc8011</a> ）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

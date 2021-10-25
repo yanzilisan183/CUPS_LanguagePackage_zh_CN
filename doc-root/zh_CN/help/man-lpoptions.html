@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpoptions(1)</title>
+  </head>
+  <body>
+    <h1 class="title">lpoptions(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpoptions - 显示或设置打印机选项和默认值
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpoptions</b> [<b>-E</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] <b>-d</b> <i>destination</i>[<b>/</b><i>instance</i>] [<b>-l</b>]<br>
+       &emsp;&emsp;<b>lpoptions</b> [<b>-E</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] [<b>-p</b> <i>destination</i>[<b>/</b><i>instance</i>]] <b>-o</b> <i>option</i>[<b>=</b><i>value</i>] ...<br>
+       &emsp;&emsp;<b>lpoptions</b> [<b>-E</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] [<b>-p</b> <i>destination</i>[<b>/</b><i>instance</i>]] <b>-r</b> <i>option</i><br>
+       &emsp;&emsp;<b>lpoptions</b> [<b>-E</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] <b>-x</b> <i>destination</i>[<b>/</b><i>instance</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpoptions</b> 显示或设置打印机选项和默认值。如果未使用 <i>-p</i> 选项指定打印机，则使用默认打印机，如 <b>lp</b>(1) 中所述。
+    <p>&emsp;&emsp;如果未指定 <i>-l</i> 、 <i>-o</i> 或 <i>-r</i> 选项，则在标准输出上报告当前选项。
+    <p>&emsp;&emsp;提交任务时，<b>lpoptions</b> 命令设置的选项由 <b>lp</b>(1) 和 <b>lpr</b>(1) 命令使用。
+    <p>&emsp;&emsp;由 root 用户运行时，<b>lpoptions</b> 获取并设置 <i>/etc/cups/lpoptions</i> 文件中所有用户的默认选项和实例。否则，将在 <i>~/.cups/lpoptions</i> 文件中管理每个用户的默认值。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>lpoptions</b> 支持以下选项：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">与 CUPS 服务器通信时启用加密。
+      <dt><b>-d </b><i>destination</i>[<b>/</b><i>instance</i>]
+      <dd style="margin-left: 5.0em">将用户默认打印机设置为 <i>destination</i> 。如果提供了 <i>instance</i> ，则使用该特定实例。此选项覆盖当前用户的系统默认打印机。
+      <dt><b>-h </b><i>server</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">使用备用服务器。
+      <dt><b>-l</b>
+      <dd style="margin-left: 5.0em">列出打印机特定选项及其当前设置。
+      <dt><b>-o </b><i>option</i>[<b>=</b><i>value</i>]
+      <dd style="margin-left: 5.0em">为指定的目标指定一个新选项。
+      <dt><b>-p </b><i>destination</i>[<b>/</b><i>instance</i>]
+      <dd style="margin-left: 5.0em">为后面的任何选项设置目标和实例（如果指定）。如果命名实例不存在，则创建该实例。只能使用 <b>lpadmin</b>(8) 程序创建目标。
+      <dt><b>-r </b><i>option</i>
+      <dd style="margin-left: 5.0em">从指定的目标中删除指定的选项。
+      <dt><b>-x </b><i>destination</i>[<b>/</b><i>instance</i>]
+      <dd style="margin-left: 5.0em">删除指定目标和实例的选项（如果指定）。如果命名实例不存在，则此操作不起任何作用。只能使用 <b>lpadmin</b>(8) 命令删除目标。
+    </dd>
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <p>&emsp;&emsp;<i>~/.cups/lpoptions</i> - user defaults and instances created by non-root users.
+    <p>&emsp;&emsp;<i>/etc/cups/lpoptions</i> - system-wide defaults and instances created by the root user.
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<b>lpoptions</b> 命令是 CUPS 独有的。
+    
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>lp</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpr</b>(1) 、 <b>lprm</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

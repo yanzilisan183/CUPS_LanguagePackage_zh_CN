@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 快速入门 -->
+  <head>
+    <title>打印配额</title>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+    <h1 CLASS="title">打印配额</h1>
+    <p>&emsp;&emsp;CUPS 支持多种打印机记帐方案。除了内置的<a href="#QUOTAS">配额</a>和<a href="#PAGELOG">页面记录</a>支持之外，还有一些第三方解决方案可以在线找到。</p>
+
+
+    <h2 CLASS="title"><a name="QUOTAS">配额支持</a></h2>
+    <p>&emsp;&emsp;CUPS 支持每台打印机基于页面和大小的配额。对每个用户单独跟踪配额，但对特定打印机的所有用户应用一组限制。例如，您可以在一台昂贵的打印机上限制每个用户每天 5 页，但不能限制除 Johnny 之外的所有用户。</p>
+    <p>&emsp;&emsp;<code>job-k-limit</code> 、 <code>job-page-limit</code> 和 <code>job-quota-period</code> 选项确定是否以及如何对打印机强制执行配额。<code>job-quota-period</code> 选项确定配额跟踪的时间间隔。间隔以秒表示，因此一天是 86400 秒，一周是 604800 秒，一个月是 2592000 秒。<code>job-k-limit</code> 选项以千字节为单位指定任务大小限制。<code>job-page-limit</code> 选项指定页数限制。</p>
+
+    <p>&emsp;&emsp;对于要强制执行的配额，周期和至少一个限制必须设置为非零值。以下选项将启用具有给定大小和页数限制的每周配额：</p>
+    <pre class="command">
+<kbd>/usr/sbin/lpadmin -p <i>printer</i> -o job-quota-period=604800 \
+    -o job-k-limit=1024 ENTER</kbd>
+<kbd>/usr/sbin/lpadmin -p <i>printer</i> -o job-quota-period=604800 \
+    -o job-page-limit=100 ENTER</kbd></pre>
+    <p>&emsp;&emsp;或者，您可以在同一行上组合所有三个选项。</p>
+    <p>&emsp;&emsp;虽然无法查询特定用户的当前配额状态，但任何应用程序都可以请求用户和打印机的任务列表，以便轻松确定该信息。</p>
+
+
+    <h2 CLASS="title"><a name="PAGELOG">页面记录</a></h2>
+    <p>&emsp;&emsp;CUPS 可以将系统上打印的每一页记录到<var><a href="man-cupsd-logs.html">日志文件</a>中。必须通过启用 <var><a href="man-cupsd.conf.html">cupsd.conf</a></var> 文件中的 <code>PageLogFormat</code> 指令来启用页面日志记录，并且仅适用于提供页面记帐信息的驱动程序，通常是所有 PostScript 和 CUPS 光栅设备。原始队列和使用第三方解决方案（如 Foomatic ）的队列通常没有有用的页面记帐信息。</p>
+</body>
+</html>

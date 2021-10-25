@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>ipptoolfile(5)</title>
+  </head>
+  <body>
+    <h1 class="title">ipptoolfile(5)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;ipptoolfile - IPP 工具文件格式
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>ipptool</b>(1) 程序接受描述一个或多个 IPP 请求的自由格式纯文本文件。注释以 “#” 字符开头，并继续到行尾。每个请求都用大括号括起来，例如：
+    <pre class="man">
+    # This is a comment
+    {
+      # The name of the test
+      NAME "Print PDF File"
+
+      # The request to send
+      OPERATION Print-Job
+
+      GROUP operation-attributes-tag
+      ATTR charset attributes-charset utf-8
+      ATTR language attributes-natural-language en
+      ATTR uri printer-uri $uri
+      ATTR name requesting-user-name $user
+      ATTR mimeMediaType document-format application/pdf
+
+      GROUP job-attributes-tag
+      ATTR collection media-col {
+        # US Letter plain paper from the "main" tray
+        MEMBER collection media-size {
+          MEMBER integer x-dimension 21590
+          MEMBER integer y-dimension 27940
+        }
+        MEMBER integer media-top-margin 423
+        MEMBER integer media-bottom-margin 423
+        MEMBER integer media-left-margin 423
+        MEMBER integer media-right-margin 423
+        MEMBER keyword media-source "main"
+        MEMBER keyword media-type "stationery"
+      }
+
+      FILE testfile.pdf
+
+      # The response to expect
+      STATUS successful-ok
+      EXPECT job-id OF-TYPE integer WITH-VALUE >0
+      EXPECT job-uri OF-TYPE uri
+    }
+    {
+      # The name of the test
+      NAME "Wait for Job to Complete"
+
+      # The request to send
+      OPERATION Get-Job-Attributes
+
+      GROUP operation-attributes-tag
+      ATTR charset attributes-charset utf-8
+      ATTR language attributes-natural-language en
+      ATTR uri printer-uri $uri
+      ATTR integer job-id $job-id
+      ATTR name requesting-user-name $user
+
+      # The response to expect
+      STATUS successful-ok
+      EXPECT job-id OF-TYPE integer WITH-VALUE $job-id
+      EXPECT job-uri OF-TYPE uri
+      EXPECT job-state OF-TYPE enum WITH-VALUE >5 REPEAT-NO-MATCH
+      EXPECT job-originating-user-name OF-TYPE name WITH-VALUE "$user"
+
+      # Show the job state until completed...
+      DISPLAY job-state
+      DISPLAY job-state-reasons
+    }</pre>
+    <h3><a name="TOP_LEVEL_DIRECTIVES">顶级指令</a></h3>
+    <p>&emsp;&emsp;以下指令可在 <i>test</i> 之外使用：
+    <dl class="man">
+      <dt><b>{ </b><i>test </i><b>}</b>
+      <dd style="margin-left: 5.0em">定义一个测试。
+      <dt><b>DEFINE </b><i>variable-name value</i>
+      <dd style="margin-left: 5.0em">将命名变量定义为给定值。这相当于在 <b>ipptool</b>(8) 命令行上指定 <i>-d variable-name=value</i> 。
+      <dt><b>DEFINE-DEFAULT </b><i>variable-name value</i>
+      <dd style="margin-left: 5.0em">如果命名变量尚未具有值，则将其定义为给定值。
+      <dt><b>FILE-ID "</b><i>identifier</i><b>"</b>
+      <dd style="margin-left: 5.0em">指定当前文件的标识符字符串。
+      <dt><b>IGNORE-ERRORS yes</b>
+      <dt><b>IGNORE-ERRORS no</b>
+      <dd style="margin-left: 5.0em">指定默认情况下，<b>ipptool</b>(8) 是否忽略错误并继续后续测试。
+      <dt><b>INCLUDE "</b><i>filename</i><b>"</b>
+      <dt><b>INCLUDE &lt;</b><i>filename</i><b>></b>
+      <dd style="margin-left: 5.0em">包括另一个测试文件。第一种形式包括一个相对于当前测试文件的文件，而第二种形式包括一个来自 <b>ipptool</b>(8) include 目录的文件。
+      <dt><b>INCLUDE-IF-DEFINED </b><i>name </i><b>"</b><i>filename</i><b>"</b>
+      <dt><b>INCLUDE-IF-DEFINED </b><i>name </i><b>&lt;</b><i>filename</i><b>></b>
+      <dd style="margin-left: 5.0em">如果定义了命名变量，则包含另一个测试文件。第一种形式包括一个相对于当前测试文件的文件，而第二种形式包括一个来自 <b>ipptool</b>(8) include 目录的文件。
+      <dt><b>INCLUDE-IF-NOT-DEFINED </b><i>name </i><b>"</b><i>filename</i><b>"</b>
+      <dt><b>INCLUDE-IF-NOT-DEFINED </b><i>name </i><b>&lt;</b><i>filename</i><b>></b>
+      <dd style="margin-left: 5.0em">如果未定义命名变量，则包含另一个测试文件。第一种形式包括一个相对于当前测试文件的文件，而第二种形式包括一个来自 <b>ipptool</b>(8) include 目录的文件。
+      <dt><b>SKIP-IF-DEFINED </b><i>variable-name</i>
+      <dt><b>SKIP-IF-NOT-DEFINED </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">指定在定义或未定义变量时应跳过测试文件的其余部分。
+      <dt><b>STOP-AFTER-INCLUDE-ERROR no</b>
+      <dt><b>STOP-AFTER-INCLUDE-ERROR yes</b>
+      <dd style="margin-left: 5.0em">指定在包含的文件中出现错误后是否停止测试。
+      <dt><b>TRANSFER auto</b>
+      <dd style="margin-left: 5.0em">指定默认情况下，测试将对带有附加文件的请求使用 “Transfer-Encoding: chunked” ，对没有附加文件的请求使用 “Content-Length:” 。
+      <dt><b>TRANSFER chunked</b>
+      <dd style="margin-left: 5.0em">指定默认情况下，测试将使用 HTTP/1.1 “Transfer-Encoding: chunked” 标头。这是默认值，相当于在 <b>ipptool</b>(8) 命令行上指定 <i>-c</i> 。为了与 IPP 的所有版本保持一致，需要支持分块请求。
+      <dt><b>TRANSFER length</b>
+      <dd style="margin-left: 5.0em">指定默认情况下，测试将使用 HTTP/1.0 “Content-Length:” 标头。这相当于在 <b>ipptool</b>(8) 命令行上指定 <i>-l</i> 。为了符合 IPP 的所有版本，需要支持内容长度请求。
+      <dt><b>VERSION 1.0</b>
+      <dt><b>VERSION 1.1</b>
+      <dt><b>VERSION 2.0</b>
+      <dt><b>VERSION 2.1</b>
+      <dt><b>VERSION 2.2</b>
+      <dd style="margin-left: 5.0em">指定用于后续测试的默认 IPP 版本号。
+    </dd>
+    <h3><a name="TEST_DIRECTIVES">测试指令</a></h3>
+    <p>&emsp;&emsp;<i>test</i> 可以理解下面的指令：
+    <dl class="man">
+      <dt><b>ATTR </b><i>out-of-band-tag attribute-name</i>
+      <dt><b>ATTR </b><i>tag attribute-name value(s)</i>
+      <dd style="margin-left: 5.0em">向测试请求添加属性。带外标记（ admin-define 、 delete-attribute 、 no-value 、 not-settable 、 unknown 、 unsupported ）没有值。其他标记的值由逗号（ “，” ）字符分隔 － 使用 “\” 字符转义逗号。 IANA IPP 注册表中列出了常见属性和值 － 请参阅下面的参考资料。
+      <dt><b>ATTR collection </b><i>attribute-name </i><b>{ MEMBER </b><i>tag member-name value(s) ... </i><b>}</b> [ <i>... </i><b>,{ </b><i>... </i><b>} </b>]
+      <dd style="margin-left: 5.0em">向测试请求添加集合属性。成员属性遵循与常规属性相同的语法，它们本身可以是嵌套集合。可以根据需要提供多个集合值，以逗号分隔。
+      <dt><b>COMPRESSION deflate</b>
+      <dt><b>COMPRESSION gzip</b>
+      <dt><b>COMPRESSION none</b>
+      <dd style="margin-left: 5.0em">在打印任务或发送文档请求中对属性后面的文档数据使用指定的压缩。
+      <dt><b>DELAY </b><i>seconds</i>[<i>,repeat-seconds</i>]
+      <dd style="margin-left: 5.0em">指定运行此测试之前的延迟（以秒为单位）。如果指定了两个值，则第二个值用作重复试验之间的延迟。
+      <dt><b>DISPLAY </b><i>attribute-name</i>
+      <dd style="margin-left: 5.0em">指定命名属性的值应作为测试报告的一部分输出。
+      <dt><b>EXPECT </b><i>attribute-name </i>[ <i>predicate(s) </i>]
+      <dt><b>EXPECT ?</b><i>attribute-name predicate(s)</i>
+      <dt><b>EXPECT !</b><i>attribute-name</i>
+      <dd style="margin-left: 5.0em">指定响应必须/可能/不得包含命名属性。额外的需求可以作为谓词添加 － 有关谓词的更多信息，请参阅“期望谓词”部分。属性名称可以通过使用正斜杠分隔属性和成员名称来指定成员属性，例如 “media-col/media-size/x-dimension” 。
+      <dt><b>EXPECT-ALL </b><i>attribute-name </i>[ <i>predicate(s) </i>]
+      <dt><b>EXPECT-ALL ?</b><i>attribute-name predicate(s)</i>
+      <dd style="margin-left: 5.0em">指定响应必须/可能包括命名属性，并且该属性的所有出现必须与给定谓词匹配。
+      <dt><b>FILE filename</b>
+      <dd style="margin-left: 5.0em">指定要在请求末尾包含的文件。这通常在发送测试打印文件时使用。
+      <dt><b>GROUP tag</b>
+      <dd style="margin-left: 5.0em">为请求中的后续属性指定组标记。
+      <dt><b>IGNORE-ERRORS yes</b>
+      <dt><b>IGNORE-ERRORS no</b>
+      <dd style="margin-left: 5.0em">指定 <b>ipptool</b>(8) 是否忽略错误并继续后续测试。
+      <dt><b>NAME "</b><i>literal string</i><b>"</b>
+      <dd style="margin-left: 5.0em">指定测试的人类可读名称。
+      <dt><b>OPERATION </b><i>operation-code</i>
+      <dd style="margin-left: 5.0em">指定要执行的操作。
+      <dt><b>PAUSE "</b><i>message</i><b>"</b>
+      <dd style="margin-left: 5.0em">显示提供的消息并等待用户按键继续。
+      <dt><b>REQUEST-ID </b><i>number</i>
+      <dt><b>REQUEST-ID random</b>
+      <dd style="margin-left: 5.0em">指定要在请求中使用的 request-id 值，可以是整数，也可以是单词 “random” ，以使用随机生成的值（默认值）。
+      <dt><b>RESOURCE </b><i>path</i>
+      <dd style="margin-left: 5.0em">指定用于 HTTP POST 请求的备用资源路径。默认值是提供给 <b>ipptool</b>(8) 程序的 URI 中的资源。
+      <dt><b>SKIP-IF-DEFINED </b><i>variable-name</i>
+      <dt><b>SKIP-IF-NOT-DEFINED </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">指定在定义或未定义变量时应跳过当前测试。
+      <dt><b>SKIP-PREVIOUS-ERROR yes</b>
+      <dt><b>SKIP-PREVIOUS-ERROR no</b>
+      <dd style="margin-left: 5.0em">指定如果上一次测试导致错误/失败， <b>ipptool</b>(8) 是否将跳过当前测试。
+      <dt><b>STATUS </b><i>status-code </i>[ <i>predicate</i> ]
+      <dd style="margin-left: 5.0em">指定预期的响应 status-code 值。额外的需求可以作为谓词添加 － 有关谓词的更多信息，请参阅“状态谓词”部分。
+      <dt><b>TEST-ID "</b><i>identifier</i>"
+      <dd style="margin-left: 5.0em">指定当前测试的标识符字符串。
+      <dt><b>TRANSFER auto</b>
+      <dd style="margin-left: 5.0em">指定如果此测试有附加文件，则将使用 “Transfer-Encoding: chunked” ，否则使用 “Content-Length:” 。
+      <dt><b>TRANSFER chunked</b>
+      <dd style="margin-left: 5.0em">指定此测试将使用 HTTP/1.1 “Transfer-Encoding: chunked” 标头。
+      <dt><b>TRANSFER length</b>
+      <dd style="margin-left: 5.0em">指定此测试将使用 HTTP/1.0 “Content-Length:” 标头。
+      <dt><b>VERSION 1.0</b>
+      <dt><b>VERSION 1.1</b>
+      <dt><b>VERSION 2.0</b>
+      <dt><b>VERSION 2.1</b>
+      <dt><b>VERSION 2.2</b>
+      <dd style="margin-left: 5.0em">指定用于此测试的 IPP 版本号。
+    </dd>
+    <h3><a name="EXPECT_PREDICATES">期望谓词</a></h3>
+    <p>&emsp;&emsp;<b>EXPECT</b> 测试指令可以理解以下谓词：
+    <dl class="man">
+      <dt><b>COUNT </b><i>number</i>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性具有指定数量的值。
+      <dt><b>DEFINE-MATCH </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">当 <b>EXPECT</b> 条件匹配时，将变量定义为 “1” 。这个谓词的一个副作用是，这个 <b>EXPECT</b> 永远不会通过测试。
+      <dt><b>DEFINE-NO-MATCH </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">当 <b>EXPECT</b> 条件不匹配时，将变量定义为 “1” 。这个谓词的一个副作用是，这个 <b>EXPECT</b> 永远不会通过测试。
+      <dt><b>DEFINE-VALUE </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">当 <b>EXPECT</b> 条件匹配时，将变量定义为属性值。这个谓词的一个副作用是，这个 <b>EXPECT</b> 永远不会通过测试。
+      <dt><b>IF-DEFINED </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">仅当定义了指定变量时，才使 <b>EXPECT</b> 条件适用。
+      <dt><b>IF-NOT-DEFINED </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">仅当未定义指定的变量时，才使 <b>EXPECT</b> 条件适用。
+      <dt><b>IN-GROUP </b><i>tag</i>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性位于指定的组标记中。
+      <dt><b>OF-TYPE </b><i>tag[|tag,...]</i>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性使用指定的值标记之一。
+      <dt><b>REPEAT-LIMIT </b><i>number</i>
+      <dd style="margin-left: 5.0em"><br>指定如果指定了 <b>REPEAT-MATCH</b> 或 <b>REPEAT-NO-MATCH </b>谓词，则重复的最大次数。默认值为 1000。
+      <dt><b>REPEAT-MATCH</b>
+      <dt><b>REPEAT-NO-MATCH</b>
+      <dd style="margin-left: 5.0em">指定当 <b>EXPECT</b> 条件匹配或不匹配时，应重复当前测试。
+      <dt><b>SAME-COUNT-AS </b><i>attribute-name</i>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性与指定的 parallel 属性具有相同数量的值。
+      <dt><b>WITH-ALL-HOSTNAMES "</b><i>literal string</i><b>"</b>
+      <dt><b>WITH-ALL-HOSTNAMES "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求所有 URI 值都包含匹配的主机名。
+      <dt><b>WITH-ALL-RESOURCES "</b><i>literal string</i><b>"</b>
+      <dt><b>WITH-ALL-RESOURCES "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求所有 URI 值都包含匹配的资源（包括前导 / ）。
+      <dt><b>WITH-ALL-SCHEMES "</b><i>literal string</i><b>"</b>
+      <dt><b>WITH-ALL-SCHEMES "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求所有 URI 值都包含匹配的方案。
+      <dt><b>WITH-ALL-VALUES "</b><i>literal string</i><b>"</b>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的所有值与文本字符串匹配。比较区分大小写。
+      <dt><b>WITH-ALL-VALUES &lt;</b><i>number</i>
+      <dt><b>WITH-ALL-VALUES =</b><i>number</i>
+      <dt><b>WITH-ALL-VALUES ></b><i>number</i>
+      <dt><b>WITH-ALL-VALUES </b><i>number</i>[<i>,...,number</i>]
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的所有值与数字或数字比较匹配。比较 rangeOfInteger 值时，“&lt;” 和 “>” 运算符仅检查范围的上限。
+      <dt><b>WITH-ALL-VALUES "false"</b>
+      <dt><b>WITH-ALL-VALUES "true"</b>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的所有值与给定的布尔值匹配。
+      <dt><b>WITH-ALL-VALUES "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的所有值与正则表达式匹配，正则表达式必须符合 POSIX 正则表达式语法。比较区分大小写。
+      <dt><b>WITH-HOSTNAME "</b><i>literal string</i><b>"</b>
+      <dt><b>WITH-HOSTNAME "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求至少一个 URI 值包含匹配的主机名。
+      <dt><b>WITH-RESOURCE "</b><i>literal string</i><b>"</b>
+      <dt><b>WITH-RESOURCE "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求至少一个 URI 值包含匹配的资源（包括前导 / ）。
+      <dt><b>WITH-SCHEME "</b><i>literal string</i><b>"</b>
+      <dt><b>WITH-SCHEME "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求至少一个 URI 值包含匹配的方案。
+      <dt><b>WITH-VALUE "</b><i>literal string</i><b>"</b>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的至少一个值与文本字符串匹配。比较区分大小写。
+      <dt><b>WITH-VALUE &lt;</b><i>number</i>
+      <dt><b>WITH-VALUE =</b><i>number</i>
+      <dt><b>WITH-VALUE ></b><i>number</i>
+      <dt><b>WITH-VALUE </b><i>number</i>[<i>,...,number</i>]
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的至少一个值与数字或数字比较匹配。比较 rangeOfInteger 值时，“&lt;” 和 “>” 运算符仅检查范围的上限。
+      <dt><b>WITH-VALUE "false"</b>
+      <dt><b>WITH-VALUE "true"</b>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的至少一个值与给定的布尔值匹配。
+      <dt><b>WITH-VALUE "/</b><i>regular expression</i><b>/"</b>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的至少一个值与正则表达式匹配，该正则表达式必须符合 POSIX 正则表达式语法。比较区分大小写。
+      <dt><b>WITH-VALUE-FROM </b><i>attribute-name</i>
+      <dd style="margin-left: 5.0em">要求 <b>EXPECT</b> 属性的值与指定属性中的值匹配。例如，“EXPECT job-sheets WITH-VALUE-FROM job-sheets-supported” 要求将 “job-sheets” 值列为 “job-sheets-supported” 属性的值。
+    </dd>
+    <h3><a name="STATUS_PREDICATES">状态谓词</a></h3>
+    <p>&emsp;&emsp;<b>STATUS</b> 测试指令可以理解以下谓词：
+    <dl class="man">
+      <dt><b>DEFINE-MATCH </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">当 <b>STATUS</b> 匹配时，将变量定义为 “1” 。此谓词的一个副作用是，此 <b>STATUS</b> 将永远不会使测试失败。
+      <dt><b>DEFINE-NO-MATCH </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">当 <b>STATUS</b> 不匹配时，将变量定义为 “1” 。此谓词的一个副作用是，此 <b>STATUS</b> 将永远不会使测试失败。
+      <dt><b>IF-DEFINED </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">使 <b>STATUS</b> 仅在定义了指定的变量时才应用。
+      <dt><b>IF-NOT-DEFINED </b><i>variable-name</i>
+      <dd style="margin-left: 5.0em">使 <b>STATUS</b> 仅在指定的变量没有定义时应用。
+      <dt><b>REPEAT-LIMIT </b><i>number</i>
+      <dd style="margin-left: 5.0em"><br>指定要重复的最大次数。默认值为 1000 。
+      <dt><b>REPEAT-MATCH</b>
+      <dt><b>REPEAT-NO-MATCH</b>
+      <dd style="margin-left: 5.0em">指定当响应状态代码与 STATUS 指令指定的值匹配或不匹配时，应重复当前测试。
+    </dd>
+    <h3><a name="OPERATION_CODES">操作代码</a></h3>
+    <p>&emsp;&emsp;操作代码对应于 RFC 8011 和其他 IPP 扩展规范中的十六进制数（ 0xHHHH ）和名称。以下是 <b>ipptool</b>(8) 支持的名称的完整列表：
+    <pre class="man">
+    Activate-Printer
+    CUPS-Accept-Jobs
+    CUPS-Add-Modify-Class
+    CUPS-Add-Modify-Printer
+    CUPS-Authenticate-Job
+    CUPS-Delete-Class
+    CUPS-Delete-Printer
+    CUPS-Get-Classes
+    CUPS-Get-Default
+    CUPS-Get-Devices
+    CUPS-Get-Document
+    CUPS-Get-PPD
+    CUPS-Get-PPDs
+    CUPS-Get-Printers
+    CUPS-Move-Job
+    CUPS-Reject-Jobs
+    CUPS-Set-Default
+    Cancel-Current-Job
+    Cancel-Job
+    Cancel-Jobs
+    Cancel-My-Jobs
+    Cancel-Subscription
+    Close-Job
+    Create-Job
+    Create-Job-Subscriptions
+    Create-Printer-Subscriptions
+    Deactivate-Printer
+    Disable-Printer
+    Enable-Printer
+    Get-Job-Attributes
+    Get-Jobs
+    Get-Notifications
+    Get-Printer-Attributes
+    Get-Printer-Support-Files
+    Get-Printer-Supported-Values
+    Get-Subscription-Attributes
+    Get-Subscriptions
+    Hold-Job
+    Hold-New-Jobs
+    Identify-Printer
+    Pause-Printer
+    Pause-Printer-After-Current-Job
+    Print-Job
+    Print-URI
+    Promote-Job
+    Purge-Jobs
+    Release-Held-New-Jobs
+    Release-Job
+    Renew-Subscription
+    Reprocess-Job
+    Restart-Job
+    Restart-Printer
+    Resubmit-Job
+    Resume-Job
+    Resume-Printer
+    Schedule-Job-After
+    Send-Document
+    Send-Hardcopy-Document
+    Send-Notifications
+    Send-URI
+    Set-Job-Attributes
+    Set-Printer-Attributes
+    Shutdown-Printer
+    Startup-Printer
+    Suspend-Current-Job
+    Validate-Document
+    Validate-Job</pre>
+    <h3><a name="STATUS_CODES">状态代码</a></h3>
+    <p>&emsp;&emsp;状态代码对应于 RFC 8011 和其他 IPP 扩展规范中的十六进制数字（ 0xHHHH ）和名称。以下是 <b>ipptool</b>(8) 支持的名称的完整列表：
+    <pre class="man">
+    client-error-account-authorization-failed
+    client-error-account-closed
+    client-error-account-info-needed
+    client-error-account-limit-reached
+    client-error-attributes-not-settable
+    client-error-attributes-or-values-not-supported
+    client-error-bad-request
+    client-error-charset-not-supported
+    client-error-compression-error
+    client-error-compression-not-supported
+    client-error-conflicting-attributes
+    client-error-document-access-error
+    client-error-document-format-error
+    client-error-document-format-not-supported
+    client-error-document-password-error
+    client-error-document-permission-error
+    client-error-document-security-error
+    client-error-document-unprintable-error
+    client-error-forbidden
+    client-error-gone
+    client-error-ignored-all-notifications
+    client-error-ignored-all-subscriptions
+    client-error-not-authenticated
+    client-error-not-authorized
+    client-error-not-found
+    client-error-not-possible
+    client-error-print-support-file-not-found
+    client-error-request-entity-too-large
+    client-error-request-value-too-long
+    client-error-timeout
+    client-error-too-many-subscriptions
+    client-error-uri-scheme-not-supported
+    cups-error-account-authorization-failed
+    cups-error-account-closed
+    cups-error-account-info-needed
+    cups-error-account-limit-reached
+    cups-see-other
+    redirection-other-site
+    server-error-busy
+    server-error-device-error
+    server-error-internal-error
+    server-error-job-canceled
+    server-error-multiple-document-jobs-not-supported
+    server-error-not-accepting-jobs
+    server-error-operation-not-supported
+    server-error-printer-is-deactivated
+    server-error-service-unavailable
+    server-error-temporary-error
+    server-error-version-not-supported
+    successful-ok
+    successful-ok-but-cancel-subscription
+    successful-ok-conflicting-attributes
+    successful-ok-events-complete
+    successful-ok-ignored-notifications
+    successful-ok-ignored-or-substituted-attributes
+    successful-ok-ignored-subscriptions
+    successful-ok-too-many-events</pre>
+    <h3><a name="TAGS">标记</a></h3>
+    <p>&emsp;&emsp;值和组标记对应于 RFC 8011 和其他 IPP 扩展规范中的名称。以下是组标记：
+    <pre class="man">
+    document-attributes-tag
+    event-notification-attributes-tag
+    job-attributes-tag
+    operation-attributes-tag
+    printer-attributes-tag
+    subscription-attributes-tag
+    unsupported-attributes-tag</pre>
+    <p>&emsp;&emsp;以下是值标记：
+    <pre class="man">
+    admin-define
+    boolean
+    charset
+    collection
+    dateTime
+    default
+    delete-attribute
+    enum
+    integer
+    keyword
+    mimeMediaType
+    nameWithLanguage
+    nameWithoutLanguage
+    naturalLanguage
+    no-value
+    not-settable
+    octetString
+    rangeOfInteger
+    resolution
+    textWithLanguage
+    textWithoutLanguage
+    unknown
+    unsupported
+    uri
+    uriScheme</pre>
+    <h3><a name="VARIABLES">变量</a></h3>
+    <p>&emsp;&emsp;<b>ipptool</b>(8) 程序通过指定 “<i>$variable-name</i>” 来维护可在任何文本字符串或属性值中使用的变量列表。除了使用 <i>-d</i> 选项或 <b>DEFINE</b> 指令定义的变量外，还提供以下预定义变量：
+    <dl class="man">
+      <dt><b>$$</b>
+      <dd style="margin-left: 5.0em">插入单个 “$” 字符。
+      <dt><b>$ENV[</b><i>name</i><b>]</b>
+      <dd style="margin-left: 5.0em">插入命名环境变量的值，如果未定义环境变量，则插入空字符串。
+      <dt><b>$date-current</b>
+      <dd style="margin-left: 5.0em">使用 ISO-8601 格式（ “yyyy-mm-ddThh:mm:ssZ” ）插入当前日期和时间。
+      <dt><b>$date-start</b>
+      <dd style="margin-left: 5.0em">使用 ISO-8601 格式（ “yyyy-mm-ddThh:mm:ssZ” ）插入开始日期和时间。
+      <dt><b>$filename</b>
+      <dd style="margin-left: 5.0em">使用 <i>-f</i> 选项插入提供给 <b>ipptool</b>(8) 的文件名。
+      <dt><b>$filetype</b>
+      <dd style="margin-left: 5.0em">使用 <i>-f</i> 选项插入提供给 <b>ipptool</b>(8) 的文件名的 MIME 媒体类型。
+      <dt><b>$hostname</b>
+      <dd style="margin-left: 5.0em">插入提供给 <b>ipptool</b>(8) 的 URI 中的主机名。
+      <dt><b>$job-id</b>
+      <dd style="margin-left: 5.0em">插入测试响应中返回的最后一个 “job-id” 属性值，如果未看到 “job-id” 属性，则插入 0 。
+      <dt><b>$job-uri</b>
+      <dd style="margin-left: 5.0em">插入测试响应中返回的最后一个 “job-uri” 属性值，如果没有看到 “job-uri” 属性，则插入空字符串。
+      <dt><b>$notify-subscription-id</b>
+      <dd style="margin-left: 5.0em">插入测试响应中返回的最后一个 “notify-subscription-id” 属性值，如果未看到 “notify-subscription-id” 属性，则插入 0 。
+      <dt><b>$port</b>
+      <dd style="margin-left: 5.0em">插入提供给 <b>ipptool</b>(8) 的 URI 中的端口号。
+      <dt><b>$resource</b>
+      <dd style="margin-left: 5.0em">插入提供给 <b>ipptool</b>(8) 的 URI 中的资源路径。
+      <dt><b>$scheme</b>
+      <dd style="margin-left: 5.0em">从提供给 <b>ipptool</b>(8) 的 URI 中插入 scheme 。
+      <dt><b>$uri</b>
+      <dd style="margin-left: 5.0em">插入提供给 <b>ipptool</b>(8) 的 URI。
+      <dt><b>$uriuser</b>
+      <dd style="margin-left: 5.0em">插入提供给 <b>ipptool</b>(8) 的 URI 中的用户名（如果有）。
+      <dt><b>$user</b>
+      <dd style="margin-left: 5.0em">插入当前用户的登录名。
+    </dd>
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>ipptool</b>(1)
+    <p>&emsp;&emsp;IANA IPP 注册中心（ <a href="http://www.iana.org/assignments/ipp-registrations">http://www.iana.org/assignments/ipp-registrations</a> ）
+    <p>&emsp;&emsp;PWG 因特网打印协议任务组（ <a href="http://www.pwg.org/ipp">http://www.pwg.org/ipp</a> ）
+    <p>&emsp;&emsp;RFC 8011 （ <a href="http://tools.ietf.org/html/rfc8011">http://tools.ietf.org/html/rfc8011</a> ）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

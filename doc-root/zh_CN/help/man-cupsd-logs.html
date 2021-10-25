@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cupsd-logs(5)</title>
+  </head>
+  <body>
+    <h1 class="title">cupsd-logs(5)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cupsd-logs - cupsd 日志文件（访问日志、错误日志和页面日志）
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cupsd</b>(8) 通常维护三个日志文件：<i>access_log</i> 以跟踪提交给调度程序的请求，<i>error_log</i> 以跟踪进度和错误，以及 <i>page_log</i> 以跟踪打印的页面。 <b>cupsd.conf</b>(5) 和 <b>cups-files.conf</b>(5) 中的配置指令控制记录的信息和存储的位置。
+    <h3><a name="ACCESS_LOG_FILE_FORMAT">访问日志文件格式</a></h3>
+    <p>&emsp;&emsp;<i>access_log</i> 文件列出 Web 浏览器或客户端访问的每个 HTTP 资源。每一行都是许多 Web 服务器和 Web 报告工具使用的所谓 “通用日志格式” 的扩展版本：
+    <pre class="man">
+    <i>host group user date-time </i>"<i>method resource version</i>" <i>status bytes
+      ipp-operation ipp-status</i></pre>
+    <p>&emsp;&emsp;例如：
+    <pre class="man">
+    10.0.1.2 - - [01/Dec/2005:21:50:28 +0000] "POST / HTTP/1.1" 200 317
+      CUPS-Get-Printers successful-ok-ignored-or-substituted-attributes
+    localhost - - [01/Dec/2005:21:50:32 +0000] "GET /admin HTTP/1.1"
+      200 0 - -
+    localhost - - [01/Dec/2005:21:50:32 +0000] "POST / HTTP/1.1"
+      200 157 CUPS-Get-Printers
+      successful-ok-ignored-or-substituted-attributes
+    localhost - - [01/Dec/2005:21:50:32 +0000] "POST / HTTP/1.1"
+      200 1411 CUPS-Get-Devices -
+    localhost - - [01/Dec/2005:21:50:32 +0000] "GET /admin HTTP/1.1"
+      200 6667 - -</pre>
+    <p>&emsp;&emsp;<i>host</i> 字段通常仅为 IP 地址，除非您在 <i>cupsd.conf</i> 文件中启用了 HostNameLookups 指令，或者 IP 地址与您的本地计算机相对应。
+    <p>&emsp;&emsp;<i>group</i> 字段始终包含 “-” 。
+    <p>&emsp;&emsp;<i>user</i> 字段是请求用户经过身份验证的用户名。如果没有为请求提供用户名和密码，则此字段包含 “-” 。
+    <p>&emsp;&emsp;<i>date-time</i> 字段是本地时间的请求日期和时间，格式为 “[DD/MON/YYYY:HH:MM:SS +ZZZZ]” 。
+    <p>&emsp;&emsp;<i>method</i> 字段是使用的 HTTP 方法： “GET” 、 “HEAD” 、 “OPTIONS” 、 “POST” 或 “PUT” 。 “GET” 请求用于从服务器获取文件，既用于 Web 界面，也用于获取配置文件和日志文件。 “HEAD” 请求用于在 “GET” 之前获取有关资源的信息。 “OPTIONS” 请求用于将连接升级到 TLS 加密。 “POST” 请求用于 Web 界面表单和 IPP 请求。 “PUT” 请求用于上传配置文件。
+    <p>&emsp;&emsp;<i>resource</i> 字段是请求的资源的文件名。
+    <p>&emsp;&emsp;<i>version</i> 字段是客户端使用的 HTTP 规范版本。对于 CUPS 客户端，这将始终是 “HTTP/1.1” 。
+    <p>&emsp;&emsp;<i>status</i> 字段包含请求的 HTTP 结果状态，如下所示：
+    <dl class="man">
+      <dt>200
+      <dd style="margin-left: 5.0em">成功操作。
+      <dt>201
+      <dd style="margin-left: 5.0em">文件创建/修改成功。
+      <dt>304
+      <dd style="margin-left: 5.0em">请求的文件未更改。
+      <dt>400
+      <dd style="margin-left: 5.0em">错误的 HTTP 请求；通常这意味着您有一个恶意程序试图访问您的服务器。
+      <dt>401
+      <dd style="margin-left: 5.0em">未经授权，需要身份验证（用户名+密码）。
+      <dt>403
+      <dd style="margin-left: 5.0em">禁止访问；通常这意味着客户端试图访问他们没有访问权限的文件或资源。
+      <dt>404
+      <dd style="margin-left: 5.0em">文件或资源不存在。
+      <dt>405
+      <dd style="margin-left: 5.0em">不允许使用 URL 访问方法；通常这意味着您有一个使用服务器作为代理的 Web 浏览器。
+      <dt>413
+      <dd style="margin-left: 5.0em">请求太大；通常这意味着客户机试图打印大于 MaxRequestSize 允许的文件。
+      <dt>426
+      <dd style="margin-left: 5.0em">升级到 TLS 加密连接。
+      <dt>500
+      <dd style="margin-left: 5.0em">服务器错误；通常，当服务器无法打开/创建文件时会发生这种情况 － 有关详细信息，请参阅错误日志文件。
+      <dt>501
+      <dd style="margin-left: 5.0em">客户端请求加密，但中未启用/编译加密支持。
+      <dt>505
+      <dd style="margin-left: 5.0em">不支持 HTTP 版本号；通常这意味着您有一个恶意程序试图访问您的服务器。
+    </dl>
+    <p>&emsp;&emsp;<i>bytes</i> 字段包含请求中的字节数。对于 POST 请求，字节字段包含从客户端接收的非 IPP 数据的字节数。
+    <p>&emsp;&emsp;<i>ipp-operation</i> 对于非 IPP 请求，字段包含 “-” ，或包含 IPP 请求的 POST 请求的 IPP 操作名称。
+    <p>&emsp;&emsp;<i>ipp-status</i> 对于非 IPP 请求，字段包含 “-” ，对于包含 IPP 响应的 POST 请求，字段包含 IPP 状态代码名称。
+    <h3><a name="ERROR_LOG_FILE_FORMAT">错误日志文件格式</a></h3>
+    <p>&emsp;&emsp;<i>error_log</i> 文件列出来自调度程序的消息 － 错误、警告等。<b>cupsd.conf</b>(5) 文件中的 LogLevel 指令控制记录哪些消息：
+    <pre class="man">level date-time message</pre>
+    <p>&emsp;&emsp;例如：
+    <pre class="man">
+    I [20/May/1999:19:18:28 +0000] [Job 1] Queued on 'DeskJet' by 'mike'.
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[0]="DeskJet"
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[1]="1"
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[2]="mike"
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[3]="myjob"
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[4]="1"
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[5]="media=
+      na_letter_8.5x11in sides=one-sided"
+    D [20/May/1999:19:18:28 +0000] [Job 1] argv[6]="/var/spool/cups/
+      d000001-001"
+    I [20/May/1999:19:21:02 +0000] [Job 2] Queued on 'DeskJet' by 'mike'.
+    I [20/May/1999:19:22:24 +0000] [Job 2] Canceled by 'mike'.</pre>
+    <p>&emsp;&emsp;<i>level</i> 字段包含消息的类型：
+    <dl class="man">
+      <dt>A
+      <dd style="margin-left: 5.0em">警报消息（ LogLevel alert ）
+      <dt>C
+      <dd style="margin-left: 5.0em">严重错误消息（ LogLevel crit ）
+      <dt>D
+      <dd style="margin-left: 5.0em">调试消息（ LogLevel debug ）
+      <dt>d
+      <dd style="margin-left: 5.0em">详细调试消息（ LogLevel debug2 ）
+      <dt>E
+      <dd style="margin-left: 5.0em">正常错误消息（ LogLevel error ）
+      <dt>I
+      <dd style="margin-left: 5.0em">信息性消息（ LogLevel info ）
+      <dt>N
+      <dd style="margin-left: 5.0em">通知消息（ LogLevel notice ）
+      <dt>W
+      <dd style="margin-left: 5.0em">警告信息（ LogLevel warn ）
+      <dt>X
+      <dd style="margin-left: 5.0em">紧急错误信息（ LogLevel emerg ）
+    </dd>
+    <p>&emsp;&emsp;<i>date-time</i> 字段包含页面开始打印的日期和时间。此字段的格式与访问日志文件中的数据时间字段相同。
+    <p>&emsp;&emsp;<i>message</i> 字段包含自由格式的文本消息。来自任务筛选器的消息前缀为 “[Job NNN]” ，其中 “NNN” 是任务 ID。
+    <h3><a name="PAGE_LOG_FILE_FORMAT">页面日志文件格式</a></h3>
+    <p>&emsp;&emsp;<i>page_log</i> 文件列出打印的总页数。默认情况下，每行包含以下信息：
+    <pre class="man">
+    <i>printer user job-id date-time </i><b>total </b><i>num-sheets job-billing
+      job-originating-host-name job-name media sides</i></pre>
+    <p>&emsp;&emsp;例如，名为 “myjob” 的两页任务的条目可能如下所示：
+    <pre class="man">
+    DeskJet root 1 [20/May/1999:19:21:06 +0000] total 2 acme-123
+      localhost myjob na_letter_8.5x11in one-sided</pre>
+    <p>&emsp;&emsp;<b>cupsd.conf</b>(5) 文件中的 PageLogFormat 指令可用于更改此信息。
+    <p>&emsp;&emsp;<i>printer</i> 字段包含打印页面的打印机的名称。如果将任务发送到打印机类，则此字段将包含分配该任务的打印机的名称。
+    <p>&emsp;&emsp;<i>user</i> 字段包含提交此文件进行打印的用户的名称（ IPP 请求用户名属性）。
+    <p>&emsp;&emsp;<i>job-id</i> 字段包含正在打印的页面的任务编号。
+    <p>&emsp;&emsp;<i>date-time</i> 字段包含页面开始打印的日期和时间。此字段的格式与访问日志文件中的数据时间字段相同。
+    <p>&emsp;&emsp;<i>num-sheets</i> 字段提供任务已打印的总页数（张）。
+    <p>&emsp;&emsp;<i>job-billing</i> 字段包含由 IPP Create-Job 或 Print-Job 请求提供的 job-billing 或 job-account-id 属性的副本，如果两者都没有提供，则使用 “-” 。
+    <p>&emsp;&emsp;<i>job-originating-host-name</i> 字段包含打印任务的客户端的主机名或 IP 地址。
+    <p>&emsp;&emsp;<i>job-name</i> 字段包含 IPP Create-Job 或 Print-Job 请求中提供的 job-name 属性的副本，如果没有提供，则使用 “-” 。
+    <p>&emsp;&emsp;<i>media</i> 字段包含 IPP Create-Job 或 Print-Job 请求中提供的介质或介质颜色/介质大小属性的副本，如果未提供，则为 “-” 。
+    <p>&emsp;&emsp;<i>sides</i> 字段包含 IPP Create-Job 或 Print-Job 请求中提供的 sides 属性的副本，如果未提供，则包含 “-” 。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <b>cupsd</b>(8) 、 <b>cupsd.conf</b>(5) 、 <b>cups-files.conf</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cups-files.conf(5)</title>
+  </head>
+  <body>
+    <h1 class="title">cups-files.conf(5)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cups-files.conf - cups 的文件和目录配置文件
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cups-files.conf</b> 文件配置 CUPS 调度程序使用的文件和目录，<b>cupsd</b>(8) 。它通常位于 <i>/etc/cups</i> 目录中。
+    <p>&emsp;&emsp;文件中的每一行都可以是配置指令、空行或注释。配置指令通常由一个名称和零个或多个由空格分隔的值组成。配置指令名称和值不区分大小写。注释行以 # 字符开头。
+    <h3><a name="DIRECTIVES">指令</a></h3>
+    <p>&emsp;&emsp;<b>cupsd</b>(8) 命令可以理解以下命令行选项：
+    <dl class="man">
+      <dt><a name="AccessLog"></a><b>AccessLog</b>
+      <dt><b>AccessLog </b><i>filename</i>
+      <dt><b>AccessLog stderr</b>
+      <dt><b>AccessLog syslog</b>
+      <dd style="margin-left: 5.0em">定义访问日志文件名。指定空白文件名将禁用访问日志生成。值 “stderr” 会导致在调度程序在前台运行时将日志条目发送到标准错误文件，或在后台运行时将日志条目发送到系统日志守护程序。值 “syslog” 导致将日志条目发送到系统日志守护程序。服务器名称可以使用字符串 “%s” 包含在文件名中，例如：
+        <pre class="man">AccessLog /var/log/cups/%s-access_log</pre>
+        默认值是 “/var/log/cups/access_log” 。
+      <dt><a name="CacheDir"></a><b>CacheDir </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定用于长期有效的临时（缓存）文件的目录。默认值为 “/var/spool/cups/cache” 或 “/var/cache/cups” ，具体取决于平台。
+      <dt><a name="ConfigFilePerm"></a><b>ConfigFilePerm </b><i>mode</i>
+      <dd style="margin-left: 5.0em">指定调度程序写入的所有配置文件的权限。macOS 上的默认值为 “0644” ，所有其他操作系统上的默认值为 “0640” 。<br>
+        <b>提示：</b> <i>printers.conf</i> 文件的权限当前被屏蔽，仅允许调度器用户（通常是 root 用户）进行访问。之所以这样做，是因为打印机设备 URI 有时包含敏感的身份验证信息，而这些信息在系统中通常是未知的。无法禁用此安全功能。
+      <dt><a name="CreateSelfSignedCerts"></a><b>CreateSelfSignedCerts yes</b>
+      <dt><b>CreateSelfSignedCerts no</b>
+      <dd style="margin-left: 5.0em">指定调度程序是否使用 TLS 为客户端连接自动创建自签名证书。默认值为 yes。
+      <dt><a name="DataDir"></a><b>DataDir </b><i>path</i>
+      <dd style="margin-left: 5.0em">指定可以在其中找到数据文件的目录。默认值通常为 “/usr/share/cups” 。
+      <dt><a name="DocumentRoot"></a><b>DocumentRoot </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定 CUPS Web 界面内容的根目录。默认值通常为 “/usr/share/doc/cups” 。
+      <dt><a name="ErrorLog"></a><b>ErrorLog</b>
+      <dt><b>ErrorLog </b><i>filename</i>
+      <dt><b>ErrorLog stderr</b>
+      <dt><b>ErrorLog syslog</b>
+      <dd style="margin-left: 5.0em">定义错误日志文件名。指定空白文件名将禁用错误日志生成。值 “stderr” 会导致在调度程序在前台运行时将日志条目发送到标准错误文件，或在后台运行时将日志条目发送到系统日志守护程序。值 “syslog” 导致将日志条目发送到系统日志守护程序。服务器名称可以使用字符串 “%s” 包含在文件名中，例如：
+        <pre class="man">ErrorLog /var/log/cups/%s-error_log</pre>
+        默认值为 “/var/log/cups/error_log” 。
+      <dt><a name="FatalErrors"></a><b>FatalErrors none</b>
+      <dt><b>FatalErrors all </b><i>-kind </i>[ ... <i>-kind </i>]
+      <dt><b>FatalErrors </b><i>kind </i>[ ... <i>kind </i>]
+      <dd style="margin-left: 5.0em">指定导致调度程序退出的致命错误。默认值为 “config” 。<i>kind</i> 字符串取值为：
+        <div style="margin-left: 0.0em;">
+          <dl class="man">
+            <dt><b>none</b>
+            <dd style="margin-left: 5.0em">没有致命的错误。
+            <dt><b>all</b>
+            <dd style="margin-left: 5.0em">以下所有错误都是致命的。
+            <dt><b>browse</b>
+            <dd style="margin-left: 5.0em">浏览初始化错误是致命的，例如与 DNS-SD 守护进程的连接失败。
+            <dt><b>config</b>
+            <dd style="margin-left: 5.0em">配置文件语法错误是致命的。
+            <dt><b>listen</b>
+            <dd style="margin-left: 5.0em">侦听或端口错误是致命的，环回或 “any” 地址上的 IPv6 故障除外。
+            <dt><b>log</b>
+            <dd style="margin-left: 5.0em">日志文件创建或写入错误是致命的。
+            <dt><b>permissions</b>
+            <dd style="margin-left: 5.0em">错误的启动文件权限是致命的，例如具有全局读取权限的共享 TLS 证书和密钥文件。
+          </dl>
+        </div>
+      <dt><a name="Group"></a><b>Group </b><i>group-name-or-number</i>
+      <dd style="margin-left: 5.0em">指定执行外部程序时将使用的组名或 ID 。默认组是特定于操作系统的，但通常为 “lp” 或 “nobody” 。
+      <dt><a name="LogFilePerm"></a><b>LogFilePerm </b><i>mode</i>
+      <dd style="margin-left: 5.0em">指定调度程序写入的所有日志文件的权限。默认值为 “0644” 。
+      <dt><a name="PageLog"></a><b>PageLog </b>[ <i>filename</i> ]
+      <dt><b>PageLog stderr</b>
+      <dt><b>PageLog syslog</b>
+      <dd style="margin-left: 5.0em">定义页面日志文件名。值 “stderr” 会导致在调度程序在前台运行时将日志条目发送到标准错误文件，或在后台运行时将日志条目发送到系统日志守护程序。值 “syslog” 导致将日志条目发送到系统日志守护程序。指定空白文件名将禁用页面日志生成。服务器名称可以使用字符串 “%s” 包含在文件名中，例如：
+        <pre class="man">PageLog /var/log/cups/%s-page_log</pre>
+        默认值为 “/var/log/cups/page_log” 。
+      <dt><a name="PassEnv"></a><b>PassEnv </b><i>variable </i>[ ... <i>variable </i>]
+      <dd style="margin-left: 5.0em">将指定的环境变量传递给子进程。注意：不能使用此指令覆盖标准 CUPS 筛选器和后端环境变量。
+      <dt><a name="RemoteRoot"></a><b>RemoteRoot </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定与声称为根用户的客户端未经身份验证的访问关联的用户名。默认值为 “remroot” 。
+      <dt><a name="RequestRoot"></a><b>RequestRoot </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定包含打印任务和其他 HTTP 请求数据的目录。默认值为 “/var/spool/cups” 。
+      <dt><a name="Sandboxing"></a><b>Sandboxing relaxed</b>
+      <dt><b>Sandboxing strict</b>
+      <dd style="margin-left: 5.0em">指定应用于调度程序的打印筛选器、后端和其他子进程的安全沙盒级别。默认值为 “strict” 。此指令目前仅在 macOS 上支持和使用。
+      <dt><a name="ServerBin"></a><b>ServerBin </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定包含后端、CGI 程序、筛选器、帮助程序、通知程序和端口监视器的目录。默认值为 “/usr/lib/cups” 或 “/usr/libexec/cups” ，具体取决于平台。
+      <dt><a name="ServerKeychain"></a><b>ServerKeychain </b><i>path</i>
+      <dd style="margin-left: 5.0em">指定 TLS 证书和私钥的位置。在 macOS 上默认为 “/Library/Keychains/System.keychain” ，在所有其他操作系统上默认为 “/etc/cups/ssl” 。macOS 使用其密钥链数据库存储证书和密钥，而其他平台在指定目录中使用单独的文件，*.crt 用于 PEM 编码的证书， *.key 用于 PEM 编码的私钥。
+      <dt><a name="ServerRoot"></a><b>ServerRoot </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定包含服务器配置文件的目录。默认值为 “/etc/cups” 。
+      <dt><a name="SetEnv"></a><b>SetEnv </b><i>variable value</i>
+      <dd style="margin-left: 5.0em">设置要传递给子进程的指定环境变量。注意：不能使用此指令覆盖标准 CUPS 筛选器和后端环境变量。
+      <dt><a name="StateDir"></a><b>StateDir </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定用于 PID 和本地证书文件的目录。默认值为 “/var/run/cups” 或 “/etc/cups” ，具体取决于平台。
+      <dt><a name="SyncOnClose"></a><b>SyncOnClose Yes</b>
+      <dt><b>SyncOnClose No</b>
+      <dd style="margin-left: 5.0em">指定调度程序在写入配置文件或状态文件后是否调用 <b>fsync</b>(2) 。默认值为 “Yes” 。
+      <dt><a name="SystemGroup"></a><b>SystemGroup </b><i>group-name </i>[ ... <i>group-name</i> ]
+      <dd style="margin-left: 5.0em">指定用于 <i>@SYSTEM</i> 组身份验证的组。默认值包含 “admin” 、 “lpadmin” 、 “root” 、 “sys” 和/或 “system” 。
+      <dt><a name="TempDir"></a><b>TempDir </b><i>directory</i>
+      <dd style="margin-left: 5.0em">指定存储短期临时文件的目录。默认值为 “/var/spool/cups/tmp” 。
+      <dt><a name="User"></a><b>User </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定运行外部程序时使用的用户名或 ID。默认值为 “lp” 。
+    </dd>
+    <h3><a name="DEPRECATED_DIRECTIVES">不建议使用的指令</a></h3>
+    <p>&emsp;&emsp;以下指令已弃用，将从 CUPS 的未来版本中删除：
+    <dl class="man">
+      <dt><a name="FileDevice"></a><b>FileDevice Yes</b>
+      <dt><b>FileDevice No</b>
+      <dd style="margin-left: 5.0em">指定文件伪设备是否可用于新打印机队列。URI “file:///dev/null” 是永远允许的。文件设备不能与 “raw” 打印队列一起使用 － 需要 PPD 文件。每个打印任务都会覆盖指定的文件。不支持写入目录。
+      <dt><a name="FontPath"></a><b>FontPath </b><i>directory[:...:directoryN]</i>
+      <dd style="margin-left: 5.0em">指定可在其中找到字体的目录的冒号分隔列表。在 Linux 上，将使用 <b>font-config</b>(1) 机制。在 macOS 上，字体簿应用程序管理系统安装的字体。
+      <dt><a name="LPDConfigFile"></a><b> LPDConfigFile </b><i>filename</i>
+      <dd style="margin-left: 5.0em">指定要更新的 LPD 服务配置文件。
+      <dt><a name="Printcap"></a><b>Printcap </b><i>filename</i>
+      <dd style="margin-left: 5.0em">指定用本地打印队列列表填充的文件。
+      <dt><a name="PrintcapFormat"></a><b>PrintcapFormat bsd</b>
+      <dt><b>PrintcapFormat plist</b>
+      <dt><b>PrintcapFormat solaris</b>
+      <dd style="margin-left: 5.0em">指定用于 Printcap 文件的格式。 “bsd” 是历史 LPD printcap 文件格式。 “plist” 是 Apple plist 文件格式。 “solaris” 是 Solaris LPD Printcap 的历史文件格式。
+      <dt><a name="SMBConfigFile"></a><b>SMBConfigFile </b><i>filename</i>
+      <dd style="margin-left: 5.0em">指定要更新的 SMB 服务配置文件。
+    </dd>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;更改 <b>cups-files.conf</b> 文件后，必须手动重新启动调度程序。在 Linux 上，这通常使用 <b>systemctl</b>(8) 命令来完成，而在 macOS 上则使用 <b>launchctl</b>(8) 命令。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <b>classes.conf</b>(5) 、 <b>cups</b>(1) 、 <b>cupsd</b>(8) 、 <b>cupsd.conf</b>(5) 、 <b>mime.convs</b>(5) 、 <b>mime.types</b>(5) 、 <b>printers.conf</b>(5) 、 <b>subscriptions.conf</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

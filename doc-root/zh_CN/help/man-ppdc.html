@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>ppdc(1)</title>
+  </head>
+  <body>
+    <h1 class="title">ppdc(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;ppdc - cups ppd 编译器（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>ppdc</b> [<b>-D</b> <i>name</i>[<b>=</b><i>value</i>]] [<b>-I</b> <i>include-directory</i>] [<b>-c</b> <i>message-catalog</i>] [<b>-d</b> <i>output-directory</i>] [<b>-l</b> <i>language(s)</i>] [<b>-m</b>] [<b>-t</b>] [<b>-v</b>] [<b>-z</b>] [<b>--cr</b>] [<b>--crlf</b>] [<b>--lf</b>] <i>source-file</i>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>ppdc</b> 将 PPDC 源文件编译为一个或多个 PPD 文件。<b>此程序已弃用，将在 CUPS 的未来版本中删除。</b>
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>ppdc</b> 支持以下选项：
+    <dl class="man">
+      <dt><b>-D </b><i>name</i>[<b>=</b><i>value</i>]
+      <dd style="margin-left: 5.0em">设置要在源文件中使用的命名变量。它相当于在源文件中使用 <i>#define</i> 指令。
+      <dt><b>-I </b><i>include-directory</i>
+      <dd style="margin-left: 5.0em">指定备用包含目录。可以提供多个 <i>-I</i> 选项来添加其他目录。
+      <dt><b>-c </b><i>message-catalog</i>
+      <dd style="margin-left: 5.0em">指定要用于本地化的 GNU gettext（ filename.po ）或 Apple strings（ filename.strings ）格式的单个消息目录文件。
+      <dt><b>-d </b><i>output-directory</i>
+      <dd style="margin-left: 5.0em">指定 PPD 文件的输出目录。默认输出目录为 “ppd” 。
+      <dt><b>-l </b><i>language(s)</i>
+      <dd style="margin-left: 5.0em">指定本地化 PPD 文件时要使用的一种或多种语言。默认语言为 “en”（英语）。使用逗号分隔多种语言，例如 “de_de 、 en_UK 、 es_es 、 es_MX 、 es_US 、 fr_CA 、 fr_fr 、 it_it ” ，将在每个文件中创建包含德语、英国英语、西班牙语（西班牙、墨西哥和美国）、法语（法国和加拿大）和意大利语的 PPD 文件。
+      <dt><b>-m</b>
+      <dd style="margin-left: 5.0em">指定输出文件名应基于 ModelName 值，而不是 filename 或 PCFilenName 。
+      <dt><b>-t</b>
+      <dd style="margin-left: 5.0em">指定应测试而不是生成 PPD 文件。
+      <dt><b>-v</b>
+      <dd style="margin-left: 5.0em">指定详细输出，基本上是加载或写入文件的运行状态。<b>-z</b> 生成压缩的 PPD 文件（ filename.PPD.gz ）。默认情况下，生成未压缩的 PPD 文件。
+      <dt><b>--cr</b>
+      <dt><b>--crlf</b>
+      <dt><b>--lf</b>
+      <dd style="margin-left: 5.0em">指定要使用的行尾 － 回车、回车和换行，或单独换行。默认情况下，仅使用换行字符。
+    </dd>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;PPD 文件已弃用，CUPS 的未来功能版本将不再支持 PPD 文件。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>ppdhtml</b>(1) 、 <b>ppdi</b>(1) 、 <b>ppdmerge</b>(1) 、 <b>ppdpo</b>(1) 、 <b>ppdcfile</b>(5)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

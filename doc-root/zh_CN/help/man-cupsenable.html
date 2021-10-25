@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cupsenable(8)</title>
+  </head>
+  <body>
+    <h1 class="title">cupsenable(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cupsdisable, cupsenable - 停止/启动打印机和类
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>cupsdisable</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [ <b>-c</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] [<b>-r</b> <i>reason</i>] [ <b>--hold</b>] <i>destination(s)</i><br>
+       &emsp;&emsp;<b>cupsenable</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [ <b>-c</b>] [<b>-h </b><i>server</i>[<b>:</b><i>port</i>]] [<b>--release</b>] <i>destination(s)</i>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cupsenable</b> 启动命名打印机或类，而 <b>cupsdisable</b> 停止命名打印机或类。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;可使用以下选项：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">强制加密与服务器的连接。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">连接到服务器时使用指定的用户名。
+      <dt><b>-c</b>
+      <dd style="margin-left: 5.0em">取消指定目标上的所有任务。
+      <dt><b>-h </b><i>server</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">使用指定的服务器和端口。
+      <dt><b>--hold</b>
+      <dd style="margin-left: 5.0em">保留指定打印机上的剩余任务。用于在执行维护之前完成当前任务。
+      <dt><b>-r "</b><i>reason</i><b>"</b>
+      <dd style="margin-left: 5.0em">设置与停止状态关联的消息。如果未指定原因，则消息将设置为 “Reason Unknown” 。
+      <dt><b>--release</b>
+      <dd style="margin-left: 5.0em">释放待打印的任务。在运行 <b>cupsdisable</b> 后使用 <i>--hold</i> 选项恢复打印。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;与 System V 打印系统不同，CUPS 允许打印机名称包含除空格、制表符、 “/” 或 “#” 之外的任何可打印字符。此外，打印机名和类名不区分大小写。
+    <p>&emsp;&emsp;这些命令的 System V 版本分别为 <b>disable</b> 和 <b>enable</b> 。它们已重命名，以避免与同名的 <b>bash</b>(1) 内置命令冲突。
+    <p>&emsp;&emsp;根据打印系统配置，CUPS 版本的 <b>disable</b> 和 <b>enable</b> 可能会要求用户输入访问密码。这与 System V 版本不同，后者要求 root 用户执行这些命令。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cupsaccept</b>(8) 、 <b>cupsreject</b>(8) 、 <b>cancel</b>(1) 、 <b>lp</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

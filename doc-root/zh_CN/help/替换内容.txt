@@ -1,0 +1,40 @@
+#!/bin/bash
+
+
+:<<EOF
+
+过滤器		筛选器
+过滤程序	筛选器
+滤波器		筛选器
+作业		任务
+工作		任务
+ web 		 Web 
+=“		="
+”>		">
+计划程序	调度程序
+横幅		 banner 
+驾驶员		驱动程序
+目的地		目标
+播发		发布
+政策		策略
+&emsp;The 	
+
+EOF
+
+
+sed -i 's|过滤器|筛选器|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|过滤程序|筛选器|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|滤波器|筛选器|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|作业|任务|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+# sed -i 's|工作|任务|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's| web | Web |g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|=“|="|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|”>|">|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|计划程序|调度程序|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|横幅| banner |g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|驾驶员|驱动程序|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|目的地|目标|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+sed -i 's|播发|发布|g' /usr/share/cups/doc-root/zh_CN/help/man-*.html
+
+sudo cp -rp /usr/share/cups/doc-root/zh_CN/* ~/k/u/locale/usr_share_cups/doc-root/zh_CN/
+

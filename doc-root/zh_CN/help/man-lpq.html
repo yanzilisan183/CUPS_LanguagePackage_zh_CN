@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpq(1)</title>
+  </head>
+  <body>
+    <h1 class="title">lpq(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpq - 显示打印机队列状态
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpq</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [<b>-h</b> <i>server</i>[<b>:</b><i>port</i>]] [<b>-P</b> <i>destination</i>[<b>/</b><i>instance</i>]] [<b>-a</b>] [<b>-l</b>] [<b>+</b><i>interval</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpq</b> 显示指定打印机上的当前打印队列状态。如果在命令行上未指定打印机或类，则将显示在默认目标上排队的任务。
+    <p>&emsp;&emsp;<i>+interval</i> 选项允许您连续报告队列中的任务，直到队列为空；任务列表每间隔 <i>interval</i> 秒显示一次。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>lpq</b> 支持以下选项：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-P </b><i>destination</i>[<b>/</b><i>instance</i>]
+      <dd style="margin-left: 5.0em">指定备用打印机或类名。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定备用用户名。
+      <dt><b>-a</b>
+      <dd style="margin-left: 5.0em">报告所有打印机上的任务。
+      <dt><b>-h </b><i>server</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">指定备用服务器。
+      <dt><b>-l</b>
+      <dd style="margin-left: 5.0em">请求更详细（长）的报告格式。
+    </dd>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>lp</b>(1) 、 <b>lpr</b>(1) 、 <b>lprm</b>(1) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

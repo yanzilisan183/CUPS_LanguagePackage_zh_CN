@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 程序设计 -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>光栅打印机驱动程序的开发</title>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+  </head>
+  <body>
+  <!--
+  Raster printer driver documentation for CUPS.
+
+  Copyright © 2007-2018 by Apple Inc.
+  Copyright © 1997-2007 by Easy Software Products.
+
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
+
+    <h1 class='title'>光栅打印机驱动程序的开发</h1>
+    <p>&emsp;&emsp;本文档介绍如何为光栅打印机开发打印机驱动程序。主题包括：<a href='#BASICS'>打印机驱动程序基础</a>，<a href='#CREATE'>创建新的 PPD 文件</a>，<a href='#FILTERS'>使用筛选器</a>，<a href='#COLOR'>实现颜色管理</a>，以及添加 macOS 功能</a>。</p>
+    <div  class='summary'>
+      <table summary='一般资料'>
+        <tbody>
+        <tr>
+          <th>另见</th>
+          <td>程序设计：<a href='postscript-driver.html'>开发 PostScript 打印机驱动程序</a><br>
+              程序设计：<a href='api-filter.html'>筛选器和后端编程</a><br>
+              程序设计：<a href='ppd-compiler.html'>PPD 编译器简介</a><br>
+              程序设计：<a href='api-raster.html'>光栅 API</a><br>
+              参考资料：<a href='ref-ppdcfile.html'>PPD 编译器驱动程序信息文件参考</a><br>
+              技术规范：<a href='spec-ppd.html'>CUPS PPD 扩展</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="contents">
+      <h2 class="title">目录</h2>
+      <ul class="contents">
+        <li><a href="#BASICS">打印机驱动程序基础</a></li>
+        <li><a href="#CREATING">创建新的 PPD 文件</a></li>
+        <li><a href="#FILTERS">使用筛选器</a></li>
+        <li><a href="#COLOR">实施色彩管理</a></li>
+        <li><a href="#MACOSX">添加 macOS 功能</a></li>
+      </ul>
+    </div>
+
+    <h2 class='title'><a name='BASICS'>打印机驱动程序基础</a></h2>
+    <p>&emsp;&emsp;CUPS 光栅打印机驱动程序包括一个描述设备功能的 PostScript 打印机描述（ PPD ）文件、一个或多个为设备准备打印数据的 <em>筛选器</em> 程序，以及零个或多个用于颜色管理、联机帮助等的支持文件。PPD 文件包括对驱动程序使用的所有筛选器和支持文件的引用。</p>
+    <p>&emsp;&emsp;每当用户打印某个内容时，调度程序，<a href='man-cupsd.html'>cupsd(8)</a> 将确定打印任务的格式以及将该任务转换为打印机理解的内容所需的程序。CUPS 包括许多常用格式的筛选程序，例如将便携式文档格式（ PDF ）文件转换为 CUPS 光栅数据。<a href='#FIGURE_1'>图 1</a> 显示了典型打印任务的数据流。</p>
+    <div  class='figure'>
+      <table summary='光栅筛选器链'>
+        <caption>图 1：<a name='FIGURE_1'>光栅筛选器链</a></caption>
+        <tr><td><img src='../images/cups-raster-chain.png' width='700' height='150' alt='光栅筛选器链'></td></tr>
+      </table>
+    </div>
+    <p>&emsp;&emsp;光栅筛选器将 CUPS 光栅数据转换为打印机可以理解的格式，例如 HP-PCL 。CUPS 包括几个支持标准页面描述语言（ PDL ）的示例光栅筛选器。<a href='#TABLE_1'>表 1</a> 显示了与 CUPS 捆绑在一起的光栅筛选器及其支持的语言。</p>
+    <div  class='table'>
+      <table summary="标准 CUPS 光栅筛选器">
+        <caption>表 1：<a name='TABLE_1'>标准 CUPS 光栅筛选器</a></caption>
+        <thead>
+        <tr><th>筛选器</th><th>PDLs</th><th>ppdc 驱动类型</th><th>ppdc #include file</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>rastertoepson</td><td>ESC/P, ESC/P2</td><td>epson</td><td>epson.h</td></tr>
+        <tr><td>rastertoescpx</td><td>ESC/P, ESC/P2, EPSON Remote Mode</td><td>escp</td><td>escp.h</td></tr>
+        <tr><td>rastertohp</td><td>HP-PCL3, HP-PCL5</td><td>hp</td><td>hp.h</td></tr>
+        <tr><td>rastertolabel</td><td>CPCL, Dymo, EPL1, EPL2, Intellitech PCL, ZPL</td><td>label</td><td>label.h</td></tr>
+        <tr><td>rastertopclx</td><td>HP-RTL, HP-PCL3, HP-PCL3GUI, HP-PCL5, HP-PCL5c, HP-PCL5e</td><td>pcl</td><td>pcl.h</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>&emsp;&emsp;可选端口监视器处理特定于接口的协议或编码问题。例如，某些光栅打印机使用 1284.4 通信协议。</p>
+    <p>&emsp;&emsp;后端处理与打印机的通信，将打印数据从最后一个筛选器发送到打印机，并将后通道数据从打印机中继到上游筛选器。CUPS 包括用于通用直接连接接口和网络协议的后端程序，您可以提供自己的后端以支持自定义接口和协议。</p>
+    <p>&emsp;&emsp;调度器还支持一种特殊的“命令”文件格式，用于向打印机或打印机驱动程序发送维护命令和状态查询。命令打印任务通常使用 PPD 文件中定义的单个命令筛选器程序生成适当的打印机命令并处理打印机的任何响应。<a href='#FIGURE_2'>图 2</a> 显示了典型命令任务的数据流。</p>
+    <div  class='figure'>
+      <table summary='命令筛选器链'>
+        <caption>Figure 2: <a name='FIGURE_2'>命令筛选器链</a></caption>
+        <tr><td><img src='../images/cups-command-chain.png' width='575' height='150' alt='命令筛选器链'></td></tr>
+      </table>
+    </div>
+    <p>&emsp;&emsp;光栅打印机驱动程序必须提供自己的命令筛选器。</p>
+
+
+    <h2 class='title'><a name='CREATING'>创建新的 PPD 文件</a></h2>
+    <p>&emsp;&emsp;我们建议使用 CUPS PPD 编译器，<a href='man-ppdc.html'>ppdc(1)</a> 创建新的 PPD 文件，因为它可以为您管理纸张大小和本地化的许多繁琐（且容易出错！）细节。它还允许您从单个源文件轻松支持多个设备。有关更多信息，请参阅 <a href='ppd-compiler.html'>PPD 编译器简介</a> 文档。<a href='#LISTING_1'>清单 1</a> 显示了几种类似的黑白 HP-PCL5 激光打印机的驱动程序信息文件。</p>
+
+    <p class='example'>清单 1：<a name='LISTING_1'>"examples/laserjet-basic.drv"</a></p>
+    <pre class='example'>
+<i>// 包括标准字体和媒体定义</i>
+<a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
+<a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
+
+<i>// 包括HP-PCL驱动程序定义</i>
+<a href='ref-ppdcfile.html#_include'>#include</a> &lt;pcl.h&gt;
+
+<i>// 指定此驱动程序使用 HP-PCL 驱动程序...</i>
+<a href='ref-ppdcfile.html#DriverType'>DriverType</a> pcl
+
+<i>// 通过型号指定驱动程序选项...</i>
+<a href='ref-ppdcfile.html#ModelNumber'>ModelNumber</a> ($PCL_PAPER_SIZE $PCL_PJL $PCL_PJL_RESOLUTION)
+
+<i>// 列出支持的字体，在本例中为所有标准字体...</i>
+<a href='ref-ppdcfile.html#Font'>Font</a> *
+
+<i>// 制造商和驱动程序版本</i>
+<a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "HP"
+<a href='ref-ppdcfile.html#Version'>Version</a> 1.0
+
+<i>// 支持的页面大小及其页边距</i>
+<a href='ref-ppdcfile.html#HWMargins'>HWMargins</a> 18 12 18 12
+*<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Legal
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Executive
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Monarch
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Statement
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> FanFoldGermanLegal
+
+<a href='ref-ppdcfile.html#HWMargins'>HWMargins</a> 18 12.72 18 12.72
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Env10
+
+<a href='ref-ppdcfile.html#HWMargins'>HWMargins</a> 9.72 12 9.72 12
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A5
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> B5
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> EnvC5
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> EnvDL
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> EnvISOB5
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Postcard
+<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> DoublePostcard
+
+<i>// 只有模式 3 压缩的黑白输出...</i>
+<a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> Gray k chunky 3
+
+<i>// 支持的分辨率</i>
+<a href='ref-ppdcfile.html#Resolution'>Resolution</a> - 1 0 0 0 "300dpi/300 DPI"
+*<a href='ref-ppdcfile.html#Resolution'>Resolution</a> - 8 0 0 0 "600dpi/600 DPI"
+
+<i>// 支持的进纸槽</i>
+*<a href='ref-ppdcfile.html#InputSlot'>InputSlot</a> 7 "Auto/Automatic Selection"
+<a href='ref-ppdcfile.html#InputSlot'>InputSlot</a> 2 "Manual/Tray 1 - Manual Feed"
+<a href='ref-ppdcfile.html#InputSlot'>InputSlot</a> 4 "Upper/Tray 1"
+<a href='ref-ppdcfile.html#InputSlot'>InputSlot</a> 1 "Lower/Tray 2"
+<a href='ref-ppdcfile.html#InputSlot'>InputSlot</a> 5 "LargeCapacity/Tray 3"
+
+<i>// 进纸槽 3 的选项</i>
+<a href='ref-ppdcfile.html#Installable'>Installable</a> "OptionLargeCapacity/Tray 3 Installed"
+<a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*OptionLargeCapacity False *InputSlot LargeCapacity"
+
+{
+  <i>// HP LaserJet 2100 Series</i>
+  <a href='ref-ppdcfile.html#Throughput'>Throughput</a> 10
+  <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "LaserJet 2100 Series"
+  <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "hpljt211.ppd"
+}
+
+{
+  <i>// LaserJet 2200 and 2300 series 拥有双面打印选项</i>
+  <a href='ref-ppdcfile.html#Duplex'>Duplex</a> normal
+  <a href='ref-ppdcfile.html#Installable'>Installable</a> "OptionDuplex/Duplexer Installed"
+  <a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*OptionDuplex False *Duplex"
+
+  {
+    <i>// HP LaserJet 2200 Series</i>
+    <a href='ref-ppdcfile.html#Throughput'>Throughput</a> 19
+    <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "LaserJet 2200 Series"
+    <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "hpljt221.ppd"
+  }
+
+  {
+    <i>// HP LaserJet 2300 Series</i>
+    <a href='ref-ppdcfile.html#Throughput'>Throughput</a> 25
+    <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "LaserJet 2300 Series"
+    <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "hpljt231.ppd"
+  }
+}</pre>
+
+
+    <h2 class='title'><a name='FILTERS'>使用筛选器</a></h2>
+    <p>&emsp;&emsp;可以使用 <a href='ref-ppdcfile.html#DriverType'><tt>DriverType</tt></a> 指令指定标准 CUPS 光栅筛选器，例如：</p>
+    <pre class='example'><i>// 指定此驱动程序使用 HP-PCL 驱动程序</i><br><a href='ref-ppdcfile.html#DriverType'>DriverType</a> pcl</pre>
+    <p>&emsp;&emsp;<a href='#TABLE_1'>表 1</a> 显示每个标准 CUPS 光栅筛选器的驱动程序类型。对于不使用标准光栅筛选器的驱动程序，“custom” 类型与 <a href='ref-ppdcfile.html#Filter'><tt>Filter</tt></a> 指令一起使用：</p>
+    <pre class='example'>
+<a href='ref-ppdcfile.html#DriverType'>DriverType</a> custom
+<a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 /path/to/raster/filter
+<a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-command 100 /path/to/command/filter</pre>
+
+
+    <h2 class='title'><a name='COLOR'>实施色彩管理</a></h2>
+    <p>&emsp;&emsp;CUPS 使用 ICC 颜色配置文件提供更精确的颜色再现。<a href='spec-ppd.html#cupsICCProfile'><tt>cupsICCProfile</tt></a> 属性定义可用于给定打印机的颜色配置文件，例如：</p>
+    <pre class='example'><a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsICCProfile "ColorModel.MediaType.Resolution/Description" /path/to/ICC/profile</pre>
+    <p>&emsp;&emsp;其中 “ColorModel.MediaType.Resolution” 根据相应的选项选择定义选择器。一个简单的驱动程序可能只为支持的颜色模型定义配置文件，例如，支持灰色和 RGB 的打印机可能使用：</p>
+    <pre class='example'>
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsICCProfile "Gray../Grayscale Profile" /path/to/ICC/gray-profile
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsICCProfile "RGB../Full Color Profile" /path/to/ICC/rgb-profile</pre>
+    <p>&emsp;&emsp;用于概要文件选择的选项可以使用 <tt>cupsICCQualifier2</tt> 和 <tt>cupsICCQualifier3</tt> 属性进行自定义。</p>
+
+    <h3><span class='info'>自 macOS 10.5 以来</span>支持自定义配色</h3>
+    <p>&emsp;&emsp;基于现有标准 RGB 颜色空间的 macOS 打印机驱动程序可以告诉系统在进行颜色管理时使用相应的颜色空间，而不是任意 ICC 颜色配置文件。可以使用 <a href='#APCustom'><tt>APSupportsCustomColorMatching</tt></a> 和 <tt>APDefaultCustomColorMatchingProfile</tt> 属性启用此模式：</p>
+    <pre class='example'>
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> APSupportsCustomColorMatching "" true
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> APDefaultCustomColorMatchingProfile "" sRGB</pre>
+
+
+    <h2 class='title'><a name='MACOSX'>添加macOS功能</a></h2>
+    <p>&emsp;&emsp;macOS 打印机驱动程序可以提供 <a href='spec-ppd.html#MACOSX'>附加属性</a> 来指定打印对话框中的其他选项窗格、打印机图像、帮助手册以及驱动程序软件的选项预设：</p>
+    <pre class='example'>
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> APDialogExtension "" /Library/Printers/Vendor/filename.plugin
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> APHelpBook "" /Library/Printers/Vendor/filename.bundle
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> APPrinterIconPath "" /Library/Printers/Vendor/filename.icns
+<a href='ref-ppdcfile.html#Attribute'>Attribute</a> APPrinterPreset "name/text" "*option choice ..."</pre>
+  </body>
+</html>

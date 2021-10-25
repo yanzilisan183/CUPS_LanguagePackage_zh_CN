@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>backend(7)</title>
+  </head>
+  <body>
+    <h1 class="title">backend(7)</h1>
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;backend - cups 后端传输接口</p>
+    
+    <h2 class="title"><a name="SYNOPSIS">概要</a></h2>
+    <p>&emsp;&emsp;<b>backend</b></p>
+    <p>&emsp;&emsp;<b>backend</b> <i>job</i> <i>user</i> <i>title</i> <i>num-copies</i> <i>options</i> [<i>filename</i>]</p>
+    <pre class="man">
+<b>#include &lt;cups/cups.h></b> 
+<b>const char *cupsBackendDeviceURI</b>(<b>char **</b><i>argv</i>);
+
+<b>void cupsBackendReport</b>(<b>const char *</b><i>device_scheme</i>,
+                       <b>const char *</b><i>device_uri</i>,
+                       <b>const char *</b><i>device_make_and_model</i>,
+                       <b>const char *</b><i>device_info</i>,
+                       <b>const char *</b><i>device_id</i>,
+                       <b>const char *</b><i>device_location</i>);
+<b>ssize_t cupsBackChannelWrite</b>(<b>const char *</b><i>buffer</i>,
+                             <b>size_t </b><i>bytes</i>, <b>double </b><i>timeout</i>);
+<b>int cupsSideChannelRead</b>(<b>cups_sc_command_t *</b><i>command</i>,
+                        <b>cups_sc_status_t *</b><i>status</i>, <b>char *</b><i>data</i>,
+                        <b>int *</b><i>datalen</i>, <b>double </b><i>timeout</i>);
+
+<b>int cupsSideChannelWrite</b>(<b>cups_sc_command_t </b><i>command</i>,
+                         <b>cups_sc_status_t </b><i>status</i>, <b>const char *</b><i>data</i>,
+                         <b>int </b><i>datalen</i>, <b>double </b><i>timeout</i>);</pre>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;后端是一种特殊类型的 <b>筛选器</b>(7)，用于向系统上的不同设备发送打印数据并发现这些设备。</p>
+    <p>&emsp;&emsp;与筛选器一样，后端必须能够读取命令行上的文件名或标准输入，并根据物理接口的要求将标准输入复制到临时文件。</p>
+    <p>&emsp;&emsp;命令名（ <i>argv[0]</i> ）设置为目标打印机的设备 URI。<i>argv[0]</i> 中的身份验证信息已被删除，因此无论何时需要身份验证信息，后端开发人员都应使用 <b>DEVICE_URI</b> 环境变量。可以使用 <b>cupsBackendDeviceURI</b>() 函数检索正确的设备 URI 。</p>
+    <p>&emsp;&emsp;应使用 <i>cupsBackChannelWrite</i> 函数将来自设备的反向通道数据中继到任务筛选器。</p>
+    <p>&emsp;&emsp;后端负责使用 <b>cupsSideChannelRead</b>() 函数读取侧通道请求，并使用 <b>cupsSideChannelWrite</b>() 函数进行响应。<b>CUPS_SC_FD</b> 常量定义了应为传入请求监控的文件描述符。</p>
+
+    <h3><a name="DEVICE_DISCOVERY">设备发现</a></h3>
+    <p>&emsp;&emsp;当在没有参数的情况下运行时，后端应列出它支持的设备和方案，或正在向标准输出发布的设备和方案。输出由零行或多行组成，包括以下任何形式：</p>
+    <pre class="man">
+    device-class scheme "Unknown" "device-info"
+    device-class device-uri "device-make-and-model" "device-info"
+    device-class device-uri "device-make-and-model" "device-info" "device-id"
+    device-class device-uri "device-make-and-model" "device-info" "device-id" "device-location"</pre>
+    <p>&emsp;&emsp;<b>cupsBackendReport</b>() 函数可用于生成这些行，并处理各种字符串中字符的任何必要转义。</p>
+    <p>&emsp;&emsp;<i>device-class</i> 字段是以下值之一：</p>
+    <dl class="man">
+      <dt><b>direct</b>
+      <dd style="margin-left: 5.0em">device-uri 是指没有选项的特定直接访问设备，例如并行、USB 或 SCSI 设备。
+      <dt><b>file</b>
+      <dd style="margin-left: 5.0em">device-uri 指磁盘上的文件。
+      <dt><b>network</b>
+      <dd style="margin-left: 5.0em">device-uri 指联网设备，符合网络 URI 的一般形式。
+      <dt><b>serial</b>
+      <dd style="margin-left: 5.0em">device-uri 指具有可配置波特率和其他选项的串行设备。如果 device-uri 包含波特率值，则表示设备支持的最大波特率。
+    </dl>
+    <p>&emsp;&emsp;<i>scheme</i> 字段提供后端支持的 URI 方案。只有当后端支持使用该方案的任何 URI 时，后端才应使用此表单。<i>device-uri</i> 字段指定与设备通信时要使用的完整 URI 。</p>
+    <p>&emsp;&emsp;<i>device-make-and-model</i> 字段指定设备的品牌和型号，例如 “Example Foojet 2000” 。如果品牌和型号未知，则必须报告 “Unknown” 。
+    <p>&emsp;&emsp;<i>device-info</i> 字段指定有关设备的其他信息。通常包括品牌和型号以及端口号或网络地址，例如 “Example Foojet 2000 USB #1” 。
+    <p>&emsp;&emsp;可选的 <i>device-id</i> 字段指定设备的 IEEE-1284 设备 ID 字符串，用于选择匹配的驱动程序。
+    <p>&emsp;&emsp;可选的 <i>device-location</i> 字段指定设备的物理位置，在添加打印机时，此字段通常用于预填充 “printer-location” 属性。
+
+    <h3><a name="PERMISSIONS">权限</a></h3>
+    <p>&emsp;&emsp;没有全局读取和执行权限的后端将作为 root 用户运行。否则，后端将使用未经授权的用户帐户（通常为 “lp” ）运行。</p>
+
+    <h2 class="title"><a name="EXIT_STATUS">退出状态</a></h2>
+    <p>&emsp;&emsp;为后端定义了以下退出代码：</p>
+    <dl class="man">
+      <dt><b>CUPS_BACKEND_OK</b>
+      <dd style="margin-left: 5.0em">打印文件已成功传输到设备或远程服务器。
+      <dt><b>CUPS_BACKEND_FAILED</b>
+      <dd style="margin-left: 5.0em">打印文件未成功传输到设备或远程服务器。调度程序将根据 <i>printer-error-policy</i> 属性的状态，通过取消任务、重试任务或停止队列来对此作出响应。
+      <dt><b>CUPS_BACKEND_AUTH_REQUIRED</b>
+      <dd style="margin-left: 5.0em">打印文件未成功传输，因为需要有效的身份验证信息。调度程序将通过保留任务并将 “cups-held-for-authentication” 关键字添加到 “job-reasons” 任务描述属性来对此作出响应。
+      <dt><b>CUPS_BACKEND_HOLD</b>
+      <dd style="margin-left: 5.0em">打印文件未成功传输，因为此时无法打印。调度程序将通过保持任务来响应此操作。
+      <dt><b>CUPS_BACKEND_STOP</b>
+      <dd style="margin-left: 5.0em">打印文件未成功传输，因为此时无法打印。调度程序将通过停止队列来响应此操作。
+      <dt><b>CUPS_BACKEND_CANCEL</b>
+      <dd style="margin-left: 5.0em">由于一个或多个属性不受支持或打印机上的任务被取消，打印文件未成功传输。调度程序将通过取消任务对此作出响应。
+      <dt><b>CUPS_BACKEND_RETRY</b>
+      <dd style="margin-left: 5.0em">由于临时问题，打印文件未能成功传输。调度程序将在将来重试该任务 － 在此之前可能会打印其他任务。
+      <dt><b>CUPS_BACKEND_RETRY_CURRENT</b>
+      <dd style="margin-left: 5.0em">由于临时问题，打印文件未能成功传输。调度程序将立即重试任务，而不允许干预任务。
+    </dl>
+    <p>&emsp;&emsp;保留所有其他退出代码值。
+
+    <h2 class="title"><a name="ENVIRONMENT">环境变量</a></h2>
+    <p>&emsp;&emsp;除了 <b>cups</b>(1) 和 <b>filter</b>(7) 中列出的环境变量外，CUPS 后端还可以预期以下环境变量：
+    <dl class="man">
+      <dt><b>DEVICE_URI</b>
+      <dd style="margin-left: 5.0em">与打印机关联的设备 URI 。
+    </dl>
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <p>&emsp;&emsp;<i>/etc/cups/cups-files.conf</i>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 后端通常不设计为由用户直接运行。除了设备 URI 问题（ <i>argv[0]</i> 和 <b>DEVICE_URI</b> 环境变量包含设备 URI ），CUPS 后端还需要特定的环境变量和文件描述符，并且通常在（在 macOS 上）具有影响其运行方式的附加限制的用户会话中运行。后端也可以使用受限权限（ 0500 或 0700 ）安装，这些权限告诉调度程序以 “root” 用户而不是系统上的非特权用户（通常为 “lp” ）的身份运行它们。</p>
+    <p>&emsp;&emsp;除非您是一名开发人员并且知道自己在做什么，否则请不要直接运行后端。相反，使用 <b>lp</b>(1) 或 <b>lpr</b>(1) 程序发送打印任务，或使用 <b>lpinfo</b>(8) 查询使用后端的可用打印机。一个例外是 SNMP 后端 － 有关更多信息，请参阅 <b>cups-snmp</b>(8) 。
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 打印机驱动程序和后端已弃用，在未来的 CUPS 功能版本中将不再受支持。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cups</b>(1) 、 <b>cups-files.conf</b>(5) 、 <b>cups-snmp</b>(8) 、 <b>cupsd</b>(8) 、 <b>filter</b>(7) 、 <b>lp</b>(1) 、 <b>lpinfo</b>(8) 、 <b>lpr</b>(1)</p>
+    <p>&emsp;&emsp;CUPS 在线帮助（ <a href="http://localhost:631/help">http://localhost:631/help</a> ）</p>
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
+
+  </body>
+</html>

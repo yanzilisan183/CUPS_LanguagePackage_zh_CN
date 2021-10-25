@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpadmin(8)</title>
+  </head>
+  <body>
+    <h1 class="title">lpadmin(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpadmin - 配置 cups 打印机和类
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpadmin</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [ <b>-h </b><i>server</i>[<b>:</b><i>port</i>]] <b>-d</b> <i>destination</i><br>
+       &emsp;&emsp;<b>lpadmin</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [ <b>-h </b><i>server</i>[<b>:</b><i>port</i>]] <b>-p</b> <i>destination</i> [<b>-R</b> <i>name-default</i>] <i>option(s)</i><br>
+       &emsp;&emsp;<b>lpadmin</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [ <b>-h </b><i>server</i>[<b>:</b><i>port</i>]] <b>-x</b> <i>destination</i>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpadmin</b> 配置 CUPS 提供的打印机和类队列。它还可用于设置服务器默认打印机或类。
+    <p>&emsp;&emsp;在 <i>-d</i> 、 <i>-p</i> 或 <i>-x</i> 选项之前指定时， <i>-E</i> 选项在连接到服务器时强制加密。
+    <p>&emsp;&emsp;命令的第一种形式（ <i>-d</i> ）将默认打印机或类设置为 <i>destination</i> 。通过 <b>lp</b>(1) 或 <b>lpr</b>(1) 命令提交的后续打印任务将使用此目标，除非用户使用 <b>lpoptions</b>(1) 命令另有指定。
+    <p>&emsp;&emsp;命令的第二种形式（ <i>-p</i> ）配置指定的打印机或类。下面介绍了其他选项。
+    <p>&emsp;&emsp;命令的第三种形式（ <i>-x</i> ）删除打印机或类 <i>destination</i> 。目标的任何挂起任务都将被删除，当前打印的任何任务都将被中止。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;配置打印机队列时可以识别以下选项：
+    <dl class="man">
+      <dt><b>-c </b><i>class</i>
+      <dd style="margin-left: 5.0em">将命名的 <i>printer</i> 添加到 <i>class</i> 。如果 <i>class</i> 不存在，则会自动创建该类。
+      <dt><b>-m </b><i>model</i>
+      <dd style="margin-left: 5.0em">从 <i>model</i> 目录或使用其中一个驱动程序界面为打印机设置标准 PPD 文件。将 <i>-m</i> 选项与 <b>lpinfo</b>(8) 命令一起使用，以获取受支持型号的列表。模型 “raw” 清除任何现有 PPD 文件，模型 “everywhere” 查询指定 IPP <i>device-uri</i> 所引用的打印机。注意：除 “everywhere” 之外的其他型号已弃用，未来版本的 CUPS 将不支持这些型号。
+      <dt><b>-o cupsIPPSupplies=true</b>
+      <dt><b>-o cupsIPPSupplies=false</b>
+      <dd style="margin-left: 5.0em">指定是否应报告 IPP 供应水平值。
+      <dt><b>-o cupsSNMPSupplies=true</b>
+      <dt><b>-o cupsSNMPSupplies=false</b>
+      <dd style="margin-left: 5.0em">指定是否应报告 SNMP 供应级别（ RFC 3805 ）值。
+      <dt><b>-o job-k-limit=</b><i>value</i>
+      <dd style="margin-left: 5.0em">设置每个用户的配额限制（ KB ）。该值是以千字节为单位的整数；1 千字节等于 1024 字节。
+      <dt><b>-o job-page-limit=</b><i>value</i>
+      <dd style="margin-left: 5.0em">设置每个用户配额的页面限制。该值是可以打印的整数页数；双面页计为两页。
+      <dt><b>-o job-quota-period=</b><i>value</i>
+      <dd style="margin-left: 5.0em">设置每个用户配额的记帐期间。该值是以秒为单位的整数；一天内有 86400 秒。
+      <dt><b>-o job-sheets-default=</b><i>banner</i>
+      <dt><b>-o job-sheets-default=</b><i>banner</i><b>,</b><i>banner</i>
+      <dd style="margin-left: 5.0em">设置用于打印任务的默认标题页。
+      <dt><b>-o </b><i>name</i><b>=</b><i>value</i>
+      <dd style="margin-left: 5.0em">设置打印机的 PPD 选项。 PPD 选项可以使用 <b>lpoptions</b>(1) 命令的 <i>-l</i> 选项列出。
+      <dt><b>-o </b><i>name</i><b>-default=</b><i>value</i>
+      <dd style="margin-left: 5.0em">设置目标的默认服务器端选项。任何打印时间选项都可以设置为默认值，例如，“-o number-up-default=2” 将默认的 “number-up” 选项值设置为 2 。
+      <dt><b>-o port-monitor=</b><i>name</i>
+      <dd style="margin-left: 5.0em">设置打印 “none” 、 “bcp” 或 “tbcp” 时要使用的二进制通信程序。默认程序为 “none” 。指定的端口监视器必须列在打印机的 PPD 文件中。
+      <dt><b>-o printer-error-policy=</b><i>name</i>
+      <dd style="margin-left: 5.0em">为以下错误设置策略：无法找到或访问的打印机、不支持正在打印的格式、提交打印数据时失败或导致一个或多个筛选器崩溃。名称必须是 “abort-job”（出错时中止任务）、 “retry-job”（以后重试任务）、 “retry-current-job”（立即重试当前任务）或 “stop-printer”（出错时停止打印机）之一。对于打印机，默认错误策略为 “stop-printer” ，对于类，默认错误策略为 “retry-current-job” 。
+      <dt><b>-o printer-is-shared=true</b>
+      <dt><b>-o printer-is-shared=false</b>
+      <dd style="margin-left: 5.0em">将目标设置为共享/已发布或非共享/未发布。共享/发布的目标由 LAN 上的服务器根据 <i>cupsd.conf</i> 中的浏览配置公开宣布，而未共享/未发布的目标则不会宣布。默认值为 “true” 。
+      <dt><b>-o printer-op-policy=</b><i>name</i>
+      <dd style="margin-left: 5.0em">设置与目标关联的 IPP 操作策略。必须在策略部分的 <i>cupsd.conf</i> 中定义名称。默认操作策略为 “default” 。
+      <dt><b>-R </b><i>name</i><b>-default</b>
+      <dd style="margin-left: 5.0em">从<i>printer</i> 中删除命名选项。
+      <dt><b>-r </b><i>class</i>
+      <dd style="margin-left: 5.0em">从 <i>class</i> 中删除命名的 <i>printer</i> 。如果生成的类变为空，则会将其删除。
+      <dt><b>-u allow:</b>{<i>user</i>|<b>@</b><i>group</i>}{<b>,</b><i>user</i>|<b>,@</b><i>group</i>}*
+      <dt><b>-u deny:</b>{<i>user</i>|<b>@</b><i>group</i>}{<b>,</b><i>user</i>|<b>,@</b><i>group</i>}*
+      <dt><b>-u allow:all</b>
+      <dt><b>-u deny:none</b>
+      <dd style="margin-left: 5.0em">设置目标上的用户级访问控制。以 “@” 开头的名称被解释为 UNIX 组。后两种形式关闭用户级访问控制。注意：未授予用户 “root” 特殊访问权限 － 使用 “-u allow:foo,bar” 将允许用户 “foo” 和 “bar” 访问打印机，但不允许用户 “root” 。
+      <dt><b>-v "</b><i>device-uri</i><b>"</b>
+      <dd style="margin-left: 5.0em">设置打印机队列的 <i>device-uri</i> 属性。将 <i>-v</i> 选项与 <b>lpinfo</b>(8) 命令一起使用，以获取受支持的设备 URI 和方案的列表。
+      <dt><b>-D "</b><i>info</i><b>"</b>
+      <dd style="margin-left: 5.0em">提供目标的文本描述。
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">当在 <b>-d</b> 、 <b>-p</b> 或 <b>-x</b> 选项之前指定时，将强制在与调度程序的连接上使用 TLS 加密。否则，启用目标并接受任务；这与在目标上运行 <b>cupsacept</b>(8) 和 <b>cupsenable</b>(8) 程序相同。
+      <dt><b>-L "</b><i>location</i><b>"</b>
+      <dd style="margin-left: 5.0em">提供目标的文本位置。
+    </dd>
+
+    <h2 class="title"><a name="DEPRECATED_OPTIONS">不推荐的选项</a></h2>
+    <p>&emsp;&emsp;以下 <b>lpadmin</b> 选项已弃用：
+    <dl class="man">
+      <dt><b>-i </b><i>filename</i>
+      <dd style="margin-left: 5.0em">该选项过去用于提供 System V 接口脚本或（作为实现的副作用）PPD 文件。注意：CUPS 不支持接口脚本。PPD 文件和打印机驱动程序已弃用，未来版本的 CUPS 将不支持它们。
+      <dt><b>-P </b><i>ppd-file</i>
+      <dd style="margin-left: 5.0em">指定要与打印机一起使用的 PostScript 打印机说明（ PPD ）文件。注意： PPD 文件和打印机驱动程序已弃用，在未来版本的 CUPS 中将不受支持。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;与 System V 打印系统不同， CUPS 允许打印机名称包含除空格、制表符、 “/” 或 “#” 之外的任何可打印字符。此外，打印机名和类名<i>不</i>区分大小写。
+    <p> 最后，根据打印系统配置，CUPS 版本的 <b>lpadmin</b> 可能会要求用户输入访问密码。这与 System V 版本不同，后者要求 root 用户执行此命令。
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 打印机驱动程序和后端已弃用，在未来的 CUPS 功能版本中将不再受支持。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
+    <p>&emsp;&emsp;<b>lpadmin</b> 的 CUPS 版本不支持所有 System V 或 Solaris 打印系统配置选项。
+    <p>&emsp;&emsp;出于安全原因，不支持接口脚本。
+    <p>&emsp;&emsp;<b>-E</b> 选项的双重含义是一个不幸的历史奇观。
+    <p>&emsp;&emsp;<b>lpadmin</b> 命令与调度程序（ <b>cupsd</b> ）通信，以更改打印系统配置。此配置信息存储在多个文件中，包括 <i>printers.conf</i> 和 <i>classes.conf</i> 。这些文件不应直接编辑，而是 CUPS 的实施细节，随时可能更改。
+
+    <h2 class="title"><a name="EXAMPLE">例子</a></h2>
+    <p>&emsp;&emsp;创建 IPP Everywhere 打印队列：
+    <pre class="man">lpadmin -p myprinter -E -v ipp://myprinter.local/ipp/print -m everywhere</pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cupsaccept</b>(8) 、 <b>cupsenable</b>(8) 、 <b>lpinfo</b>(8) 、 <b>lpoptions</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

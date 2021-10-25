@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 技术规范 -->
+  <head>
+  <title>CUPS 命令文件格式</title>
+  <meta name='keywords' content='Programming, CUPS Command File Format'>
+  <link rel='stylesheet' type='text/css' href='../cups-printable.css'>
+  </head>
+  <body>
+  <!--
+  CUPS command file format specification for CUPS.
+
+  Copyright © 2007-2018 by Apple Inc.
+  Copyright © 1997-2006 by Easy Software Products.
+
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
+
+    <h1 class="title">CUPS命令文件格式</h1>
+    <h2 class='title'><a name='INTRODUCTION'>介绍</a></h2>
+    <p>&emsp;&emsp;本规范描述了 CUPS 命令文件格式（application/vnd.cups-command），用于以独立于设备的方式向打印机发送打印机维护命令。当前规范支持基本维护功能，如头部清洁和自检页面，以及查询功能，如自动配置、报告提供级别和报告状态。</p>
+    <p>&emsp;&emsp;打印机驱动程序通过为 <var>application/vnd.cups-command</var> 文件类型提供筛选器来提供对 CUPS 命令文件格式的支持。应用程序可以通过检查 <code>CUPS_PRINTER_COMMANDS</code> 功能位的 <code>printer-type</code> 属性来确定打印机是否支持打印 CUPS 命令文件。</p>
+    <p>&emsp;&emsp;此外，打印机的 PPD 文件可以包含 <code>cupsCommand</code> 关键字，该关键字提供由空格分隔的受支持命令列表，例如：</p>
+    <pre class='command'>*cupsCommands: "AutoConfigure Clean PrintSelfTestPage ReportLevels ReportStatus"</pre>
+    <p>&emsp;&emsp;如果未提供 <code>cupsCommands</code> 关键字，则命令筛选器必须支持 <a href='#AutoConfigure'><code>AutoConfigure</code></a> ， <a href='#Clean'><code>Clean</code></a> ， <a href='#PrintSelfTestPage'><code>PrintSelfTestPage</code> 和 <a href='#ReportLevels'><code>ReportLevels</code></a> 。计划程序还提供包含支持的命令列表的 <code>printer-commands</code> 属性。</p>
+
+
+    <h2 class='title'><a name='SYNTAX'>文件语法</a></h2>
+    <p>&emsp;&emsp;CUPS 命令文件是 ASCII 文本文件。CUPS 命令文件的第一行必须包含：</p>
+    <pre class='command'>#CUPS-COMMAND</pre>
+    <p>&emsp;&emsp;之后，每一行要么是命令，要么是注释。注释以 # 字符开头，例如：</p>
+    <pre class='command'># This is a comment</pre>
+    <p>&emsp;&emsp;命令是字母、数字和标点符号的任意序列，可选择后跟由空格分隔的参数，例如：</p>
+    <pre class='command'>Clean all<br>PrintSelfTestPage</pre>
+    <p>&emsp;&emsp;命令名不区分大小写，因此“PRINTSELFTESTPAGE” 、 “printselftestpage” 和 “PrintSelfTestPage” 是等效的。特定于供应商的命令应使用域名前缀，例如：</p>
+    <pre class='command'>com.vendor.foo<br>com.vendor.bar param param2 ... paramN</pre>
+
+
+    <h2 class='title'><a name='COMMANDS'>标准命令</a></h2>
+    <p>&emsp;&emsp;以下是该格式支持的标准命令。唯一需要的命令是 <a href='#PrintSelfTestPage'><code>PrintSelfTestPage</code></a> 。</p>
+    <h3><a name='AutoConfigure'>AutoConfigure</a></h3>
+    <p class='summary'>AutoConfigure</p>
+    <p>&emsp;&emsp;<code>AutoConfigure</code> 命令更新打印机的 PPD 文件和驱动程序状态信息，以反映打印机的当前配置。此命令没有参数。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>AutoConfigure</pre>
+    <h3><a name='Clean'>Clean</a></h3>
+    <p class='summary'>Clean <i>颜色名称</i></p>
+    <p>&emsp;&emsp;<code>Clean</code> 命令执行标准打印头清洁。颜色名称参数指定要清洁的颜色或头部。如果打印机不支持清洗单个颜色或墨盒，则会清洗所有颜色。命令筛选器必须支持 “all” 颜色名称。其他标准颜色名称包括 “black” 、 “color” 、 “photo” 、 “cyan” 、 “magenta” 、 “yellow” 、 “light-cyan” 、 “light-magenta” 、 “light-black” 、 “light-gray” 和 “dark-gray” 。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>Clean all</pre>
+    <h3><a name='PrintAlignmentPage'>PrintAlignmentPage</a></h3>
+    <p class='summary'>PrintAlignmentPage pass</p>
+    <p>&emsp;&emsp;<code>PrintAlignmentPage</code> 命令在打印机上打印磁头对齐页面。pass 参数提供从 1 到 N 的通过数。通过数取决于设备。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>PrintAlignmentPage 1</pre>
+    <h3><a name='PrintSelfTestPage'>PrintSelfTestPage</a></h3>
+    <p class='summary'>PrintSelfTestPage</p>
+    <p>&emsp;&emsp;<code>PrintSelfTestPage</code> 命令在打印机上打印自检页面。通常，本页显示打印头上的所有喷嘴是否正常工作，以及打印机进纸器是否正常工作。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>PrintSelfTestPage</pre>
+    <h3><a name='ReportLevels'>ReportLevels</a></h3>
+    <p class='summary'>ReportLevels</p>
+    <p>&emsp;&emsp;<code>ReportLevels</code> 命令查询打印机上的供应级别，并使用发送到调度程序的 “ATTR:” 消息报告 “marker-colors” 、 “marker-levels” 、 “marker-names” 和 “marker-types” 属性。此命令还应使用 “STATE:” 消息（如 <a href='#ReportStatus'><code>ReportStatus</code></a> 命令）报告当前打印机状态。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>ReportLevels</pre>
+    <h3><a name='ReportStatus'>ReportStatus</a></h3>
+    <p class='summary'>ReportStatus</p>
+    <p>&emsp;&emsp;<code>ReportStatus</code> 命令查询打印机的当前状态，并使用发送到计划程序的 “STATE:” 消息进行报告。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>ReportLevels</pre>
+    <h3><a name='SetAlignment'>SetAlignment</a></h3>
+    <p class='summary'>SetAlignment pass value ... valueN</p>
+    <p>&emsp;&emsp;<code>SetAlignment</code> 命令设置打印头对齐值。pass 参数是一个从 1 到 N 的数字。所有参数都取决于设备。</p>
+    <p>&emsp;&emsp;例子：</p>
+    <pre class='command'>#CUPS-COMMAND<br>SetAlignment 1 14</pre>
+  </body>
+</html>

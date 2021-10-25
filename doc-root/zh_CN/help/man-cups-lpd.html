@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cups-lpd(8)</title>
+  </head>
+  <body>
+    <h1 class="title">cups-lpd(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cups-lpd - 接收打印任务并向 lpd 客户端报告打印机状态（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>cups-lpd</b> [<b>-h </b><i>hostname</i>[<b>:</b><i>port</i>]] [<b>-n</b>] [<b>-o</b><i>option=value</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cups-lpd</b> 是 CUPS 行式打印机守护程序（ “LPD” ）小型服务器，支持使用 LPD 协议的旧客户端系统 <b>cups-lpd</b> 不作为独立的网络守护进程，而是使用任何 Internet “超级服务器”进行操作，如 <b>inetd</b>(8) 、 <b>launchd</b>(8) 和 <b>systemd</b>(8) 。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <dl class="man">
+      <dt><b>-h </b><i>hostname</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">设置要使用的 CUPS 服务器（和端口）。
+      <dt><b>-n</b>
+      <dd style="margin-left: 5.0em">禁用反向地址查找；通常 <b>cups-lpd</b> 将尝试通过反向 DNS 查找来发现客户端的主机名。
+      <dt><b>-o </b><i>name=value</i>
+      <dd style="margin-left: 5.0em">插入所有打印队列的选项。这通常用于禁用 “l” 筛选器，以便根据打印需要过滤远程打印任务；下面的 <b>inetd</b>(8) 示例将 “document-format” 选项设置为 “application/octet-stream” ，强制自动检测打印文件格式。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<b>cups-lpd</b> 不强制 RFC 1179 中指定的受限源端口号，因为使用受限端口不会阻止用户提交打印任务。虽然此行为不同于标准的 Berkeley LPD 实现，但不应影响正常的客户端操作。
+    <p>&emsp;&emsp;状态请求的输出遵循 RFC 2569 ，即 LPD 和 IPP 协议之间的映射。由于许多 LPD 实现偏离了此定义，因此向 LPD 客户端报告远程状态可能不可靠。
+
+    <h2 class="title"><a name="ERRORS">错误</a></h2>
+    <p>&emsp;&emsp;错误被发送到系统日志。
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <pre class="man">
+<i>/etc/inetd.conf</i>
+<i>/etc/xinetd.d/cups-lpd</i>
+<i>/System/Library/LaunchDaemons/org.cups.cups-lpd.plist</i></pre>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;<b>cups-lpd</b> 该程序已弃用，在 CUPS 的未来功能版本中将不再受支持。
+    <h3><a name="PERFORMANCE">性能</a></h3>
+    <p>&emsp;&emsp;<b>cups-lpd</b> 在少量客户机和打印机上表现良好。但是，由于为每个连接创建了一个新进程，并且每个进程必须在每次任务提交之前查询打印系统，因此无法扩展到更大的配置。我们强烈建议大型配置使用 CUPS 提供的本机 IPP 支持。
+    <h3><a name="SECURITY">安全</a></h3>
+    <p>&emsp;&emsp;<b>cups-lpd</b> 当前不基于 TCP 包装器使用的 <i>cupsd.conf(5)</i> 或 <i>hosts.allow(5)</i> 或 <i>hosts.deny(5)</i> 文件中的设置执行任何访问控制。因此，在服务器上运行 <b>cups-lpd</b> 将允许网络上的任何计算机（可能包括整个 Internet ）打印到服务器上。
+    <p>&emsp;&emsp;虽然 <b>xinetd</b>(8) 具有内置的访问控制支持，但您应该使用带有 <b>inetd</b>(8) 的 TCP wrappers 包来限制只能通过服务器打印的计算机的访问。
+    <p>&emsp;&emsp;标准 CUPS 发行版未启用 <b>cups-lpd</b> 。请咨询您的操作系统供应商，以确定您的系统是否默认启用了它。
+
+    <h2 class="title"><a name="EXAMPLE">例子</a></h2>
+    <p>&emsp;&emsp;如果您使用的是 <b>inetd</b>(8) ，请在 <i>inetd.conf</i> 文件中添加以下行以启用 <b>cups-lpd</b> 小型服务器：
+    <pre class="man">
+    printer stream tcp nowait lp /usr/lib/cups/daemon/cups-lpd cups-lpd \
+        -o document-format=application/octet-stream</pre>
+    <p>&emsp;&emsp;<i>提示：</i>如果您使用的是 Solaris 10 或更高版本，则必须运行 <b>inetdconv</b>(1m) 程序来注册对 <i>inetd.conf</i> 文件的更改。
+    <p>&emsp;&emsp;CUPS 包括用于 <b>launchd</b>(8) 、 <b>systemd</b>(8) 和 <b>xinetd</b>(8) 的配置文件。只需使用相应的控制程序启用 <b>cups-lpd</b> 服务即可。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <b>cups</b>(1), <b>cupsd</b>(8), <b>inetconv</b>(1m), <b>inetd</b>(8), <b>launchd</b>(8), <b>xinetd</b>(8),
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a> ）, RFC 2569
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

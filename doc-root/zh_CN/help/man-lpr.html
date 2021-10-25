@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lpr(1)</title>
+  </head>
+  <body>
+    <h1 class="title">lpr(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lpr - 打印文件
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lpr</b> [<b>-E</b>] [<b>-H </b><i>server</i>[<b>:</b><i>port</i>]] [<b>-U</b> <i>username</i>] [<b>-P </b><i>destination</i>[<b>/</b><i>instance</i>]] [<b>-#</b> <i>num-copies</i> [<b>-h</b>] [<b>-l</b>] [<b>-m</b>] [<b>-o</b> <i>option</i>[<b>=</b><i>value</i>]] [<b>-p</b>] [<b>-q</b>] [<b>-r</b>] [<b>-C</b> <i>title</i>] [<b>-J</b> <i>title</i>] [<b>-T</b> <i>title</i>] [<i>file(s)</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lpr</b> 提交文件进行打印。命令行上指定的文件将发送到指定的打印机或默认目标（如果未指定目标）。如果命令行上没有列出任何文件， <b>lpr</b> 从标准输入读取打印文件。
+    <h3><a name="THE_DEFAULT_DESTINATION">默认目标</a></h3>
+    <p>&emsp;&emsp;CUPS 提供了许多设置默认目标的方法。首先参考 <b>LPDEST</b> 和 <b>PRINTER</b> 环境变量。如果两者都未设置，则使用当前默认设置（使用 <b>lpoptions</b>(1) 命令），然后使用默认设置（使用 <b>lpadmin</b>(8) 命令）。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;以下选项由 <i>lpr</i> 识别：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-H </b><i>server</i>[<b>:</b><i>port</i>]
+      <dd style="margin-left: 5.0em">指定备用服务器。
+      <dt><b>-C "</b><i>name</i><b>"</b>
+      <dt><b>-J "</b><i>name</i><b>"</b>
+      <dt><b>-T "</b><i>name</i><b>"</b>
+      <dd style="margin-left: 5.0em">设置任务名称/标题。
+      <dt><b>-P </b><i>destination</i>[<b>/</b><i>instance</i>]
+      <dd style="margin-left: 5.0em">将文件打印到指定的打印机。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定备用用户名。
+      <dt><b>-# </b><i>copies</i>
+      <dd style="margin-left: 5.0em">设置要打印的份数。
+      <dt><b>-h</b>
+      <dd style="margin-left: 5.0em">禁用 banner 打印。此选项相当于 <i>-o job-sheets=none</i> 。
+      <dt><b>-l</b>
+      <dd style="margin-left: 5.0em">指定打印文件已针对目标格式化，并且应在不进行筛选的情况下发送。此选项相当于 <i>-o raw</i> 。
+      <dt><b>-m</b>
+      <dd style="margin-left: 5.0em">在任务完成时发送电子邮件。
+      <dt><b>-o </b><i>option</i>[<b>=</b><i>value</i>]
+      <dd style="margin-left: 5.0em">设置任务选项。请参阅下面的“常见任务选项”。
+      <dt><b>-p</b>
+      <dd style="margin-left: 5.0em">指定打印文件的格式应为带有日期、时间、任务名称和页码的阴影标题。此选项相当于 <i>-o prettyprint</i> ，仅在打印文本文件时有用。
+      <dt><b>-q</b>
+      <dd style="margin-left: 5.0em">保留打印任务。
+      <dt><b>-r</b>
+      <dd style="margin-left: 5.0em">指定在提交命名打印文件后应将其删除。
+    </dd>
+    <h3><a name="COMMON_JOB_OPTIONS">常见任务选择</a></h3>
+    <p>&emsp;&emsp;除了由 <b>lpoptions</b>(1) 命令报告的打印机特定选项外，还提供以下通用选项：
+    <dl class="man">
+      <dt><b>-o job-sheets=</b><i>name</i>
+      <dd style="margin-left: 5.0em">打印包含文档的封面（ banner ）。“name” 可以是 “classified” 、 “confidential” 、 “secret” 、 “standard” 、 “topsecret” 或 “unclassified” 。
+      <dt><b>-o media=</b><i>size</i>
+      <dd style="margin-left: 5.0em">将页面大小设置为 <i>size</i> 。大多数打印机至少支持尺寸名称 “a4” 、 “letter” 和 “legal” 。
+      <dt><b>-o number-up=</b>{<i>2|4|6|9|16</i>}
+      <dd style="margin-left: 5.0em">在每个输出页面上打印 2、4、6、9 或 16 个文档（输入）页面。
+      <dt><b>-o orientation-requested=4</b>
+      <dd style="margin-left: 5.0em">在横向打印任务（逆时针旋转 90 度）。
+      <dt><b>-o orientation-requested=5</b>
+      <dd style="margin-left: 5.0em">在横向打印任务（顺时针旋转 90 度）。
+      <dt><b>-o orientation-requested=6</b>
+      <dd style="margin-left: 5.0em">以反向纵向打印任务（旋转 180 度）。
+      <dt><b>-o print-quality=3</b>
+      <dt><b>-o print-quality=4</b>
+      <dt><b>-o print-quality=5</b>
+      <dd style="margin-left: 5.0em">指定输出质量 － 草稿(3) 、正常(4) 或 最佳(5) 。
+      <dt><b>-o sides=one-sided</b>
+      <dd style="margin-left: 5.0em">打印在纸的一面。
+      <dt><b>-o sides=two-sided-long-edge</b>
+      <dd style="margin-left: 5.0em">打印在纸张的两面，用于纵向输出。
+      <dt><b>-o sides=two-sided-short-edge</b>
+      <dd style="margin-left: 5.0em">打印在纸张的两面，用于横向输出。
+    </dd>
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS 不支持 <i>-c</i> 、 <i>-d</i> 、 <i>-f</i> 、 <i>-g</i> 、 <i>-i</i> 、 <i>-n</i> 、 <i>-t</i> 、 <i>-v</i> 和 <i>-w</i> 选项，如果使用这些选项，会产生警告消息。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;将文档的两份副本打印到默认打印机：
+    <pre class="man">lpr -# 2 filename</pre>
+    <p>&emsp;&emsp;将双面 legal 文件打印到名为 “foo” 的打印机上：
+    <pre class="man">lpr -P foo -o media=legal -o sides=two-sided-long-edge filename</pre>
+    <p>&emsp;&emsp;将演示文稿文档打印到名为 “foo” 的打印机上：
+    <pre class="man">lpr -P foo -o number-up=2 filename</pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>lp</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpoptions</b>(1) 、 <b>lpq</b>(1) 、 <b>lprm</b>(1) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

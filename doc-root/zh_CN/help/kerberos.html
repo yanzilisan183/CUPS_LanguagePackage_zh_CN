@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <!-- SECTION: 快速入门 -->
+  <head>
+    <title>使用 Kerberos 身份验证</title>
+    <link rel="STYLESHEET" TYPE="text/css" HREF="../cups-printable.css">
+  </head>
+  <body>
+    <h1 CLASS="title">使用 Kerberos 身份验证</h1>
+    <p>&emsp;&emsp;CUPS 允许您使用密钥分发中心（KDC）在本地 CUPS 服务器上进行身份验证，以及在打印到远程身份验证队列时进行身份验证。本文档介绍如何配置 CUPS 以使用 Kerberos 身份验证，并提供指向 MIT 帮助页面的链接，用于在系统和网络上配置 Kerberos。</p>
+
+
+    <h2 CLASS="title"><a name="REQUIREMENTS">系统要求</a></h2>
+    <p>&emsp;&emsp;要将 Kerberos 与 CUPS 一起使用，需要执行以下操作：</p>
+    <ol>
+      <li>Heimdal Kerberos（任何版本）或 MIT Kerberos（1.6.3或更新版本）</li>
+      <li>正确配置的域名系统（DNS）基础架构（用于您的服务器）：
+        <ol type='a'>
+          <li>DNS 服务器，具有所有 CUPS 服务器的静态 IP 地址，或配置为允许对主机地址和服务器进行 DHCP 更新，并且</li>
+          <li>配置为使用相同 DNS 服务器的所有 CUPS 客户端和服务器。</li>
+        </ol>
+      </li>
+      <li>正确配置的 Kerberos 基础架构：
+	<ol type='a'>
+          <li>KDC 配置为允许 CUPS 服务器获取“主机”和“HTTP”服务/主体的服务授予票证（SGT），</li>
+          <li>基于LDAP的用户帐户 - OpenDirectory 和 ActiveDirectory 都通过 KDC 提供此功能，并且</li>
+          <li>CUPS 客户端和服务器绑定到同一 KDC 和 LDAP 服务器。</li>
+	</ol>
+      </li>
+    </ol>
+
+    <h2 CLASS="title"><a name="KRB5">在系统上配置 Kerberos</a></h2>
+    <p>&emsp;&emsp;在将 Kerberos 用于 CUPS 之前，需要在系统上配置 Kerberos 并将系统设置为 KDC。由于此配置具有高度的系统特定性和站点特定性，请参考麻省理工学院（MIT）Kerberos 创建者提供的以下在线资源：</p>
+    <ul>
+      <li><a href="http://web.mit.edu/kerberos/">Kerberos：网络认证协议</a></li>
+      <li><a href="http://web.mit.edu/macdev/KfM/Common/Documentation/faq-osx.html">macOS 上的 Kerberos 常见问题</a></li>
+    </ul>
+    <p>&emsp;&emsp;Linux 文档项目还有一个关于 Kerberos 的 HOWTO：</p>
+    <ul>
+      <li><a href="http://tldp.org/HOWTO/html_single/Kerberos-Infrastructure-HOWTO/">如何实现 Kerberos 基础架构</a></li>
+    </ul>
+
+    <h2 CLASS="title"><a name="CUPS">配置 CUPS 以使用 Kerberos</a></h2>
+    <p>&emsp;&emsp;在系统上配置 Kerberos 后，可以通过选择 <tt>协商（Negotiate）</tt> 身份验证类型来启用 Kerberos 身份验证。最简单的方法是在服务器上使用 <tt>cupsctl(8)</tt> 命令：</p>
+    <pre class="command"><kbd>cupsctl DefaultAuthType=Negotiate</kbd></pre>
+    <p>&emsp;&emsp;通过选中 <var>使用 Kerberos 身份验证</var> 框并单击 <var>保存</var> 按钮，还可以从 Web 界面启用 Kerberos：</p>
+    <pre class="command">http://server.example.com:631/admin</pre>
+    <p>&emsp;&emsp;启用 Kerberos 身份验证后，对要共享的打印机使用内置的“已验证”策略或您自己的自定义策略。有关更多信息，请参见<a href="policies.html">管理操作策略</a>。</p>
+
+    <h2 CLASS="title"><a name="IMPLEMENT">实施信息</a></h2>
+    <p>&emsp;&emsp;CUPS 通过 HTTP 实现 Kerberos，使用 GSSAPI 和服务/主体名称“host/server.example.com”进行命令行访问，使用“HTTP/server.example.com”进行基于 Web 的访问，其中“server.example.com”替换为 CUPS 服务器的主机名。由于 HTTP GSSAPI 协议扩展的限制，仅支持单个 域/KDC 进行身份验证。<a href="http://tools.ietf.org/html/rfc4559">RFC 4559</a>中描述了 HTTP 扩展。</p>
+    <p>&emsp;&emsp;当执行需要身份验证的打印任务时，CUPS 会从您的登录会话请求一次性“票证”来验证您是谁。这些票证为 CUPS 提供了“表单”的用户名 user@REALM，然后出于用户和组检查的目的将其截断为“user”。</p>
+    <p>&emsp;&emsp;为了支持打印到共享打印机，CUPS 将 IPP 或 SMB 后端作为打印任务的所有者运行，以便在任务反后台打印到服务器时获得必要的凭据。</p>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cups-snmp(8)</title>
+  </head>
+  <body>
+    <h1 class="title">cups-snmp(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;snmp - cups snmp 后端（已弃用）
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>/usr/lib/cups/backend/snmp</b> <i>ip-address-or-hostname</i><br>
+       &emsp;&emsp;<b>/usr/libexec/cups/backend/snmp</b> <i>ip-address-or-hostname</i><br>
+       &emsp;&emsp;<b>lpinfo</b> <b>-v</b> <b>--include-schemes</b> snmp
+    
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>已弃用的</b> CUPS SNMP 后端使用 SNMPv1 提供传统的网络打印机发现和识别功能。当通过调度程序进行查找时，后端将列出所有响应广播 SNMPv1 查询并使用 “public” 社区名称的打印机。然后将附加查询发送给响应的打印机，以确定正确的设备 URI 、品牌和型号以及打印所需的其他信息
+    <p>&emsp;&emsp;在第一种形式中，当您有 IP 地址或主机名时，用户直接运行 SNMP 后端以查找设备 URI 和其他信息。这可用于需要配置打印队列的程序，其中用户只提供了地址而没有提供其他内容。
+    <p>&emsp;&emsp;在第二种形式中，SNMP 后端使用 <b>lpinfo</b>(8) 命令间接运行。输出提供通过 SNMP 在配置的广播地址上检测到的所有打印机。<i>注意：默认情况下未配置广播地址。</i>
+
+    <h2 class="title"><a name="ENVIRONMENT">环境变量</a></h2>
+    <p>&emsp;&emsp;可以使用 CUPS_DEBUG_LEVEL 环境变量覆盖 DebugLevel 值。可以使用 CUPS_MAX_RUN_TIME 环境变量覆盖 MaxRunTime 值。
+
+    <h2 class="title"><a name="FILES">文件</a></h2>
+    <p>&emsp;&emsp;SNMP 后端读取 <i>/etc/cups/snmp.conf</i> 配置文件（如果存在），以设置默认广播地址、社区名称和日志记录级别。
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;CUPS SNMP 后端已弃用，未来版本的 CUPS 将不再支持该后端。
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;CUPS SNMP 后端使用来自主机、打印机和端口监视器 MIB 的信息以及一些供应商专用 MIB 和智能端口探测器来确定每个打印机的正确设备 URI 、品牌和型号。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>backend</b>(7) 、 <b>cups-snmp.conf</b>(5) 、 <b>cupsd</b>(8) 、 <b>lpinfo</b>(8)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

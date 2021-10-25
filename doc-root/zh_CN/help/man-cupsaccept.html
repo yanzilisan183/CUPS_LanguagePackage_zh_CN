@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cupsaccept(8)</title>
+  </head>
+  <body>
+    <h1 class="title">cupsaccept(8)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cupsaccept/cupsreject - 接受/拒绝发送到目标的任务
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>cupsaccept</b> [<b>-E</b>] [<b>-U</b><i>username</i>] [ <b>-h</b><i>hostname[:port]</i>] <i>destination(s)</i><br>
+       &emsp;&emsp;<b>cupsreject</b> [<b>-E</b>] [<b>-U</b><i>username</i>] [ <b>-h</b><i>hostname[:port]</i>] [ <b>-r</b><i>reason</i>] <i>destination(s)</i>
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cupsaccept</b> 命令指示打印系统接受到指定目标的打印任务。
+    <p>&emsp;&emsp;<b>cupsreject</b> 命令指示打印系统拒绝到指定目标的打印任务。 <i>-r</i> 选项设置拒绝打印任务的原因。如果未指定，则原因默认为 “Reason Unknown（原因未知）”。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>cupsaccept</b> 和 <b>cupsreject</b> 支持以下选项 ：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">设置连接到服务器时发送的用户名。
+      <dt><b>-h </b><i>hostname[:port]</i>
+      <dd style="margin-left: 5.0em">选择备用服务器。
+      <dt><b>-r </b>"<i>reason</i>"
+      <dd style="margin-left: 5.0em">设置为拒绝任务的打印机显示的原因字符串。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<b>cupsaccept</b> 和 <b>cupsreject</b> 命令分别对应于 System V 打印系统命令 “accept” 和 “reject” 。与 System V 打印系统不同，CUPS 允许打印机名称包含除空格、制表符、 “/” 或 “#” 之外的任何可打印字符。此外，打印机名和类名不区分大小写。
+    <p>&emsp;&emsp;最后，CUPS 版本可能会根据打印系统配置要求用户输入访问密码。
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>cupsenable</b>(8) 、 <b>lp</b>(1) 、 <b>lpadmin</b>(8) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

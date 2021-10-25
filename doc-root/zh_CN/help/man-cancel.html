@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>cancel(1)</title>
+  </head>
+  <body>
+    <h1 class="title">cancel(1)</h1>
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;cancel - 取消任务</p>
+    <h2 class="title"><a name="SYNOPSIS">概要</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b> [<b>-E</b>] [<b>-U</b><i>username</i>] [<b>-a</b>] [<b>-h</b><i>hostname[:port]</i>] [<b>-u</b><i>username</i>] [<b>-x</b>] [<i>id</i>] [<i>destination</i>] [<i>destination-id</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b> 命令取消打印任务。如果未指定任何 <i>destination</i> 或 <i>id</i> ，则默认目标上的当前打印任务将被取消。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b> 可以识别以下选项</b>:
+    <dl class="man">
+      <dt><b>-a</b>
+      <dd style="margin-left: 5.0em">取消指定目标上的所有任务，或取消所有目标上的所有任务（如果未提供）。
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-h </b><i>hostname</i>[<i>:port</i>]
+      <dd style="margin-left: 5.0em">指定备用服务器。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定连接到服务器时要使用的用户名。
+      <dt><b>-u </b><i>username</i>
+      <dd style="margin-left: 5.0em">取消 <i>username</i> 所拥有的任务。
+      <dt><b>-x</b>
+      <dd style="margin-left: 5.0em">除取消外，还删除任务数据文件。
+    </dl>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;与 System V 打印系统不同，CUPS 允许打印机名称包含除空格、制表符、“/” 或 “#” 之外的任何可打印字符。此外，打印机名和类名 <i>不</i> 区分大小写。</p>
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;取消当前打印任务：</p>
+    <pre class="man">cancel</pre>
+    <p>&emsp;&emsp;取消 "myprinter-42" 的任务:
+    <pre class="man">cancel myprinter-42</pre>
+    <p>&emsp;&emsp;取消所有任务：
+    <pre class="man">cancel -a</pre>
+
+    <h2 class="title"><a name="NOTES">提示</a></h2>
+    <p>&emsp;&emsp;管理员希望通过 <i>-u</i> 选项防止未经授权的任务取消，应该对 <b>cupsd.conf</b> 中的 Cancel-Jobs 操作进行身份验证。</p>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cupsd.conf</b>(5) 、 <b>lp</b>(1) 、 <b>lpmove</b>(8) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

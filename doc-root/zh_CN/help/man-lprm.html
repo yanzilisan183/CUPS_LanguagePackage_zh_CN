@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+  <!-- SECTION: Man 手册 -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="../cups-printable.css">
+    <title>lprm(1)</title>
+  </head>
+  <body>
+    <h1 class="title">lprm(1)</h1>
+
+    <h2 class="title"><a name="NAME">名称</a></h2>
+    <p>&emsp;&emsp;lprm - 取消打印任务
+
+    <h2 class="title"><a name="SYNOPSIS">摘要</a></h2>
+    <p>&emsp;&emsp;<b>lprm</b> [<b>-E</b>] [<b>-U</b> <i>username</i>] [<b>-h</b> <i>server</i>[<i>:port</i>]] [<b>-P</b> <i>destination</i>[<i>/instance</i>]] [<b>-</b>] [<i>job-id(s)</i>]
+
+    <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
+    <p>&emsp;&emsp;<b>lprm</b> 取消排队等待打印的打印任务。如果未提供任何参数，将取消默认目标上的当前任务。您可以指定一个或多个任务 ID 号来取消这些任务，或使用 <i>-</i> 选项取消所有任务。
+
+    <h2 class="title"><a name="OPTIONS">选项</a></h2>
+    <p>&emsp;&emsp;<b>lprm</b> 命令支持以下选项：
+    <dl class="man">
+      <dt><b>-E</b>
+      <dd style="margin-left: 5.0em">连接到服务器时强制加密。
+      <dt><b>-P </b><i>destination</i>[<i>/instance</i>]
+      <dd style="margin-left: 5.0em">指定目标打印机或类别。
+      <dt><b>-U </b><i>username</i>
+      <dd style="margin-left: 5.0em">指定备用用户名。
+      <dt><b>-h </b><i>server</i>[<i>:port</i>]
+      <dd style="margin-left: 5.0em">指定备用服务器。
+    </dd>
+
+    <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
+    <p>&emsp;&emsp;<b>lprm</b> 的 CUPS 版本与同名的标准 Berkeley 命令兼容。
+
+    <h2 class="title"><a name="EXAMPLES">例子</a></h2>
+    <p>&emsp;&emsp;取消默认打印机上的当前任务：
+    <pre class="man">lprm</pre>
+    <p>&emsp;&emsp;取消任务 1234 ：
+    <pre class="man">lprm 1234</pre>
+    <p>&emsp;&emsp;取消所有任务：
+    <pre class="man">lprm -</pre>
+
+    <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
+    <p>&emsp;&emsp;<b>cancel</b>(1) 、 <b>lp</b>(1) 、 <b>lpq</b>(1) 、 <b>lpr</b>(1) 、 <b>lpstat</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
+
+    <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+  </body>
+</html>

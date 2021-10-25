@@ -1,0 +1,5 @@
+{?which_jobs=?:<FORM ACTION="{?printer_name=?/jobs:{printer_uri_supported}}" METHOD="GET"><INPUT TYPE="SUBMIT" VALUE="显示活动中的任务"></FORM>}
+{?which_jobs=completed?:<FORM ACTION="{?printer_name=?/jobs:{printer_uri_supported}}" METHOD="GET"><INPUT TYPE="HIDDEN" NAME="which_jobs" VALUE="completed"><INPUT TYPE="SUBMIT" VALUE="显示完成的任务"></FORM>}
+{?which_jobs=all?:<FORM ACTION="{?printer_name=?/jobs:{printer_uri_supported}}" METHOD="GET"><INPUT TYPE="HIDDEN" NAME="which_jobs" VALUE="all"><INPUT TYPE="SUBMIT" VALUE="显示所有任务"></FORM>}
+
+<P ALIGN="CENTER">{?which_jobs=?按打印顺序排序任务；保持的任务优先。:{which_jobs=Jobs listed in ascending order.?:按降序排序任务。}}</P>
