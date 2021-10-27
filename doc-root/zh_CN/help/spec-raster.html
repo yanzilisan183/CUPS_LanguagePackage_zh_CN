@@ -14,14 +14,14 @@
 
 
     <h2 class="title"><a name="ORGANIZATION">CUPS 光栅文件的组织</a></h2>
-    <p>&emsp;&emsp;<a href="FILEFORMAT">图1，“光栅组织”</a>，显示所有 CUPS 光栅文件的常规组织。每个文件都以一个 32 位同步字开头，后跟零个或多个页面。每个页面由页眉（ PostScript 页面设备字典和光栅特定值）和页面的位图图像组成。</p>
+    <p>&emsp;&emsp;<a href="FILEFORMAT">图1，“光栅组织”</a>，显示所有 CUPS 光栅文件的常规组织。每个文件都以一个 32 位同步字开头，后跟零个或多个页面。每个页面由页头（ PostScript 页面设备字典和光栅特定值）和页面的位图图像组成。</p>
     <div class="figure">
       <table summary="Raster Organization">
         <caption><a name="FILEFORMAT">图1：光栅组织</a></caption>
         <tr><td><img src="../images/raster-organization.png" width="446" height="1056" alt="光栅组织"></td></tr>
       </table>
     </div>
-    <p>&emsp;&emsp;每个页面位图按页眉中的 <code>cupsBitsPerColor</code> 、 <code>cupsBytesPerLine</code> 、 <code>cupsColorOrder</code> 、 <code>cupsColorSpace</code> 、 <code>cupsHeight</code> 和 <code>cupsWidth</code> 值存储。纸张正面的像素始终从左到右、从上到下存储。进行双面打印时，根据 PPD 文件中 <code>cupsBackSide</code> 关键字（“Normal” 、 “ManualTumble” 、 “Rotated” 或 “Flipped”）的值以及页眉中的 <code>Tumble</code> 值（“true” 或 “false”），纸张背面的像素可能会以不同的方式存储<a href="#PAGEBITMAPS">图2，“页面位图”</a>，显示了每个组合的像素顺序。</p>
+    <p>&emsp;&emsp;每个页面位图按页头中的 <code>cupsBitsPerColor</code> 、 <code>cupsBytesPerLine</code> 、 <code>cupsColorOrder</code> 、 <code>cupsColorSpace</code> 、 <code>cupsHeight</code> 和 <code>cupsWidth</code> 值存储。纸张正面的像素始终从左到右、从上到下存储。进行双面打印时，根据 PPD 文件中 <code>cupsBackSide</code> 关键字（“Normal” 、 “ManualTumble” 、 “Rotated” 或 “Flipped”）的值以及页头中的 <code>Tumble</code> 值（“true” 或 “false”），纸张背面的像素可能会以不同的方式存储<a href="#PAGEBITMAPS">图2，“页面位图”</a>，显示了每个组合的像素顺序。</p>
     <div class="figure">
       <table summary="Page Bitmaps">
         <caption><a name="PAGEBITMAPS">图2：页面位图</a></caption>
@@ -553,7 +553,7 @@
     <h3>CUPS_ORDER_BANDED</h3>
     <p>&emsp;&emsp;带状顺序将每种颜色作为单独的数据行提供。一条线的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code> 颜色空间，您将看到一条线的所有青色像素，然后是该线的洋红、黄色和黑色像素。对页面上的所有行重复此操作。颜色值从最高有效位（MSB）开始打包。</p>
     <h3>CUPS_ORDER_PLANAR</h3>
-    <p>&emsp;&emsp;平面顺序使用共享页眉将每种颜色作为单独的数据页提供。页面的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code>颜色空间，您将看到页面的所有青色像素，然后是该页面的洋红、黄色和黑色像素。颜色值从最高有效位（MSB）开始打包。每行从 8 位边界开始。</p>
+    <p>&emsp;&emsp;平面顺序使用共享页头将每种颜色作为单独的数据页提供。页面的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code>颜色空间，您将看到页面的所有青色像素，然后是该页面的洋红、黄色和黑色像素。颜色值从最高有效位（MSB）开始打包。每行从 8 位边界开始。</p>
     <h3>CUPS_CSPACE_RGBW</h3>
     <p>&emsp;&emsp;此颜色空间提供专用的黑色文本通道，并为 RGB 颜色通道使用 sRGB 颜色空间定义和白点。对于文本（或“true”）黑色，白色通道为 0 ，否则它必须包含最大颜色值：1 表示 1 位，3 表示 2 位，15 表示 4 位，255 表示 8 位，或 65535 表示 16 位。</p>
     <h3>CUPS_CSPACE_KCMYcm</h3>
