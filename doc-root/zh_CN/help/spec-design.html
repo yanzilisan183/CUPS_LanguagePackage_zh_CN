@@ -22,7 +22,7 @@
       </table>
     </div>
     <h4>配置文件</h4>
-    <p>&emsp;&emsp;调度程序使用多个配置文件来存储服务器设置（<a href="man-cupsd.conf.html">cupsd.conf</a>）、可用类（<a href="man-classes.conf.html">classes.conf</a>）、可用打印机（<a href="man-printers.conf.html">printers.conf</a>）、当前通知订阅（<a href="man-subscriptions.conf.html">subscriptions.conf</a>），以及支持的文件类型和筛选器（<a href="man-mime.types.html">mime.types</a> ， <a href="man-mime.convs.html">mime.convs</a>）。此外，PostScript 打印机说明（“PPD”）文件与每台打印机关联，计划程序具有远程打印机的缓存文件、PPD 文件和当前任务，以优化计划程序的启动速度和可用性。</p>
+    <p>&emsp;&emsp;调度程序使用多个配置文件来存储服务器设置（<a href="man-cupsd.conf.html">cupsd.conf</a>）、可用类（<a href="man-classes.conf.html">classes.conf</a>）、可用打印机（<a href="man-printers.conf.html">printers.conf</a>）、当前通知订阅（<a href="man-subscriptions.conf.html">subscriptions.conf</a>），以及支持的文件类型和筛选器（<a href="man-mime.types.html">mime.types</a> ， <a href="man-mime.convs.html">mime.convs</a>）。此外，PostScript 打印机说明（“PPD”）文件与每台打印机关联，调度程序具有远程打印机的缓存文件、PPD 文件和当前任务，以优化调度程序的启动速度和可用性。</p>
     <h4>任务文件</h4>
     <p>&emsp;&emsp;调度程序将任务文件存储在 <em>spool 目录</em>中，通常为 <var>/var/spool/cups</var> 。在 spool 目录中可以找到两种类型的文件：<em>控制文件</em> 以字母“c”（“c00001” 、 “C9999” 、 “c100000”等）开头，以及<em>数据文件</em>以字母“d”（“d00001-001” 、 “d99999-001” 、 “d100000-001”等）开头。控制文件是基于原始 IPP 打印任务或创建任务消息的 IPP 消息，而数据文件是提交打印的原始打印文件。系统已知的每个任务都有一个控制文件，每个任务有 0 个或多个数据文件。</p>
     <p>&emsp;&emsp;控制文件通常在提交第 500 个任务后清除，而数据文件在任务成功打印后立即删除。这两种行为都可以配置。</p>

@@ -200,6 +200,8 @@ TABLE.indent TD, TABLE.indent TH {
   padding: 0;
 }
 
+
+
 TABLE.list {
   border-collapse: collapse;
   margin-left: auto;
@@ -207,15 +209,25 @@ TABLE.list {
   width: 90%;
 }
 
+TABLE.list TR:nth-child(even) {
+  background: rgba(127,127,127,0.1);
+}
+TABLE.list TR:nth-child(odd) {
+  background: #f4f4f4;
+}
+
 TABLE.list TH {
+  font-family: monospace;
   background: white;
+  border-right: 2px solid gray;
   border-bottom: solid thin #cccccc;
   color: #444444;
-  padding-top: 10pt;
-  padding-left: 5pt;
-  text-align: left;
-  vertical-align: bottom;
+  padding: 10px 10px 5px 5px;
+  text-align: right;
+  vertical-align: top;
   white-space: nowrap;
+  width: 20%;
+  max-width: 20%;
 }
 
 TABLE.list TH A {
@@ -224,17 +236,12 @@ TABLE.list TH A {
 
 TABLE.list TD {
   border-bottom: solid thin #eeeeee;
-  padding-top: 5pt;
-  padding-left: 5pt;
+  padding: 5px 2px 5px 5px;
+  text-align: left;
+  vertical-align: top;
 }
 
-TABLE.list TR:nth-child(even) {
-  background: #f8f8f8;
-}
 
-TABLE.list TR:nth-child(odd) {
-  background: #f4f4f4;
-}
 
 DT {
   margin-left: 36pt;
@@ -408,24 +415,6 @@ ul.contents > li {
 }
 ul.contents li ul.code, ul.contents li ul.subcontents {
   padding-left: 2em;
-}
-table.list {
-  border-collapse: collapse;
-  width: 100%;
-}
-table.list tr:nth-child(even) {
-  background: rgba(127,127,127,0.1);]n}
-table.list th {
-  border-right: 2px solid gray;
-  font-family: monospace;
-  padding: 5px 10px 5px 2px;
-  text-align: right;
-  vertical-align: top;
-}
-table.list td {
-  padding: 5px 2px 5px 10px;
-  text-align: left;
-  vertical-align: top;
 }
 h1.title {
 }

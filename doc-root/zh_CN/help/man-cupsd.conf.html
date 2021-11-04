@@ -19,7 +19,7 @@
       <dt><a name="AccessLogLevel"></a><b>AccessLogLevel config</b>
       <dt><b>AccessLogLevel actions</b>
       <dt><b>AccessLogLevel all</b>
-      <dd style="margin-left: 5.0em">指定 AccessLog 文件的日志记录级别。“config” 级别记录添加、删除或修改打印机和类以及访问或更新配置文件的时间。当打印任务被提交、保持、释放、修改或取消，以及任何 “config” 条件时， “actions” 级别记录日志。 “all” 级别记录所有请求。默认访问日志级别为 “actions” 。
+      <dd style="margin-left: 5.0em">指定 AccessLog 文件的日志记录级别。“config” 级别记录添加、删除或修改打印机和类以及访问或更新配置文件的时间。当打印任务被提交、保留、释放、修改或取消，以及任何 “config” 条件时， “actions” 级别记录日志。 “all” 级别记录所有请求。默认访问日志级别为 “actions” 。
       <dt><a name="AutoPurgeJobs"></a><b>AutoPurgeJobs Yes</b>
       <dt><b>AutoPurgeJobs No</b>
       <dd style="margin-left: 5.0em"><br>指定当配额不再需要任务历史记录数据时，是否自动清除该数据。默认值为 “No” 。
@@ -85,9 +85,9 @@
       <dd style="margin-left: 5.0em">指定对任务执行的重试次数。这通常用于传真队列，但也可用于错误策略为 “retry-job” 或 “retry-current-job” 的正常打印队列。默认值为 “5” 。
       <dt><a name="KeepAlive"></a><b>KeepAlive Yes</b>
       <dt><b>KeepAlive No</b>
-      <dd style="margin-left: 5.0em">指定是否支持 HTTP 保持活动连接。默认值为 “Yes” 。
+      <dd style="margin-left: 5.0em">指定是否支持 HTTP 保留活动连接。默认值为 “Yes” 。
       <dt><a name="KeepAliveTimeout"></a><b>KeepAliveTimeout </b><i>seconds</i>
-      <dd style="margin-left: 5.0em">指定空闲客户端连接保持打开的时间。默认值为 “30” 。
+      <dd style="margin-left: 5.0em">指定空闲客户端连接保留打开的时间。默认值为 “30” 。
       <dt><a name="LimitIPP"></a><b>&lt;Limit </b><i>operation </i>...<b>> </b>... <b>&lt;/Limit></b>
       <dd style="margin-left: 5.0em">指定被限制在策略节内的 IPP 操作。IPP 操作名称列在下面的 “IPP 操作名称” 一节中。
       <dt><a name="Limit"></a><b>&lt;Limit </b><i>method </i>...<b>> </b>... <b>&lt;/Limit></b>
@@ -127,7 +127,7 @@
       <dt><a name="MaxCopies"></a><b>MaxCopies </b><i>number</i>
       <dd style="margin-left: 5.0em">指定用户可以打印每个任务的最大份数。默认值为 “9999” 。
       <dt><a name="MaxHoldTime"></a><b>MaxHoldTime </b><i>seconds</i>
-      <dd style="margin-left: 5.0em">指定在取消任务之前，任务可以保持在 “indefinite” 保留状态的最长时间。默认值为 “0” ，这将禁用取消保留的任务。
+      <dd style="margin-left: 5.0em">指定在取消任务之前，任务可以保留在 “indefinite” 保留状态的最长时间。默认值为 “0” ，这将禁用取消保留的任务。
       <dt><a name="MaxJobs"></a><b>MaxJobs </b><i>number</i>
       <dd style="margin-left: 5.0em">指定允许的最大同时任务数。设置为 “0” 以允许无限数量的任务。默认值为 “500” 。
       <dt><a name="MaxJobsPerPrinter"></a><b>MaxJobsPerPrinter </b><i>number</i>

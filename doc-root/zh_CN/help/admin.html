@@ -153,7 +153,7 @@ lpadmin -p bar -o printer-is-shared=true
 
 
     <h2 class="title" id="DEBUG">调试日志记录和故障排除</h2>
-    <p>&emsp;&emsp;<a href="man-cupsd-logs.html">打印系统日志文件</a>可以跟踪计划程序、打印机驱动程序和后端的活动。如果出现问题，并且日志文件没有提供足够的详细信息来诊断问题，则可以使用 <code>cupsctl</code> 命令启用调试日志记录：</p>
+    <p>&emsp;&emsp;<a href="man-cupsd-logs.html">打印系统日志文件</a>可以跟踪调度程序、打印机驱动程序和后端的活动。如果出现问题，并且日志文件没有提供足够的详细信息来诊断问题，则可以使用 <code>cupsctl</code> 命令启用调试日志记录：</p>
     <pre class="command">cupsctl --debug-logging</pre>
     <p>&emsp;&emsp;要禁用调试日志记录，请使用 <code>--no debug logging</code> 选项运行相同的命令：</p>
     <pre class="command">cupsctl --no-debug-logging</pre>

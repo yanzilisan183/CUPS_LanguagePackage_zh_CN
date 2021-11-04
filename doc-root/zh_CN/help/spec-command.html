@@ -22,7 +22,7 @@
     <p>&emsp;&emsp;打印机驱动程序通过为 <var>application/vnd.cups-command</var> 文件类型提供筛选器来提供对 CUPS 命令文件格式的支持。应用程序可以通过检查 <code>CUPS_PRINTER_COMMANDS</code> 功能位的 <code>printer-type</code> 属性来确定打印机是否支持打印 CUPS 命令文件。</p>
     <p>&emsp;&emsp;此外，打印机的 PPD 文件可以包含 <code>cupsCommand</code> 关键字，该关键字提供由空格分隔的受支持命令列表，例如：</p>
     <pre class='command'>*cupsCommands: "AutoConfigure Clean PrintSelfTestPage ReportLevels ReportStatus"</pre>
-    <p>&emsp;&emsp;如果未提供 <code>cupsCommands</code> 关键字，则命令筛选器必须支持 <a href='#AutoConfigure'><code>AutoConfigure</code></a> ， <a href='#Clean'><code>Clean</code></a> ， <a href='#PrintSelfTestPage'><code>PrintSelfTestPage</code> 和 <a href='#ReportLevels'><code>ReportLevels</code></a> 。计划程序还提供包含支持的命令列表的 <code>printer-commands</code> 属性。</p>
+    <p>&emsp;&emsp;如果未提供 <code>cupsCommands</code> 关键字，则命令筛选器必须支持 <a href='#AutoConfigure'><code>AutoConfigure</code></a> ， <a href='#Clean'><code>Clean</code></a> ， <a href='#PrintSelfTestPage'><code>PrintSelfTestPage</code> 和 <a href='#ReportLevels'><code>ReportLevels</code></a> 。调度程序还提供包含支持的命令列表的 <code>printer-commands</code> 属性。</p>
 
 
     <h2 class='title'><a name='SYNTAX'>文件语法</a></h2>
@@ -65,7 +65,7 @@
     <pre class='command'>#CUPS-COMMAND<br>ReportLevels</pre>
     <h3><a name='ReportStatus'>ReportStatus</a></h3>
     <p class='summary'>ReportStatus</p>
-    <p>&emsp;&emsp;<code>ReportStatus</code> 命令查询打印机的当前状态，并使用发送到计划程序的 “STATE:” 消息进行报告。</p>
+    <p>&emsp;&emsp;<code>ReportStatus</code> 命令查询打印机的当前状态，并使用发送到调度程序的 “STATE:” 消息进行报告。</p>
     <p>&emsp;&emsp;例子：</p>
     <pre class='command'>#CUPS-COMMAND<br>ReportLevels</pre>
     <h3><a name='SetAlignment'>SetAlignment</a></h3>

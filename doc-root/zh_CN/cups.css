@@ -402,6 +402,8 @@ TABLE.list TH {
   text-align: left;
   vertical-align: bottom;
   white-space: nowrap;
+  width: 20%;
+  max-width: 20%;
 }
 
 TABLE.list TH A {

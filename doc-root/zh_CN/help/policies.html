@@ -13,7 +13,7 @@
     <h2 class="title"><a name="BASICS">基础知识</a></h2>
     <p>&emsp;&emsp;操作策略用于发送到调度程序的所有 IPP 请求，并在基于访问控制规则的 <a href="man-cupsd.conf.html#Location"><tt>Location</tt></a> <em>之后</em> 进行评估。这意味着操作策略只能向请求添加额外的安全限制，而不能放松它们。对服务器范围的限制使用基于 <tt>Location</tt> 的访问控制规则，对单个打印机、任务或服务的限制使用基于操作策略的访问控制规则。</p>
     <p>&emsp;&emsp;策略存储在 <var>cupsd.conf</var> 文件的 <a href="man-cupsd.conf.html#Policy"><tt>Policy</tt></a> 部分中。每个策略都有一个用于选择它的字母数字名称。在策略部分中有一个或多个 <a href="man-cupsd.conf.html#LimitIPP"><tt>Limit</tt></a> 子部分，其中列出了受其内部规则影响的操作<a href="#LISTING01">清单1</a>显示了 CUPS 附带的默认操作策略，适当地称为“默认”。</p>
-    <p>&emsp;&emsp;向 <var>cupsd.conf</var> 文件添加策略的最简单方法是使用 Web 界面。单击 <var>管理</var> 选项卡，然后单击 <var>编辑配置文件</var> 按钮编辑当前的 <var>cupsd.conf</var> 文件。单击 <var>保存更改</var> 按钮保存更改并重新启动计划程序。如果从控制台编辑 <var>cupsd.conf</var> 文件，请确保在尝试使用新策略之前重新启动 cupsd 进程。</p>
+    <p>&emsp;&emsp;向 <var>cupsd.conf</var> 文件添加策略的最简单方法是使用 Web 界面。单击 <var>管理</var> 选项卡，然后单击 <var>编辑配置文件</var> 按钮编辑当前的 <var>cupsd.conf</var> 文件。单击 <var>保存更改</var> 按钮保存更改并重新启动调度程序。如果从控制台编辑 <var>cupsd.conf</var> 文件，请确保在尝试使用新策略之前重新启动 cupsd 进程。</p>
     <pre class="example">
 <em>清单1：<a name="LISTING01">默认操作策略</a></em>
 

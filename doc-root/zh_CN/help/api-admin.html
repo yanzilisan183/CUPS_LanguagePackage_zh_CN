@@ -43,7 +43,7 @@
       <ul class="contents">
         <li><a href="#OVERVIEW">概述</a>
           <ul class="subcontents">
-            <li><a href="#SETTINGS">计划程序设置</a></li>
+            <li><a href="#SETTINGS">调度程序设置</a></li>
             <li><a href="#DEVICES">设备</a></li>
           </ul>
         </li>
@@ -78,20 +78,20 @@
       <b>提示：</b>
       <p>&emsp;&emsp;管理功能通常需要管理权限才能执行，不得在普通用户应用程序中使用！</p>
     </blockquote>
-    <h3><a name="SETTINGS">计划程序设置</a></h3>
+    <h3><a name="SETTINGS">调度程序设置</a></h3>
     <p>&emsp;&emsp;<a href="#cupsAdminGetServerSettings"><code>cupsAdminGetServerSettings</code></a> 和 <a href="#cupsAdminSetServerSettings"><code>cupsAdminSetServerSettings</code></a> 函数允许您分别在 CUPS 调度程序的 <var>cupsd.conf</var> 文件中获取和设置简单指令及其值。设置存储在 CUPS 选项数组中，该数组提供字符串名称/值对的简单列表。虽然可以指定任何简单的 <var>cupsd.conf</var> 指令名，但也定义了以下方便的名称来控制常见的复杂指令：</p>
     <ul>
       <li><code>CUPS_SERVER_DEBUG_LOGGING</code></li>: 对于 <code>cupsAdminGetServerSettings</code>，值 “1” 表示 <code>LogLevel</code> 指令设置为 <code>debug</code> 或 <code>debug2</code> ，而值 “0” 表示设置为任何其他值。对于 <code>cupsAdminSetServerSettings</code> 而言，值 “1” 将 <code>LogLeveL</code> 设置为 <code>debug</code> ，而值 “0” 将其设置为 <code>warn</code> 。</li>
       <li><code>CUPS_SERVER_REMOTE_ADMIN</code></li>: 值 “1” 指定从远程地址接受管理请求，而 “0” 指定仅从本地地址（环回接口和域套接字）接受请求。</li>
       <li><code>CUPS_SERVER_REMOTE_ANY</code></li>: 值 “1” 指定从任何地址接受请求，而 “0” 指定仅从本地子网（启用共享时）或本地地址（环回接口和域套接字）接受请求。</li>
       <li><code>CUPS_SERVER_SHARE_PRINTERS</code></li>: 值 “1” 指定为选定的打印机启用打印机共享并接受远程请求，而值 “0” 指定为禁用打印机共享且不接受远程请求。</li>
-      <li><code>CUPS_SERVER_USER_CANCEL_ANY</code></li>: 值 “1” 指定默认安全策略允许任何用户取消任何打印作业，而不考虑所有者。值 “0” 指定只有管理用户才能取消其他用户的作业。</li>
+      <li><code>CUPS_SERVER_USER_CANCEL_ANY</code></li>: 值 “1” 指定默认安全策略允许任何用户取消任何打印任务，而不考虑所有者。值 “0” 指定只有管理用户才能取消其他用户的任务。</li>
     </ul>
 
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;更改设置将重新启动 CUPS 计划程序。</p>
-      <p>&emsp;&emsp;启用打印机共享或 Web 界面时，计划程序的按需启动功能将被有效禁用。这可能会影响电源使用、系统性能和系统的安全配置文件。</p>
+      <p>&emsp;&emsp;更改设置将重新启动 CUPS 调度程序。</p>
+      <p>&emsp;&emsp;启用打印机共享或 Web 界面时，调度程序的按需启动功能将被有效禁用。这可能会影响电源使用、系统性能和系统的安全配置文件。</p>
     </blockquote>
     <p>&emsp;&emsp;建议更改 <var>cupsd.conf</var> 的方法是首先调用 <a href="#cupsAdminGetServerSettings"><code>cupsAdminGetServerSettings</code></a>，对返回的选项数组进行任何更改，然后调用 <a href="#cupsAdminSetServerSettings"><code>cupsAdminSetServerSettings</code></a> 保存这些设置。例如，要启用 Web 界面，请执行以下操作：</p>
     <pre class="example">
@@ -122,7 +122,7 @@ enable_web_interface(void)
 }</pre>
 
     <h3><a name="DEVICES">设备</a></h3>
-    <p>&emsp;&emsp;可以使用 <a href="#cupsGetDevices"><code>cupsGetDevices</code></a> API 通过 CUPS 计划程序查找打印机。通常，此 API 用于定位要添加到系统中的打印机。找到的每个设备都会导致执行提供的回调函数。例如，要列出可在 30 秒内找到的可用打印机设备，请执行以下操作：</p>
+    <p>&emsp;&emsp;可以使用 <a href="#cupsGetDevices"><code>cupsGetDevices</code></a> API 通过 CUPS 调度程序查找打印机。通常，此 API 用于定位要添加到系统中的打印机。找到的每个设备都会导致执行提供的回调函数。例如，要列出可在 30 秒内找到的可用打印机设备，请执行以下操作：</p>
     <pre class="example">
 #include &lt;cups/cups.h&gt;
 #include &lt;cups/adminutil.h&gt;
@@ -174,7 +174,7 @@ show_devices(void)
     <table class="list">
       <tbody>
       <tr><th>dest</th>
-          <td class="description">导出的目的地</td></tr>
+          <td class="description">导出的目标</td></tr>
       <tr><th>ppd</th>
           <td class="description">PPD 文件</td></tr>
       <tr><th>samba_server</th>
