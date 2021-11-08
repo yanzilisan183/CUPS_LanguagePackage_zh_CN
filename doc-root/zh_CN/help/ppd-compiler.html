@@ -2,9 +2,9 @@
 <html>
 <!-- SECTION: 程序设计 -->
   <head>
-    <title>Introduction to the PPD Compiler</title>
-    <meta name="keywords" content="Programming">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>PPD 编译器简介</title>
+    <meta name="keywords" content="Programming">
     <meta name="creator" content="codedoc v3.1">
     <meta name="author" content="Unknown">
     <meta name="copyright" content="Unknown">
@@ -450,569 +450,325 @@ h3.title {
 --></style>
   </head>
   <body>
-<!--
+  <!--
   PPD compiler documentation for CUPS.
 
   Copyright © 2007-2012 by Apple Inc.
   Copyright © 1997-2007 by Easy Software Products.
 
-  Licensed under Apache License v2.0.  See the file "LICENSE" for more
-  information.
--->
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
 
-    <h1 class='title'>Introduction to the PPD Compiler</h1>
+    <h1 class='title'>PPD 编译器简介</h1>
+    <p>&emsp;&emsp;本文档介绍如何使用 CUPS PostScript 打印机说明（ PPD ）文件编译器。 PPD 编译器从描述一台或多台打印机的功能和功能的简单文本文件生成 PPD 文件。
+    <blockquote><b>提示：</b>
+    <p>&emsp;&emsp;PPD 编译器和相关工具已弃用，将在 CUPS 的未来版本中删除。
+    </blockquote>
+    <div class='summary'>
+      <table summary='General Information'>
+        <tbody>
+        <tr>
+          <th>另见</th>
+          <td>程序设计：<a href='raster-driver.html'>开发光栅打印机驱动程序</a><br>
+              程序设计：<a href='postscript-driver.html'>开发 PostScript 打印机驱动程序</a><br>
+              程序设计：<a href='api-filter.html'>筛选器和后端编程</a><br>
+              程序设计：<a href='api-raster.html'>光栅 API</a><br>
+              参考资料：<a href='ref-ppdcfile.html'>PPD 编译器驱动程序信息文件参考</a><br>
+              技术规范：<a href='spec-ppd.html'>CUPS PPD 扩展</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <p>This document describes how to use the CUPS PostScript Printer Description
-(PPD) file compiler. The PPD compiler generates PPD files from simple text files
-that describe the features and capabilities of one or more printers.</p>
-
-<blockquote><b>Note:</b>
-
-    <p>The PPD compiler and related tools are deprecated and will be removed in a future release of CUPS.</p>
-
-</blockquote>
-
-<div class='summary'><table summary='General Information'>
-<tbody>
-<tr>
-	<th>See Also</th>
-	<td>Programming: <a href='raster-driver.html'>Developing Raster Printer Drivers</a><br>
-	Programming: <a href='postscript-driver.html'>Developing PostScript Printer Drivers</a><br>
-	Programming: <a href='api-filter.html'>Filter and Backend Programming</a><br>
-	Programming: <a href='api-raster.html'>Raster API</a><br>
-	References: <a href='ref-ppdcfile.html'>PPD Compiler Driver Information File Reference</a><br>
-	Specifications: <a href='spec-ppd.html'>CUPS PPD Extensions</a></td>
-</tr>
-</tbody>
-</table></div>
     <div class="contents">
-      <h2 class="title">Contents</h2>
+
+      <h2 class="title">目录</h2>
       <ul class="contents">
-        <li><a href="#BASICS">The Basics</a></li>
-        <li><a href="#DRV">Driver Information Files</a><ul class="subcontents">
-          <li><a href="#SIMPLE">A Simple Example</a></li>
-          <li><a href="#GROUPING">Grouping and Inheritance</a></li>
-          <li><a href="#COLOR">Color Support</a></li>
-          <li><a href="#OPTIONS">Defining Custom Options and Option Groups</a></li>
-          <li><a href="#DEFINE">Defining Constants</a></li>
-          <li><a href="#CONDITIONAL">Conditional Statements</a></li>
-          <li><a href="#CONSTRAINTS">Defining Constraints</a></li>
-        </ul></li>
-        <li><a href="#LOCALIZATION">Localization</a><ul class="subcontents">
-          <li><a href="#PPDPO">The ppdpo Utility</a></li>
-          <li><a href="#PPDC_CATALOG">Using Message Catalogs with the PPD Compiler</a></li>
-        </ul></li>
+        <li><a href="#BASICS">基础知识</a></li>
+        <li><a href="#DRV">驱动程序信息文件</a>
+          <ul class="subcontents">
+            <li><a href="#SIMPLE">一个简单的例子</a></li>
+            <li><a href="#GROUPING">分组与继承</a></li>
+            <li><a href="#COLOR">颜色支持</a></li>
+            <li><a href="#OPTIONS">定义自定义选项和选项组</a></li>
+            <li><a href="#DEFINE">定义常量</a></li>
+            <li><a href="#CONDITIONAL">条件语句</a></li>
+            <li><a href="#CONSTRAINTS">定义约束</a></li>
+          </ul>
+        </li>
+        <li><a href="#LOCALIZATION">本地化</a>
+          <ul class="subcontents">
+            <li><a href="#PPDPO">ppdpo 实用程序</a></li>
+            <li><a href="#PPDC_CATALOG">在 PPD 编译器中使用消息目录</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
+
     <div class="body">
-    <h2 class='title'><a name='BASICS'>The Basics</a></h2>
 
-    <p>The PPD compiler, <a href='man-ppdc.html'><code>ppdc(1)</code></a>, is a
-simple command-line tool that takes a single <i>driver information file</i>,
-which by convention uses the extension <var>.drv</var>, and produces one or more
-PPD files that may be distributed with your printer drivers for use with CUPS.
-For example, you would run the following command to create the English language
-PPD files defined by the driver information file <var>mydrivers.drv</var>:</p>
-
-    <pre class='command'>
-ppdc mydrivers.drv
-</pre>
-
-    <p>The PPD files are placed in a subdirectory called
-<var>ppd</var>. The <tt>-d</tt> option is used to put the PPD
-files in a different location, for example:</p>
-
-    <pre class='command'>
-ppdc -d myppds mydrivers.drv
-</pre>
-
-    <p>places the PPD files in a subdirectory named
-<var>myppds</var>. Finally, use the <tt>-l</tt> option to
-specify the language localization for the PPD files that are
-created, for example:</p>
-
+    <h2 class='title'><a name='BASICS'>基础知识</a></h2>
+    <p>&emsp;&emsp;PPD 编译器， <a href='man-ppdc.html'><code>ppdc(1)</code></a> ，是一个简单的命令行工具，它接受单个 <i>驱动程序信息文件</i> ，按照惯例，该文件使用扩展名 <var>.drv</var> ，并生成一个或多个 PPD 文件，这些文件可能与打印机驱动程序一起分发，以便与 CUPS 一起使用。例如，您可以运行以下命令来创建由驱动程序信息文件 <var>mydrivers.drv</var> 定义的英语 PPD 文件：
+    <pre class='command'>ppdc mydrivers.drv</pre>
+    <p>&emsp;&emsp;PPD 文件放置在名为 <var>ppd</var> 的子目录中。 <tt>-d</tt> 选项用于将 PPD 文件放在不同的位置，例如：
+    <pre class='command'>ppdc -d myppds mydrivers.drv</pre>
+    <p>&emsp;&emsp;将 PPD 文件放置在名为 <var>myppds</var> 的子目录中。最后，使用 <tt>-l</tt> 选项为创建的 PPD 文件指定语言本地化，例如：
     <pre class='command'>
 ppdc -d myppds/de -l de mydrivers.drv
 ppdc -d myppds/en -l en mydrivers.drv
 ppdc -d myppds/es -l es mydrivers.drv
 ppdc -d myppds/fr -l fr mydrivers.drv
-ppdc -d myppds/it -l it mydrivers.drv
-</pre>
-
-    <p>creates PPD files in German (de), English (en), Spanish (es),
-French (fr), and Italian (it) in the corresponding
-subdirectories. Specify multiple languages (separated by commas) to produce
-"globalized" PPD files:</p>
-
-    <pre class='command'>
-ppdc -d myppds -l de,en,es,fr,it mydrivers.drv
-</pre>
+ppdc -d myppds/it -l it mydrivers.drv</pre>
+    <p>&emsp;&emsp;在相应的子目录中创建德语（ de ）、英语（ en ）、西班牙语（ es ）、法语（ fr ）和意大利语（ it ）的 PPD 文件。指定多种语言（用逗号分隔）以生成 “全球化” PPD 文件：
+    <pre class='command'>ppdc -d myppds -l de,en,es,fr,it mydrivers.drv</pre>
 
 
-    <h2 class='title'><a name='DRV'>Driver Information Files</a></h2>
+    <h2 class='title'><a name='DRV'>驱动程序信息文件</a></h2>
+    <p>&emsp;&emsp;PPD 编译器接受的驱动程序信息文件是纯文本文件，用于定义生成的 PPD 文件中包含的各种属性和选项。驱动程序信息文件可以定义一个或多个打印机及其相应 PPD 文件的信息。
 
-    <p>The driver information files accepted by the PPD compiler are
-plain text files that define the various attributes and options
-that are included in the PPD files that are generated. A driver
-information file can define the information for one or more printers and
-their corresponding PPD files.</p>
-
-    <p class='example'><a name="LISTING1">Listing 1: "examples/minimum.drv"</a></p>
-
+    <p class='example'>&emsp;&emsp;<a name="LISTING1">清单 1 ："examples/minimum.drv"</a>
     <pre class='example'>
-<i>// Include standard font and media definitions</i>
+<i>// 包含标准字体和媒体定义</i>
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
 
-<i>// List the fonts that are supported, in this case all standard fonts...</i>
+<i>// 列出支持的字体，在本例中为所有标准字体……</i>
 <a href='ref-ppdcfile.html#Font'>Font</a> *
 
-<i>// Manufacturer, model name, and version</i>
+<i>// 制造商、型号名称和版本</i>
 <a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "Foo"
 <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
 <a href='ref-ppdcfile.html#Version'>Version</a> 1.0
 
-<i>// Each filter provided by the driver...</i>
+<i>// 驱动程序提供的每个筛选器……</i>
 <a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo
 
-<i>// Supported page sizes</i>
+<i>// 支持的页面大小</i>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
-<i>// Supported resolutions</i>
+<i>// 支持的分辨率</i>
 *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
 
-<i>// Specify the name of the PPD file we want to generate...</i>
-<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
-</pre>
+<i>// 指定要生成的 PPD 文件的名称……</i>
+<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"</pre>
 
 
-    <h3><a name='SIMPLE'>A Simple Example</a></h3>
-
-    <p>The example in <a href="#LISTING1">Listing 1</a> shows a driver information
-file which defines the minimum required attributes to provide a valid PPD file.
-The first part of the file includes standard definition files for fonts and
-media sizes:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
-<a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
-</pre>
-
-    <p>The <tt>#include</tt> directive works just like the C/C++ include directive;
-files included using the angle brackets (<tt>&lt;filename&gt;</tt>) are found
-in any of the standard include directories and files included using quotes
-(<tt>"filename"</tt>) are found in the same directory as the source or include
-file. The <tt>&lt;font.defs&gt;</tt> include file defines the standard fonts
-which are included with GPL Ghostscript and the Apple PDF RIP, while the
-<tt>&lt;media.defs&gt;</tt> include file defines the standard media sizes
-listed in Appendix B of the Adobe PostScript Printer Description File Format
-Specification.</p>
-
-    <p>CUPS provides several other standard include files:</p>
-
-<ul>
-
-	<li><tt>&lt;epson.h&gt;</tt> - Defines all of the rastertoepson driver
-	constants.</li>
-
-	<li><tt>&lt;escp.h&gt;</tt> - Defines all of the rastertoescpx driver
-	constants.</li>
-
-	<li><tt>&lt;hp.h&gt;</tt> - Defines all of the rastertohp driver
-	constants.</li>
-
-	<li><tt>&lt;label.h&gt;</tt> - Defines all of the rastertolabel driver
-	constants.</li>
-
-	<li><tt>&lt;pcl.h&gt;</tt> - Defines all of the rastertopclx driver
-	constants.</li>
-
-	<li><tt>&lt;raster.defs&gt;</tt> - Defines all of the CUPS raster format
-	constants.</li>
-
-</ul>
-
-    <p>Next we list all of the fonts that are available in the driver; for CUPS
-raster drivers, the following line is all that is usually supplied:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#Font'>Font</a> *
-</pre>
-
-    <p>The <tt>Font</tt> directive specifies the name of a single font or the
-asterisk to specify all fonts. For example, you would use the following line to
-define an additional bar code font that you are supplying with your printer
-driver:</p>
-
-    <pre class='example'>
-<i>//   name         encoding  version  charset  status</i>
-<a href='ref-ppdcfile.html#Font'>Font</a> Barcode-Foo  Special   "(1.0)"  Special  ROM
-</pre>
-
-    <p>The name of the font is <tt>Barcode-Foo</tt>. Since it is not a standard
-text font, the encoding and charset name <tt>Special</tt> is used. The version
-number is <tt>1.0</tt> and the status (where the font is located) is
-<tt>ROM</tt> to indicate that the font does not need to be embedded in
-documents that use the font for this printer.</p>
-
-    <p>Third comes the manufacturer, model name, and version number information
-strings:</p>
-
+    <h3><a name='SIMPLE'>一个简单的例子</a></h3>
+    <p>&emsp;&emsp;<a href="#LISTING1">清单 1</a> 中的示例显示了一个驱动程序信息文件，该文件定义了提供有效 PPD 文件所需的最低属性。文件的第一部分包括字体和媒体大小的标准定义文件：
+    <pre class='example'><a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;<br><a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;</pre>
+    <p>&emsp;&emsp;<tt>#include</tt> 指令的工作原理与 C/C++ include 指令相同；使用尖括号（ <tt>&lt;filename&gt;</tt> ）包含的文件可在任何标准包含目录中找到，使用引号（ <tt>"filename"</tt> ）包含的文件可在与源或包含文件相同的目录中找到。 <tt>&lt;font.defs&gt;</tt> include file 定义了 GPL Ghostscript 和 Apple PDF RIP 中包含的标准字体，而；<tt>&lt;media.defs&gt;</tt> include file 定义了 Adobe PostScript 打印机说明文件格式规范附录 B 中列出的标准介质大小。
+    <p>&emsp;&emsp;CUPS 提供了其他几个标准包含文件：
+    <ul>
+      <li><tt>&lt;epson.h&gt;</tt> - 定义所有 rastertoepson 驱动程序常量。</li>
+      <li><tt>&lt;escp.h&gt;</tt> - 定义所有 rastertoescpx 驱动程序常量。</li>
+      <li><tt>&lt;hp.h&gt;</tt> - 定义所有 rastertohp 驱动程序常量。</li>
+      <li><tt>&lt;label.h&gt;</tt> - 定义所有光栅标签驱动程序常量。</li>
+      <li><tt>&lt;pcl.h&gt;</tt> - 定义所有 rastertopclx 驱动程序常量。</li>
+      <li><tt>&lt;raster.defs&gt;</tt> - 定义所有 CUPS 光栅格式常量。</li>
+    </ul>
+    <p>&emsp;&emsp;接下来，我们列出驱动程序中可用的所有字体；对于 CUPS 光栅驱动程序，通常只提供以下行：
+    <pre class='example'><a href='ref-ppdcfile.html#Font'>Font</a> *</pre>
+    <p>&emsp;&emsp;<tt>Font</tt> 指令指定单个字体的名称或星号以指定所有字体。例如，您可以使用以下行定义打印机驱动程序提供的附加条形码字体：
+    <pre class='example'><i>//   名称         编码       版本      字符集    状态</i><br><a href='ref-ppdcfile.html#Font'>Font</a> Barcode-Foo  Special   "(1.0)"  Special  ROM</pre>
+    <p>&emsp;&emsp;字体名称为 <tt>Barcode-Foo</tt> 。由于它不是标准的文本字体，因此使用编码和字符集名称 <tt>Special</tt> 。版本号为 <tt>1.0</tt> ，状态（字体所在位置）为 <tt>ROM</tt> ，表示不需要将字体嵌入使用此打印机字体的文档中。
+    <p>&emsp;&emsp;第三个是制造商、型号名称和版本号信息字符串：
     <pre class='example'>
 <a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "Foo"
 <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
-<a href='ref-ppdcfile.html#Version'>Version</a> 1.0
-</pre>
-
-    <p>These strings are used when the user (or auto-configuration program) selects
-the printer driver for a newly connected device.</p>
-
-    <p>The list of filters comes after the information strings; for the example in
-<a href="#LISTING1">Listing 1</a>, we have a single filter that takes CUPS
-raster data:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo
-</pre>
-
-    <p>Each filter specified in the driver information file is the equivalent of a
-printer driver for that format; if a user submits a print job in a different
-format, CUPS figures out the sequence of commands that will produce a supported
-format for the least relative cost.</p>
-
-    <p>Once we have defined the driver information we specify the supported options.
-For the example driver we support a single resolution of 600 dots per inch and
-two media sizes, A4 and Letter:</p>
-
+<a href='ref-ppdcfile.html#Version'>Version</a> 1.0</pre>
+    <p>&emsp;&emsp;当用户（或自动配置程序）为新连接的设备选择打印机驱动程序时，将使用这些字符串。
+    <p>&emsp;&emsp;筛选器列表位于信息字符串之后；对于<a href="#LISTING1">清单 1</a> 中的示例，我们有一个接受 CUPS 光栅数据的筛选器：
+    <pre class='example'><a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo</pre>
+    <p>&emsp;&emsp;驱动程序信息文件中指定的每个筛选器相当于该格式的打印机驱动程序；如果用户以不同的格式提交打印任务， CUPS 会计算出以最小的相对成本生成受支持格式的命令序列。
+    <p>&emsp;&emsp;定义驱动程序信息后，我们将指定支持的选项。对于示例驱动程序，我们支持每英寸 600 点的单一分辨率和两种介质尺寸，A4 和 Letter：
     <pre class='example'>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
-*<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
-</pre>
+*<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"</pre>
+    <p>&emsp;&emsp;<tt>MediaSize</tt> 和 <tt>Resolution</tt> 指令前面的星号指定这些选项是默认选项。 <tt>MediaSize</tt> 指令后面跟着一个介质尺寸名称，该名称通常在 <tt>&lt;media.defs&gt;</tt> 文件中定义，与标准 Adobe 介质尺寸名称相对应。如果默认媒体大小为 <tt>Letter</tt> ， PPD 编译器将自动为您的非英语本地化将其覆盖为 <tt>A4</tt> 。
+    <p>&emsp;&emsp;<tt>Resolution</tt> 指令在其后面接受以下几个值：
+    <ol>
+      <li>此分辨率的颜色空间（如果有）。在示例文件中，使用与黑色对应的颜色空间 <tt>k</tt> 。对于支持彩色打印的打印机驱动程序，此字段通常指定为 “-” 表示 “无更改” 。</li>
+      <li>每种颜色的位数。在示例文件中，我们为连续色调灰度输出定义了每种颜色 8 位。所有版本的 CUPS 支持每种颜色 1 位和 8 位。 CUPS 1.2 及更高版本（ macOS 10.5 及更高版本）也支持每种颜色 16 位。</li>
+      <li>每个段的行数。在示例文件中，我们为每个段定义了 0 行，以指示打印机驱动程序不在段中处理页面。</li>
+      <li>行馈送。在本例中，我们将 feed 值定义为 0 ，以指示打印机驱动程序不交错输出。</li>
+      <li>行步长。在本例中，我们将步长值定义为 0 ，以指示打印机驱动程序不交错输出。此值通常表示喷墨打印机喷嘴之间的间距 － 当与前两个值结合使用时，它会通知驱动程序如何错开页面上的输出，以在页面上生成交错线，以获得更高分辨率的输出。</li>
+      <li>选项名称和文本。在本例中，我们将选项名称和文本定义为 <tt>“600dpi/600 DPI”</tt>。名称和文本由斜杠（ <tt>/</tt> ）字符分隔；如果未指定文本，则使用名称作为文本。 PPD 编译器解析名称以确定实际分辨率；对于水平和垂直方向相同的分辨率，名称的形式可以是 <tt><i>RESOLUTION</i>dpi</tt> ，对于等距分辨率，名称的形式可以是 <tt><i>HRES</i>x<i>VRES</i>dpi</tt> 。仅支持整数分辨率值，因此 <tt>300dpi</tt> 的分辨率名称有效，而 <tt>300.1dpi</tt> 无效。</li>
+    </ol>
+    <p>&emsp;&emsp;最后， <tt>PCFileName</tt> 指令指定应为当前驱动程序定义编写命名的 PPD 文件：
+    <pre class='example'><a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"</pre>
+    <p>&emsp;&emsp;文件名遵循指令，<i>必须</i>符合 Adobe Postscript 打印机说明文件格式规范中的 Adobe 文件名要求。具体来说，文件名不能超过 8 个字符，后跟扩展名 <var>.ppd</var> 。 <tt>FileName</tt> 指令可用于指定更长的文件名：
+    <pre class='example'><a href='ref-ppdcfile.html#FileName'>FileName</a> "FooJet 2000"</pre>
 
-    <p>The asterisk in front of the <tt>MediaSize</tt> and <tt>Resolution</tt>
-directives specify that those option choices are the default. The
-<tt>MediaSize</tt> directive is followed by a media size name which is normally
-defined in the <tt>&lt;media.defs&gt;</tt> file and corresponds to a standard
-Adobe media size name. If the default media size is <tt>Letter</tt>, the PPD
-compiler will override it to be <tt>A4</tt> for non-English localizations for
-you automatically.</p>
 
-    <p>The <tt>Resolution</tt> directive accepts several values after it as
-follows:</p>
+    <h3><a name='GROUPING'>分组与继承</a></h3>
+    <p>&emsp;&emsp;前面的示例创建了一个 PPD 文件。驱动程序信息文件还可以使用 PPD 编译器分组功能定义多个打印机。指令使用大括号（ <tt>{</tt> 和 <tt>}</tt> ）分组，每个使用 <tt>PCFileName</tt> 或 <tt>FileName</tt> 指令的组都会生成一个具有该名称的 PPD 文件。<a href="#LISTING2">清单 2</a> 显示了原始示例的一个变体，该示例使用两个组来定义共享同一打印机驱动程序筛选器但提供两个不同分辨率选项的两台打印机。
 
-<ol>
-
-	<li>Colorspace for this resolution, if any. In the example file, the
-	colorspace <tt>k</tt> is used which corresponds to black. For printer
-	drivers that support color printing, this field is usually specified as
-	"-" for "no change".</li>
-
-	<li>Bits per color. In the example file, we define 8 bits per color, for
-	a continuous-tone grayscale output. All versions of CUPS support 1 and
-	8 bits per color.  CUPS 1.2 and higher (macOS 10.5 and higher) also
-	supports 16 bits per color.</li>
-
-	<li>Rows per band. In the example file, we define 0 rows per band to
-	indicate that our printer driver does not process the page in
-	bands.</li>
-
-	<li>Row feed. In the example, we define the feed value to be 0 to
-	indicate that our printer driver does not interleave the output.</li>
-
-	<li>Row step. In the example, we define the step value to be 0 to
-	indicate that our printer driver does not interleave the output. This
-	value normally indicates the spacing between the nozzles of an inkjet
-	printer - when combined with the previous two values, it informs the
-	driver how to stagger the output on the page to produce interleaved
-	lines on the page for higher-resolution output.</li>
-
-	<li>Choice name and text. In the example, we define the choice name and
-	text to be <tt>"600dpi/600 DPI"</tt>. The name and text are separated by
-	slash (<tt>/</tt>) character; if no text is specified, then the name is
-	used as the text. The PPD compiler parses the name to determine the
-	actual resolution; the name can be of the form
-	<tt><i>RESOLUTION</i>dpi</tt> for resolutions that are equal
-	horizontally and vertically or <tt><i>HRES</i>x<i>VRES</i>dpi</tt> for
-	isometric resolutions. Only integer resolution values are supported, so
-	a resolution name of <tt>300dpi</tt> is valid while <tt>300.1dpi</tt> is
-	not.</li>
-
-</ol>
-
-    <p>Finally, the <tt>PCFileName</tt> directive specifies that the named PPD file
-should be written for the current driver definitions:</p>
-
+    <p class='example'>&emsp;&emsp;<a name="LISTING2">清单 2 ："examples/grouping.drv"</a>
     <pre class='example'>
-<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
-</pre>
-
-    <p>The filename follows the directive and <i>must</i> conform to the Adobe
-filename requirements in the Adobe Postscript Printer Description File Format
-Specification. Specifically, the filename may not exceed 8 characters followed
-by the extension <var>.ppd</var>. The <tt>FileName</tt> directive can be used to
-specify longer filenames:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#FileName'>FileName</a> "FooJet 2000"
-</pre>
-
-
-    <h3><a name='GROUPING'>Grouping and Inheritance</a></h3>
-
-    <p>The previous example created a single PPD file. Driver information files can
-also define multiple printers by using the PPD compiler grouping functionality.
-Directives are grouped using the curly braces (<tt>{</tt> and <tt>}</tt>) and
-every group that uses the <tt>PCFileName</tt> or <tt>FileName</tt> directives
-produces a PPD file with that name. <a href="#LISTING2">Listing 2</a> shows a
-variation of the original example that uses two groups to define two printers
-that share the same printer driver filter but provide two different resolution
-options.</p>
-
-    <p class='example'><a name="LISTING2">Listing 2: "examples/grouping.drv"</a></p>
-
-    <pre class='example'>
-
-<i>// Include standard font and media definitions</i>
+<i>// 包括标准字体和媒体定义</i>
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
 
-<i>// List the fonts that are supported, in this case all standard fonts...</i>
+<i>// 列出支持的字体，在本例中为所有标准字体……</i>
 <a href='ref-ppdcfile.html#Font'>Font</a> *
 
-<i>// Manufacturer and version</i>
+<i>// 制造商和版本</i>
 <a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "Foo"
 <a href='ref-ppdcfile.html#Version'>Version</a> 1.0
 
-<i>// Each filter provided by the driver...</i>
+<i>// 驱动程序提供的每个筛选器……</i>
 <a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo
 
-<i>// Supported page sizes</i>
+<i>// 支持的页面大小</i>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
 {
-  <i>// Supported resolutions</i>
+  <i>// 支持的分辨率</i>
   *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
 
-  <i>// Specify the model name and filename...</i>
+  <i>// 指定模型名称和文件名……</i>
   <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
   <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
 }
 
 {
-  <i>// Supported resolutions</i>
+  <i>// 支持的分辨率</i>
   *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "1200dpi/1200 DPI"
 
-  <i>// Specify the model name and filename...</i>
+  <i>// 指定模型名称和文件名……</i>
   <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2001"
   <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojt2k1.ppd"
-}
-</pre>
-
-    <p>The second example is essentially the same as the first, except that each
-printer model is defined inside of a pair of curly braces. For example, the
-first printer is defined using:</p>
-
+}</pre>
+    <p>&emsp;&emsp;第二个示例与第一个示例基本相同，只是每个打印机模型都是在一对花括号内定义的。例如，第一台打印机的定义如下：
     <pre class='example'>
 {
-  // Supported resolutions
+  // 支持的分辨率
   *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
 
-  // Specify the model name and filename...
+  // 指定模型名称和文件名……
   <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
   <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
-}
-</pre>
-
-    <p>The printer <i>inherits</i> all of the definitions from the parent group (the
-top part of the file) and adds the additional definitions inside the curly
-braces for that printer driver. When we define the second group, it also
-inherits the same definitions from the parent group but <i>none</i> of the
-definitions from the first driver. Groups can be nested to any number of levels
-to support variations of similar models without duplication of information.</p>
+}</pre>
+    <p>&emsp;&emsp;打印机<i>从父组</i>(文件的顶部部分)继承的所有定义，并在该打印机驱动程序的花括号中添加额外的定义。当我们定义第二个组时，它也从父组继承相同的定义，但<i>没有一个</i>驱动程序继承自第一个组的定义。组可以嵌套到任意数量的级别，以支持类似模型的变化，而无需重复信息。
 
 
-    <h3><a name='COLOR'>Color Support</a></h3>
+    <h3><a name='COLOR'>颜色支持</a></h3>
+    <p>&emsp;&emsp;对于支持彩色打印的打印机驱动程序，应使用 <tt>ColorDevice</tt> 和 <tt>ColorModel</tt> 指令告知打印系统需要颜色输出以及颜色输出的格式。<a href="#LISTING3">清单 3</a> 显示了前一示例的一个变体，其中包括一台支持以 300 和 600 DPI 打印的彩色打印机。
+    <p>&emsp;&emsp;关键的变化是添加了 <tt>ColorDevice</tt> 指令：
+    <pre class='example'><a href='ref-ppdcfile.html#ColorDevice'>ColorDevice</a> true</pre>
+    <p>&emsp;&emsp;它告诉打印系统打印机支持彩色打印，以及 <tt>ColorModel</tt> 指令：
+    <pre class='example'><a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> Gray/Grayscale w chunky 0<br>*<a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> RGB/Color rgb chunky 0</pre>
+    <p>&emsp;&emsp;告诉打印系统打印机驱动程序支持哪些颜色空间进行彩色打印。每个 <tt>ColorModel</tt> 指令后面都有选项名称和文本（ <tt>Gray/Grayscale<tt> 和 <tt>RGB/Color</tt> ），颜色空间名称（ <tt>w</tt> 和 <tt>rgb</tt> ），颜色组织（ <tt>chunky</tt> ），以及要传递给驱动程序的压缩模式编号（ <tt>0</tt> ）。选项名称可以是任何标准 Adobe <tt>ColorModel</tt> 名称：
+    <ul>
+      <li><tt>Gray</tt> - 灰度输出。
+      <li><tt>RGB</tt> - 颜色输出，通常使用 RGB 颜色空间，但没有单独的黑色通道。
+      <li><tt>CMYK</tt> - 带有单独黑色通道的颜色输出。
+    </ul>
+    <p>&emsp;&emsp;可以使用自定义名称，但建议您对任何自定义名称使用供应商前缀，例如 “fooName” 。
+    <p>&emsp;&emsp;颜色空间名称可以是以下普遍支持的颜色空间之一：
+    <ul>
+      <li><tt>w</tt> - 亮度</li>
+      <li><tt>rgb</tt> - 红，绿，蓝</li>
+      <li><tt>k</tt> - 黑色</li>
+      <li><tt>cmy</tt> - 青色、品红色、黄色</li>
+      <li><tt>cmyk</tt> - 青色、品红色、黄色、黑色</li>
+    </ul>
+    <p>&emsp;&emsp;颜色组织可以是以下任意值：
+    <ul>
+      <li><tt>chunky</tt> - 颜色值作为 RGB RGB RGB RGB 在一条线上传递</li>
+      <li><tt>banded</tt> - 颜色值作为 RRRR GGGG BBBB 在一行上单独传递；苹果 RIP 筛选器不支持</li>
+      <li><tt>planar</tt> - 颜色值作为 RRRR RRRR RRRR ... GGGG GGGG GGGG ... BBBB BBBB BBBB 在页面上单独传递；苹果 RIP 筛选器不支持</li>
+    </ul>
+    <p>&emsp;&emsp;压缩模式值在 <tt>cupsCompression</tt> 属性中传递给驱动程序。传统上，它用于为颜色模型选择适当的压缩模式，但可用于任何目的，例如指定照片模式与标准模式。
 
-    <p>For printer drivers that support color printing, the
-<tt>ColorDevice</tt> and <tt>ColorModel</tt> directives should be
-used to tell the printing system that color output is desired
-and in what formats. <a href="#LISTING3">Listing 3</a> shows a
-variation of the previous example which includes a color printer
-that supports printing at 300 and 600 DPI.</p>
-
-    <p>The key changes are the addition of the <tt>ColorDevice</tt>
-directive:</p>
-
+    <p class='example'>&emsp;&emsp;<a name="LISTING3">清单 3 ："examples/color.drv"</a>
     <pre class='example'>
-<a href='ref-ppdcfile.html#ColorDevice'>ColorDevice</a> true
-</pre>
-
-    <p>which tells the printing system that the printer supports
-color printing, and the <tt>ColorModel</tt> directives:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> Gray/Grayscale w chunky 0
-*<a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> RGB/Color rgb chunky 0
-</pre>
-
-    <p>which tell the printing system which colorspaces are supported by the printer
-driver for color printing. Each of the <tt>ColorModel</tt> directives is
-followed by the option name and text (<tt>Gray/Grayscale</tt> and
-<tt>RGB/Color</tt>), the colorspace name (<tt>w</tt> and <tt>rgb</tt>), the
-color organization (<tt>chunky</tt>), and the compression mode number
-(<tt>0</tt>) to be passed to the driver. The option name can be any of the
-standard Adobe <tt>ColorModel</tt> names:</p>
-
-<ul>
-
-	<li><tt>Gray</tt> - Grayscale output.
-
-	<li><tt>RGB</tt> - Color output, typically using the RGB
-	colorspace, but without a separate black channel.
-
-	<li><tt>CMYK</tt> - Color output with a separate black
-	channel.
-
-</ul>
-
-    <p>Custom names can be used, however it is recommended that you use your vendor
-prefix for any custom names, for example "fooName".</p>
-
-    <p>The colorspace name can be any of the following universally supported
-colorspaces:</p>
-
-<ul>
-	<li><tt>w</tt> - Luminance</li>
-
-	<li><tt>rgb</tt> - Red, green, blue</li>
-
-	<li><tt>k</tt> - Black</li>
-
-	<li><tt>cmy</tt> - Cyan, magenta, yellow</li>
-
-	<li><tt>cmyk</tt> - Cyan, magenta, yellow, black</li>
-
-</ul>
-
-    <p>The color organization can be any of the following values:</p>
-
-<ul>
-
-	<li><tt>chunky</tt> - Color values are passed together on a line
-	as RGB RGB RGB RGB</li>
-
-	<li><tt>banded</tt> - Color values are passed separately
-	on a line as RRRR GGGG BBBB; not supported by the Apple
-	RIP filters</li>
-
-	<li><tt>planar</tt> - Color values are passed separately
-	on a page as RRRR RRRR RRRR ... GGGG GGGG GGGG ... BBBB
-	BBBB BBBB; not supported by the Apple RIP filters</li>
-
-</ul>
-
-    <p>The compression mode value is passed to the driver in the
-<tt>cupsCompression</tt> attribute. It is traditionally used to select an
-appropriate compression mode for the color model but can be used for any
-purpose, such as specifying a photo mode vs. standard mode.</p>
-
-    <p class='example'><a name="LISTING3">Listing 3: "examples/color.drv"</a></p>
-
-    <pre class='example'>
-
-<i>// Include standard font and media definitions</i>
+<i>// 包括标准字体和媒体定义</i>
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
 
-<i>// List the fonts that are supported, in this case all standard fonts...</i>
+<i>// 列出支持的字体，在本例中为所有标准字体……</i>
 <a href='ref-ppdcfile.html#Font'>Font</a> *
 
-<i>// Manufacturer and version</i>
+<i>// 制造商和版本</i>
 <a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "Foo"
 <a href='ref-ppdcfile.html#Version'>Version</a> 1.0
 
-<i>// Each filter provided by the driver...</i>
+<i>// 驱动程序提供的每个筛选器……</i>
 <a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo
 
-<i>// Supported page sizes</i>
+<i>// 支持的页面大小</i>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
 {
-  <i>// Supported resolutions</i>
+  <i>// 支持的分辨率</i>
   *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
 
-  <i>// Specify the model name and filename...</i>
+  <i>// 指定模型名称和文件名……</i>
   <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
   <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
 }
 
 {
-  <i>// Supports color printing</i>
+  <i>// 支持彩色打印</i>
   <a href='ref-ppdcfile.html#ColorDevice'>ColorDevice</a> true
 
-  <i>// Supported colorspaces</i>
+  <i>// 支持色空间</i>
   <a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> Gray/Grayscale w chunky 0
   *<a href='ref-ppdcfile.html#ColorModel'>ColorModel</a> RGB/Color rgb chunky 0
 
-  <i>// Supported resolutions</i>
+  <i>// 支持的分辨率</i>
   *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> - 8 0 0 0 "300dpi/300 DPI"
   <a href='ref-ppdcfile.html#Resolution'>Resolution</a> - 8 0 0 0 "600dpi/600 DPI"
 
-  <i>// Specify the model name and filename...</i>
+  <i>// 指定模型名称和文件名……</i>
   <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet Color"
   <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojetco.ppd"
-}
-</pre>
+}</pre>
 
 
-    <h3><a name='OPTIONS'>Defining Custom Options and Option Groups</a></h3>
+    <h3><a name='OPTIONS'>定义自定义选项和选项组</a></h3>
+    <p>&emsp;&emsp;<tt>Group</tt> 、 <tt>Option</tt> 和 <tt>Choice</tt> 指令用于定义或选择组、选项或选择。<a href="#LISTING4">清单 4</a> 显示了第一个示例的变体，该示例在名为 “Footasm” 的组中提供了两个自定义选项。
 
-    <p>The <tt>Group</tt>, <tt>Option</tt>, and <tt>Choice</tt>
-directives are used to define or select a group, option, or
-choice. <a href="#LISTING4">Listing 4</a> shows a variation of
-the first example that provides two custom options in a group
-named "Footasm".</p>
-
-    <p class='example'><a name="LISTING4">Listing 4: "examples/custom.drv"</a></p>
-
+    <p class='example'>&emsp;&emsp;<a name="LISTING4">清单 4 ："examples/custom.drv"</a>
     <pre class='example'>
-
-<i>// Include standard font and media definitions</i>
+<i>// 包括标准字体和媒体定义</i>
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
 
-<i>// List the fonts that are supported, in this case all standard fonts...</i>
+<i>// 列出支持的字体，在本例中为所有标准字体……</i>
 <a href='ref-ppdcfile.html#Font'>Font</a> *
 
-<i>// Manufacturer, model name, and version</i>
+<i>// 制造商、型号名称和版本</i>
 <a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "Foo"
 <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
 <a href='ref-ppdcfile.html#Version'>Version</a> 1.0
 
-<i>// Each filter provided by the driver...</i>
+<i>// 驱动程序提供的每个筛选器……</i>
 <a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo
 
-<i>// Supported page sizes</i>
+<i>// 支持的页面大小</i>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
-<i>// Supported resolutions</i>
+<i>// 支持的分辨率</i>
 *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
 
-<i>// Option Group</i>
+<i>// 选项组</i>
 <a href='ref-ppdcfile.html#Group'>Group</a> "Footasm"
 
-  <i>// Boolean option</i>
+  <i>// 布尔选项</i>
   <a href='ref-ppdcfile.html#Option'>Option</a> "fooEnhance/Resolution Enhancement" Boolean AnySetup 10
     *<a href='ref-ppdcfile.html#Choice'>Choice</a> True/Yes "&lt;&lt;/cupsCompression 1&gt;&gt;setpagedevice"
     <a href='ref-ppdcfile.html#Choice'>Choice</a> False/No "&lt;&lt;/cupsCompression 0&gt;&gt;setpagedevice"
 
-  <i>// Multiple choice option</i>
+  <i>// 多项选择</i>
   <a href='ref-ppdcfile.html#Option'>Option</a> "fooOutputType/Output Quality" PickOne AnySetup 10
     *<a href='ref-ppdcfile.html#Choice'>Choice</a> "Auto/Automatic Selection"
             "&lt;&lt;/OutputType(Auto)&gt;&gt;setpagedevice""
@@ -1023,121 +779,32 @@ named "Footasm".</p>
     <a href='ref-ppdcfile.html#Choice'>Choice</a> "Photo/Optimize for Photos"
             "&lt;&lt;/OutputType(Photo)&gt;&gt;setpagedevice""
 
-<i>// Specify the name of the PPD file we want to generate...</i>
-<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
-</pre>
+<i>// 指定要生成的 PPD 文件的名称……</i>
+<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"</pre>
+    <p>&emsp;&emsp;自定义组由 <tt>Group</tt> 指令引入，该指令后跟用户的名称和可选文本：
+    <pre class='example'><a href='ref-ppdcfile.html#Group'>Group</a> "Footasm/Footastic Options"</pre>
+    <p>&emsp;&emsp;组名必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。 CUPS 预先定义了 <tt>General</tt> 、 <tt>Extra</tt> 和 <tt>InstallableOptions</tt> ；general 组 和 extra 组由 PPD 规范定义的 UI 选项填充。 <tt>InstallableOptions</tt> 组用于定义是否安装打印机附件（双面打印装置、分页器、订书机等）的选项。
+    <p>&emsp;&emsp;指定组后，将使用 <tt>Option</tt> 指令引入新选项：
+    <pre class='example'><a href='ref-ppdcfile.html#Option'>Option</a> "fooEnhance/Resolution Enhancement" Boolean AnySetup 10</pre>
+    <p>&emsp;&emsp;指令后面是选项名称和任何可选用户文本、选项类型、PostScript 文档组和排序顺序号。选项名称必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。
+    <p>&emsp;&emsp;对于真/假选择的选项类型可以是 <tt>Boolean</tt> ， <tt>PickOne</tt> 用于选择多个选项中的一个，或者 <tt>PickMany</tt> 用于选择零个或多个选项。布尔选项最多可以有两个名称为 <tt>False</tt> 和 <tt>True</tt> 的选项。 Pick 选项可以有任意数量的选项，但出于 Windows 兼容性原因，选项的数量不应超过 255 。
+    <p>&emsp;&emsp;PostScript 文档组通常为 <tt>AnySetup</tt> ，这意味着可以在 PostScript 文档中的任何位置引入该选项。其他值包括 <tt>PageSetup</tt> 在每页之前包含选项，以及 <tt>DocumentSetup</tt> 在文档开头包含一次选项。
+    <p>&emsp;&emsp;排序顺序号用于对 PostScript 文档中与每个选项相关联的打印机命令进行排序。这使您可以根据打印机的要求，先设置某些选项，再设置其他选项。对于大多数 CUPS 光栅打印机驱动程序，值 <tt>10</tt> 可用于所有选项。
+    <p>&emsp;&emsp;一旦指定了选项，就可以使用 <tt>choice</tt> 指令列出每个选项：
+    <pre class='example'>*<a href='ref-ppdcfile.html#Choice'>Choice</a> True/Yes "&lt;&lt;/cupsCompression 1&gt;&gt;setpagedevice"<br><a href='ref-ppdcfile.html#Choice'>Choice</a> False/No "&lt;&lt;/cupsCompression 0&gt;&gt;setpagedevice"</pre>
+    <p>&emsp;&emsp;指令后面是选项名称和可选的用户文本，以及在将文件打印到此打印机时应插入的 PostScript 命令。选项名称必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。
+    <p>&emsp;&emsp;PostScript 命令也由任何 RIP 筛选器解释，因此这些命令通常必须用于所有选项选择。大多数命令采用以下形式：
+    <pre class='example'>&lt;&lt;/name value&gt;&gt;setpagedevice</pre>
+    <p>&emsp;&emsp;其中， <tt>name</tt> 是 PostScript 页面设备属性的名称， <tt>value</tt> 是该属性的数值或字符串值。
 
-    <p>The custom group is introduced by the <tt>Group</tt>
-directive which is followed by the name and optionally text for
-the user:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#Group'>Group</a> "Footasm/Footastic Options"
-</pre>
-
-    <p>The group name must conform to the PPD specification and
-cannot exceed 40 characters in length. If you specify user text,
-it cannot exceed 80 characters in length. The groups
-<tt>General</tt>, <tt>Extra</tt>, and
-<tt>InstallableOptions</tt> are predefined by CUPS; the general
-and extra groups are filled by the UI options defined by the PPD
-specification. The <tt>InstallableOptions</tt> group is reserved
-for options that define whether accessories for the printer
-(duplexer unit, finisher, stapler, etc.) are installed.</p>
-
-    <p>Once the group is specified, the <tt>Option</tt> directive is
-used to introduce a new option:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#Option'>Option</a> "fooEnhance/Resolution Enhancement" Boolean AnySetup 10
-</pre>
-
-    <p>The directive is followed by the name of the option and any
-optional user text, the option type, the PostScript document group, and
-the sort order number. The option name must conform to the PPD specification
-and cannot exceed 40 characters in length. If you specify user text, it
-cannot exceed 80 characters in length.</p>
-
-    <p>The option type can be <tt>Boolean</tt> for true/false
-selections, <tt>PickOne</tt> for picking one of many choices, or
-<tt>PickMany</tt> for picking zero or more choices. Boolean
-options can have at most two choices with the names
-<tt>False</tt> and <tt>True</tt>. Pick options can have any
-number of choices, although for Windows compatibility reasons
-the number of choices should not exceed 255.</p>
-
-    <p>The PostScript document group is typically <tt>AnySetup</tt>,
-meaning that the option can be introduced at any point in the
-PostScript document. Other values include <tt>PageSetup</tt> to
-include the option before each page and <tt>DocumentSetup</tt>
-to include the option once at the beginning of the document.</p>
-
-    <p>The sort order number is used to sort the printer commands
-associated with each option choice within the PostScript
-document. This allows you to setup certain options before others
-as required by the printer. For most CUPS raster printer
-drivers, the value <tt>10</tt> can be used for all options.</p>
-
-    <p>Once the option is specified, each option choice can be
-listed using the <tt>Choice</tt> directive:</p>
-
-    <pre class='example'>
-*<a href='ref-ppdcfile.html#Choice'>Choice</a> True/Yes "&lt;&lt;/cupsCompression 1&gt;&gt;setpagedevice"
-<a href='ref-ppdcfile.html#Choice'>Choice</a> False/No "&lt;&lt;/cupsCompression 0&gt;&gt;setpagedevice"
-</pre>
-
-    <p>The directive is followed by the choice name and optionally
-user text, and the PostScript commands that should be inserted
-when printing a file to this printer. The option name must
-conform to the PPD specification and cannot exceed 40 characters
-in length. If you specify user text, it cannot exceed 80
-characters in length.</p>
-
-    <p>The PostScript commands are also interpreted by any RIP
-filters, so these commands typically must be present for all
-option choices. Most commands take the form:</p>
-
-    <pre class='example'>
-&lt;&lt;/name value&gt;&gt;setpagedevice
-</pre>
-
-    <p>where <tt>name</tt> is the name of the PostScript page device
-attribute and <tt>value</tt> is the numeric or string value for
-that attribute.</p>
-
-
-    <h3><a name='DEFINE'>Defining Constants</a></h3>
-
-    <p>Sometimes you will want to define constants for your drivers
-so that you can share values in different groups within the same
-driver information file, or to share values between different
-driver information files using the <tt>#include</tt> directive.
-The <tt>#define</tt> directive is used to define constants for
-use in your printer definitions:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#_define'>#define</a> NAME value
-</pre>
-
-    <p>The <tt>NAME</tt> is any sequence of letters, numbers, and
-the underscore. The <tt>value</tt> is a number or string; if the
-value contains spaces you must put double quotes around it, for
-example:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#_define'>#define</a> FOO "My String Value"
-</pre>
-
-    <p>Constants can also be defined on the command-line using the <tt>-D</tt>
-option:</p>
-
-    <pre class='command'>
-ppdc -DNAME="value" filename.drv
-</pre>
-
-    <p>Once defined, you use the notation <tt>$NAME</tt> to substitute the value of
-the constant in the file, for example:</p>
-
+    <h3><a name='DEFINE'>定义常量</a></h3>
+    <p>&emsp;&emsp;有时，您需要为驱动程序定义常量，以便在同一驱动程序信息文件中的不同组中共享值，或者使用 <tt>#include</tt> 指令在不同的驱动程序信息文件之间共享值。 <tt>#define</tt> 指令用于定义打印机定义中使用的常量：
+    <pre class='example'><a href='ref-ppdcfile.html#_define'>#define</a> NAME value</pre>
+    <p>&emsp;&emsp;<tt>NAME</tt> 是字母、数字和下划线的任意序列。 <tt>value</tt> 是一个数字或字符串；如果该值包含空格，则必须在其周围加双引号，例如：
+    <pre class='example'><a href='ref-ppdcfile.html#_define'>#define</a> FOO "My String Value"</pre>
+    <p>&emsp;&emsp;还可以使用 <tt>-D</tt> 选项在命令行上定义常量：
+    <pre class='command'>ppdc -DNAME="value" filename.drv</pre>
+    <p>&emsp;&emsp;定义后，使用符号 <tt>$NAME</tt> 替换文件中常量的值，例如：
     <pre class='example'>
 <a href='ref-ppdcfile.html#_define'>#define</a> MANUFACTURER "Foo"
 <a href='ref-ppdcfile.html#_define'>#define</a> FOO_600      0
@@ -1155,34 +822,24 @@ the constant in the file, for example:</p>
   <a href='ref-ppdcfile.html#ModelNumber'>ModelNumber</a> $FOO_1200
   <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2001"
   ...
-}
-</pre>
-
-    <p>Numeric constants can be bitwise OR'd together by placing the constants
-inside parenthesis, for example:</p>
-
+}</pre>
+    <p>&emsp;&emsp;通过将常量放在括号内，数字常量可以按位或按位组合在一起，例如：
     <pre class='example'>
-<i>// ModelNumber capability bits</i>
+<i>// 型号能力位</i>
 <a href='ref-ppdcfile.html#_define'>#define</a> DUPLEX 1
 <a href='ref-ppdcfile.html#_define'>#define</a> COLOR  2
 
 ...
 
 {
-  <i>// Define a model number specifying the capabilities of the printer...</i>
+  <i>// 定义一个型号，指定打印机的功能……</i>
   <a href='ref-ppdcfile.html#ModelNumber'>ModelNumber</a> ($DUPLEX $COLOR)
   ...
-}
-</pre>
+}</pre>
 
 
-    <h3><a name='CONDITIONAL'>Conditional Statements</a></h3>
-
-    <p>The PPD compiler supports conditional compilation using the <tt>#if</tt>,
-<tt>#elif</tt>, <tt>#else</tt>, and <tt>#endif</tt> directives. The <tt>#if</tt>
-and <tt>#elif</tt> directives are followed by a constant name or an expression.
-For example, to include a group of options when "ADVANCED" is defined:</p>
-
+    <h3><a name='CONDITIONAL'>条件语句</a></h3>
+    <p>&emsp;&emsp;PPD 编译器支持使用 <tt>#if</tt> 、 <tt>#elif</tt> 、 <tt>#else</tt> 和 <tt>#endif</tt> 指令进行条件编译。 <tt>#if</tt> 和 <tt>#elif</tt> 指令后面跟着一个常量名称或表达式。例如，要在定义 “ADVANCED” 时包含一组选项：
     <pre class='example'>
 <a href='ref-ppdcfile.html#_if'>#if</a> ADVANCED
 <a href='ref-ppdcfile.html#Group'>Group</a> "Advanced/Advanced Options"
@@ -1210,73 +867,55 @@ For example, to include a group of options when "ADVANCED" is defined:</p>
     *<a href='ref-ppdcfile.html#Choice'>Choice</a> "none/No Adjustment" ""
     <a href='ref-ppdcfile.html#Choice'>Choice</a> "minus5/-5%" ""
     <a href='ref-ppdcfile.html#Choice'>Choice</a> "minus10/-10%" ""
-<a href='ref-ppdcfile.html#_endif'>#endif</a>
-</pre>
+<a href='ref-ppdcfile.html#_endif'>#endif</a></pre>
 
 
-    <h3><a name='CONSTRAINTS'>Defining Constraints</a></h3>
-
-    <p>Constraints are strings that are used to specify that one or more option
-choices are incompatible, for example two-sided printing on transparency media.
-Constraints are also used to prevent the use of uninstalled features such as the
-duplexer unit, additional media trays, and so forth.</p>
-
-    <p>The <tt>UIConstraints</tt> directive is used to specify a constraint that is
-placed in the PPD file. The directive is followed by a string using one of the
-following formats:</p>
-
+    <h3><a name='CONSTRAINTS'>定义约束</a></h3>
+    <p>&emsp;&emsp;约束是用于指定一个或多个选项不兼容的字符串，例如透明介质上的双面打印。约束还用于防止使用已卸载的功能，如双工器单元、其他介质托盘等。
+    <p>&emsp;&emsp;<tt>UIConstraints</tt> 指令用于指定放置在 PPD 文件中的约束。指令后面是使用以下格式之一的字符串：
     <pre class='example'>
 <a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Option1 *Option2"
 <a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Option1 Choice1 *Option2"
 <a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Option1 *Option2 Choice2"
-<a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Option1 Choice1 *Option2 Choice2"
-</pre>
+<a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Option1 Choice1 *Option2 Choice2"</pre>
+    <p>&emsp;&emsp;每个选项名称前面都有星号（ <tt>*</tt> ）。如果没有为某个选项提供选择，则 <i>除</i> <tt>False</tt> 和 </tt>None</tt> 之外的所有选项都将与其他选项和选项冲突。由于 PPD 编译器会自动添加交互约束（选项 A 与选项 B 冲突，因此选项 B 与选项 A 冲突），因此只需指定一次约束。
 
-    <p>Each option name is preceded by the asterisk (<tt>*</tt>). If no choice is
-given for an option, then all choices <i>except</i> <tt>False</tt> and
-<tt>None</tt> will conflict with the other option and choice(s). Since the PPD
-compiler automatically adds reciprocal constraints (option A conflicts with
-option B, so therefore option B conflicts with option A), you need only specify
-the constraint once.</p>
-
-    <p class='example'><a name="LISTING5">Listing 5: "examples/constraint.drv"</a></p>
-
+    <p class='example'>&emsp;&emsp;<a name="LISTING5">清单 5 ："examples/constraint.drv"</a>
     <pre class='example'>
-
-<i>// Include standard font and media definitions</i>
+<i>// 包括标准字体和媒体定义</i>
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;
 <a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;
 
-<i>// List the fonts that are supported, in this case all standard fonts...</i>
+<i>// 列出支持的字体，在本例中为所有标准字体……</i>
 <a href='ref-ppdcfile.html#Font'>Font</a> *
 
-<i>// Manufacturer, model name, and version</i>
+<i>// 制造商、型号名称和版本</i>
 <a href='ref-ppdcfile.html#Manufacturer'>Manufacturer</a> "Foo"
 <a href='ref-ppdcfile.html#ModelName'>ModelName</a> "FooJet 2000"
 <a href='ref-ppdcfile.html#Version'>Version</a> 1.0
 
-<i>// Each filter provided by the driver...</i>
+<i>// 驱动程序提供的每个筛选器……</i>
 <a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo
 
-<i>// Supported page sizes</i>
+<i>// 支持的页面大小</i>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
-<i>// Supported resolutions</i>
+<i>// 支持的分辨率</i>
 *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"
 
-<i>// Installable Option Group</i>
+<i>// 可安装选项组</i>
 <a href='ref-ppdcfile.html#Group'>Group</a> "InstallableOptions/Options Installed"
 
-  <i>// Duplexing unit option</i>
+  <i>// 双工单元选项</i>
   <a href='ref-ppdcfile.html#Option'>Option</a> "OptionDuplexer/Duplexing Unit" Boolean AnySetup 10
     <a href='ref-ppdcfile.html#Choice'>Choice</a> True/Installed ""
     *<a href='ref-ppdcfile.html#Choice'>Choice</a> "False/Not Installed" ""
 
-<i>// General Option Group</i>
+<i>// 一般选项组</i>
 <a href='ref-ppdcfile.html#Group'>Group</a> General
 
-  <i>// Duplexing option</i>
+  <i>// 双工选项</i>
   <a href='ref-ppdcfile.html#Option'>Option</a> "Duplex/Two-Sided Printing" PickOne AnySetup 10
     *<a href='ref-ppdcfile.html#Choice'>Choice</a> "None/No" "&lt;&lt;/Duplex false&gt;&gt;setpagedevice""
     <a href='ref-ppdcfile.html#Choice'>Choice</a> "DuplexNoTumble/Long Edge Binding"
@@ -1284,110 +923,41 @@ the constraint once.</p>
     <a href='ref-ppdcfile.html#Choice'>Choice</a> "DuplexTumble/Short Edge Binding"
            "&lt;&lt;/Duplex true/Tumble true&gt;&gt;setpagedevice""
 
-<i>// Only allow duplexing if the duplexer is installed</i>
+<i>// 仅当安装了双工器时才允许双工</i>
 <a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Duplex *OptionDuplexer False"
 
-<i>// Specify the name of the PPD file we want to generate...</i>
-<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"
-</pre>
+<i>// 指定要生成的 PPD 文件的名称……</i>
+<a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"</pre>
+    <p>&emsp;&emsp;<a href="#LISTING5">清单 5</a> 显示了第一个示例的变体，添加了双工器的 <tt>Duplex</tt> 选项和可安装选项， <tt>OptionDuplex</tt> 。在末尾添加了一个约束，以指定非 <tt>None</tt> 的 <tt>Duplex</tt> 选项的任何选择与设置为 “Not Installed” 的 “Duplexer Installed” 选项不兼容（ <tt>False</tt> ）：
+    <pre class='example'><a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Duplex *OptionDuplexer False"</pre>
 
-    <p><a href="#LISTING5">Listing 5</a> shows a variation of the first example with
-an added <tt>Duplex</tt> option and installable option for the duplexer,
-<tt>OptionDuplex</tt>. A constraint is added at the end to specify that any
-choice of the <tt>Duplex</tt> option that is not <tt>None</tt> is incompatible
-with the "Duplexer Installed" option set to "Not Installed"
-(<tt>False</tt>):</p>
+    <h4>增强约束</h4>
+    <p>&emsp;&emsp;CUP 1.4 使用 <tt>Attribute</tt> 指令支持两个或多个选项之间的约束。<tt>cupsUIConstraints</tt> 属性定义约束，而 <tt>cupsUIResolver</tt> 属性定义选项更改以解析约束。例如，我们可以使用解析器指定上一个双工约束，该解析器使用以下两行关闭双工：
+    <pre class='example'><a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsUIConstraints DuplexOff "*Duplex *OptionDuplexer False"<br><a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsUIResolver DuplexOff "*Duplex None"</pre>
 
+    <h2 class='title'><a name='LOCALIZATION'>本地化</a></h2>
+    <p>&emsp;&emsp;PPD 编译器通过 GNU gettext 或 Apple.String 格式的 <i>消息目录</i> 文件提供不同语言的 PPD 文件本地化。在相应的消息目录中查找每个用户文本字符串和几个关键 PPD 属性值，如 <tt>LanguageVersion</tt> 和 <tt>LanguageEncoding</tt> ，并在生成的 PPD 文件中替换翻译文本。一个消息目录文件可由多个驱动程序信息文件使用，每个文件包含一种语言翻译。
+
+    <h3><a name='PPDPO'>ppdpo 实用程序</a></h3>
+    <p>&emsp;&emsp;虽然 CUPS 包含多种语言的所有标准媒体大小和选项的本地化，但您的驱动程序信息文件可能会提供自己需要本地化的介质尺寸和选项。 CUPS 提供了一个名为 <a href='man-ppdpo.html'><tt>ppdpo(1)</tt></a> 的实用程序来帮助驱动程序本地化。 <tt>ppdpo</tt> 程序根据一个或多个驱动程序信息文件创建或更新消息目录文件。添加新消息时，会在翻译字符串的前面添加 “TRANSLATE” 一词，以便于查找新字符串进行翻译。程序接受消息目录文件名和一个或多个驱动程序信息文件。
+    <p>&emsp;&emsp;例如，运行以下命令为当前目录中的所有驱动程序信息文件创建名为 <var>de.po</var> 的新德语消息目录：
+    <pre class='command'>ppdpo -o de.po *.drv</pre>
+    <p>&emsp;&emsp;如果文件 <var>de.po</var> 已经存在， <tt>ppdpo</tt> 将使用需要翻译的任何新消息更新文件内容。要创建 Apple.strings 文件，请指定扩展名为 .strings 的输出文件名，例如：
+    <pre class='command'>ppdpo -o de.strings *.drv</pre>
+
+    <h3><a name='PPDC_CATALOG'>在 PPD 编译器中使用消息目录</a></h3>
+    <p>&emsp;&emsp;创建消息目录后，使用 <a href='ref-ppdcfile.html#_po'><tt>#po</tt></a> 指令在每个驱动程序信息文件中声明它。例如，要为驱动程序声明德语消息目录，请使用：
+    <pre class='example'><a href='ref-ppdcfile.html#_po'>#po</a> de "de.po"  // German</pre>
+    <p>&emsp;&emsp;事实上，您可以根据需要多次使用 <tt>#po</tt> 指令：
     <pre class='example'>
-<a href='ref-ppdcfile.html#UIConstraints'>UIConstraints</a> "*Duplex *OptionDuplexer False"
-</pre>
-
-<h4>Enhanced Constraints</h4>
-
-    <p>CUPS 1.4 supports constraints between 2 or more options using the
-<tt>Attribute</tt> directive. <tt>cupsUIConstraints</tt> attributes define
-the constraints, while <tt>cupsUIResolver</tt> attributes define option changes
-to resolve constraints. For example, we can specify the previous duplex
-constraint with a resolver that turns off duplexing with the following two
-lines:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsUIConstraints DuplexOff "*Duplex *OptionDuplexer False"
-<a href='ref-ppdcfile.html#Attribute'>Attribute</a> cupsUIResolver DuplexOff "*Duplex None"
-</pre>
-
-    <h2 class='title'><a name='LOCALIZATION'>Localization</a></h2>
-
-    <p>The PPD compiler provides localization of PPD files in different languages
-through <i>message catalog</i> files in the GNU gettext or Apple .strings
-formats. Each user text string and several key PPD attribute values such as
-<tt>LanguageVersion</tt> and <tt>LanguageEncoding</tt> are looked up in the
-corresponding message catalog and the translated text is substituted in the
-generated PPD files. One message catalog file can be used by multiple driver
-information files, and each file contains a single language translation.</p>
-
-    <h3><a name='PPDPO'>The ppdpo Utility</a></h3>
-
-    <p>While CUPS includes localizations of all standard media sizes and options in
-several languages, your driver information files may provide their own media
-sizes and options that need to be localized. CUPS provides a utility program to
-aid in the localization of drivers called <a
-href='man-ppdpo.html'><tt>ppdpo(1)</tt></a>. The <tt>ppdpo</tt> program creates
-or updates a message catalog file based upon one or more driver information
-files. New messages are added with the word "TRANSLATE" added to the front of
-the translation string to make locating new strings for translation easier. The
-program accepts the message catalog filename and one or more driver information
-files.</p>
-
-    <p>For example, run the following command to create a new German message catalog
-called <var>de.po</var> for all of the driver information files in the current
-directory:</p>
-
-    <pre class='command'>
-ppdpo -o de.po *.drv
-</pre>
-
-    <p>If the file <var>de.po</var> already exists, <tt>ppdpo</tt> will update the
-contents of the file with any new messages that need to be translated. To create
-an Apple .strings file instead, specify the output filename with a .strings
-extension, for example:</p>
-
-    <pre class='command'>
-ppdpo -o de.strings *.drv
-</pre>
-
-    <h3><a name='PPDC_CATALOG'>Using Message Catalogs with the PPD Compiler</a></h3>
-
-    <p>Once you have created a message catalog, use the <a
-href='ref-ppdcfile.html#_po'><tt>#po</tt></a> directive to declare it in each
-driver information file. For example, to declare the German message catalog for
-a driver use:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#_po'>#po</a> de "de.po"  // German
-</pre>
-
-    <p>In fact, you can use the <tt>#po</tt> directive as many times as needed:</p>
-
-    <pre class='example'>
-<a href='ref-ppdcfile.html#_po'>#po</a> de "de.po"  // German
-<a href='ref-ppdcfile.html#_po'>#po</a> es "es.po"  // Spanish
-<a href='ref-ppdcfile.html#_po'>#po</a> fr "fr.po"  // French
-<a href='ref-ppdcfile.html#_po'>#po</a> it "it.po"  // Italian
-<a href='ref-ppdcfile.html#_po'>#po</a> ja "ja.po"  // Japanese
-</pre>
-
-    <p>The filename ("de.po", etc.) can be relative to the location of the driver
-information file or an absolute path. Once defined, the PPD compiler will
-automatically generate a globalized PPD for every language declared in your
-driver information file. To generate a single-language PPD file, simply use the
-<tt>-l</tt> option to list the corresponding locale, for example:</p>
-
-    <pre class='command'>
-ppdc -l de -d ppd/de mydrivers.drv
-</pre>
-
-    <p>to generate German PPD files.</p>
+<a href='ref-ppdcfile.html#_po'>#po</a> de "de.po"  // 德语
+<a href='ref-ppdcfile.html#_po'>#po</a> es "es.po"  // 西班牙语
+<a href='ref-ppdcfile.html#_po'>#po</a> fr "fr.po"  // 法语
+<a href='ref-ppdcfile.html#_po'>#po</a> it "it.po"  // 意大利语
+<a href='ref-ppdcfile.html#_po'>#po</a> ja "ja.po"  // 日语</pre>
+    <p>&emsp;&emsp;文件名（ “de.po” 等）可以与驱动程序信息文件的位置或绝对路径相关。一旦定义，PPD 编译器将自动为驱动程序信息文件中声明的每种语言生成一个全球化的 PPD 。要生成单语言 PPD 文件，只需使用 <tt>-l</tt> 选项列出相应的语言环境，例如：
+    <pre class='command'>ppdc -l de -d ppd/de mydrivers.drv</pre>
+    <p>&emsp;&emsp;生成德语 PPD 文件。
     </div>
   </body>
 </html>
