@@ -2,9 +2,9 @@
 <html>
 <!-- SECTION: 程序设计 -->
   <head>
-    <title>Filter and Backend Programming</title>
-    <meta name="keywords" content="Programming">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>筛选器和后端编程</title>
+    <meta name="keywords" content="Programming">
     <meta name="creator" content="codedoc v3.1">
     <meta name="author" content="Unknown">
     <meta name="copyright" content="Unknown">
@@ -450,183 +450,138 @@ h3.title {
 --></style>
   </head>
   <body>
-<!--
+  <!--
   Filter and backend programming header for CUPS.
 
   Copyright © 2008-2016 by Apple Inc.
 
-  Licensed under Apache License v2.0.  See the file "LICENSE" for more
-  information.
--->
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
 
-    <h1 class='title'>Filter and Backend Programming</h1>
+    <h1 class='title'>筛选器和后端编程</h1>
 
-<div class='summary'><table summary='General Information'>
-<thead>
-<tr>
-	<th>Headers</th>
-	<th>cups/backend.h<br>
-	cups/ppd.h<br>
-	cups/sidechannel.h</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<th>Library</th>
-	<td>-lcups</td>
-</tr>
-<tr>
-	<th>See Also</th>
-	<td>Programming: <a href='api-overview.html' target='_top'>Introduction to CUPS Programming</a><br>
-	Programming: <a href='api-cups.html' target='_top'>CUPS API</a><br>
-	Programming: <a href='api-ppd.html' target='_top'>PPD API</a><br>
-	Programming: <a href='api-raster.html' target='_top'>Raster API</a><br>
-	Programming: <a href='postscript-driver.html' target='_top'>Developing PostScript Printer Drivers</a><br>
-	Programming: <a href='raster-driver.html' target='_top'>Developing Raster Printer Drivers</a><br>
-	Specifications: <a href='spec-design.html' target='_top'>CUPS Design Description</a></td>
-</tr>
-</tbody>
-</table></div>
+    <div class='summary'>
+      <table summary='General Information'>
+        <thead>
+        <tr>
+          <th>头文件</th>
+          <th>cups/backend.h<br>cups/ppd.h<br>cups/sidechannel.h</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th>库</th>
+          <td>-lcups</td>
+        </tr>
+        <tr>
+          <th>另见</th>
+          <td>程序设计：<a href='api-overview.html' target='_top'>CUPS 编程简介</a><br>
+              程序设计：<a href='api-cups.html' target='_top'>CUPS API</a><br>
+              程序设计：<a href='api-ppd.html' target='_top'>PPD API</a><br>
+              程序设计：<a href='api-raster.html' target='_top'>Raster API</a><br>
+              程序设计：<a href='postscript-driver.html' target='_top'>开发 PostScript 打印机驱动程序</a><br>
+              程序设计：<a href='raster-driver.html' target='_top'>开发光栅打印机驱动程序</a><br>
+              技术规范：<a href='spec-design.html' target='_top'>CUPS 设计说明</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="contents">
-      <h2 class="title">Contents</h2>
+    <h2 class="title">目录</h2>
       <ul class="contents">
-        <li><a href="#OVERVIEW">Overview</a><ul class="subcontents">
-          <li><a href="#SECURITY">Security Considerations</a></li>
-          <li><a href="#SIGNALS">Canceled Jobs and Signal Handling</a></li>
-          <li><a href="#PERMISSIONS">File Permissions</a></li>
-          <li><a href="#TEMPFILES">Temporary Files</a></li>
-          <li><a href="#COPIES">Copy Generation</a></li>
-          <li><a href="#EXITCODES">Exit Codes</a></li>
-          <li><a href="#ENVIRONMENT">Environment Variables</a></li>
-          <li><a href="#MESSAGES">Communicating with the Scheduler</a></li>
-          <li><a href="#COMMUNICATING_BACKEND">Communicating with the Backend</a></li>
-          <li><a href="#COMMUNICATING_FILTER">Communicating with Filters</a></li>
-          <li><a href="#SNMP">Doing SNMP Queries with Network Printers</a></li>
-        </ul></li>
-        <li><a href="#SANDBOXING">Sandboxing on macOS</a></li>
-        <li><a href="#FUNCTIONS">Functions</a><ul class="subcontents">
-          <li><a href="#cupsBackChannelRead">cupsBackChannelRead</a></li>
-          <li><a href="#cupsBackChannelWrite">cupsBackChannelWrite</a></li>
-          <li><a href="#cupsBackendDeviceURI">cupsBackendDeviceURI</a></li>
-          <li><a href="#cupsBackendReport">cupsBackendReport</a></li>
-          <li><a href="#cupsSideChannelDoRequest">cupsSideChannelDoRequest</a></li>
-          <li><a href="#cupsSideChannelRead">cupsSideChannelRead</a></li>
-          <li><a href="#cupsSideChannelSNMPGet">cupsSideChannelSNMPGet</a></li>
-          <li><a href="#cupsSideChannelSNMPWalk">cupsSideChannelSNMPWalk</a></li>
-          <li><a href="#cupsSideChannelWrite">cupsSideChannelWrite</a></li>
-        </ul></li>
-        <li><a href="#TYPES">Data Types</a><ul class="subcontents">
-          <li><a href="#cups_backend_t">cups_backend_t</a></li>
-          <li><a href="#cups_sc_bidi_t">cups_sc_bidi_t</a></li>
-          <li><a href="#cups_sc_command_t">cups_sc_command_t</a></li>
-          <li><a href="#cups_sc_connected_t">cups_sc_connected_t</a></li>
-          <li><a href="#cups_sc_state_t">cups_sc_state_t</a></li>
-          <li><a href="#cups_sc_status_t">cups_sc_status_t</a></li>
-          <li><a href="#cups_sc_walk_func_t">cups_sc_walk_func_t</a></li>
-        </ul></li>
-        <li><a href="#ENUMERATIONS">Enumerations</a><ul class="subcontents">
-          <li><a href="#cups_backend_e">cups_backend_e</a></li>
-          <li><a href="#cups_sc_bidi_e">cups_sc_bidi_e</a></li>
-          <li><a href="#cups_sc_command_e">cups_sc_command_e</a></li>
-          <li><a href="#cups_sc_connected_e">cups_sc_connected_e</a></li>
-          <li><a href="#cups_sc_state_e">cups_sc_state_e</a></li>
-          <li><a href="#cups_sc_status_e">cups_sc_status_e</a></li>
-        </ul></li>
+        <li><a href="#OVERVIEW">概述</a>
+          <ul class="subcontents">
+            <li><a href="#SECURITY">安全考虑</a></li>
+            <li><a href="#SIGNALS">取消的任务和信号处理</a></li>
+            <li><a href="#PERMISSIONS">文件权限</a></li>
+            <li><a href="#TEMPFILES">临时文件</a></li>
+            <li><a href="#COPIES">副本生成</a></li>
+            <li><a href="#EXITCODES">退出码</a></li>
+            <li><a href="#ENVIRONMENT">环境变量</a></li>
+            <li><a href="#MESSAGES">与调度程序通信</a></li>
+            <li><a href="#COMMUNICATING_BACKEND">与后端通信</a></li>
+            <li><a href="#COMMUNICATING_FILTER">与筛选器通信</a></li>
+            <li><a href="#SNMP">使用网络打印机执行 SNMP 查询</a></li>
+          </ul>
+        </li>
+        <li><a href="#SANDBOXING">macOS 上的沙箱</a></li>
+        <li><a href="#FUNCTIONS">函数</a>
+          <ul class="subcontents">
+            <li><a href="#cupsBackChannelRead">cupsBackChannelRead</a></li>
+            <li><a href="#cupsBackChannelWrite">cupsBackChannelWrite</a></li>
+            <li><a href="#cupsBackendDeviceURI">cupsBackendDeviceURI</a></li>
+            <li><a href="#cupsBackendReport">cupsBackendReport</a></li>
+            <li><a href="#cupsSideChannelDoRequest">cupsSideChannelDoRequest</a></li>
+            <li><a href="#cupsSideChannelRead">cupsSideChannelRead</a></li>
+            <li><a href="#cupsSideChannelSNMPGet">cupsSideChannelSNMPGet</a></li>
+            <li><a href="#cupsSideChannelSNMPWalk">cupsSideChannelSNMPWalk</a></li>
+            <li><a href="#cupsSideChannelWrite">cupsSideChannelWrite</a></li>
+          </ul>
+        </li>
+        <li><a href="#TYPES">数据类型</a>
+          <ul class="subcontents">
+            <li><a href="#cups_backend_t">cups_backend_t</a></li>
+            <li><a href="#cups_sc_bidi_t">cups_sc_bidi_t</a></li>
+            <li><a href="#cups_sc_command_t">cups_sc_command_t</a></li>
+            <li><a href="#cups_sc_connected_t">cups_sc_connected_t</a></li>
+            <li><a href="#cups_sc_state_t">cups_sc_state_t</a></li>
+            <li><a href="#cups_sc_status_t">cups_sc_status_t</a></li>
+            <li><a href="#cups_sc_walk_func_t">cups_sc_walk_func_t</a></li>
+          </ul>
+        </li>
+        <li><a href="#ENUMERATIONS">枚举</a>
+          <ul class="subcontents">
+            <li><a href="#cups_backend_e">cups_backend_e</a></li>
+            <li><a href="#cups_sc_bidi_e">cups_sc_bidi_e</a></li>
+            <li><a href="#cups_sc_command_e">cups_sc_command_e</a></li>
+            <li><a href="#cups_sc_connected_e">cups_sc_connected_e</a></li>
+            <li><a href="#cups_sc_state_e">cups_sc_state_e</a></li>
+            <li><a href="#cups_sc_status_e">cups_sc_status_e</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
     <div class="body">
-<!--
+  <!--
   Filter and backend programming introduction for CUPS.
 
   Copyright © 2007-2016 by Apple Inc.
   Copyright © 1997-2006 by Easy Software Products, all rights reserved.
 
-  Licensed under Apache License v2.0.  See the file "LICENSE" for more
-  information.
--->
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
 
-    <h2 class='title'><a name="OVERVIEW">Overview</a></h2>
+    <h2 class='title'><a name="OVERVIEW">概述</a></h2>
+    <p>&emsp;&emsp;筛选器（包括打印机驱动程序和端口监视器）和后端用于将任务文件转换为可打印格式，并将数据发送到打印机本身。所有这些程序都使用一个通用接口来处理打印任务，并将状态信息传送给调度程序。每个都使用一组标准的命令行参数运行：
+    <dl class="code">
+      <dt>argv[1]</dt>
+      <dd>任务 ID</dd>
+      <dt>argv[2]</dt>
+      <dd>用户正在打印的任务</dd>
+      <dt>argv[3]</dt>
+      <dd>任务名称/标题</dd>
+      <dt>argv[4]</dt>
+      <dd>要打印的份数</dd>
+      <dt>argv[5]</dt>
+      <dd>提交任务时提供的选项</dd>
+      <dt>argv[6]</dt>
+      <dd>要打印的文件（仅第一个程序）</dd>
+    </dl>
+    <p>&emsp;&emsp;调度程序运行其中一个或多个程序来打印任何给定的任务。第一个筛选器从打印文件读取并写入标准输出，而其余筛选器从标准输入读取并写入标准输出。后端是链中的最后一个筛选器，并写入设备。
+    <p>&emsp;&emsp;筛选器始终作为非特权用户运行，通常为 “lp” ，与用户的桌面没有连接。如果文件权限不允许用户或组执行，后端将以非特权用户或 root 用户的身份运行。<a href="#PERMISSIONS">文件权限</a>部分更详细地讨论了这一点。
 
-    <p>Filters (which include printer drivers and port monitors) and backends
-are used to convert job files to a printable format and send that data to the
-printer itself. All of these programs use a common interface for processing
-print jobs and communicating status information to the scheduler. Each is run
-with a standard set of command-line arguments:<p>
+    <h3><a name="SECURITY">安全考虑</a></h3>
+    <p>&emsp;&emsp;使用安全编程实践始终很重要。筛选器和大多数后端作为非特权用户运行，因此主要的安全考虑是资源利用率 － 筛选器不应依赖于无限量的 CPU 、内存或磁盘空间，并且应防止可能导致任何资源过度使用的情况，如无限循环和无限递归。此外，筛选器必须 <em>绝不</em> 允许用户指定筛选器使用的分隔页、模板或其他文件的任意文件路径，因为这可能导致未经授权的信息泄露。 <em>始终</em> 将输入视为可疑并验证它！
+    <p>&emsp;&emsp;如果您正在开发以 root 用户身份运行的后端，请确保检查潜在的缓冲区溢出、整数上/下溢出情况以及文件访问，因为这些都可能导致权限提升。写入文件时，请始终验证文件路径，并且绝不允许用户确定文件的存储位置。
+    <blockquote><b>提示：</b>
+      <p>&emsp;&emsp;<em>决不</em> 将文件写入用户的主目录。除了安全问题外，CUPS 是一种网络打印服务，因此网络用户可能与本地用户不同，并且/或者可能没有要写入的本地主目录。
+      <p>&emsp;&emsp;此外，一些操作系统还提供了额外的安全机制，进一步限制了文件系统的访问，即使对于以 root 用户身份运行的后端也是如此。例如，在 macOS 上，任何后端都不能写入用户的主目录。有关更多信息，请参阅 <a href="#SANDBOXING">macOS 上的沙盒</a>部分。
+    </blockquote>
 
-<dl class="code">
-
-	<dt>argv[1]</dt>
-	<dd>The job ID</dd>
-
-	<dt>argv[2]</dt>
-	<dd>The user printing the job</dd>
-
-	<dt>argv[3]</dt>
-	<dd>The job name/title</dd>
-
-	<dt>argv[4]</dt>
-	<dd>The number of copies to print</dd>
-
-	<dt>argv[5]</dt>
-	<dd>The options that were provided when the job was submitted</dd>
-
-	<dt>argv[6]</dt>
-	<dd>The file to print (first program only)</dd>
-</dl>
-
-    <p>The scheduler runs one or more of these programs to print any given job. The
-first filter reads from the print file and writes to the standard output, while
-the remaining filters read from the standard input and write to the standard
-output. The backend is the last filter in the chain and writes to the
-device.</p>
-
-    <p>Filters are always run as a non-privileged user, typically "lp", with no
-connection to the user's desktop. Backends are run either as a non-privileged
-user or as root if the file permissions do not allow user or group execution.
-The <a href="#PERMISSIONS">file permissions</a> section talks about this in
-more detail.</p>
-
-    <h3><a name="SECURITY">Security Considerations</a></h3>
-
-    <p>It is always important to use security programming practices. Filters and
-most backends are run as a non-privileged user, so the major security
-consideration is resource utilization - filters should not depend on unlimited
-amounts of CPU, memory, or disk space, and should protect against conditions
-that could lead to excess usage of any resource like infinite loops and
-unbounded recursion. In addition, filters must <em>never</em> allow the user to
-specify an arbitrary file path to a separator page, template, or other file
-used by the filter since that can lead to an unauthorized disclosure of
-information. <em>Always</em> treat input as suspect and validate it!</p>
-
-    <p>If you are developing a backend that runs as root, make sure to check for
-potential buffer overflows, integer under/overflow conditions, and file
-accesses since these can lead to privilege escalations. When writing files,
-always validate the file path and <em>never</em> allow a user to determine
-where to store a file.</p>
-
-<blockquote><b>Note:</b>
-
-    <p><em>Never</em> write files to a user's home directory. Aside from the
-security implications, CUPS is a network print service and as such the network
-user may not be the same as the local user and/or there may not be a local home
-directory to write to.</p>
-
-    <p>In addition, some operating systems provide additional security mechanisms
-that further limit file system access, even for backends running as root. On
-macOS, for example, no backend may write to a user's home directory. See the <a href="#SANDBOXING">Sandboxing on macOS</a> section for more information.</p>
-</blockquote>
-
-    <h3><a name="SIGNALS">Canceled Jobs and Signal Handling</a></h3>
-
-    <p>The scheduler sends <code>SIGTERM</code> when a printing job is canceled or
-held. Filters, backends, and port monitors <em>must</em> catch
-<code>SIGTERM</code> and perform any cleanup necessary to produce a valid output
-file or return the printer to a known good state. The recommended behavior is to
-end the output on the current page, preferably on the current line or object
-being printed.</p>
-
-    <p>Filters and backends may also receive <code>SIGPIPE</code> when an upstream or downstream filter/backend exits with a non-zero status. Developers should generally ignore <code>SIGPIPE</code> at the beginning of <code>main()</code> with the following function call:</p>
-
+    <h3><a name="SIGNALS">取消的任务和信号处理</a></h3>
+    <p>&emsp;&emsp;当取消或保留打印任务时，调度程序发送 <code>SIGTERM</code> 。筛选器、后端和端口监视器 <em>必须</em> 捕获 </code>SIGTERM</code> ，并执行任何必要的清理，以生成有效的输出文件或将打印机恢复到已知的良好状态。建议的行为是在当前页面上结束输出，最好是在正在打印的当前行或对象上。
+    <p>&emsp;&emsp;当上游或下游筛选器/后端以非零状态退出时，筛选器和后端也可能接收 <code>SIGPIPE</code> 。开发人员通常应在 <code>main()</code> 的开头通过调用以下函数忽略  <code>SIGPIPE</code> ：
     <pre class="example">
 #include &lt;signal.h&gt;
 
@@ -638,355 +593,241 @@ main(int argc, char *argv[])
   signal(SIGPIPE, SIG_IGN);
 
   ...
-}
-</pre>
+}</pre>
 
-    <h3><a name="PERMISSIONS">File Permissions</a></h3>
+    <h3><a name="PERMISSIONS">文件权限</a></h3>
+    <p>&emsp;&emsp;出于安全原因，CUPS 将只运行 root 拥有的筛选器和后端，并且不具有全局或组写入权限。筛选器和后端的建议权限为 0555 － 读取和执行，但不写入。必须以 root 身份运行的后端应使用 0500 权限 － root 读取和执行，其他用户无权访问。只能为 root 用户启用写入权限。
+    <p>&emsp;&emsp;为避免出现警告消息，包含筛选器的目录也必须归 root 所有，并禁用全局和组写入 － 强烈建议使用 0755 或 0555 权限。
 
-    <p>For security reasons, CUPS will only run filters and backends that are owned
-by root and do not have world or group write permissions. The recommended
-permissions for filters and backends are 0555 - read and execute but no write.
-Backends that must run as root should use permissions of 0500 - read and execute
-by root, no access for other users. Write permissions can be enabled for the
-root user only.</p>
+    <h3><a name="TEMPFILES">临时文件</a></h3>
+    <p>&emsp;&emsp;应在 “TMPDIR” 环境变量指定的目录中创建临时文件。 <a href="#cupsTempFile2"><code>cupsTempFile2</code></a> 函数可用于在此目录中安全创建临时文件。
 
-    <p>To avoid a warning message, the directory containing your filter(s) must also
-be owned by root and have world and group write disabled - permissions of 0755
-or 0555 are strongly encouraged.</p>
+    <h3><a name="COPIES">副本生成</a></h3>
+    <p>&emsp;&emsp;<code>argv[4]</code> 参数指定要生成的输入文件的副本数。通常，仅当提供了 <em>filename</em> 参数时，才应生成副本。唯一的例外是生成独立于设备的 PostScript 输出的筛选器，因为 PostScript 筛选器 <var>pstops</var> 负责生成 PostScript 文件的副本。
 
-    <h3><a name="TEMPFILES">Temporary Files</a></h3>
+    <h3><a name="EXITCODES">退出码</a></h3>
+    <p>&emsp;&emsp;筛选器成功生成打印数据时必须以 0 状态退出，遇到错误时必须以 1 状态退出。后端可以返回任何 <a href="#cups_backend_t"><code>cups_backend_t</code></a> 常量。
 
-    <p>Temporary files should be created in the directory specified by the
-"TMPDIR" environment variable. The
-<a href="#cupsTempFile2"><code>cupsTempFile2</code></a> function can be
-used to safely create temporary files in this directory.</p>
+    <h3><a name="ENVIRONMENT">环境变量</a></h3>
+    <p>&emsp;&emsp;在运行打印筛选器和后端时，打印系统会定义以下环境变量：
+    <dl class="code">
+      <dt>APPLE_LANGUAGE</dt>
+      <dd>与任务关联的 Apple 语言标识符（仅限 macOS ）。</dd>
+      <dt>CHARSET</dt>
+      <dd>任务字符集，通常为 “utf-8” 。</dd>
+      <dt>CLASS</dt>
+      <dd>将任务提交到打印机类时，包含目标打印机类的名称。否则，将不会设置此环境变量。</dd>
+      <dt>CONTENT_TYPE</dt>
+      <dd>与文件关联的 MIME 类型（例如 application/postscript ）。</dd>
+      <dt>CUPS_CACHEDIR</dt>
+      <dd>可以存储缓存文件的目录。缓存文件可用于在任务之间或任务中的文件之间保留信息。</dd>
+      <dt>CUPS_DATADIR</dt>
+      <dd>可以在其中找到（只读）CUPS 数据文件的目录。</dd>
+      <dt>CUPS_FILETYPE</dt>
+      <dd>打印的文件类型：banner 页为 “job-sheet”，常规打印文件为 “document”。</dd>
+      <dt>CUPS_SERVERROOT</dt>
+      <dd>服务器的根目录。</dd>
+      <dt>DEVICE_URI</dt>
+      <dd>与打印机关联的设备 uri 。</dd>
+      <dt>FINAL_CONTENT_TYPE</dt>
+      <dd>与打印机关联的 MIME 类型（例如 application/vnd.cups-postscript ）。</dd>
+      <dt>LANG</dt>
+      <dd>与任务关联的语言区域设置。</dd>
+      <dt>PPD</dt>
+      <dd>此打印机的 PostScript 打印机说明（ PPD ）文件的完整路径名。</dd>
+      <dt>PRINTER</dt>
+      <dd>类或打印机的队列名称。</dd>
+      <dt>RIP_CACHE</dt>
+      <dd>光栅图像处理器（ RIP ）建议使用的内存量。</dd>
+      <dt>TMPDIR</dt>
+      <dd>应在其中创建临时文件的目录。</dd>
+    </dl>
 
-    <h3><a name="COPIES">Copy Generation</a></h3>
+    <h3><a name="MESSAGES">与调度程序通信</a></h3>
+    <p>&emsp;&emsp;筛选器和后端通过将消息写入标准错误文件来与调度程序通信。调度程序从任务中的所有筛选器读取消息，并根据其前缀处理消息。例如，以下代码将当前打印机状态消息设置为“打印第 5 页”：
+    <pre class="example">int page = 5;<br><br>fprintf(stderr, "INFO: Printing page %d\n", page);</pre>
+    <p>&emsp;&emsp;每条消息都是以以下前缀字符串之一开头的单行文本：
+    <dl class="code">
+      <dt>ALERT: message</dt>
+      <dd>设置打印机状态消息属性，并使用“警报”日志级别将指定消息添加到当前错误日志文件中。</dd>
+      <dt>ATTR: attribute=value [attribute=value]</dt>
+      <dd>设置命名打印机或任务属性。通常，这用于设置 <code>marker-colors</code> 、 <code>marker-high-levels</code> 、 <code>marker-levels</code> 、 <code>marker-low-levels</code> 、 <code>marker-message</code> 、 <code>marker-names</code> 、 <code>marker-types</code> 、 <code>printer-alert</code> 和 <code>printer-alert-description</code> 打印机属性。标准的 <code>marker-types</code> 值列在 <a href='#TABLE1'>表 1</a> 中。字符串值需要特殊处理 － 请参阅下面的<a href="#ATTR_STRINGS">报告属性字符串值</a>。</dd>
+      <dt>CRIT: message</dt>
+      <dd>设置打印机状态消息属性，并使用“严重”日志级别将指定消息添加到当前错误日志文件中。</dd>
+      <dt>DEBUG: message</dt>
+      <dd>设置打印机状态消息属性，并使用“调试”日志级别将指定消息添加到当前错误日志文件中。</dd>
+      <dt>DEBUG2: message</dt>
+      <dd>设置打印机状态消息属性，并使用 “debug2” 日志级别将指定的消息添加到当前错误日志文件中。</dd>
+      <dt>EMERG: message</dt>
+      <dd>设置打印机状态消息属性，并使用“紧急”日志级别将指定消息添加到当前错误日志文件中。</dd>
+      <dt>ERROR: message</dt>
+      <dd>设置打印机状态消息属性，并使用“错误”日志级别将指定的消息添加到当前错误日志文件中。对于非持久性处理错误，请使用 “ERROR:” 消息。</dd>
+      <dt>INFO: message</dt>
+      <dd>设置打印机状态消息属性。如果当前日志级别设置为 “debug2” ，还将使用 “info” 日志级别将指定的消息添加到当前错误日志文件中。</dd>
+      <dt>NOTICE: message</dt>
+      <dd>设置打印机状态消息属性，并使用“通知”日志级别将指定消息添加到当前错误日志文件中。</dd>
+      <dt>PAGE: page-number #-copies</dt>
+      <dt>PAGE: total #-pages</dt>
+      <dd>将条目添加到当前页面日志文件中。第一个表单将 #-copies 添加到 job-media-sheets-completed 属性中。第二个表单将 job-media-sheets-completed 属性设置为 #-pages 。</dd>
+      <dt>PPD: keyword=value [keyword=value ...]</dt>
+      <dd>更改或向打印机的 PPD 文件添加关键字。通常，这用于根据打印机配置更新可安装选项或默认介质设置。</dd>
+      <dt>STATE: + printer-state-reason [printer-state-reason ...]</dt>
+      <dt>STATE: - printer-state-reason [printer-state-reason ...]</dt>
+      <dd>设置或清除当前队列的打印机状态原因关键字。通常，这用于指示打印机上的持久介质、墨水、碳粉和配置条件或错误。<a href='#TABLE2'>表 2</a> 列出了一些 <a href="http://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml#ipp-registrations-4">IANA IPP Registry</a> 的标准 “printer-state-reasons”关键字 － 使用带有供应商前缀的（ “com.example.foo” ）关键字来定义状态。有关更多信息，请参阅<a href="#MANAGING_STATE">在筛选器中管理打印机状态</a>。</dd>
+      <dt>WARNING: message</dt>
+      <dd>设置打印机状态消息属性，并使用“警告”日志级别将指定消息添加到当前错误日志文件中。</dd>
+    </dl>
+    <p>&emsp;&emsp;没有这些前缀之一的消息将被视为以 “DEBUG:” 前缀字符串开头。
 
-    <p>The <code>argv[4]</code> argument specifies the number of copies to produce
-of the input file. In general, you should only generate copies if the
-<em>filename</em> argument is supplied. The only exception to this are
-filters that produce device-independent PostScript output, since the PostScript
-filter <var>pstops</var> is responsible for generating copies of PostScript
-files.</p>
+    <div class='table'>
+      <table width='80%' summary="Table 1: Standard marker-types Values">
+        <caption>表 1 ：<a name='TABLE1'>标准 marker-types 值</a></caption>
+        <thead>
+          <tr>
+            <th>marker-type</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>developer</td>
+            <td>显影单元</td>
+          </tr>
+          <tr>
+            <td>fuser</td>
+            <td>定影单元</td>
+          </tr>
+          <tr>
+            <td>fuser-cleaning-pad</td>
+            <td>定影器清洁垫</td>
+          </tr>
+          <tr>
+            <td>fuser-oil</td>
+            <td>定影油</td>
+          </tr>
+          <tr>
+            <td>ink</td>
+            <td>供墨</td>
+          </tr>
+          <tr>
+            <td>opc</td>
+            <td>光电导体</td>
+          </tr>
+          <tr>
+            <td>solid-wax</td>
+            <td>供蜡</td>
+          </tr>
+          <tr>
+            <td>staples</td>
+            <td>供钉</td>
+          </tr>
+          <tr>
+            <td>toner</td>
+            <td>供墨</td>
+          </tr>
+          <tr>
+            <td>transfer-unit</td>
+            <td>传输单元</td>
+          </tr>
+          <tr>
+            <td>waste-ink</td>
+            <td>废墨罐</td>
+          </tr>
+          <tr>
+            <td>waste-toner</td>
+            <td>废粉仓</td>
+          </tr>
+          <tr>
+            <td>waste-wax</td>
+            <td>废蜡罐</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br>
 
-    <h3><a name="EXITCODES">Exit Codes</a></h3>
-
-    <p>Filters must exit with status 0 when they successfully generate print data
-or 1 when they encounter an error. Backends can return any of the
-<a href="#cups_backend_t"><code>cups_backend_t</code></a> constants.</p>
-
-    <h3><a name="ENVIRONMENT">Environment Variables</a></h3>
-
-    <p>The following environment variables are defined by the printing system
-when running print filters and backends:</p>
-
-<dl class="code">
-
-	<dt>APPLE_LANGUAGE</dt>
-	<dd>The Apple language identifier associated with the job
-	(macOS only).</dd>
-
-	<dt>CHARSET</dt>
-	<dd>The job character set, typically "utf-8".</dd>
-
-	<dt>CLASS</dt>
-	<dd>When a job is submitted to a printer class, contains the name of
-	the destination printer class. Otherwise this environment
-	variable will not be set.</dd>
-
-	<dt>CONTENT_TYPE</dt>
-	<dd>The MIME type associated with the file (e.g.
-	application/postscript).</dd>
-
-	<dt>CUPS_CACHEDIR</dt>
-	<dd>The directory where cache files can be stored. Cache files can be
-	used to retain information between jobs or files in a job.</dd>
-
-	<dt>CUPS_DATADIR</dt>
-	<dd>The directory where (read-only) CUPS data files can be found.</dd>
-
-	<dt>CUPS_FILETYPE</dt>
-	<dd>The type of file being printed: "job-sheet" for a banner page and
-	"document" for a regular print file.</dd>
-
-	<dt>CUPS_SERVERROOT</dt>
-	<dd>The root directory of the server.</dd>
-
-	<dt>DEVICE_URI</dt>
-	<dd>The device-uri associated with the printer.</dd>
-
-	<dt>FINAL_CONTENT_TYPE</dt>
-	<dd>The MIME type associated with the printer (e.g.
-	application/vnd.cups-postscript).</dd>
-
-	<dt>LANG</dt>
-	<dd>The language locale associated with the job.</dd>
-
-	<dt>PPD</dt>
-	<dd>The full pathname of the PostScript Printer Description (PPD)
-	file for this printer.</dd>
-
-	<dt>PRINTER</dt>
-	<dd>The queue name of the class or printer.</dd>
-
-	<dt>RIP_CACHE</dt>
-	<dd>The recommended amount of memory to use for Raster Image
-	Processors (RIPs).</dd>
-
-	<dt>TMPDIR</dt>
-	<dd>The directory where temporary files should be created.</dd>
-
-</dl>
-
-    <h3><a name="MESSAGES">Communicating with the Scheduler</a></h3>
-
-    <p>Filters and backends communicate with the scheduler by writing messages
-to the standard error file. The scheduler reads messages from all filters in
-a job and processes the message based on its prefix. For example, the following
-code sets the current printer state message to "Printing page 5":</p>
-
-    <pre class="example">
-int page = 5;
-
-fprintf(stderr, "INFO: Printing page %d\n", page);
-</pre>
-
-    <p>Each message is a single line of text starting with one of the following
-prefix strings:</p>
-
-<dl class="code">
-
-	<dt>ALERT: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "alert" log level.</dd>
-
-	<dt>ATTR: attribute=value [attribute=value]</dt>
-	<dd>Sets the named printer or job attribute(s). Typically this is used
-	to set the <code>marker-colors</code>, <code>marker-high-levels</code>,
-	<code>marker-levels</code>, <code>marker-low-levels</code>,
-	<code>marker-message</code>, <code>marker-names</code>,
-	<code>marker-types</code>, <code>printer-alert</code>, and
-	<code>printer-alert-description</code> printer attributes. Standard
-	<code>marker-types</code> values are listed in <a href='#TABLE1'>Table
-	1</a>. String values need special handling - see <a href="#ATTR_STRINGS">Reporting Attribute String Values</a> below.</dd>
-
-	<dt>CRIT: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "critical" log
-	level.</dd>
-
-	<dt>DEBUG: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "debug" log level.</dd>
-
-	<dt>DEBUG2: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "debug2" log level.</dd>
-
-	<dt>EMERG: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "emergency" log
-	level.</dd>
-
-	<dt>ERROR: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "error" log level.
-	Use "ERROR:" messages for non-persistent processing errors.</dd>
-
-	<dt>INFO: message</dt>
-	<dd>Sets the printer-state-message attribute. If the current log level
-	is set to "debug2", also adds the specified message to the current error
-	log file using the "info" log level.</dd>
-
-	<dt>NOTICE: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "notice" log level.</dd>
-
-	<dt>PAGE: page-number #-copies</dt>
-	<dt>PAGE: total #-pages</dt>
-	<dd>Adds an entry to the current page log file. The first form adds
-	#-copies to the job-media-sheets-completed attribute. The second
-	form sets the job-media-sheets-completed attribute to #-pages.</dd>
-
-	<dt>PPD: keyword=value [keyword=value ...]</dt>
-	<dd>Changes or adds keywords to the printer's PPD file. Typically
-	this is used to update installable options or default media settings
-	based on the printer configuration.</dd>
-
-	<dt>STATE: + printer-state-reason [printer-state-reason ...]</dt>
-	<dt>STATE: - printer-state-reason [printer-state-reason ...]</dt>
-	<dd>Sets or clears printer-state-reason keywords for the current queue.
-	Typically this is used to indicate persistent media, ink, toner, and
-	configuration conditions or errors on a printer.
-	<a href='#TABLE2'>Table 2</a> lists some of the standard "printer-state-reasons" keywords from the <a href="http://www.iana.org/assignments/ipp-registrations/ipp-registrations.xhtml#ipp-registrations-4">IANA IPP Registry</a> -
-	use vendor-prefixed ("com.example.foo") keywords for custom states. See
-	<a href="#MANAGING_STATE">Managing Printer State in a Filter</a> for more
-	information.
-
-	<dt>WARNING: message</dt>
-	<dd>Sets the printer-state-message attribute and adds the specified
-	message to the current error log file using the "warning" log
-	level.</dd>
-
-</dl>
-
-    <p>Messages without one of these prefixes are treated as if they began with
-the "DEBUG:" prefix string.</p>
-
-<div class='table'><table width='80%' summary='Table 1: Standard marker-types Values'>
-<caption>Table 1: <a name='TABLE1'>Standard marker-types Values</a></caption>
-<thead>
-<tr>
-	<th>marker-type</th>
-	<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td>developer</td>
-	<td>Developer unit</td>
-</tr>
-<tr>
-	<td>fuser</td>
-	<td>Fuser unit</td>
-</tr>
-<tr>
-	<td>fuser-cleaning-pad</td>
-	<td>Fuser cleaning pad</td>
-</tr>
-<tr>
-	<td>fuser-oil</td>
-	<td>Fuser oil</td>
-</tr>
-<tr>
-	<td>ink</td>
-	<td>Ink supply</td>
-</tr>
-<tr>
-	<td>opc</td>
-	<td>Photo conductor</td>
-</tr>
-<tr>
-	<td>solid-wax</td>
-	<td>Wax supply</td>
-</tr>
-<tr>
-	<td>staples</td>
-	<td>Staple supply</td>
-</tr>
-<tr>
-	<td>toner</td>
-	<td>Toner supply</td>
-</tr>
-<tr>
-	<td>transfer-unit</td>
-	<td>Transfer unit</td>
-</tr>
-<tr>
-	<td>waste-ink</td>
-	<td>Waste ink tank</td>
-</tr>
-<tr>
-	<td>waste-toner</td>
-	<td>Waste toner tank</td>
-</tr>
-<tr>
-	<td>waste-wax</td>
-	<td>Waste wax tank</td>
-</tr>
-</tbody>
-</table></div>
-
-<br>
-
-<div class='table'><table width='80%' summary='Table 2: Standard State Keywords'>
-<caption>Table 2: <a name='TABLE2'>Standard State Keywords</a></caption>
-<thead>
-<tr>
-	<th>Keyword</th>
-	<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td>connecting-to-device</td>
-	<td>Connecting to printer but not printing yet.</td>
-</tr>
-<tr>
-	<td>cover-open</td>
-	<td>The printer's cover is open.</td>
-</tr>
-<tr>
-	<td>input-tray-missing</td>
-	<td>The paper tray is missing.</td>
-</tr>
-<tr>
-	<td>marker-supply-empty</td>
-	<td>The printer is out of ink.</td>
-</tr>
-<tr>
-	<td>marker-supply-low</td>
-	<td>The printer is almost out of ink.</td>
-</tr>
-<tr>
-	<td>marker-waste-almost-full</td>
-	<td>The printer's waste bin is almost full.</td>
-</tr>
-<tr>
-	<td>marker-waste-full</td>
-	<td>The printer's waste bin is full.</td>
-</tr>
-<tr>
-	<td>media-empty</td>
-	<td>The paper tray (any paper tray) is empty.</td>
-</tr>
-<tr>
-	<td>media-jam</td>
-	<td>There is a paper jam.</td>
-</tr>
-<tr>
-	<td>media-low</td>
-	<td>The paper tray (any paper tray) is almost empty.</td>
-</tr>
-<tr>
-	<td>media-needed</td>
-	<td>The paper tray needs to be filled (for a job that is printing).</td>
-</tr>
-<tr>
-	<td>paused</td>
-	<td>Stop the printer.</td>
-</tr>
-<tr>
-	<td>timed-out</td>
-	<td>Unable to connect to printer.</td>
-</tr>
-<tr>
-	<td>toner-empty</td>
-	<td>The printer is out of toner.</td>
-</tr>
-<tr>
-	<td>toner-low</td>
-	<td>The printer is low on toner.</td>
-</tr>
-</tbody>
-</table></div>
-
-
-<h4><a name="ATTR_STRINGS">Reporting Attribute String Values</a></h4>
-
-    <p>When reporting string values using "ATTR:" messages, a filter or backend must take special care to appropriately quote those values. The scheduler uses the CUPS option parsing code for attributes, so the general syntax is:</p>
-
+    <div class='table'>
+      <table width='80%' summary="Table 2: Standard State Keywords">
+        <caption>表 2 ：<a name='TABLE2'>标准状态关键字</a></caption>
+        <thead>
+          <tr>
+            <th>关键字</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>connecting-to-device</td>
+            <td>正在连接打印机，但尚未打印。</td>
+          </tr>
+          <tr>
+            <td>cover-open</td>
+            <td>打印机的盖子是开着的。</td>
+          </tr>
+          <tr>
+            <td>input-tray-missing</td>
+            <td>纸盘不见了。</td>
+          </tr>
+          <tr>
+            <td>marker-supply-empty</td>
+            <td>打印机墨水用完了。</td>
+          </tr>
+          <tr>
+            <td>marker-supply-low</td>
+            <td>打印机几乎没有墨水了。</td>
+          </tr>
+          <tr>
+            <td>marker-waste-almost-full</td>
+            <td>打印机的垃圾箱几乎满了。</td>
+          </tr>
+          <tr>
+            <td>marker-waste-full</td>
+            <td>打印机的垃圾箱已满。</td>
+          </tr>
+          <tr>
+            <td>media-empty</td>
+            <td>纸盘（任何纸盘）为空。</td>
+          </tr>
+          <tr>
+            <td>media-jam</td>
+            <td>卡纸了。</td>
+          </tr>
+          <tr>
+            <td>media-low</td>
+            <td>纸盘（任何纸盘）几乎是空的。</td>
+          </tr>
+          <tr>
+            <td>media-needed</td>
+            <td>需要填充纸盘（对于正在打印的任务）。</td>
+          </tr>
+          <tr>
+            <td>paused</td>
+            <td>停止打印机。</td>
+          </tr>
+          <tr>
+            <td>timed-out</td>
+            <td>无法连接到打印机。</td>
+          </tr>
+          <tr>
+            <td>toner-empty</td>
+            <td>打印机的碳粉用完了。</td>
+          </tr>
+          <tr>
+            <td>toner-low</td>
+            <td>打印机的碳粉不足。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h4><a name="ATTR_STRINGS">报告属性字符串值</a></h4>
+    <p>&emsp;&emsp;当使用 “ATTR:” 消息报告字符串值时，筛选器或后端必须特别注意适当引用这些值。调度程序使用 CUPS 选项解析属性代码，因此一般语法为：
     <pre class="example">
 name=simple
 name=simple,simple,...
 name='complex value'
 name="complex value"
-name='"complex value"','"complex value"',...
-</pre>
-
-    <p>Simple values are strings that do not contain spaces, quotes, backslashes, or the comma and can be placed verbatim in the "ATTR:" message, for example:</p>
-
+name='"complex value"','"complex value"',...</pre>
+    <p>&emsp;&emsp;简单值是不包含空格、引号、反斜杠或逗号的字符串，可以逐字放入 “ATTR:” 消息中，例如：
     <pre class="example">
 int levels[4] = { 40, 50, 60, 70 }; /* CMYK */
 
@@ -995,24 +836,13 @@ fputs("ATTR: marker-high-levels=100,100,100,100\n", stderr);
 fprintf(stderr, "ATTR: marker-levels=%d,%d,%d,%d\n", levels[0], levels[1],
         levels[2], levels[3], levels[4]);
 fputs("ATTR: marker-low-levels=5,5,5,5\n", stderr);
-fputs("ATTR: marker-types=toner,toner,toner,toner\n", stderr);
-</pre>
-
-    <p>Complex values that contains spaces, quotes, backslashes, or the comma must be quoted. For a single value a single set of quotes is sufficient:</p>
-
-    <pre class="example">
-fputs("ATTR: marker-message='Levels shown are approximate.'\n", stderr);
-</pre>
-
-    <p>When multiple values are reported, each value must be enclosed by a set of single and double quotes:</p>
-
-    <pre class="example">
-fputs("ATTR: marker-names='\"Cyan Toner\"','\"Magenta Toner\"',"
-      "'\"Yellow Toner\"','\"Black Toner\"'\n", stderr);
-</pre>
-
-    <p>The IPP backend includes a <var>quote_string</var> function that may be used to properly quote a complex value in an "ATTR:" message:</p>
-
+fputs("ATTR: marker-types=toner,toner,toner,toner\n", stderr);</pre>
+    <p>&emsp;&emsp;包含空格、引号、反斜杠或逗号的复杂值必须加引号。对于单个值，一组单引号就足够了：
+    <pre class="example">fputs("ATTR: marker-message='Levels shown are approximate.'\n", stderr);</pre>
+    <p>&emsp;&emsp;报告多个值时，每个值必须用一组单引号和双引号括起来：
+    <pre class="example">fputs("ATTR: marker-names='\"Cyan Toner\"','\"Magenta Toner\"',"
+      "'\"Yellow Toner\"','\"Black Toner\"'\n", stderr);</pre>
+    <p>&emsp;&emsp;IPP 后端包含一个 <var>quote_string</var> 函数，可用于在 “ATTR:” 消息中正确引用复杂值：
     <pre class="example">
 static const char *                     /* O - Quoted string */
 quote_string(const char *s,             /* I - String */
@@ -1057,16 +887,9 @@ quote_string(const char *s,             /* I - String */
   *qptr   = '\0';
 
   return (q);
-}
-</pre>
-
-
-<h4><a name="MANAGING_STATE">Managing Printer State in a Filter</a></h4>
-
-    <p>Filters are responsible for managing the state keywords they set using
-"STATE:" messages. Typically you will update <em>all</em> of the keywords that
-are used by the filter at startup, for example:</p>
-
+}</pre>
+    <h4><a name="MANAGING_STATE">管理筛选器中的打印机状态</a></h4>
+    <p>&emsp;&emsp;筛选器负责管理使用 “STATE:” 消息设置的状态关键字。通常，您将在启动时更新筛选器使用的 <em>所有</em> 关键字，例如：
     <pre class="example">
 if (foo_condition != 0)
   fputs("STATE: +com.example.foo\n", stderr);
@@ -1076,279 +899,165 @@ else
 if (bar_condition != 0)
   fputs("STATE: +com.example.bar\n", stderr);
 else
-  fputs("STATE: -com.example.bar\n", stderr);
-</pre>
-
-    <p>Then as conditions change, your filter sends "STATE: +keyword" or "STATE:
--keyword" messages as necessary to set or clear the corresponding keyword,
-respectively.</p>
-
-    <p>State keywords are often used to notify the user of issues that span across
-jobs, for example "media-empty-warning" that indicates one or more paper trays
-are empty. These keywords should not be cleared unless the corresponding issue
-no longer exists.</p>
-
-    <p>Filters should clear job-related keywords on startup and exit so that they
-do not remain set between jobs.  For example, "connecting-to-device" is a job
-sub-state and not an issue that applies when a job is not printing.</p>
-
-<blockquote><b>Note:</b>
-
-    <p>"STATE:" messages often provide visible alerts to the user. For example,
-on macOS setting a printer-state-reason value with an "-error" or
-"-warning" suffix will cause the printer's dock item to bounce if the
-corresponding reason is localized with a cupsIPPReason keyword in the
-printer's PPD file.</p>
-
-    <p>When providing a vendor-prefixed keyword, <em>always</em> provide the
-corresponding standard keyword (if any) to allow clients to respond to the
-condition correctly. For example, if you provide a vendor-prefixed keyword
-for a low cyan ink condition ("com.example.cyan-ink-low") you must also set the
-"marker-supply-low-warning" keyword. In such cases you should also refrain
-from localizing the vendor-prefixed keyword in the PPD file - otherwise both
-the generic and vendor-specific keyword will be shown in the user
-interface.</p>
-
-</blockquote>
-
-<h4><a name="REPORTING_SUPPLIES">Reporting Supply Levels</a></h4>
-
-    <p>CUPS tracks several "marker-*" attributes for ink/toner supply level
-reporting. These attributes allow applications to display the current supply
-levels for a printer without printer-specific software. <a href="#TABLE3">Table 3</a> lists the marker attributes and what they represent.</p>
-
-    <p>Filters set marker attributes by sending "ATTR:" messages to stderr. For
-example, a filter supporting an inkjet printer with black and tri-color ink
-cartridges would use the following to initialize the supply attributes:</p>
-
+  fputs("STATE: -com.example.bar\n", stderr);</pre>
+    <p>&emsp;&emsp;然后，随着条件的变化，筛选器会根据需要发送 “STATE: +关键字” 或 “STATE: -关键字” 消息，以分别设置或清除相应的关键字。
+    <p>&emsp;&emsp;状态关键字通常用于通知用户跨任务出现的问题，例如，指示一个或多个纸盘为空的 “media-empty-warning” 。除非相应的问题不再存在，否则不应清除这些关键字。
+    <p>&emsp;&emsp;筛选器应在启动和退出时清除任务相关的关键字，以便它们不会在任务之间保留设置状态。例如，“connecting-to-device” 是任务子状态，而不是任务未打印时适用的问题。
+    <blockquote><b>提示：</b>
+      <p>&emsp;&emsp;“STATE:” 消息通常向用户提供可见的警报。例如，在 macOS 上，如果使用打印机的 PPD 文件中的 cupsIPPReason 关键字本地化了相应的原因，则使用 “-error” 或 “-warning” 后缀设置打印机状态原因值将导致打印机的 dock 项反弹。
+      <p>&emsp;&emsp;提供供应商前缀关键字时， <em>始终</em> 提供相应的标准关键字（如果有），以允许客户端正确响应条件。例如，如果为浅青色墨水条件提供 vendor-prefixed 关键字（ “com.example.cyan-ink-low” ），则还必须设置 “marker-supply-low-warning” 关键字。在这种情况下，还应避免在 PPD 文件中本地化 vendor-prefixed 关键字，否则用户界面中将显示通用关键字和供应商特定关键字。
+    </blockquote>
+    <h4><a name="REPORTING_SUPPLIES">报告供应水平</a></h4>
+    <p>&emsp;&emsp;CUPS 跟踪墨水/碳粉供应水平报告的几个 “marker-*” 属性。这些属性允许应用程序在没有打印机特定软件的情况下显示打印机的当前供应水平。<a href="#TABLE3">表 3</a> 列出了标记属性及其代表的内容。
+    <p>&emsp;&emsp;筛选器通过向 stderr 发送 “ATTR:” 消息来设置标记属性。例如，支持带有黑色和三色墨盒的喷墨打印机的筛选器将使用以下选项初始化供应属性：
     <pre class="example">
 fputs("ATTR: marker-colors=#000000,#00FFFF#FF00FF#FFFF00\n", stderr);
 fputs("ATTR: marker-low-levels=5,10\n", stderr);
 fputs("ATTR: marker-names=Black,Tri-Color\n", stderr);
-fputs("ATTR: marker-types=ink,ink\n", stderr);
-</pre>
-
-    <p>Then periodically the filter queries the printer for its current supply
-levels and updates them with a separate "ATTR:" message:</p>
-
+fputs("ATTR: marker-types=ink,ink\n", stderr);</pre>
+    <p>&emsp;&emsp;然后，筛选器定期查询打印机的当前供应水平，并使用单独的 “ATTR:” 消息进行更新：
     <pre class="example">
 int black_level, tri_level;
 ...
-fprintf(stderr, "ATTR: marker-levels=%d,%d\n", black_level, tri_level);
-</pre>
+fprintf(stderr, "ATTR: marker-levels=%d,%d\n", black_level, tri_level);</pre>
 
-<div class='table'><table width='80%' summary='Table 3: Supply Level Attributes'>
-<caption>Table 3: <a name='TABLE3'>Supply Level Attributes</a></caption>
-<thead>
-<tr>
-	<th>Attribute</th>
-	<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td>marker-colors</td>
-	<td>A list of comma-separated colors; each color is either "none" or one or
-	more hex-encoded sRGB colors of the form "#RRGGBB".</td>
-</tr>
-<tr>
-	<td>marker-high-levels</td>
-	<td>A list of comma-separated "almost full" level values from 0 to 100; a
-	value of 100 should be used for supplies that are consumed/emptied like ink
-	cartridges.</td>
-</tr>
-<tr>
-	<td>marker-levels</td>
-	<td>A list of comma-separated level values for each supply. A value of -1
-	indicates the level is unavailable, -2 indicates unknown, and -3 indicates
-	the level is unknown but has not yet reached capacity. Values from 0 to 100
-	indicate the corresponding percentage.</td>
-</tr>
-<tr>
-	<td>marker-low-levels</td>
-	<td>A list of comma-separated "almost empty" level values from 0 to 100; a
-	value of 0 should be used for supplies that are filled like waste ink
-	tanks.</td>
-</tr>
-<tr>
-	<td>marker-message</td>
-	<td>A human-readable supply status message for the user like "12 pages of
-	ink remaining."</td>
-</tr>
-<tr>
-	<td>marker-names</td>
-	<td>A list of comma-separated supply names like "Cyan Ink", "Fuser",
-	etc.</td>
-</tr>
-<tr>
-	<td>marker-types</td>
-	<td>A list of comma-separated supply types; the types are listed in
-	<a href="#TABLE1">Table 1</a>.</td>
-</tr>
-</tbody>
-</table></div>
+    <div class='table'>
+      <table width='80%' summary='Table 3: Supply Level Attributes'>
+        <caption>表 3 ：<a name='TABLE3'>供应水平属性</a></caption>
+        <thead>
+          <tr>
+            <th>属性</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>marker-colors</td>
+            <td>逗号分隔的颜色列表；每种颜色要么是 “none” ，要么是一种或多种十六进制编码的 sRGB 颜色，格式为 “#RRGGBB” 。</td>
+          </tr>
+          <tr>
+            <td>marker-high-levels</td>
+            <td>以逗号分隔的 “几乎满” 级别值列表，从 0 到 100 ；对于消耗/清空的耗材（如墨盒），应使用值 100 。</td>
+          </tr>
+          <tr>
+            <td>marker-levels</td>
+            <td>每个电源的逗号分隔级别值列表。值 -1 表示级别不可用， -2 表示未知， -3 表示级别未知但尚未达到容量。从 0 到 100 的值表示相应的百分比。</td>
+          </tr>
+          <tr>
+            <td>marker-low-levels</td>
+            <td>以逗号分隔的“几乎为空”级别值列表，从 0 到 100 ；对于像废墨水罐一样加注的耗材，应使用值 0 。</td>
+          </tr>
+          <tr>
+            <td>marker-message</td>
+            <td>用户可读的供应状态消息，如“剩余 12 页墨水”。</td>
+          </tr>
+          <tr>
+            <td>marker-names</td>
+            <td>以逗号分隔的供应名称列表，如 “青色墨水” 、 “定影器” 等。</td>
+          </tr>
+          <tr>
+            <td>marker-types</td>
+            <td>逗号分隔的供应类型列表；这些类型列在<a href="#TABLE1">表 1</a> 中。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <h3><a name="COMMUNICATING_BACKEND">Communicating with the Backend</a></h3>
-
-    <p>Filters can communicate with the backend via the
-<a href="#cupsBackChannelRead"><code>cupsBackChannelRead</code></a> and
-<a href="#cupsSideChannelDoRequest"><code>cupsSideChannelDoRequest</code></a>
-functions. The
-<a href="#cupsBackChannelRead"><code>cupsBackChannelRead</code></a> function
-reads data that has been sent back from the device and is typically used to
-obtain status and configuration information. For example, the following code
-polls the backend for back-channel data:</p>
-
+    <h3><a name="COMMUNICATING_BACKEND">与后端通信</a></h3>
+    <p>&emsp;&emsp;筛选器可以通过 <a href="#cupsBackChannelRead"><code>cupsBackChannelRead</code></a> 和 <a href="#cupsSideChannelDoRequest"><code>cupsSideChannelDoRequest</code></a> 函数与后端通信。<a href="#cupsBackChannelRead"><code>cupsBackChannelRead</code></a> 函数读取从设备发回的数据，通常用于获取状态和配置信息。例如，以下代码轮询后端以获取后台通道数据：
     <pre class="example">
 #include &lt;cups/cups.h&gt;
 
 char buffer[8192];
 ssize_t bytes;
 
-/* Use a timeout of 0.0 seconds to poll for back-channel data */
-bytes = cupsBackChannelRead(buffer, sizeof(buffer), 0.0);
-</pre>
-
-    <p>Filters can also use <code>select()</code> or <code>poll()</code> on the
-back-channel file descriptor (3 or <code>CUPS_BC_FD</code>) to read data only
-when it is available.</p>
-
-    <p>The
-<a href="#cupsSideChannelDoRequest"><code>cupsSideChannelDoRequest</code></a>
-function allows you to get out-of-band status information and do synchronization
-with the device. For example, the following code gets the current IEEE-1284
-device ID string from the backend:</p>
-
+/* 使用 0.0 秒的超时轮询反向通道数据 */
+bytes = cupsBackChannelRead(buffer, sizeof(buffer), 0.0);</pre>
+    <p>&emsp;&emsp;筛选器还可以使用反向通道文件描述符（ 3 或 <code>CUPS_BC_FD</code> ）上的 <code>select()</code> 或 <code>poll()</code> 读取数据，仅当数据可用时。
+    <p>&emsp;&emsp;<a href="#cupsSideChannelDoRequest"><code>cupsSideChannelDoRequest</code></a> 函数允许您获取 out-of-band 状态信息并与设备进行同步。例如，以下代码从后端获取当前 IEEE-1284 设备 ID 字符串：
     <pre class="example">
 #include &lt;cups/sidechannel.h&gt;
 
 char data[2049];
-int datalen;
-<a href="#cups_sc_status_t">cups_sc_status_t</a> status;
+int datalen; <a href="#cups_sc_status_t">cups_sc_status_t</a> status;
 
-/* Tell cupsSideChannelDoRequest() how big our buffer is, less 1 byte for
-   nul-termination... */
+/* 告诉 cupsSideChannelDoRequest() 我们的缓冲区有多大，为 nul 终止符扣除 1 个字节…… */
 datalen = sizeof(data) - 1;
 
-/* Get the IEEE-1284 device ID, waiting for up to 1 second */
+/* 获取 IEEE-1284 设备 ID ，最多等待 1 秒 */
 status = <a href="#cupsSideChannelDoRequest">cupsSideChannelDoRequest</a>(CUPS_SC_CMD_GET_DEVICE_ID, data, &amp;datalen, 1.0);
 
-/* Use the returned value if OK was returned and the length is non-zero */
+/* 如果返回 OK 且长度非零，则使用返回值 */
 if (status == CUPS_SC_STATUS_OK &amp;&amp; datalen > 0)
   data[datalen] = '\0';
 else
-  data[0] = '\0';
-</pre>
-
-<h4><a name="DRAIN_OUTPUT">Forcing All Output to a Printer</a></h4>
-
-    <p>The
-<a href="#cupsSideChannelDoRequest"><code>cupsSideChannelDoRequest</code></a>
-function allows you to tell the backend to send all pending data to the printer.
-This is most often needed when sending query commands to the printer. For example:</p>
-
+  data[0] = '\0';</pre>
+    <h4><a name="DRAIN_OUTPUT">强制所有输出到打印机</a></h4>
+    <p>&emsp;&emsp;<a href="#cupsSideChannelDoRequest"><code>cupsSideChannelDoRequest</code></a> 函数允许您通知后端将所有挂起的数据发送到打印机。在向打印机发送查询命令时，这是最经常需要的。例如：
     <pre class="example">
 #include &lt;cups/cups.h&gt;
 #include &lt;cups/sidechannel.h&gt;
 
 char data[1024];
-int datalen = sizeof(data);
-<a href="#cups_sc_status_t">cups_sc_status_t</a> status;
+int datalen = sizeof(data); <a href="#cups_sc_status_t">cups_sc_status_t</a> status;
 
-/* Flush pending output to stdout */
+/* 将挂起的输出刷新到标准输出 */
 fflush(stdout);
 
-/* Drain output to backend, waiting for up to 30 seconds */
+/* 将输出排放到后端，最多等待 30 秒 */
 status = <a href="#cupsSideChannelDoRequest">cupsSideChannelDoRequest</a>(CUPS_SC_CMD_DRAIN_OUTPUT, data, &amp;datalen, 30.0);
 
-/* Read the response if the output was sent */
+/* 如果发送了输出，则读取响应 */
 if (status == CUPS_SC_STATUS_OK)
 {
   ssize_t bytes;
 
-  /* Wait up to 10.0 seconds for back-channel data */
+  /* 最多等待 10.0 秒以获取反向通道数据 */
   bytes = cupsBackChannelRead(data, sizeof(data), 10.0);
-  /* do something with the data from the printer */
-}
-</pre>
+  /* 对打印机中的数据进行处理 */
+}</pre>
 
-    <h3><a name="COMMUNICATING_FILTER">Communicating with Filters</a></h3>
-
-    <p>Backends communicate with filters using the reciprocal functions
-<a href="#cupsBackChannelWrite"><code>cupsBackChannelWrite</code></a>,
-<a href="#cupsSideChannelRead"><code>cupsSideChannelRead</code></a>, and
-<a href="#cupsSideChannelWrite"><code>cupsSideChannelWrite</code></a>. We
-recommend writing back-channel data using a timeout of 1.0 seconds:</p>
-
+    <h3><a name="COMMUNICATING_FILTER">与筛选器通信</a></h3>
+    <p>&emsp;&emsp;后端使用交互函数 <a href="#cupsBackChannelWrite"><code>cupsBackChannelWrite</code></a> 、 <a href="#cupsSideChannelRead"><code>cupsSideChannelRead</code></a> 和 <a href="#cupsSideChannelWrite"><code>cupsSideChannelWrite</code></a> 与筛选器通信。建议写反向通道数据使用 1.0 秒的超时时间：
     <pre class="example">
 #include &lt;cups/cups.h&gt;
 
 char buffer[8192];
 ssize_t bytes;
 
-/* Obtain data from printer/device */
+/* 从打印机/设备获取数据 */
 ...
 
-/* Use a timeout of 1.0 seconds to give filters a chance to read */
-cupsBackChannelWrite(buffer, bytes, 1.0);
-</pre>
-
-    <p>The <a href="#cupsSideChannelRead"><code>cupsSideChannelRead</code></a>
-function reads a side-channel command from a filter, driver, or port monitor.
-Backends can either poll for commands using a <code>timeout</code> of 0.0, wait
-indefinitely for commands using a <code>timeout</code> of -1.0 (probably in a
-separate thread for that purpose), or use <code>select</code> or
-<code>poll</code> on the <code>CUPS_SC_FD</code> file descriptor (4) to handle
-input and output on several file descriptors at the same time.</p>
-
-    <p>Once a command is processed, the backend uses the
-<a href="#cupsSideChannelWrite"><code>cupsSideChannelWrite</code></a> function
-to send its response. For example, the following code shows how to poll for a
-side-channel command and respond to it:</p>
-
+/* 使用 1.0 秒的超时为筛选器提供读取的机会 */
+cupsBackChannelWrite(buffer, bytes, 1.0);</pre>
+    <p>&emsp;&emsp;<a href="#cupsSideChannelRead"><code>cupsSideChannelRead</code></a> 函数从筛选器、驱动程序或端口监视器读取侧通道命令。后端可以使用 0.0 的 <code>timeout</code> 轮询命令，使用 1.0 的 <code>timeout</code> 无限期地等待命令（可能在单独的线程中），或者在 <code>CUPS_SC_FD</code> 文件描述符（4）上使用 <code>select</code> 或 <code>poll</code> 同时处理多个文件描述符的输入和输出。
+    <p>&emsp;&emsp;处理命令后，后端使用 <a href="#cupsSideChannelWrite"><code>cupsSideChannelWrite</code></a> 函数发送响应。例如，以下代码显示如何轮询侧通道命令并对其作出响应：
     <pre class="example">
-#include &lt;cups/sidechannel.h&gt;
-
-<a href="#cups_sc_command_t">cups_sc_command_t</a> command;
-<a href="#cups_sc_status_t">cups_sc_status_t</a> status;
+#include &lt;cups/sidechannel.h&gt; <a href="#cups_sc_command_t">cups_sc_command_t</a> command; <a href="#cups_sc_status_t">cups_sc_status_t</a> status;
 char data[2048];
 int datalen = sizeof(data);
 
-/* Poll for a command... */
+/* 轮询命令…… */
 if (!<a href="#cupsSideChannelRead">cupsSideChannelRead</a>(&amp;command, &amp;status, data, &amp;datalen, 0.0))
 {
   switch (command)
   {
-    /* handle supported commands, fill data/datalen/status with values as needed */
+    /* 处理支持的命令，根据需要使用值填充 data/datalen/status */
 
     default :
         status  = CUPS_SC_STATUS_NOT_IMPLEMENTED;
-	datalen = 0;
-	break;
+        datalen = 0;
+        break;
   }
 
-  /* Send a response... */
+  /* 发送响应…… */
   <a href="#cupsSideChannelWrite">cupsSideChannelWrite</a>(command, status, data, datalen, 1.0);
-}
-</pre>
+}</pre>
 
-    <h3><a name="SNMP">Doing SNMP Queries with Network Printers</a></h3>
-
-    <p>The Simple Network Management Protocol (SNMP) allows you to get the current
-status, page counter, and supply levels from most network printers. Every
-piece of information is associated with an Object Identifier (OID), and
-every printer has a <em>community</em> name associated with it. OIDs can be
-queried directly or by "walking" over a range of OIDs with a common prefix.</p>
-
-    <p>The two CUPS SNMP functions provide a simple API for querying network
-printers through the side-channel interface. Each accepts a string containing
-an OID like ".1.3.6.1.2.1.43.10.2.1.4.1.1" (the standard page counter OID)
-along with a timeout for the query.</p>
-
-    <p>The <a href="#cupsSideChannelSNMPGet"><code>cupsSideChannelSNMPGet</code></a>
-function queries a single OID and returns the value as a string in a buffer
-you supply:</p>
-
+    <h3><a name="SNMP">使用网络打印机执行 SNMP 查询</a></h3>
+    <p>&emsp;&emsp;简单网络管理协议（ SNMP ）允许您从大多数网络打印机获取当前状态、页面计数器和供应水平。每一条信息都与一个对象标识符（ OID ）关联，并且每台打印机都有一个与其关联的 <em>社区</em> 名称。可以直接查询 OID ，也可以通过 “遍历” 一系列具有公共前缀的 OID 来查询 OID 。
+    <p>&emsp;&emsp;两个 CUPS SNMP 函数提供了一个简单的 API ，用于通过侧通道接口查询网络打印机。每个都接受一个包含 OID 的字符串，如 “.1.3.6.1.2.1.43.10.2.1.4.1.1”（标准页面计数器 OID ）以及查询超时。
+    <p>&emsp;&emsp;<a href="#cupsSideChannelSNMPGet"><code>cupsSideChannelSNMPGet</code></a> 函数查询单个 OID ，并在您提供的缓冲区中以字符串形式返回值：
     <pre class="example">
 #include &lt;cups/sidechannel.h&gt;
 
@@ -1358,407 +1067,457 @@ int datalen = sizeof(data);
 if (<a href="#cupsSideChannelSNMPGet">cupsSideChannelSNMPGet</a>(".1.3.6.1.2.1.43.10.2.1.4.1.1", data, &amp;datalen, 5.0)
         == CUPS_SC_STATUS_OK)
 {
-  /* Do something with the value */
+  /* 做一些有价值的事情 */
   printf("Page counter is: %s\n", data);
-}
-</pre>
-
-    <p>The
-<a href="#cupsSideChannelSNMPWalk"><code>cupsSideChannelSNMPWalk</code></a>
-function allows you to query a whole group of OIDs, calling a function of your
-choice for each OID that is found:</p>
-
+}</pre>
+    <p>&emsp;&emsp;<a href="#cupsSideChannelSNMPWalk"><code>cupsSideChannelSNMPWalk</code></a> 函数允许您查询整个 OID 组，为找到的每个 OID 调用您选择的函数：
     <pre class="example">
 #include &lt;cups/sidechannel.h&gt;
 
 void
 my_callback(const char *oid, const char *data, int datalen, void *context)
 {
-  /* Do something with the value */
+  /* 做一些有价值的事情 */
   printf("%s=%s\n", oid, data);
 }
 
 ...
 
-void *my_data;
+void *my_data; <a href="#cupsSideChannelSNMPWalk">cupsSNMPSideChannelWalk</a>(".1.3.6.1.2.1.43", 5.0, my_callback, my_data);</pre>
 
-<a href="#cupsSideChannelSNMPWalk">cupsSNMPSideChannelWalk</a>(".1.3.6.1.2.1.43", 5.0, my_callback, my_data);
-</pre>
 
-    <h2><a name="SANDBOXING">Sandboxing on macOS</a></h2>
+    <h2><a name="SANDBOXING">macOS 上的沙箱</a></h2>
+    <p>&emsp;&emsp;从 macOS 10.6 开始，筛选器和后端在安全 “沙箱” 中运行，这进一步限制了筛选器或后端的功能（超出了正常的 UNIX 用户/组权限）。这有助于保护打印系统免受恶意软件的攻击，并加强 CUPS 筛选器链中组件的功能分离。以下是所有筛选器和后端明确允许的操作列表：
+    <ol>
+      <li>文件读取：根据正常的 UNIX 文件权限，筛选器和后端可以从 <var>/private/var/spool/cups</var> 目录中读取当前任务的文件，以及已挂载的文件系统上 <em>除了</em> <var>/Users</var> 下的用户主目录外的其他文件。
+      <li>文件写入：根据正常的 UNIX 文件权限，筛选器和后端可以将文件读/写到 <code>CUPS_CACHEDIR</code> 环境变量指定的缓存目录、 <code>CUPS_STATEDIR</code> 环境变量指定的状态目录、 <code>TMPDIR</code> 环境变量指定的临时目录和 <var>/private/var/db</var> 、 <var>/private/var/folders</var> 、 <var>/private/var/lib</var> 、 <var>/private/var/mysql</var> 、 <var>/private/var/run</var> 、 <var>/private/var/spool</var> （ <var>/private/var/spool/cups</var> 除外）、 <var>/Library/Application&nbsp;Support</var> 、 <var>/Library/Caches</var> 、 <var>/Library/Logs</var> 、 <var>/Library/Preferences</var> 、 <var>/Library/WebServer</var> 和 <var>/Users/Shared</var> 目录及子目录。</li>
+      <li>程序执行：根据正常的 UNIX 文件权限，筛选器和后端可以执行不在 <var>/Users</var> 目录下的任何程序。子进程继承沙箱，并受到与父进程相同的限制。</li>
+      <li>蓝牙和 USB ：后端可以通过 IOKit 访问蓝牙和 USB 打印机。<em>筛选器无法直接访问蓝牙和 USB 打印机。</em></li>
+      <li>网络：筛选器和后端可以访问 <var>/private/tmp</var> 、 <var>/private/var/run</var> 和 <var>/private/var/tmp</var> 目录下的 UNIX 域套接字。后端还可以创建 IPv4 和 IPv6 TCP（传出）和 UDP（传入和传出）套接字，并绑定到本地源端口。<em>筛选器无法直接创建 IPv4 和 IPv6 TCP 或 UDP 套接字。</em></li>
+      <li>通知：筛选器和后端可以通过 Darwin <code>notify_post()</code> API 发送通知。</li>
+    </ol>
+    <blockquote><b>提示：</b>
+      <p>&emsp;&emsp;CUPS 中使用的沙盒配置文件仍然允许上面未列出的某些操作 － 这些权限将随着时间的推移而删除，直到配置文件与上面的列表匹配为止。
+    </blockquote>
+    
+    
+    <h2 class="title"><a id="FUNCTIONS">函数</a></h2>
 
-    <p>Starting with macOS 10.6, filters and backends are run inside a security "sandbox" which further limits (beyond the normal UNIX user/group permissions) what a filter or backend can do. This helps to both secure the printing system from malicious software and enforce the functional separation of components in the CUPS filter chain. What follows is a list of actions that are explicitly allowed for all filters and backends:</p>
-
-<ol>
-
-	<li>Reading of files: pursuant to normal UNIX file permissions, filters and backends can read files for the current job from the <var>/private/var/spool/cups</var> directory and other files on mounted filesystems <em>except</em> for user home directories under <var>/Users</var>.</li>
-
-	<li>Writing of files: pursuant to normal UNIX file permissions, filters and backends can read/write files to the cache directory specified by the <code>CUPS_CACHEDIR</code> environment variable, to the state directory specified by the <code>CUPS_STATEDIR</code> environment variable, to the temporary directory specified by the <code>TMPDIR</code> environment variable, and under the <var>/private/var/db</var>, <var>/private/var/folders</var>, <var>/private/var/lib</var>, <var>/private/var/mysql</var>, <var>/private/var/run</var>, <var>/private/var/spool</var> (except <var>/private/var/spool/cups</var>), <var>/Library/Application&nbsp;Support</var>, <var>/Library/Caches</var>, <var>/Library/Logs</var>, <var>/Library/Preferences</var>, <var>/Library/WebServer</var>, and <var>/Users/Shared</var> directories.</li>
-
-	<li>Execution of programs: pursuant to normal UNIX file permissions, filters and backends can execute any program not located under the <var>/Users</var> directory. Child processes inherit the sandbox and are subject to the same restrictions as the parent.</li>
-
-	<li>Bluetooth and USB: backends can access Bluetooth and USB printers through IOKit. <em>Filters cannot access Bluetooth and USB printers directly.</em></li>
-
-	<li>Network: filters and backends can access UNIX domain sockets under the <var>/private/tmp</var>, <var>/private/var/run</var>, and <var>/private/var/tmp</var> directories. Backends can also create IPv4 and IPv6 TCP (outgoing) and UDP (incoming and outgoing) socket, and bind to local source ports. <em>Filters cannot directly create IPv4 and IPv6 TCP or UDP sockets.</em></li>
-
-	<li>Notifications: filters and backends can send notifications via the Darwin <code>notify_post()</code> API.</li>
-
-</ol>
-
-<blockquote><b>Note:</b>
-
-    <p>The sandbox profile used in CUPS still allows some actions that are not listed above - these privileges will be removed over time until the profile matches the list above.</p>
-</blockquote>
-      <h2 class="title"><a id="FUNCTIONS">Functions</a></h2>
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cupsBackChannelRead">cupsBackChannelRead</a></h3>
-        <p class="description">Read data from the backchannel.</p>
-    <p class="code">
-ssize_t cupsBackChannelRead(char *buffer, size_t bytes, double timeout);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>buffer</th>
-        <td class="description">Buffer to read into</td></tr>
-<tr><th>bytes</th>
-        <td class="description">Bytes to read</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout in seconds, typically 0.0 to poll</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Bytes read or -1 on error</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">Reads up to &quot;bytes&quot; bytes from the backchannel/backend. The &quot;timeout&quot;
-parameter controls how many seconds to wait for the data - use 0.0 to
-return immediately if there is no data, -1.0 to wait for data indefinitely.
+    <p class="description">&emsp;&emsp;从反向通道读取数据。
+    <p class="code">ssize_t cupsBackChannelRead(char *buffer, size_t bytes, double timeout);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>buffer</th>
+        <td class="description">要读入的缓冲区</td></tr>
+      <tr>
+        <th>bytes</th>
+        <td class="description">要读取的字节数</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">超时（秒），通常以 0.0 轮询</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;读取的字节或错误时为 -1
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;从反向通道/后端最多读取 “bytes” 字节。 “timeout” 参数控制等待数据的秒数 － 如果没有数据，使用 0.0 立即返回， -1.0 无限期等待数据。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cupsBackChannelWrite">cupsBackChannelWrite</a></h3>
-        <p class="description">Write data to the backchannel.</p>
-    <p class="code">
-ssize_t cupsBackChannelWrite(const char *buffer, size_t bytes, double timeout);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>buffer</th>
-        <td class="description">Buffer to write</td></tr>
-<tr><th>bytes</th>
-        <td class="description">Bytes to write</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout in seconds, typically 1.0</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Bytes written or -1 on error</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">Writes &quot;bytes&quot; bytes to the backchannel/filter. The &quot;timeout&quot; parameter
-controls how many seconds to wait for the data to be written - use
-0.0 to return immediately if the data cannot be written, -1.0 to wait
-indefinitely.
+    <p class="description">&emsp;&emsp;将数据写入反向通道。
+    <p class="code">ssize_t cupsBackChannelWrite(const char *buffer, size_t bytes, double timeout);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>buffer</th>
+        <td class="description">写入缓冲区</td></tr>
+      <tr>
+        <th>bytes</th>
+        <td class="description">要写入的字节数</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">超时（秒），通常为 1.0</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;写入的字节或错误时为 -1
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;将 “bytes” 字节写入反向通道/筛选器。 “timeout” 参数控制等待写入数据的秒数 － 如果无法写入数据，使用 0.0 立即返回， -1.0 无限期等待。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cupsBackendDeviceURI">cupsBackendDeviceURI</a></h3>
-        <p class="description">Get the device URI for a backend.</p>
-    <p class="code">
-const char *cupsBackendDeviceURI(char **argv);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>argv</th>
-        <td class="description">Command-line arguments</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Device URI or <code>NULL</code></p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">The &quot;argv&quot; argument is the argv argument passed to main(). This
-function returns the device URI passed in the DEVICE_URI environment
-variable or the device URI passed in argv[0], whichever is found
-first.
+    <p class="description">&emsp;&emsp;获取后端的设备 URI 。
+    <p class="code">const char *cupsBackendDeviceURI(char **argv);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>argv</th>
+        <td class="description">命令行参数</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;设备 URI 或 <code>NULL</code>
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;“argv” 参数是传递给 main() 的 argv 参数。此函数返回在 DEVICE_URI 环境变量中传递的设备 URI 或在 argv[0] 中传递的设备 URI ，以最先找到的为准。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span><a id="cupsBackendReport">cupsBackendReport</a></h3>
-        <p class="description">Write a device line from a backend.</p>
-    <p class="code">
-void cupsBackendReport(const char *device_scheme, const char *device_uri, const char *device_make_and_model, const char *device_info, const char *device_id, const char *device_location);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>device_scheme</th>
-        <td class="description">device-scheme string</td></tr>
-<tr><th>device_uri</th>
-        <td class="description">device-uri string</td></tr>
-<tr><th>device_make_and_model</th>
-        <td class="description">device-make-and-model string or <code>NULL</code></td></tr>
-<tr><th>device_info</th>
-        <td class="description">device-info string or <code>NULL</code></td></tr>
-<tr><th>device_id</th>
-        <td class="description">device-id string or <code>NULL</code></td></tr>
-<tr><th>device_location</th>
-        <td class="description">device-location string or <code>NULL</code></td></tr>
-</tbody></table>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function writes a single device line to stdout for a backend.
-It handles quoting of special characters in the device-make-and-model,
-device-info, device-id, and device-location strings.
+    <p class="description">&emsp;&emsp;从后端写入设备行。
+    <p class="code">void cupsBackendReport(const char *device_scheme, const char *device_uri, const char *device_make_and_model, const char *device_info, const char *device_id, const char *device_location);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>device_scheme</th>
+        <td class="description">device-scheme 字符串</td></tr>
+      <tr>
+        <th>device_uri</th>
+        <td class="description">device-uri 字符串</td></tr>
+      <tr>
+        <th>device_make_and_model</th>
+        <td class="description">device-make-and-model 字符串或 <code>NULL</code></td></tr>
+      <tr>
+        <th>device_info</th>
+        <td class="description">device-info 字符串或 <code>NULL</code></td></tr>
+      <tr>
+        <th>device_id</th>
+        <td class="description">device-id 字符串或 <code>NULL</code></td></tr>
+      <tr>
+        <th>device_location</th>
+        <td class="description">device-location 字符串或 <code>NULL</code></td></tr>
+      </tbody>
+    </table>
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数用于将单个设备行写入后端的标准输出。它处理 device-make-and-model 、 device-info 、 device-id 和 device-location 中特殊字符的引用。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.3/macOS 10.5&#160;</span><a id="cupsSideChannelDoRequest">cupsSideChannelDoRequest</a></h3>
-        <p class="description">Send a side-channel command to a backend and wait for a response.</p>
-    <p class="code">
-<a href="#cups_sc_status_t">cups_sc_status_t</a> cupsSideChannelDoRequest(<a href="#cups_sc_command_t">cups_sc_command_t</a> command, char *data, int *datalen, double timeout);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>command</th>
-        <td class="description">Command to send</td></tr>
-<tr><th>data</th>
-        <td class="description">Response data buffer pointer</td></tr>
-<tr><th>datalen</th>
-        <td class="description">Size of data buffer on entry, number of bytes in buffer on return</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout in seconds</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Status of command</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function is normally only called by filters, drivers, or port
-monitors in order to communicate with the backend used by the current
-printer.  Programs must be prepared to handle timeout or &quot;not
-implemented&quot; status codes, which indicate that the backend or device
-do not support the specified side-channel command.<br>
-<br>
-The &quot;datalen&quot; parameter must be initialized to the size of the buffer
-pointed to by the &quot;data&quot; parameter.  cupsSideChannelDoRequest() will
-update the value to contain the number of data bytes in the buffer.
+    <p class="description">&emsp;&emsp;向后端发送侧通道命令并等待响应。
+    <p class="code"> <a href="#cups_sc_status_t">cups_sc_status_t</a> cupsSideChannelDoRequest(<a href="#cups_sc_command_t">cups_sc_command_t</a> command, char *data, int *datalen, double timeout);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>command</th>
+        <td class="description">发送的命令</td></tr>
+      <tr>
+        <th>data</th>
+        <td class="description">响应数据缓冲区指针</td></tr>
+      <tr>
+        <th>datalen</th>
+        <td class="description">输入时为数据缓冲区的大小，返回时为缓冲区中的字节数</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">超时（秒）</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;命令状态
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数通常仅由筛选器、驱动程序或端口监视器调用，以便与当前打印机使用的后端通信。程序必须准备好处理超时或“未执行”状态代码，这表明后端或设备不支持指定的侧通道命令。<br><br>
+    &emsp;&emsp;“datalen” 参数必须初始化为 “data” 参数所指向的缓冲区大小。 cupsSideChannelDoRequest() 将更新该值以包含缓冲区中的数据字节数。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.3/macOS 10.5&#160;</span><a id="cupsSideChannelRead">cupsSideChannelRead</a></h3>
-        <p class="description">Read a side-channel message.</p>
-    <p class="code">
-int cupsSideChannelRead(<a href="#cups_sc_command_t">cups_sc_command_t</a> *command, <a href="#cups_sc_status_t">cups_sc_status_t</a> *status, char *data, int *datalen, double timeout);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>command</th>
-        <td class="description">Command code</td></tr>
-<tr><th>status</th>
-        <td class="description">Status code</td></tr>
-<tr><th>data</th>
-        <td class="description">Data buffer pointer</td></tr>
-<tr><th>datalen</th>
-        <td class="description">Size of data buffer on entry, number of bytes in buffer on return</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout in seconds</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">0 on success, -1 on error</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function is normally only called by backend programs to read
-commands from a filter, driver, or port monitor program.  The
-caller must be prepared to handle incomplete or invalid messages
-and return the corresponding status codes.<br>
-<br>
-The &quot;datalen&quot; parameter must be initialized to the size of the buffer
-pointed to by the &quot;data&quot; parameter.  cupsSideChannelDoRequest() will
-update the value to contain the number of data bytes in the buffer.
+    <p class="description">&emsp;&emsp;读取侧通道消息。
+    <p class="code">int cupsSideChannelRead(<a href="#cups_sc_command_t">cups_sc_command_t</a> *command, <a href="#cups_sc_status_t">cups_sc_status_t</a> *status, char *data, int *datalen, double timeout);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>command</th>
+        <td class="description">命令代码</td></tr>
+      <tr>
+        <th>status</th>
+        <td class="description">状态码</td></tr>
+      <tr>
+        <th>data</th>
+        <td class="description">数据缓冲区指针</td></tr>
+      <tr>
+        <th>datalen</th>
+        <td class="description">输入时为数据缓冲区大小，返回时为缓冲区中的字节数</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">超时（秒）</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 0 ，错误为 1
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数通常仅由后端程序调用，以从筛选器、驱动程序或端口监视器程序读取命令。调用者必须准备好处理不完整或无效的消息，并返回相应的状态代码。<br><br>
+    &emsp;&emsp;“datalen” 参数必须初始化为 “data” 参数所指向的缓冲区大小。 cupsSideChannelDoRequest() 将更新该值以包含缓冲区中的数据字节数。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span><a id="cupsSideChannelSNMPGet">cupsSideChannelSNMPGet</a></h3>
-        <p class="description">Query a SNMP OID's value.</p>
-    <p class="code">
-<a href="#cups_sc_status_t">cups_sc_status_t</a> cupsSideChannelSNMPGet(const char *oid, char *data, int *datalen, double timeout);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>oid</th>
-        <td class="description">OID to query</td></tr>
-<tr><th>data</th>
-        <td class="description">Buffer for OID value</td></tr>
-<tr><th>datalen</th>
-        <td class="description">Size of OID buffer on entry, size of value on return</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout in seconds</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Query status</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function asks the backend to do a SNMP OID query on behalf of the
-filter, port monitor, or backend using the default community name.<br>
-<br>
-&quot;oid&quot; contains a numeric OID consisting of integers separated by periods,
-for example &quot;.1.3.6.1.2.1.43&quot;.  Symbolic names from SNMP MIBs are not
-supported and must be converted to their numeric forms.<br>
-<br>
-On input, &quot;data&quot; and &quot;datalen&quot; provide the location and size of the
-buffer to hold the OID value as a string. HEX-String (binary) values are
-converted to hexadecimal strings representing the binary data, while
-NULL-Value and unknown OID types are returned as the empty string.
-The returned &quot;datalen&quot; does not include the trailing nul.
+    <p class="description">&emsp;&emsp;查询 SNMP OID 值。
+    <p class="code"> <a href="#cups_sc_status_t">cups_sc_status_t</a> cupsSideChannelSNMPGet(const char *oid, char *data, int *datalen, double timeout);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>oid</th>
+        <td class="description">要查询的 OID</td></tr>
+      <tr>
+        <th>data</th>
+        <td class="description">OID 值缓冲区</td></tr>
+      <tr>
+        <th>datalen</th>
+        <td class="description">输入时为 OID 缓冲区的大小，返回时为值的大小</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">超时（秒）</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;查询状态
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数要求后端使用默认社区名称代表筛选器、端口监视器或后端执行 SNMP OID 查询。<br><br>
+    &emsp;&emsp;“oid” 包含由句点分隔的整数组成的数值 OID ，例如 “.1.3.6.1.2.1.43” 。不支持 SNMP MIB 中的符号名称，必须将其转换为数字形式。<br><br>
+    &emsp;&emsp;在输入时，“data” 和 “datalen” 提供缓冲区的位置和大小，以将 OID 值作为字符串保存。十六进制字符串（二进制）值转换为表示二进制数据的十六进制字符串，而空值和未知 OID 类型作为空字符串返回。返回的 “datalen” 不包括尾随 nul。 <code>CUPS_SC_STATUS_NOT_IMPLEMENTED</code> 由不支持 SNMP 查询的后端返回。当打印机不响应 SNMP 查询时，返回 <code>CUPS_SC_STATUS_NO_RESPONSE</code> 。
 
-<code>CUPS_SC_STATUS_NOT_IMPLEMENTED</code> is returned by backends that do not
-support SNMP queries.  <code>CUPS_SC_STATUS_NO_RESPONSE</code> is returned when
-the printer does not respond to the SNMP query.
-
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span><a id="cupsSideChannelSNMPWalk">cupsSideChannelSNMPWalk</a></h3>
-        <p class="description">Query multiple SNMP OID values.</p>
-    <p class="code">
-<a href="#cups_sc_status_t">cups_sc_status_t</a> cupsSideChannelSNMPWalk(const char *oid, double timeout, <a href="#cups_sc_walk_func_t">cups_sc_walk_func_t</a> cb, void *context);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>oid</th>
-        <td class="description">First numeric OID to query</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout for each query in seconds</td></tr>
-<tr><th>cb</th>
-        <td class="description">Function to call with each value</td></tr>
-<tr><th>context</th>
-        <td class="description">Application-defined pointer to send to callback</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Status of first query of <code>CUPS_SC_STATUS_OK</code> on success</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function asks the backend to do multiple SNMP OID queries on behalf
-of the filter, port monitor, or backend using the default community name.
-All OIDs under the &quot;parent&quot; OID are queried and the results are sent to
-the callback function you provide.<br>
-<br>
-&quot;oid&quot; contains a numeric OID consisting of integers separated by periods,
-for example &quot;.1.3.6.1.2.1.43&quot;.  Symbolic names from SNMP MIBs are not
-supported and must be converted to their numeric forms.<br>
-<br>
-&quot;timeout&quot; specifies the timeout for each OID query. The total amount of
-time will depend on the number of OID values found and the time required
-for each query.<br>
-<br>
-&quot;cb&quot; provides a function to call for every value that is found. &quot;context&quot;
-is an application-defined pointer that is sent to the callback function
-along with the OID and current data. The data passed to the callback is the
-same as returned by <a href="#cupsSideChannelSNMPGet"><code>cupsSideChannelSNMPGet</code></a>.
+    <p class="description">&emsp;&emsp;查询多个 SNMP OID 值。
+    <p class="code"> <a href="#cups_sc_status_t">cups_sc_status_t</a> cupsSideChannelSNMPWalk(const char *oid, double timeout, <a href="#cups_sc_walk_func_t">cups_sc_walk_func_t</a> cb, void *context);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>oid</th>
+        <td class="description">要查询的第一个数字 OID</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">每个查询的超时时间（秒）</td></tr>
+      <tr>
+        <th>cb</th>
+        <td class="description">使用每个值调用的函数</td></tr>
+      <tr>
+        <th>context</th>
+        <td class="description">要发送到回调的应用程序定义指针</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;第一次成功查询的 <code>CUPS_SC_STATUS_OK</code> 状态
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数要求后端使用默认社区名称代表筛选器、端口监视器或后端执行多个 SNMP OID 查询。查询 “父” OID 下的所有 OID ，并将结果发送到您提供的回调函数。<br><br>
+    &emsp;&emsp;“oid” 包含由句点分隔的整数组成的数值 OID，例如 “.1.3.6.1.2.1.43” 。不支持 SNMP MIB 中的符号名称，必须将其转换为数字形式。<br><br>
+    &emsp;&emsp;“timeout” 指定每个 OID 查询的超时时间。总时间将取决于找到的 OID 值的数量和每个查询所需的时间。<br><br>
+    &emsp;&emsp;“cb” 提供了一个函数来调用找到的每个值。“context” 是一个应用程序定义的指针，它与 OID 和当前数据一起发送到回调函数。传递到回调的数据与 <a href="#cupsSideChannelSNMPGet"><code>cupsSideChannelSNMPGet</code></a> 返回的数据相同。 <code>CUPS_SC_STATUS_NOT_IMPLEMENTED</code> 由不支持 SNMP 查询的后端返回。当打印机没有响应第一个 SNMP 查询时，返回 <code>CUPS_SC_STATUS_NO_RESPONSE</code> 。
 
-<code>CUPS_SC_STATUS_NOT_IMPLEMENTED</code> is returned by backends that do not
-support SNMP queries.  <code>CUPS_SC_STATUS_NO_RESPONSE</code> is returned when
-the printer does not respond to the first SNMP query.
-
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 1.3/macOS 10.5&#160;</span><a id="cupsSideChannelWrite">cupsSideChannelWrite</a></h3>
-        <p class="description">Write a side-channel message.</p>
-    <p class="code">
-int cupsSideChannelWrite(<a href="#cups_sc_command_t">cups_sc_command_t</a> command, <a href="#cups_sc_status_t">cups_sc_status_t</a> status, const char *data, int datalen, double timeout);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>command</th>
-        <td class="description">Command code</td></tr>
-<tr><th>status</th>
-        <td class="description">Status code</td></tr>
-<tr><th>data</th>
-        <td class="description">Data buffer pointer</td></tr>
-<tr><th>datalen</th>
-        <td class="description">Number of bytes of data</td></tr>
-<tr><th>timeout</th>
-        <td class="description">Timeout in seconds</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">0 on success, -1 on error</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function is normally only called by backend programs to send
-responses to a filter, driver, or port monitor program.
+    <p class="description">&emsp;&emsp;写一个侧通道消息。
+    <p class="code">int cupsSideChannelWrite(<a href="#cups_sc_command_t">cups_sc_command_t</a> command, <a href="#cups_sc_status_t">cups_sc_status_t</a> status, const char *data, int datalen, double timeout);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr>
+        <th>command</th>
+        <td class="description">命令代码</td></tr>
+      <tr>
+        <th>status</th>
+        <td class="description">状态码</td></tr>
+      <tr>
+        <th>data</th>
+        <td class="description">数据缓冲区指针</td></tr>
+      <tr>
+        <th>datalen</th>
+        <td class="description">数据字节数</td></tr>
+      <tr>
+        <th>timeout</th>
+        <td class="description">超时（秒）</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 0 ，错误为 1
+    <h4 class="discussion">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数通常仅由后端程序调用，以向筛选器、驱动程序或端口监视器程序发送响应。
 
-</p>
-      <h2 class="title"><a id="TYPES">Data Types</a></h2>
-      <h3 class="typedef"><a id="cups_backend_t">cups_backend_t</a></h3>
-        <p class="description">Backend exit codes</p>
-      <p class="code">
-typedef enum <a href="#cups_backend_e">cups_backend_e</a> cups_backend_t;
-</p>
-      <h3 class="typedef"><a id="cups_sc_bidi_t">cups_sc_bidi_t</a></h3>
-        <p class="description">Bidirectional capabilities</p>
-      <p class="code">
-typedef enum <a href="#cups_sc_bidi_e">cups_sc_bidi_e</a> cups_sc_bidi_t;
-</p>
-      <h3 class="typedef"><a id="cups_sc_command_t">cups_sc_command_t</a></h3>
-        <p class="description">Request command codes</p>
-      <p class="code">
-typedef enum <a href="#cups_sc_command_e">cups_sc_command_e</a> cups_sc_command_t;
-</p>
-      <h3 class="typedef"><a id="cups_sc_connected_t">cups_sc_connected_t</a></h3>
-        <p class="description">Connectivity values</p>
-      <p class="code">
-typedef enum <a href="#cups_sc_connected_e">cups_sc_connected_e</a> cups_sc_connected_t;
-</p>
-      <h3 class="typedef"><a id="cups_sc_state_t">cups_sc_state_t</a></h3>
-        <p class="description">Printer state bits</p>
-      <p class="code">
-typedef enum <a href="#cups_sc_state_e">cups_sc_state_e</a> cups_sc_state_t;
-</p>
-      <h3 class="typedef"><a id="cups_sc_status_t">cups_sc_status_t</a></h3>
-        <p class="description">Response status codes</p>
-      <p class="code">
-typedef enum <a href="#cups_sc_status_e">cups_sc_status_e</a> cups_sc_status_t;
-</p>
-      <h3 class="typedef"><a id="cups_sc_walk_func_t">cups_sc_walk_func_t</a></h3>
-        <p class="description">SNMP walk callback</p>
-      <p class="code">
-typedef void (*cups_sc_walk_func_t)(const char *oid, const char *data, int datalen, void *context);
-</p>
-      <h2 class="title"><a id="ENUMERATIONS">Constants</a></h2>
-      <h3 class="enumeration"><a id="cups_backend_e">cups_backend_e</a></h3>
-        <p class="description">Backend exit codes</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_BACKEND_AUTH_REQUIRED </th>        <td class="description">Job failed, authentication required</td></tr>
-        <tr><th>CUPS_BACKEND_CANCEL </th>        <td class="description">Job failed, cancel job</td></tr>
-        <tr><th>CUPS_BACKEND_FAILED </th>        <td class="description">Job failed, use error-policy</td></tr>
-        <tr><th>CUPS_BACKEND_HOLD </th>        <td class="description">Job failed, hold job</td></tr>
-        <tr><th>CUPS_BACKEND_OK </th>        <td class="description">Job completed successfully</td></tr>
-        <tr><th>CUPS_BACKEND_RETRY </th>        <td class="description">Job failed, retry this job later</td></tr>
-        <tr><th>CUPS_BACKEND_RETRY_CURRENT </th>        <td class="description">Job failed, retry this job immediately</td></tr>
-        <tr><th>CUPS_BACKEND_STOP </th>        <td class="description">Job failed, stop queue</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_sc_bidi_e">cups_sc_bidi_e</a></h3>
-        <p class="description">Bidirectional capability values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_SC_BIDI_NOT_SUPPORTED </th>        <td class="description">Bidirectional I/O is not supported</td></tr>
-        <tr><th>CUPS_SC_BIDI_SUPPORTED </th>        <td class="description">Bidirectional I/O is supported</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_sc_command_e">cups_sc_command_e</a></h3>
-        <p class="description">Request command codes</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_SC_CMD_DRAIN_OUTPUT </th>        <td class="description">Drain all pending output</td></tr>
-        <tr><th>CUPS_SC_CMD_GET_BIDI </th>        <td class="description">Return bidirectional capabilities</td></tr>
-        <tr><th>CUPS_SC_CMD_GET_CONNECTED <span class="info">&#160;CUPS 1.5/macOS 10.7&#160;</span></th>        <td class="description">Return whether the backend is &quot;connected&quot; to the printer </td></tr>
-        <tr><th>CUPS_SC_CMD_GET_DEVICE_ID </th>        <td class="description">Return the IEEE-1284 device ID</td></tr>
-        <tr><th>CUPS_SC_CMD_GET_STATE </th>        <td class="description">Return the device state</td></tr>
-        <tr><th>CUPS_SC_CMD_SNMP_GET <span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span></th>        <td class="description">Query an SNMP OID </td></tr>
-        <tr><th>CUPS_SC_CMD_SNMP_GET_NEXT <span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span></th>        <td class="description">Query the next SNMP OID </td></tr>
-        <tr><th>CUPS_SC_CMD_SOFT_RESET </th>        <td class="description">Do a soft reset</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_sc_connected_e">cups_sc_connected_e</a></h3>
-        <p class="description">Connectivity values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_SC_CONNECTED </th>        <td class="description">Backend is &quot;connected&quot; to printer</td></tr>
-        <tr><th>CUPS_SC_NOT_CONNECTED </th>        <td class="description">Backend is not &quot;connected&quot; to printer</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_sc_state_e">cups_sc_state_e</a></h3>
-        <p class="description">Printer state bits</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_SC_STATE_BUSY </th>        <td class="description">Device is busy</td></tr>
-        <tr><th>CUPS_SC_STATE_ERROR </th>        <td class="description">Other error condition</td></tr>
-        <tr><th>CUPS_SC_STATE_MARKER_EMPTY </th>        <td class="description">Toner/ink out condition</td></tr>
-        <tr><th>CUPS_SC_STATE_MARKER_LOW </th>        <td class="description">Toner/ink low condition</td></tr>
-        <tr><th>CUPS_SC_STATE_MEDIA_EMPTY </th>        <td class="description">Paper out condition</td></tr>
-        <tr><th>CUPS_SC_STATE_MEDIA_LOW </th>        <td class="description">Paper low condition</td></tr>
-        <tr><th>CUPS_SC_STATE_OFFLINE </th>        <td class="description">Device is offline</td></tr>
-        <tr><th>CUPS_SC_STATE_ONLINE </th>        <td class="description">Device is online</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_sc_status_e">cups_sc_status_e</a></h3>
-        <p class="description">Response status codes</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_SC_STATUS_BAD_MESSAGE </th>        <td class="description">The command/response message was invalid</td></tr>
-        <tr><th>CUPS_SC_STATUS_IO_ERROR </th>        <td class="description">An I/O error occurred</td></tr>
-        <tr><th>CUPS_SC_STATUS_NONE </th>        <td class="description">No status</td></tr>
-        <tr><th>CUPS_SC_STATUS_NOT_IMPLEMENTED </th>        <td class="description">Command not implemented</td></tr>
-        <tr><th>CUPS_SC_STATUS_NO_RESPONSE </th>        <td class="description">The device did not respond</td></tr>
-        <tr><th>CUPS_SC_STATUS_OK </th>        <td class="description">Operation succeeded</td></tr>
-        <tr><th>CUPS_SC_STATUS_TIMEOUT </th>        <td class="description">The backend did not respond</td></tr>
-        <tr><th>CUPS_SC_STATUS_TOO_BIG </th>        <td class="description">Response too big</td></tr>
-</tbody></table>
+
+    <h2 class="title"><a id="TYPES">数据类型</a></h2>
+
+    <h3 class="typedef"><a id="cups_backend_t">cups_backend_t</a></h3>
+    <p class="description">&emsp;&emsp;后端退出代码
+    <p class="code">typedef enum <a href="#cups_backend_e">cups_backend_e</a> cups_backend_t;
+
+    <h3 class="typedef"><a id="cups_sc_bidi_t">cups_sc_bidi_t</a></h3>
+    <p class="description">&emsp;&emsp;双向能力
+    <p class="code">typedef enum <a href="#cups_sc_bidi_e">cups_sc_bidi_e</a> cups_sc_bidi_t;
+
+    <h3 class="typedef"><a id="cups_sc_command_t">cups_sc_command_t</a></h3>
+    <p class="description">&emsp;&emsp;请求命令代码
+    <p class="code">typedef enum <a href="#cups_sc_command_e">cups_sc_command_e</a> cups_sc_command_t;
+
+    <h3 class="typedef"><a id="cups_sc_connected_t">cups_sc_connected_t</a></h3>
+    <p class="description">&emsp;&emsp;连通性值
+    <p class="code">typedef enum <a href="#cups_sc_connected_e">cups_sc_connected_e</a> cups_sc_connected_t;
+
+    <h3 class="typedef"><a id="cups_sc_state_t">cups_sc_state_t</a></h3>
+    <p class="description">&emsp;&emsp;打印机状态位
+    <p class="code">typedef enum <a href="#cups_sc_state_e">cups_sc_state_e</a> cups_sc_state_t;
+
+    <h3 class="typedef"><a id="cups_sc_status_t">cups_sc_status_t</a></h3>
+    <p class="description">&emsp;&emsp;响应状态代码
+    <p class="code">typedef enum <a href="#cups_sc_status_e">cups_sc_status_e</a> cups_sc_status_t;
+
+    <h3 class="typedef"><a id="cups_sc_walk_func_t">cups_sc_walk_func_t</a></h3>
+    <p class="description">&emsp;&emsp;SNMP 漫游回调
+    <p class="code">typedef void (*cups_sc_walk_func_t)(const char *oid, const char *data, int datalen, void *context);
+
+    <h2 class="title"><a id="ENUMERATIONS">常数</a></h2>
+
+    <h3 class="enumeration"><a id="cups_backend_e">cups_backend_e</a></h3>
+    <p class="description">&emsp;&emsp;后端退出代码
+    <h4 class="constants">常数</h4>
+      <table class="list">
+      <tbody>
+      <tr>
+        <th>CUPS_BACKEND_AUTH_REQUIRED </th>
+        <td class="description">任务失败，需要身份验证</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_CANCEL </th>
+        <td class="description">任务失败，取消任务</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_FAILED </th>
+        <td class="description">任务失败，请使用错误策略</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_HOLD </th>
+        <td class="description">任务失败，保留任务</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_OK </th>
+        <td class="description">任务已成功完成</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_RETRY </th>
+        <td class="description">任务失败，请稍后重试此任务</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_RETRY_CURRENT </th>
+        <td class="description">任务失败，请立即重试此任务</td></tr>
+      <tr>
+        <th>CUPS_BACKEND_STOP </th>
+        <td class="description">任务失败，请停止队列</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_sc_bidi_e">cups_sc_bidi_e</a></h3>
+    <p class="description">&emsp;&emsp;双向能力值
+    <h4 class="constants">常数</h4>
+      <table class="list">
+      <tbody>
+      <tr>
+        <th>CUPS_SC_BIDI_NOT_SUPPORTED </th>
+        <td class="description">不支持双向 I/O</td></tr>
+      <tr>
+        <th>CUPS_SC_BIDI_SUPPORTED </th>
+        <td class="description">支持双向 I/O</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_sc_command_e">cups_sc_command_e</a></h3>
+    <p class="description">&emsp;&emsp;请求命令代码
+    <h4 class="constants">常数</h4>
+      <table class="list">
+      <tbody>
+      <tr>
+        <th>CUPS_SC_CMD_DRAIN_OUTPUT </th>
+        <td class="description">处理完所有挂起的输出</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_GET_BIDI </th>
+        <td class="description">返回双向功能</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_GET_CONNECTED <span class="info">&#160;CUPS 1.5/macOS 10.7&#160;</span></th>
+        <td class="description">返回后端是否 “连接” 到打印机</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_GET_DEVICE_ID </th>
+        <td class="description">返回 IEEE-1284 设备 ID</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_GET_STATE </th>
+        <td class="description">返回设备状态</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_SNMP_GET <span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span></th>
+        <td class="description">查询 SNMP OID</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_SNMP_GET_NEXT <span class="info">&#160;CUPS 1.4/macOS 10.6&#160;</span></th>
+        <td class="description">查询下一个 SNMP OID</td></tr>
+      <tr>
+        <th>CUPS_SC_CMD_SOFT_RESET </th>
+        <td class="description">做一个软复位</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_sc_connected_e">cups_sc_connected_e</a></h3>
+    <p class="description">&emsp;&emsp;连通性值
+    <h4 class="constants">常数</h4>
+      <table class="list">
+      <tbody>
+      <tr>
+        <th>CUPS_SC_CONNECTED </th>
+        <td class="description">后端已 “连接” 到打印机</td></tr>
+      <tr>
+        <th>CUPS_SC_NOT_CONNECTED </th>
+        <td class="description">后端未 “连接” 到打印机</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_sc_state_e">cups_sc_state_e</a></h3>
+    <p class="description">&emsp;&emsp;打印机状态位
+    <h4 class="constants">常数</h4>
+      <table class="list">
+      <tbody>
+      <tr>
+        <th>CUPS_SC_STATE_BUSY </th>
+        <td class="description">设备正忙</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_ERROR </th>
+        <td class="description">其他错误状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_MARKER_EMPTY </th>
+        <td class="description">墨粉/墨水流出状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_MARKER_LOW </th>
+        <td class="description">碳粉/墨水不足状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_MEDIA_EMPTY </th>
+        <td class="description">出纸状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_MEDIA_LOW </th>
+        <td class="description">低纸状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_OFFLINE </th>
+        <td class="description">设备处于脱机状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATE_ONLINE </th>
+        <td class="description">设备处于联机状态</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_sc_status_e">cups_sc_status_e</a></h3>
+    <p class="description">&emsp;&emsp;响应状态代码
+    <h4 class="constants">常数</h4>
+      <table class="list">
+      <tbody>
+      <tr>
+        <th>CUPS_SC_STATUS_BAD_MESSAGE </th>
+        <td class="description">命令/响应消息无效</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_IO_ERROR </th>
+        <td class="description">发生 I/O 错误</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_NONE </th>
+        <td class="description">无状态</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_NOT_IMPLEMENTED </th>
+        <td class="description">命令未执行</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_NO_RESPONSE </th>
+        <td class="description">设备没有响应</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_OK </th>
+        <td class="description">操作成功</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_TIMEOUT </th>
+        <td class="description">后端没有响应</td></tr>
+      <tr>
+        <th>CUPS_SC_STATUS_TOO_BIG </th>
+        <td class="description">响应过大</td></tr>
+      </tbody>
+    </table>
     </div>
   </body>
 </html>
