@@ -556,7 +556,7 @@ ppdc -d myppds/it -l it mydrivers.drv</pre>
 
 
     <h3><a name='SIMPLE'>一个简单的例子</a></h3>
-    <p>&emsp;&emsp;<a href="#LISTING1">清单 1</a> 中的示例显示了一个驱动程序信息文件，该文件定义了提供有效 PPD 文件所需的最低属性。文件的第一部分包括字体和媒体大小的标准定义文件：
+    <p>&emsp;&emsp;<a href="#LISTING1">清单 1</a> 中的示例显示了一个驱动程序信息文件，该文件定义了提供有效 PPD 文件所需的最低属性。文件的第一部分包括字体和介质尺寸的标准定义文件：
     <pre class='example'><a href='ref-ppdcfile.html#_include'>#include</a> &lt;font.defs&gt;<br><a href='ref-ppdcfile.html#_include'>#include</a> &lt;media.defs&gt;</pre>
     <p>&emsp;&emsp;<tt>#include</tt> 指令的工作原理与 C/C++ include 指令相同；使用尖括号（ <tt>&lt;filename&gt;</tt> ）包含的文件可在任何标准包含目录中找到，使用引号（ <tt>"filename"</tt> ）包含的文件可在与源或包含文件相同的目录中找到。 <tt>&lt;font.defs&gt;</tt> include file 定义了 GPL Ghostscript 和 Apple PDF RIP 中包含的标准字体，而；<tt>&lt;media.defs&gt;</tt> include file 定义了 Adobe PostScript 打印机说明文件格式规范附录 B 中列出的标准介质大小。
     <p>&emsp;&emsp;CUPS 提供了其他几个标准包含文件：
@@ -582,13 +582,13 @@ ppdc -d myppds/it -l it mydrivers.drv</pre>
     <p>&emsp;&emsp;筛选器列表位于信息字符串之后；对于<a href="#LISTING1">清单 1</a> 中的示例，我们有一个接受 CUPS 光栅数据的筛选器：
     <pre class='example'><a href='ref-ppdcfile.html#Filter'>Filter</a> application/vnd.cups-raster 100 rastertofoo</pre>
     <p>&emsp;&emsp;驱动程序信息文件中指定的每个筛选器相当于该格式的打印机驱动程序；如果用户以不同的格式提交打印任务， CUPS 会计算出以最小的相对成本生成受支持格式的命令序列。
-    <p>&emsp;&emsp;定义驱动程序信息后，我们将指定支持的选项。对于示例驱动程序，我们支持每英寸 600 点的单一分辨率和两种介质尺寸，A4 和 Letter：
+    <p>&emsp;&emsp;定义驱动程序信息后，我们将指定支持的选项。对于示例驱动程序，我们支持每英寸 600 点的单一分辨率和两种介质尺寸， A4 和 Letter ：
     <pre class='example'>
 *<a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> Letter
 <a href='ref-ppdcfile.html#MediaSize'>MediaSize</a> A4
 
 *<a href='ref-ppdcfile.html#Resolution'>Resolution</a> k 8 0 0 0 "600dpi/600 DPI"</pre>
-    <p>&emsp;&emsp;<tt>MediaSize</tt> 和 <tt>Resolution</tt> 指令前面的星号指定这些选项是默认选项。 <tt>MediaSize</tt> 指令后面跟着一个介质尺寸名称，该名称通常在 <tt>&lt;media.defs&gt;</tt> 文件中定义，与标准 Adobe 介质尺寸名称相对应。如果默认媒体大小为 <tt>Letter</tt> ， PPD 编译器将自动为您的非英语本地化将其覆盖为 <tt>A4</tt> 。
+    <p>&emsp;&emsp;<tt>MediaSize</tt> 和 <tt>Resolution</tt> 指令前面的星号指定这些选项是默认选项。 <tt>MediaSize</tt> 指令后面跟着一个介质尺寸名称，该名称通常在 <tt>&lt;media.defs&gt;</tt> 文件中定义，与标准 Adobe 介质尺寸名称相对应。如果默认介质尺寸为 <tt>Letter</tt> ， PPD 编译器将自动为您的非英语本地化将其覆盖为 <tt>A4</tt> 。
     <p>&emsp;&emsp;<tt>Resolution</tt> 指令在其后面接受以下几个值：
     <ol>
       <li>此分辨率的颜色空间（如果有）。在示例文件中，使用与黑色对应的颜色空间 <tt>k</tt> 。对于支持彩色打印的打印机驱动程序，此字段通常指定为 “-” 表示 “无更改” 。</li>
@@ -783,10 +783,10 @@ ppdc -d myppds/it -l it mydrivers.drv</pre>
 <a href='ref-ppdcfile.html#PCFileName'>PCFileName</a> "foojet2k.ppd"</pre>
     <p>&emsp;&emsp;自定义组由 <tt>Group</tt> 指令引入，该指令后跟用户的名称和可选文本：
     <pre class='example'><a href='ref-ppdcfile.html#Group'>Group</a> "Footasm/Footastic Options"</pre>
-    <p>&emsp;&emsp;组名必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。 CUPS 预先定义了 <tt>General</tt> 、 <tt>Extra</tt> 和 <tt>InstallableOptions</tt> ；general 组 和 extra 组由 PPD 规范定义的 UI 选项填充。 <tt>InstallableOptions</tt> 组用于定义是否安装打印机附件（双面打印装置、分页器、订书机等）的选项。
+    <p>&emsp;&emsp;组名必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。 CUPS 预先定义了 <tt>General</tt> 、 <tt>Extra</tt> 和 <tt>InstallableOptions</tt> ； general 组和 extra 组由 PPD 规范定义的 UI 选项填充。 <tt>InstallableOptions</tt> 组用于定义是否安装打印机附件（双面打印装置、分页器、订书机等）的选项。
     <p>&emsp;&emsp;指定组后，将使用 <tt>Option</tt> 指令引入新选项：
     <pre class='example'><a href='ref-ppdcfile.html#Option'>Option</a> "fooEnhance/Resolution Enhancement" Boolean AnySetup 10</pre>
-    <p>&emsp;&emsp;指令后面是选项名称和任何可选用户文本、选项类型、PostScript 文档组和排序顺序号。选项名称必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。
+    <p>&emsp;&emsp;指令后面是选项名称和任何可选用户文本、选项类型、 PostScript 文档组和排序顺序号。选项名称必须符合 PPD 规范，长度不得超过 40 个字符。如果指定用户文本，则其长度不能超过 80 个字符。
     <p>&emsp;&emsp;对于真/假选择的选项类型可以是 <tt>Boolean</tt> ， <tt>PickOne</tt> 用于选择多个选项中的一个，或者 <tt>PickMany</tt> 用于选择零个或多个选项。布尔选项最多可以有两个名称为 <tt>False</tt> 和 <tt>True</tt> 的选项。 Pick 选项可以有任意数量的选项，但出于 Windows 兼容性原因，选项的数量不应超过 255 。
     <p>&emsp;&emsp;PostScript 文档组通常为 <tt>AnySetup</tt> ，这意味着可以在 PostScript 文档中的任何位置引入该选项。其他值包括 <tt>PageSetup</tt> 在每页之前包含选项，以及 <tt>DocumentSetup</tt> 在文档开头包含一次选项。
     <p>&emsp;&emsp;排序顺序号用于对 PostScript 文档中与每个选项相关联的打印机命令进行排序。这使您可以根据打印机的要求，先设置某些选项，再设置其他选项。对于大多数 CUPS 光栅打印机驱动程序，值 <tt>10</tt> 可用于所有选项。
@@ -939,7 +939,7 @@ ppdc -d myppds/it -l it mydrivers.drv</pre>
     <p>&emsp;&emsp;PPD 编译器通过 GNU gettext 或 Apple.String 格式的 <i>消息目录</i> 文件提供不同语言的 PPD 文件本地化。在相应的消息目录中查找每个用户文本字符串和几个关键 PPD 属性值，如 <tt>LanguageVersion</tt> 和 <tt>LanguageEncoding</tt> ，并在生成的 PPD 文件中替换翻译文本。一个消息目录文件可由多个驱动程序信息文件使用，每个文件包含一种语言翻译。
 
     <h3><a name='PPDPO'>ppdpo 实用程序</a></h3>
-    <p>&emsp;&emsp;虽然 CUPS 包含多种语言的所有标准媒体大小和选项的本地化，但您的驱动程序信息文件可能会提供自己需要本地化的介质尺寸和选项。 CUPS 提供了一个名为 <a href='man-ppdpo.html'><tt>ppdpo(1)</tt></a> 的实用程序来帮助驱动程序本地化。 <tt>ppdpo</tt> 程序根据一个或多个驱动程序信息文件创建或更新消息目录文件。添加新消息时，会在翻译字符串的前面添加 “TRANSLATE” 一词，以便于查找新字符串进行翻译。程序接受消息目录文件名和一个或多个驱动程序信息文件。
+    <p>&emsp;&emsp;虽然 CUPS 包含多种语言的所有标准介质尺寸和选项的本地化，但您的驱动程序信息文件可能会提供自己需要本地化的介质尺寸和选项。 CUPS 提供了一个名为 <a href='man-ppdpo.html'><tt>ppdpo(1)</tt></a> 的实用程序来帮助驱动程序本地化。 <tt>ppdpo</tt> 程序根据一个或多个驱动程序信息文件创建或更新消息目录文件。添加新消息时，会在翻译字符串的前面添加 “TRANSLATE” 一词，以便于查找新字符串进行翻译。程序接受消息目录文件名和一个或多个驱动程序信息文件。
     <p>&emsp;&emsp;例如，运行以下命令为当前目录中的所有驱动程序信息文件创建名为 <var>de.po</var> 的新德语消息目录：
     <pre class='command'>ppdpo -o de.po *.drv</pre>
     <p>&emsp;&emsp;如果文件 <var>de.po</var> 已经存在， <tt>ppdpo</tt> 将使用需要翻译的任何新消息更新文件内容。要创建 Apple.strings 文件，请指定扩展名为 .strings 的输出文件名，例如：
@@ -955,7 +955,7 @@ ppdc -d myppds/it -l it mydrivers.drv</pre>
 <a href='ref-ppdcfile.html#_po'>#po</a> fr "fr.po"  // 法语
 <a href='ref-ppdcfile.html#_po'>#po</a> it "it.po"  // 意大利语
 <a href='ref-ppdcfile.html#_po'>#po</a> ja "ja.po"  // 日语</pre>
-    <p>&emsp;&emsp;文件名（ “de.po” 等）可以与驱动程序信息文件的位置或绝对路径相关。一旦定义，PPD 编译器将自动为驱动程序信息文件中声明的每种语言生成一个全球化的 PPD 。要生成单语言 PPD 文件，只需使用 <tt>-l</tt> 选项列出相应的语言环境，例如：
+    <p>&emsp;&emsp;文件名（ “de.po” 等）可以与驱动程序信息文件的位置或绝对路径相关。一旦定义， PPD 编译器将自动为驱动程序信息文件中声明的每种语言生成一个全球化的 PPD 。要生成单语言 PPD 文件，只需使用 <tt>-l</tt> 选项列出相应的语言环境，例如：
     <pre class='command'>ppdc -l de -d ppd/de mydrivers.drv</pre>
     <p>&emsp;&emsp;生成德语 PPD 文件。
     </div>

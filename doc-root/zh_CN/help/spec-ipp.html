@@ -17,10 +17,10 @@
 
 
     <h2 class='title'><a name='INTRODUCTION'>介绍</a></h2>
-    <p>&emsp;&emsp;CUPS 实现 <a href="http://ftp.pwg.org/pub/pwg/standards/std-ipp20-20151030-5100.12.pdf">IPP/2.1</a> 以及以下规范中定义的操作和属性：</p>
+    <p>&emsp;&emsp;CUPS 实现 <a href="http://ftp.pwg.org/pub/pwg/standards/std-ipp20-20151030-5100.12.pdf">IPP/2.1</a> 以及以下规范中定义的操作和属性：
     <ul>
-      <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext10-20101030-5100.11.pdf">PWG 5100.11: IPP 任务和打印机扩展 - 第2组（JPS2）</a>（所有操作加上 “job-creation-attributes-supported” 、 “job-ids” 、 “job-password” 、 “job-password-encryption” 、 “media-col-database” 和 “which-jobs” 属性）</li>
-      <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf">PWG 5100.13: IPP 任务和打印机扩展 - 第3组（JPS3）</a>（除 “printer-geo-location” 和 “printer-icc-profiles” 外，IPP 所需的所有操作/属性）</li>
+      <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext10-20101030-5100.11.pdf">PWG 5100.11: IPP 任务和打印机扩展 - 第 2 组（ JPS2 ）</a>（所有操作加上 “job-creation-attributes-supported” 、 “job-ids” 、 “job-password” 、 “job-password-encryption” 、 “media-col-database” 和 “which-jobs” 属性）</li>
+      <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf">PWG 5100.13: IPP 任务和打印机扩展 - 第 3 组（ JPS3 ）</a>（除 “printer-geo-location” 和 “printer-icc-profiles” 外， IPP 所需的所有操作/属性）</li>
       <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ippeve10-20130128-5100.14.pdf">PWG 5100.14: IPP 无处不在</a>（符合客户和大多数打印机要求）</li>
       <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ippfaxout10-20140618-5100.15.pdf">PWG 5100.15: IPP 传真输出服务</a>（用于传真队列）</li>
       <li><a href="http://ftp.pwg.org/pub/pwg/candidates/cs-ipptrans10-20131108-5100.16.pdf">PWG 5100.16: 基于 IPP 事务的打印扩展</a></li>
@@ -29,10 +29,10 @@
       <li><a href="http://tools.ietf.org/html/rfc3998">RFC 3998: IPP: 任务和打印机管理操作</a> (Disable-Printer, Enable-Printer, Hold-New-Jobs, 和 Release-Held-New-Jobs 操作)</li>
       <li><a href="http://tools.ietf.org/html/rfc7472">RFC 7472: IPP over HTTPS 传输绑定和 “ipps” URI 方案</a></li>
     </ul>
-    <p>&emsp;&emsp;CUPS 还提供了 17 个新操作和许多新属性，以支持单个主机上的多个 IPP 打印机和打印机类。</p>
+    <p>&emsp;&emsp;CUPS 还提供了 17 个新操作和许多新属性，以支持单个主机上的多个 IPP 打印机和打印机类。
 
     <h3 class='title'><a name='IPP_URIS'>IPP URIs</a></h3>
-    <p>&emsp;&emsp;CUPS 支持 “http” 、 “https” 、 “ipp” 和 “ipp” 方案。使用以下资源名称：</p>
+    <p>&emsp;&emsp;CUPS 支持 “http” 、 “https” 、 “ipp” 和 “ipp” 方案。使用以下资源名称：
     <dl>
       <dt><tt>scheme://hostname:port/</tt></dt>
       <dd>可用于所有“获取”操作和服务器订阅。</dd>
@@ -45,10 +45,10 @@
       <dt><tt>scheme://hostname:port/printers/name</tt></dt>
       <dd>指定打印机。</dd>
     </dl>
-    <p>&emsp;&emsp;因此，典型的打印机 URI 是 “ipp://foo.example.com/printers/LaserJet” 。此外，CUPS 调度程序还支持（在启用时） “http://foo.example.com:port/” 和 “https://foo.example.com:port/” 的方式。</p>
+    <p>&emsp;&emsp;因此，典型的打印机 URI 是 “ipp://foo.example.com/printers/LaserJet” 。此外， CUPS 调度程序还支持（在启用时） “http://foo.example.com:port/” 和 “https://foo.example.com:port/” 的方式。
 
     <h3 class='title'><a name='IPP_OPERATIONS'>CUPS IPP 操作</a></h3>
-    <p>&emsp;&emsp;除了大多数标准 IPP 和注册扩展操作外，CUPS 还提供 17 个供应商扩展操作：</p>
+    <p>&emsp;&emsp;除了大多数标准 IPP 和注册扩展操作外， CUPS 还提供 17 个供应商扩展操作：
     <div class='table'>
       <table align='center' border='1' width='70%' summary='Supported Operations'>
         <thead>
@@ -310,7 +310,7 @@
           <td><a href='#CUPS_GET_PPDS'>CUPS-Get-PPDs</a></td>
           <td>1.1</td>
           <td>0x400C</td>
-          <td>获取所有可用的 PPD。</td>
+          <td>获取所有可用的 PPD 。</td>
         </tr>
         <tr>
           <td><a href='#CUPS_MOVE_JOB'>CUPS-Move-Job</a></td>
@@ -348,20 +348,20 @@
 
 
     <h2 class='title'><a name='OPERATIONS'>操作</a></h2>
-    <p>&emsp;&emsp;以下各节介绍 CUPS 支持的操作。为了简洁起见，不描述仅使用标准 IPP 属性的操作。</p>
+    <p>&emsp;&emsp;以下各节介绍 CUPS 支持的操作。为了简洁起见，不描述仅使用标准 IPP 属性的操作。
 
     <h3 class='title'><a name='CANCEL_JOB'>Cancel-Job 操作（扩展）</a></h3>
-    <p>&emsp;&emsp;Cancel-Job 操作（0x0008）取消指定的任务。CUPS 1.4 增加了对 <tt>purge-job (boolean)</tt> 操作属性的支持，该属性（如果为“true”）也会删除任务的所有历史记录和文档文件。</p>
+    <p>&emsp;&emsp;Cancel-Job 操作（ 0x0008 ）取消指定的任务。 CUPS 1.4 增加了对 <tt>purge-job (boolean)</tt> 操作属性的支持，该属性（如果为 “true” ）也会删除任务的所有历史记录和文档文件。
 
     <h3 class='title'><a name='PURGE_JOBS'>Purge-Jobs 操作</a></h3>
-    <p>&emsp;&emsp;Purge-Jobs 操作（0x0012）取消给定目标上的所有任务，并可选择删除任务的所有历史记录和文档文件。CUPS 1.2 增加了对 <tt>purge-job (boolean)</tt> 操作属性的支持，该属性（如果为“false”）保留已取消任务的所有历史记录和文档文件。</p>
+    <p>&emsp;&emsp;Purge-Jobs 操作（ 0x0012 ）取消给定目标上的所有任务，并可选择删除任务的所有历史记录和文档文件。 CUPS 1.2 增加了对 <tt>purge-job (boolean)</tt> 操作属性的支持，该属性（如果为 “false” ）保留已取消任务的所有历史记录和文档文件。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;应使用 “Cancel-Jobs” 和 “Cancel-My-Jobs” 操作，而不是清除任务。</p>
+      <p>&emsp;&emsp;应使用 “Cancel-Jobs” 和 “Cancel-My-Jobs” 操作，而不是清除任务。
     </blockquote>
 
     <h3 class='title'><span class='info'>CUPS 1.2/macOS 10.5</span><a name='CREATE_PRINTER_SUBSCRIPTION'>Create-Printer-Subscription</a></h3>
-    <p>&emsp;&emsp;Create-Printer-Subscription 操作（0x0016）为打印机或服务器事件通知创建订阅。CUPS 除了 IPP 通知规范中的标准事件外，还提供了几个附加事件。CUPS 添加以下 <tt>notify-events (1setOf type2 keyword)</tt> 值：</p>
+    <p>&emsp;&emsp;Create-Printer-Subscription 操作（ 0x0016 ）为打印机或服务器事件通知创建订阅。 CUPS 除了 IPP 通知规范中的标准事件外，还提供了几个附加事件。 CUPS 添加以下 <tt>notify-events (1setOf type2 keyword)</tt> 值：
     <ul>
       <li><tt>printer-added</tt> - 在添加打印机或类时收到通知</li>
       <li><tt>printer-deleted</tt> - 在删除打印机或类时收到通知</li>
@@ -373,10 +373,10 @@
     </ul>
 
     <h3 class='title'><a name='CUPS_GET_DEFAULT'>CUPS-Get-Default 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-Default 操作（0x4001）返回默认打印机URI和属性。
+    <p>&emsp;&emsp;CUPS-Get-Default 操作（ 0x4001 ）返回默认打印机 URI 和属性。
     <h4>CUPS-Get-Default 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Default 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -385,23 +385,23 @@
     </dl>
     <h4>CUPS-Get-Default 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Default 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机对象属性
+    <p>&emsp;&emsp;第 2 组：打印机对象属性
     <dl>
       <dt>请求的属性集及其当前值。
     </dl>
 
     <h3 class='title'><a name='CUPS_GET_PRINTERS'>CUPS-Get-Printers 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-Printers 操作（0x4002）返回系统已知的每台打印机的打印机属性。这可能包括服务器不直接提供服务的打印机。
+    <p>&emsp;&emsp;CUPS-Get-Printers 操作（ 0x4002 ）返回系统已知的每台打印机的打印机属性。这可能包括服务器不直接提供服务的打印机。
     <h4>CUPS-Get-Printers 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Printers 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -424,37 +424,37 @@
     </dl>
     <h4>CUPS-Get-Printers 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Printers 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机对象属性
+    <p>&emsp;&emsp;第 2 组：打印机对象属性
     <dl>
       <dt>为每台打印机请求的属性集及其当前值。
     </dl>
 
     <h3 class='title'><a name='CUPS_ADD_MODIFY_PRINTER'>CUPS-Add-Modify-Printer 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Add-Modify-Printer 操作（0x4003）在系统上添加新打印机或修改现有打印机。
+    <p>&emsp;&emsp;CUPS-Add-Modify-Printer 操作（ 0x4003 ）在系统上添加新打印机或修改现有打印机。
     <h4>CUPS-Add-Modify-Printer 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Add-Modify-Printer 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri):
-      <dd>客户端必须为指定的打印机提供 URI。
+      <dd>客户端必须为指定的打印机提供 URI 。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机对象属性
+    <p>&emsp;&emsp;第 2 组：打印机对象属性
     <dl>
       <dt>"auth-info-required" (1setOf type2 keyword): <span class='info'>CUPS 1.3/macOS 10.5</span>
       <dd>客户端可选地提供与打印机/远程队列通信所需的一个或多个身份验证关键字。
       <dt>"job-sheets-default" (1setOf name(127)): <span class='info'>CUPS 1.1.7</span>
       <dd>客户机可以选择提供一个或两个标题页名称，这些名称在任务中的文件之前和之后打印。保留名称 “none” 用于指定不应打印任何标题页。
       <dt>"device-uri" (uri):
-      <dd>客户端可选地为指定的打印机提供设备 URI。
+      <dd>客户端可选地为指定的打印机提供设备 URI 。
       <dt>"port-monitor" (name(127)):
       <dd>客户端可以选择为指定的打印机提供端口监视器名称。
       <dt>"ppd-name" (name(255)):
@@ -466,7 +466,7 @@
       <dt>"printer-location" (text(127)):
       <dd>客户端可选地提供此属性，指示打印机的文本位置。
       <dt>"printer-more-info" (uri):
-      <dd>客户端可选地提供此属性，该属性指示附加打印机信息的URI。
+      <dd>客户端可选地提供此属性，该属性指示附加打印机信息的 URI 。
       <dt>"printer-state" (type2 enum):
       <dd>客户端可选地提供此属性，指示打印机的初始/当前状态。仅识别 “idle(3)” 和 “stopped(5)” 枚举。
       <dt>"printer-state-message" (text(MAX)):
@@ -476,8 +476,8 @@
     </dl>
     <p>&emsp;&emsp;CUPS-Add-Modify-Printer 请求后可以选择一个用于打印机的 PPD 文件。“ppd-name” 属性将用本地 CUPS PPD 文件覆盖附加到请求末尾的任何文件。
     <h4>CUPS-Add-Modify-Printer 响应</h4>
-    <p>&emsp;&emsp;以下属性组作为 CUPS-Add-Modify-Printer 响应的一部分发送：</p>
-    <p>&emsp;&emsp;第1组：操作属性</p>
+    <p>&emsp;&emsp;以下属性组作为 CUPS-Add-Modify-Printer 响应的一部分发送：
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -486,19 +486,19 @@
     </dl>
 
     <h3 class='title'><a name='CUPS_DELETE_PRINTER'>CUPS-Delete-Printer 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Delete-Printer 操作（0x4004）从系统中删除现有打印机。
+    <p>&emsp;&emsp;CUPS-Delete-Printer 操作（ 0x4004 ）从系统中删除现有打印机。
     <h4>CUPS-Delete-Printer 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Delete-Printer 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri):
-      <dd>客户端必须为指定的打印机提供 URI。
+      <dd>客户端必须为指定的打印机提供 URI 。
     </dl>
     <h4>CUPS-Delete-Printer 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Delete-Printer 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -507,10 +507,10 @@
     </dl>
 
     <h3 class='title'><a name='CUPS_GET_CLASSES'>CUPS-Get-Classes 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-Classes操作（0x4005）返回系统已知的每个打印机类的打印机属性。这可能包括服务器不直接提供服务的打印机类。
+    <p>&emsp;&emsp;CUPS-Get-Classes 操作（ 0x4005 ）返回系统已知的每个打印机类的打印机属性。这可能包括服务器不直接提供服务的打印机类。
     <h4>CUPS-Get-Classes 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Classes 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -531,30 +531,30 @@
     </dl>
     <h4>CUPS-Get-Classes 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Classes 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机类对象属性
+    <p>&emsp;&emsp;第 2 组：打印机类对象属性
     <dl>
       <dt>为每个打印机类请求的属性集及其当前值。
     </dl>
 
     <h3 class='title'><a name='CUPS_ADD_MODIFY_CLASS'>CUPS-Add-Modify-Class 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Add-Modify-Class 操作（0x4006）在系统上添加新的打印机类或修改现有的打印机类。
+    <p>&emsp;&emsp;CUPS-Add-Modify-Class 操作（ 0x4006 ）在系统上添加新的打印机类或修改现有的打印机类。
     <h4>CUPS-Add-Modify-Class 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Add-Modify-Class 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri):
-      <dd>客户端必须为指定的打印机类提供 URI。
+      <dd>客户端必须为指定的打印机类提供 URI 。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机对象属性
+    <p>&emsp;&emsp;第 2 组：打印机对象属性
     <dl>
       <dt>"auth-info-required" (1setOf type2 keyword): <span class='info'>CUPS 1.3/macOS 10.5</span>
       <dd>客户端可选地提供与打印机/远程队列通信所需的一个或多个身份验证关键字。
@@ -567,7 +567,7 @@
       <dt>"printer-location" (text(127)):
       <dd>客户端可选地提供该属性，该属性指示类的文本位置。
       <dt>"printer-more-info" (uri):
-      <dd>客户端可选地提供该属性，该属性指示附加类信息的 URI。
+      <dd>客户端可选地提供该属性，该属性指示附加类信息的 URI 。
       <dt>"printer-state" (type2 enum):
       <dd>客户端可选地提供该属性，该属性指示类的初始/当前状态。仅识别 “idle(3)” 和 “stopped(5)” 枚举。
       <dt>"printer-state-message" (text(MAX)):
@@ -577,7 +577,7 @@
     </dl>
     <h4>CUPS-Add-Modify-Class 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Add-Modify-Class 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -586,19 +586,19 @@
     </dl>
 
     <h3 class='title'><a name='CUPS_DELETE_CLASS'>CUPS-Delete-Class 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Delete-Class 操作（0x4007）从系统中删除现有打印机类。
+    <p>&emsp;&emsp;CUPS-Delete-Class 操作（ 0x4007 ）从系统中删除现有打印机类。
     <h4>CUPS-Delete-Class 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Delete-Class 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri):
-      <dd>客户端必须为指定的打印机类提供 URI。
+      <dd>客户端必须为指定的打印机类提供 URI 。
     </dl>
     <h4>CUPS-Delete-Class 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Delete-Class 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -608,19 +608,19 @@
 
 
     <h3 class='title'><a name='CUPS_SET_DEFAULT'>CUPS-Set-Default 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Set-Default 当指定资源名 “/printers” 时，操作（0x400A）为所有客户端设置默认打印机目标。
+    <p>&emsp;&emsp;CUPS-Set-Default 当指定资源名 “/printers” 时，操作（ 0x400A ）为所有客户端设置默认打印机目标。
     <h4>CUPS-Set-Default 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Set-Default 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri):
-      <dd>客户端必须为指定的打印机或打印机类提供 URI。
+      <dd>客户端必须为指定的打印机或打印机类提供 URI 。
     </dl>
     <h4>CUPS-Set-Default 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Set-Default 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -630,10 +630,10 @@
 
 
     <h3 class='title'><span class='info'>不建议使用</span><a name='CUPS_GET_DEVICES'>CUPS-Get-Devices 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-Devices 操作（0x400B）返回服务器支持的所有设备 uri。</p>
+    <p>&emsp;&emsp;CUPS-Get-Devices 操作（ 0x400B ）返回服务器支持的所有设备 URI 。
     <h4>CUPS-Get-Devices 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Devices 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -652,24 +652,24 @@
     </dl>
     <h4>CUPS-Get-Devices 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Devices 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2-N组：设备对象属性（使用 printer-attributes-tag 记组）
+    <p>&emsp;&emsp;第 2-N 组：设备对象属性（使用 printer-attributes-tag 记组）
     <dl>
       <dt>为每个设备请求的属性集及其当前值。
     </dl>
 
 
     <h3 class='title'><span class='info'>不建议使用</span><a name='CUPS_GET_PPDS'>CUPS-Get-PPDs 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-PPDs 操作（0x400C）返回系统上所有本地可用的 PPD 文件。</p>
+    <p>&emsp;&emsp;CUPS-Get-PPDs 操作（ 0x400C ）返回系统上所有本地可用的 PPD 文件。
     <h4>CUPS-Get-PPDs 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-PPDs 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -680,42 +680,42 @@
       <dt>"limit" (integer (1:MAX)):
       <dd>客户端可选地提供此属性，以限制返回的 PPD 数量。
       <dt>"ppd-make" (text(127)):
-      <dd>客户端可选地提供打印机制造商以选择返回哪些 PPD。
+      <dd>客户端可选地提供打印机制造商以选择返回哪些 PPD 。
       <dt>"ppd-make-and-model" (text(127)): <span class='info'>CUPS 1.3/macOS 10.5</span>
-      <dd>客户机可以选择提供品牌和型号，以选择返回哪些 PPD。
+      <dd>客户机可以选择提供品牌和型号，以选择返回哪些 PPD 。
       <dt>"ppd-model-number" (integer): <span class='info'>CUPS 1.3/macOS 10.5</span>
-      <dd>客户端可选地提供型号以选择返回哪些 PPD。
+      <dd>客户端可选地提供型号以选择返回哪些 PPD 。
       <dt>"ppd-natural-language" (naturalLanguage): <span class='info'>CUPS 1.3/macOS 10.5</span>
-      <dd>客户端可选地提供一种语言来选择返回哪些 PPD。
+      <dd>客户端可选地提供一种语言来选择返回哪些 PPD 。
       <dt>"ppd-product" (text(127)): <span class='info'>CUPS 1.3/macOS 10.5</span>
-      <dd>客户端可选地提供 PostScript 产品字符串以选择返回哪些 PPD。
+      <dd>客户端可选地提供 PostScript 产品字符串以选择返回哪些 PPD 。
       <dt>"ppd-psversion" (text(127)): <span class='info'>CUPS 1.3/macOS 10.5</span>
-      <dd>客户端可选地提供 PostScript 版本字符串以选择返回哪些 PPD。
+      <dd>客户端可选地提供 PostScript 版本字符串以选择返回哪些 PPD 。
       <dt>"ppd-type" (type1 keyword): <span class='info'>CUPS 1.3/macOS 10.5</span>
-      <dd>客户端可选地提供驱动程序类型，以选择返回哪些 PPD。
+      <dd>客户端可选地提供驱动程序类型，以选择返回哪些 PPD 。
       <dt>"requested-attributes" (1setOf keyword):
       <dd>客户机可以选择提供一组属性名称和/或属性组名称，请求者对这些名称的值感兴趣。如果客户机省略了该属性，则服务器会做出响应，就好像该属性的值为 “all” 。 Specify "ppd-make" to get a list of manufacturers.
     </dl>
     <h4>CUPS-Get-PPDs 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-PPDs 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2-N组：PPD 属性（使用 printer-attributes-tag 组）
+    <p>&emsp;&emsp;第 2-N 组： PPD 属性（使用 printer-attributes-tag 组）
     <dl>
       <dt>每个 PPD 文件的请求属性集及其当前值。
     </dl>
 
 
     <h3 class='title'><span class='info'>CUPS 1.1</span><a name='CUPS_MOVE_JOB'>CUPS-Move-Job 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Move-Job 操作（0x400D）将打印机的活动打印任务或所有打印任务移动到其他打印机。</p>
+    <p>&emsp;&emsp;CUPS-Move-Job 操作（ 0x400D ）将打印机的活动打印任务或所有打印任务移动到其他打印机。
     <h4>CUPS-Move-Job 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Move-Job 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -724,16 +724,16 @@
       <dt>"printer-uri" (uri) and "job-id" (integer)
 	<br><i>或</i>
 	<br>"job-uri" (uri):
-      <dd>客户端必须提供指定打印机的 URI、指定打印机的 URI 和任务 ID 号，或任务 URI。
+      <dd>客户端必须提供指定打印机的 URI 、指定打印机的 URI 和任务 ID 号，或任务 URI 。
     </dl>
-    <p>&emsp;&emsp;第2组：任务模板属性
+    <p>&emsp;&emsp;第 2 组：任务模板属性
     <dl>
       <dt>"job-printer-uri" (uri):
-      <dd>客户端必须为同一服务器上的打印机提供 URI。
+      <dd>客户端必须为同一服务器上的打印机提供 URI 。
     </dl>
     <h4>CUPS-Move-Job 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Move-Job 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>状态消息：
       <dd>标准响应状态消息。
@@ -742,19 +742,19 @@
     </dl>
 
     <h3 class='title'><span class='info'>CUPS 1.2/macOS 10.5</span><a name='CUPS_AUTHENTICATE_JOB'>CUPS-Authenticate-Job 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Authenticate-Job 如果打印任务被保留（0x400E），则对其进行身份验证。通常，这在打印到远程服务器时使用。在 HTTP 请求中传递认证信息；对于这种类型的请求，HTTP 连接通常是加密的。
+    <p>&emsp;&emsp;CUPS-Authenticate-Job 如果打印任务被保留（ 0x400E ），则对其进行身份验证。通常，这在打印到远程服务器时使用。在 HTTP 请求中传递认证信息；对于这种类型的请求， HTTP 连接通常是加密的。
     <h4>CUPS-Authenticate-Job 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Authenticate-Job 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri) and "job-id" (integer)
 	<br><i>或</i>
 	<br>"job-uri" (uri):
-      <dd>客户端必须提供指定打印机的 URI 和任务 ID 号或任务 URI。
+      <dd>客户端必须提供指定打印机的 URI 和任务 ID 号或任务 URI 。
     </dl>
-    <p>&emsp;&emsp;第2组：任务属性
+    <p>&emsp;&emsp;第 2 组：任务属性
     <dl>
       <dt>"auth-info" (1setOf text(MAX)): <span class='info'>CUPS 1.3/macOS 10.5</span>
       <dd>客户端可选地提供一个或多个由 “auth-info-required” 属性指定的身份验证值。
@@ -763,14 +763,14 @@
     </dl>
     <h4>CUPS-Authenticate-Job 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Authenticate-Job 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2组：不支持的属性（状态 = client-eror-attributes-or-values-not-supported）
+    <p>&emsp;&emsp;第 2 组：不支持的属性（状态 = client-eror-attributes-or-values-not-supported ）
     <dl>
       <dt>auth-info-required (1setOf Type2 keyword)
       <dd>所需的身份验证信息。
@@ -778,13 +778,13 @@
 
 
     <h3 class='title'><span class='info'>不建议使用</span><a name='CUPS_GET_PPD'>CUPS-Get-PPD 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-PPD 操作（0x400F）从服务器获取 PPD 文件。可以使用 <a href='#CUPS_GET_PPDS'><tt>CUPS-Get-PPDs</tt></a> 返回的 <tt>ppd-name</tt> 来指定 PPD 文件，或者使用 <tt>printer-uri</tt> 作为队列。</p>
-    <p>&emsp;&emsp;如果找到 PPD 文件，<tt>successful-ok</tt> 将与响应数据后面的 PPD 文件一起返回。</p>
-    <p>&emsp;&emsp;如果本地服务器无法提供 PPD 文件，因为 <tt>printer-uri</tt> 属性指向外部打印机，则返回一个 <tt>cups-see-other</tt> 状态，并返回正确的 URI 以供使用。</p>
-    <p>&emsp;&emsp;如果 PPD 文件不存在，则返回 <tt>client-error-not-found</tt> 。</p>
+    <p>&emsp;&emsp;CUPS-Get-PPD 操作（ 0x400F ）从服务器获取 PPD 文件。可以使用 <a href='#CUPS_GET_PPDS'><tt>CUPS-Get-PPDs</tt></a> 返回的 <tt>ppd-name</tt> 来指定 PPD 文件，或者使用 <tt>printer-uri</tt> 作为队列。
+    <p>&emsp;&emsp;如果找到 PPD 文件，<tt>successful-ok</tt> 将与响应数据后面的 PPD 文件一起返回。
+    <p>&emsp;&emsp;如果本地服务器无法提供 PPD 文件，因为 <tt>printer-uri</tt> 属性指向外部打印机，则返回一个 <tt>cups-see-other</tt> 状态，并返回正确的 URI 以供使用。
+    <p>&emsp;&emsp;如果 PPD 文件不存在，则返回 <tt>client-error-not-found</tt> 。
     <h4>CUPS-Get-PPD 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-PPD 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -795,37 +795,37 @@
     </dl>
     <h4>CUPS-Get-PPD 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-PPD 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
       <dt>"printer-uri" (uri):
-      <dd>当状态代码为 “cups-see-other”（0x280）时提供实际 PPD 文件的打印机。
+      <dd>当状态代码为 “cups-see-other”（ 0x280 ）时提供实际 PPD 文件的打印机。
     </dl>
-    <p>&emsp;&emsp;如果状态代码为 <tt>successful-ok</tt> ，则 PPD 文件在 IPP 响应结束后。</p>
+    <p>&emsp;&emsp;如果状态代码为 <tt>successful-ok</tt> ，则 PPD 文件在 IPP 响应结束后。
 
 
     <h3 class='title'><span class='info'>CUPS 1.4/macOS 10.6</span><a name='CUPS_GET_DOCUMENT'>CUPS-Get-Document 操作</a></h3>
-    <p>&emsp;&emsp;CUPS-Get-Document 操作（0x4027）从服务器上的任务获取文档文件。使用标识任务的 <tt>document-number</tt> 和 <tt>job-uri</tt> 或 <tt>printer-uri</tt> 和 <tt>job-id</tt> 指定文档文件。</p>
-    <p>&emsp;&emsp;如果找到文档文件，<tt>successful-ok</tt> 将与响应数据后面的文档文件一起返回。</p>
-    <p>&emsp;&emsp;如果文档文件不存在，则返回 <tt>client-error-not-found</tt> 。</p>
-    <p>&emsp;&emsp;如果请求用户无权访问文档文件，则返回 <tt>client-error-not-authorized</tt> 。</p>
+    <p>&emsp;&emsp;CUPS-Get-Document 操作（ 0x4027 ）从服务器上的任务获取文档文件。使用标识任务的 <tt>document-number</tt> 和 <tt>job-uri</tt> 或 <tt>printer-uri</tt> 和 <tt>job-id</tt> 指定文档文件。
+    <p>&emsp;&emsp;如果找到文档文件，<tt>successful-ok</tt> 将与响应数据后面的文档文件一起返回。
+    <p>&emsp;&emsp;如果文档文件不存在，则返回 <tt>client-error-not-found</tt> 。
+    <p>&emsp;&emsp;如果请求用户无权访问文档文件，则返回 <tt>client-error-not-authorized</tt> 。
     <h4>CUPS-Get-Document 请求</h4>
-    <p>&emsp;&emsp;以下属性组作为CUPS获取文档请求的一部分提供：</p>
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;以下属性组作为 CUPS 获取文档请求的一部分提供：
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>"printer-uri" (uri) 和 "job-id" (integer)<br><i>或</i><br>"job-uri" (uri):
-      <dd>客户端必须提供打印机 URI 和任务 ID 或任务 URI。
+      <dd>客户端必须提供打印机 URI 和任务 ID 或任务 URI 。
       <dt>"document-number" (integer(1:MAX)):
-      <dd>客户端必须提供要检索的文档编号。任务的 <tt>document-count</tt> 属性定义了可以指定的最大文档编号。如果任务带有 banner（<tt>job-sheets</tt> 不是“无”），文件编号 1 通常包含开始 banner，文件编号 N 通常包含结束 banner。
+      <dd>客户端必须提供要检索的文档编号。任务的 <tt>document-count</tt> 属性定义了可以指定的最大文档编号。如果任务带有 banner （<tt>job-sheets</tt> 不是“无”），文件编号 1 通常包含开始 banner ，文件编号 N 通常包含结束 banner 。
     </dl>
     <h4>CUPS-Get-Document 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Get-Document 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
@@ -838,29 +838,29 @@
       <dt>"document-name" (name(MAX)):
       <dd>随文档提供的名称（如果有）。
     </dl>
-    <p>&emsp;&emsp;如果状态代码为 <tt>successful-ok</tt>，则文档文件在 IPP 响应结束后。</p>
+    <p>&emsp;&emsp;如果状态代码为 <tt>successful-ok</tt>，则文档文件在 IPP 响应结束后。
 
 
     <h3 class='title'><a name='CUPS_CREATE_LOCAL_PRINTER'>CUPS-Create-Local-Printer</a></h3>
-    <p>&emsp;&emsp;CUPS-Create-Local-Printer 操作（0x4028）创建指向远程 IPP 打印机的本地（临时）打印队列。队列将一直保留，直到调度程序空闲退出、重新启动或系统重新启动或关闭。管理员可以通过将 “printer-is-shared” 属性设置为 “true” ，使临时打印队列永久化。</p>
-    <p>&emsp;&emsp;调度程序至少需要打印机添加名称和 URI。成功时，将返回本地 “printer-uri” 值，客户端可使用该值提交任务创建请求、监视状态更改等。</p>
-    <p>&emsp;&emsp;如果指定的打印机已存在，调度程序将以 “client-error-not-possible” 状态代码拒绝请求。</p>
-    <p>&emsp;&emsp;访问权限：执行此操作的经过身份验证的用户必须是系统的本地用户，并且必须通过本地（域套接字或环回接口）地址发出请求。否则，请求将被拒绝，状态代码为 “client-error-forbidden” 。</p>
+    <p>&emsp;&emsp;CUPS-Create-Local-Printer 操作（ 0x4028 ）创建指向远程 IPP 打印机的本地（临时）打印队列。队列将一直保留，直到调度程序空闲退出、重新启动或系统重新启动或关闭。管理员可以通过将 “printer-is-shared” 属性设置为 “true” ，使临时打印队列永久化。
+    <p>&emsp;&emsp;调度程序至少需要打印机添加名称和 URI 。成功时，将返回本地 “printer-uri” 值，客户端可使用该值提交任务创建请求、监视状态更改等。
+    <p>&emsp;&emsp;如果指定的打印机已存在，调度程序将以 “client-error-not-possible” 状态代码拒绝请求。
+    <p>&emsp;&emsp;访问权限：执行此操作的经过身份验证的用户必须是系统的本地用户，并且必须通过本地（域套接字或环回接口）地址发出请求。否则，请求将被拒绝，状态代码为 “client-error-forbidden” 。
     <h4>CUPS-Create-Local-Printer 请求</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Create-Local-Printer 请求的一部分提供：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.1 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机属性
+    <p>&emsp;&emsp;第 2 组：打印机属性
     <dl>
       <dt>"printer-name" (name(127)):
       <dd>客户端必须提供此属性，该属性提供新打印机的名称。
       <dt>"device-uri" (uri):
-      <dd>客户端必须提供此属性，该属性提供指向 IPP 打印机的 “ipp” 或 “ipps” URI。
+      <dd>客户端必须提供此属性，该属性提供指向 IPP 打印机的 “ipp” 或 “ipps” URI 。
       <dt>"printer-device-id" (text(1023)):
-      <dd>客户端可选地提供此属性，该属性为新打印机提供 IEEE 1284 设备 ID。
+      <dd>客户端可选地提供此属性，该属性为新打印机提供 IEEE 1284 设备 ID 。
       <dt>"printer-geo-location" (uri):
       <dd>客户端可选地提供此属性，该属性将新打印机的 geo-location 作为 “geo” URI 提供。
       <dt>"printer-info" (text(127)):
@@ -870,14 +870,14 @@
     </dl>
     <h4>CUPS-Create-Local-Printer 响应</h4>
     <p>&emsp;&emsp;以下属性组作为 CUPS-Create-Local-Printer 响应的一部分发送：
-    <p>&emsp;&emsp;第1组：操作属性
+    <p>&emsp;&emsp;第 1 组：操作属性
     <dl>
       <dt>自然语言和字符集：
       <dd>IPP 模型和语义文件第 3.1.4.2 节所述的 “attributes-charset” 和 “attributes-natural-language” 属性。
       <dt>状态消息：
       <dd>标准响应状态消息。
     </dl>
-    <p>&emsp;&emsp;第2组：打印机属性
+    <p>&emsp;&emsp;第 2 组：打印机属性
     <dl>
       <dt>"printer-id" (integer(0:65535)):
       <dd>所创建打印机的数字标识符。
@@ -888,25 +888,25 @@
       <dt>"printer-state-reasons" (1setOf type2 keyword):
       <dd>响应时创建的打印机的状态关键字。
       <dt>"printer-uri-supported" (1setOf uri):
-      <dd>创建的打印机的 URI。
+      <dd>创建的打印机的 URI 。
     </dl>
 
 
     <h2 class='title'><a name='ATTRIBUTES'>属性</a></h2>
-    <p>&emsp;&emsp;CUPS 提供许多扩展属性以支持多个设备、PPD 文件、标准任务筛选器、打印机和打印机类。</p>
+    <p>&emsp;&emsp;CUPS 提供许多扩展属性以支持多个设备、 PPD 文件、标准任务筛选器、打印机和打印机类。
 
     <h3 class='title'><a name='DEVICE_ATTRIBUTES'>设备属性</a><span class="info">不建议使用</span></h3>
-    <p>&emsp;&emsp;CUPS-Get-Devices 操作返回设备属性，并枚举服务器支持的所有可用硬件设备和网络协议。设备属性在 printer-attributes-tag 组中报告。</p>
+    <p>&emsp;&emsp;CUPS-Get-Devices 操作返回设备属性，并枚举服务器支持的所有可用硬件设备和网络协议。设备属性在 printer-attributes-tag 组中报告。
     <h4><a name="device-class">device-class (type2 keyword)</a><span class="info">不建议使用</span></h4>
     <p>&emsp;&emsp;“device-class” 属性提供设备类别，可以是以下之一：
     <ul>
       <li>'file': 磁盘文件。
-      <li>'direct': 并行或固定速率串行数据端口，目前用于 Centronics、IEEE-1284 和 USB 打印机端口。
+      <li>'direct': 并行或固定速率串行数据端口，目前用于 Centronics 、 IEEE-1284 和 USB 打印机端口。
       <li>'serial': 可变速率串行端口。
       <li>'network': 网络连接，通常通过 AppSocket 、 HTTP 、 IPP 、 LPD 或 SMB/CIFS 协议。
     </ul>
     <h4><a name="device-id">device-id (text(1023))</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"device-id" 属性提供设备的 IEEE-1284 设备 ID 字符串。</p>
+    <p>&emsp;&emsp;"device-id" 属性提供设备的 IEEE-1284 设备 ID 字符串。
     <h4><a name="device-info">device-info (text(127))</a><span class="info">不建议使用</span></h4>
     <p>&emsp;&emsp;"device-info" 属性指定描述设备的可读字符串，例如 “Parallel Port #1”。
     <h4><a name="device-location">device-location (text(127))</a><span class="info">不建议使用</span></h4>
@@ -917,10 +917,10 @@
     <p>&emsp;&emsp;"device-uri" 属性指定设备的唯一标识符。“device-uri” 字符串的实际格式取决于 “device-class” 属性的值：
     <ul>
       <li>'file': "device-uri" 使用格式为 'file:///path/to/filename'.
-      <li>'direct': "device-uri" 使用格式为 'scheme:/dev/filename' 或 'scheme://vendor/identifier'，其中，在当前实现中，方案可能是 “parallel” 或 “usb” 。
-      <li>'serial': "device-uri" 使用格式为 'serial:/dev/filename?baud=value+parity=value+flow=value'。波特值是数据速率，单位为比特/秒；支持的值取决于底层硬件。奇偶校验值可以是 “none” 、 “even” 或 “odd” 之一。流量值可以是 “none” 、 “soft”（XON/XOFF握手）、 “hard” 或 “rts/cts”（rts/cts握手）或 “dtrdsr”（DTR/DSR握手）之一。
+      <li>'direct': "device-uri" 使用格式为 'scheme:/dev/filename' 或 'scheme://vendor/identifier' ，其中，在当前实现中，方案可能是 “parallel” 或 “usb” 。
+      <li>'serial': "device-uri" 使用格式为 'serial:/dev/filename?baud=value+parity=value+flow=value' 。波特值是数据速率，单位为比特/秒；支持的值取决于底层硬件。奇偶校验值可以是 “none” 、 “even” 或 “odd” 之一。流量值可以是 “none” 、 “soft”（ XON/XOFF 握手）、 “hard” 或 “rts/cts”（ rts/cts 握手）或 “dtrdsr”（ DTR/DSR 握手）之一。
 	<p>&emsp;&emsp;CUPS-Get-Devices 返回的 URI 将包含设备支持的最大波特率和可用的最佳流控制类型（“soft” 或 “hard”）。
-      <li>'network': "device-uri" 使用格式为 'scheme://[username:password@]hostname[:port]/[resource]'，其中，在当前实现中，方案可以是 “http” 、 “https” 、 “ipp” 、 “lpd” 、 “smb” 或 “socket” 。
+      <li>'network': "device-uri" 使用格式为 'scheme://[username:password@]hostname[:port]/[resource]' ，其中，在当前实现中，方案可以是 “http” 、 “https” 、 “ipp” 、 “lpd” 、 “smb” 或 “socket” 。
 	<p>&emsp;&emsp;CUPS-Get-Devices 返回的 URI 只能包含方案名称（“scheme”）。在添加新打印机时，由客户端应用程序添加适当的主机和其他信息。
 	<p>&emsp;&emsp;Get-Printer-Attributes 和 CUPS-Get-Printers 返回的 URI 包含任何用户名和密码信息；该信息仍然存储在服务器内部，并由服务器用于执行任何所需的身份验证。
     </ul>
@@ -928,22 +928,22 @@
 
     <h3 class='title'><a name='JOB_ATTRIBUTES'>任务属性</a></h3>
     <h4><a name="auth-info">auth-info (1setOf text(MAX))</a><span class="info">CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"auth-info" 属性指定打印到远程设备时要使用的身份验证信息。每个文本值的顺序和内容由 <a href="#auth-info-required">auth-info-required</a> 打印机属性指定。</p>
+    <p>&emsp;&emsp;"auth-info" 属性指定打印到远程设备时要使用的身份验证信息。每个文本值的顺序和内容由 <a href="#auth-info-required">auth-info-required</a> 打印机属性指定。
     <h4><a name="job-cancel-after">job-cancel-after (integer(1:MAX))</a><span class='info'>CUPS 2.0</span></h4>
-    <p>&emsp;&emsp;"job-cancel-after" 属性提供处理任务所允许的最大秒数。</p>
+    <p>&emsp;&emsp;"job-cancel-after" 属性提供处理任务所允许的最大秒数。
     <h4><a name="job-hold-until">job-hold-until (keyword | name(MAX))</a><span class='info'>CUPS 1.1</span></h4>
-    <p>&emsp;&emsp;"job-hold-until" 属性指定保留时间。除了标准 IPP/1.1 关键字名称外，CUPS 还支持指定保留时间的 “HH:MM” 和 “HH:MM:SS” 形式的名称值。保留时间为世界协调时间（UTC），而<i>不</i>是本地时区。如果指定的时间小于当前时间，则任务将保留到第二天。</p>
+    <p>&emsp;&emsp;"job-hold-until" 属性指定保留时间。除了标准 IPP/1.1 关键字名称外， CUPS 还支持指定保留时间的 “HH:MM” 和 “HH:MM:SS” 形式的名称值。保留时间为世界协调时间（ UTC ），而<i>不</i>是本地时区。如果指定的时间小于当前时间，则任务将保留到第二天。
     <h4><a name="job-media-progress">job-media-progress (integer(0:100))</a><span class='info'>CUPS 1.4/macOS 10.6</span></h4>
-    <p>&emsp;&emsp;"job-media-progress" 状态属性指定当前页面的完成百分比。它仅在 “job-state” 属性值为 “processing(5)” 时有效。</p>
+    <p>&emsp;&emsp;"job-media-progress" 状态属性指定当前页面的完成百分比。它仅在 “job-state” 属性值为 “processing(5)” 时有效。
     <h4><a name="job-printer-state-message">job-printer-state-message (text(MAX))</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"job-printer-state-message" 状态属性为处理（或正在处理）任务的打印机提供 “printer-state-message” 属性的最后一个已知值。</p>
+    <p>&emsp;&emsp;"job-printer-state-message" 状态属性为处理（或正在处理）任务的打印机提供 “printer-state-message” 属性的最后一个已知值。
     <h4><a name="job-printer-state-reasons">job-printer-state-reasons (1setOf type2 keyword)</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"job-printer-state-reasons" 状态属性为处理（或正在处理）任务的打印机提供 “printer-state-reasons” 属性的最后一个已知值。</p>
+    <p>&emsp;&emsp;"job-printer-state-reasons" 状态属性为处理（或正在处理）任务的打印机提供 “printer-state-reasons” 属性的最后一个已知值。
     <h4><a name="job-sheets">job-sheets (1setof type3 keyword | name(MAX))</a><span class='info'>CUPS 1.1</span></h4>
-    <p>&emsp;&emsp;"job-sheets" 属性指定任务前后打印的一个或两个标题文件。保留值 “none” 将禁用 banner 打印。默认值存储在 “job-sheets-default” 属性中。</p>
-    <p>&emsp;&emsp;如果仅提供一个值，则在任务之前打印 banner 文件。如果提供了两个值，则第一个值用作起始标题文件，第二个值用作结束标题文件。</p>
+    <p>&emsp;&emsp;"job-sheets" 属性指定任务前后打印的一个或两个标题文件。保留值 “none” 将禁用 banner 打印。默认值存储在 “job-sheets-default” 属性中。
+    <p>&emsp;&emsp;如果仅提供一个值，则在任务之前打印 banner 文件。如果提供了两个值，则第一个值用作起始标题文件，第二个值用作结束标题文件。
     <h4><a name="job-originating-host-name">job-originating-host-name (name(MAX))</a><span class='info'>CUPS 1.1.5/macOS 10.2</span></h4>
-    <p>&emsp;&emsp;"job-originating-host-name" 状态属性指定任务从中排队的主机。该值将是客户端的主机名或 IP 地址，具体取决于是否启用了主机名解析。本机地址（127.0.0.1）始终解析为名称 “localhost” 。
+    <p>&emsp;&emsp;"job-originating-host-name" 状态属性指定任务从中排队的主机。该值将是客户端的主机名或 IP 地址，具体取决于是否启用了主机名解析。本机地址（ 127.0.0.1 ）始终解析为名称 “localhost” 。
     <p>&emsp;&emsp;此属性是只读的。
     <h4><a name="page-border">page-border (type2 keyword)</a><span class='info'>CUPS 1.1.15</span></h4>
     <p>&emsp;&emsp;"page-border" 属性指定是否在每页周围绘制边框。目前定义了以下关键字：
@@ -955,19 +955,19 @@
       <li>'single-thick': 将绘制一条 1pt 边框</li>
     </ul>
     <h4><a name="page-set">page-set (type2 keyword)</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"page-set" 属性指定要在文件中打印的页面。支持的关键字为 “all” 、 “even” 和 “odd” 。默认值为 “all” 。</p>
+    <p>&emsp;&emsp;"page-set" 属性指定要在文件中打印的页面。支持的关键字为 “all” 、 “even” 和 “odd” 。默认值为 “all” 。
     <h3 class='title'><a name='PPD_ATTRIBUTES'>PPD 属性</a><span class="info">不建议使用</span></h3>
     <p>&emsp;&emsp;PPD 属性在打印机属性标签组中返回。
     <h4><a name="ppd-device-id">ppd-device-id (text(127))</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"ppd-device-id" 属性指定 PPD 文件描述的设备的 IEEE-1284 设备 ID 字符串。</p>
+    <p>&emsp;&emsp;"ppd-device-id" 属性指定 PPD 文件描述的设备的 IEEE-1284 设备 ID 字符串。
     <h4><a name="ppd-make">ppd-make (text(127))</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"ppd-make" 属性指定打印机的制造商（PPD 文件中的制造商属性）。如果 PPD 文件中未指定制造商，则使用 PPD 文件中的昵称属性进行有根据的猜测。</p>
+    <p>&emsp;&emsp;"ppd-make" 属性指定打印机的制造商（ PPD 文件中的制造商属性）。如果 PPD 文件中未指定制造商，则使用 PPD 文件中的昵称属性进行有根据的猜测。
     <h4><a name="ppd-make-and-model">ppd-make-and-model (text(127))</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"ppd-make-and-model" 属性指定 PPD 文件的制造商和型号名称（PPD 文件中的昵称属性）。如果 PPD 文件中未指定 make 和 model ，则使用 ModelName 或 short 昵称属性。
+    <p>&emsp;&emsp;"ppd-make-and-model" 属性指定 PPD 文件的制造商和型号名称（ PPD 文件中的昵称属性）。如果 PPD 文件中未指定 make 和 model ，则使用 ModelName 或 short 昵称属性。
     <h4><a name="ppd-model-number">ppd-model-number (integer)</a><span class="info">不建议使用</span></h4>
     <p>&emsp;&emsp;"ppd-model-number" 属性提供 PPD 文件中的 <tt>cupsModelNumber</tt> 值。
     <h4><a name="ppd-name">ppd-name (name(255))</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"ppd-name" 属性指定服务器上相对于模型目录的 PPD 文件名或映射到驱动程序目录中特定驱动程序接口的 URI。使用斜杠（/）描述目录路径。
+    <p>&emsp;&emsp;"ppd-name" 属性指定服务器上相对于模型目录的 PPD 文件名或映射到驱动程序目录中特定驱动程序接口的 URI 。使用斜杠（/）描述目录路径。
     <h4><a name="ppd-natural-language">ppd-natural-language (1setOf naturalLanguage)</a><span class="info">不建议使用</span></h4>
     <p>&emsp;&emsp;"ppd-natural-language" 属性指定 PPD 文件的语言编码（ PPD 文件中的 LanguageVersion 属性）。如果语言未知或未定义，则假定为 “en”（英语）。
     <h4><a name="ppd-product">ppd-product (1setOf text(127))</a><span class="info">不建议使用</span></h4>
@@ -975,7 +975,7 @@
     <h4><a name="ppd-psversion">ppd-psversion (1setOf text(127))</a><span class="info">不建议使用</span></h4>
     <p>&emsp;&emsp;"ppd-product" 属性指定 PPD 文件中的 PSVersion 属性值。
     <h4><a name="ppd-type">ppd-type (type1 keyword)</a><span class="info">不建议使用</span></h4>
-    <p>&emsp;&emsp;"ppd-type" 属性指定 PPD 文件描述的驱动程序类型：</p>
+    <p>&emsp;&emsp;"ppd-type" 属性指定 PPD 文件描述的驱动程序类型：
     <ul>
       <li>'fax': 传真机或多功能设备</li>
       <li>'pdf': PDF 打印机</li>
@@ -987,10 +987,10 @@
 
     <h3 class='title'><a name='PRINTER_ATTRIBUTES'>打印机属性</a></h3>
     <h4><a name="auth-info-required">auth-info-required (1setOf type2 keyword)</a><span class="info">CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"auth-info-required" 属性指定打印任务所需的身份验证信息。可以识别以下关键字：</p>
+    <p>&emsp;&emsp;"auth-info-required" 属性指定打印任务所需的身份验证信息。可以识别以下关键字：
     <ul>
       <li>'domain': 需要域名。</li>
-      <li>'negotiate': 必须使用 Kerberos － 此关键字只能单独出现，并导致 cupsd 收集打印用户的 UID。</li>
+      <li>'negotiate': 必须使用 Kerberos － 此关键字只能单独出现，并导致 cupsd 收集打印用户的 UID 。</li>
       <li>'none': 不需要身份验证 － 此关键字只能自行显示。</li>
       <li>'password': 需要密码。</li>
       <li>'username': 需要用户名。某些协议（如 SMB ）在用户名前加上域前缀，例如“域\用户”。</li>
@@ -1002,21 +1002,21 @@
     <h4><a name="job-quota-period">job-quota-period (integer)</a><span class='info'>CUPS 1.1</span></h4>
     <p>&emsp;&emsp;"job-quota-period" 属性指定用于配额计算的时间段（以秒为单位）。默认值 0 指定限制适用于系统仍然知道的用户打印的所有任务。
     <h4><a name="marker-change-time">marker-change-time (integer)</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"marker-change-time" 状态属性指定上次更改 marker-colors 、 marker-levels 、 marker-message 、 marker-names 或 marker-types 属性时的 “printer-up-time” 值。</p>
+    <p>&emsp;&emsp;"marker-change-time" 状态属性指定上次更改 marker-colors 、 marker-levels 、 marker-message 、 marker-names 或 marker-types 属性时的 “printer-up-time” 值。
     <h4><a name="marker-colors">marker-colors (1setof name(MAX))</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"marker-colors" 状态属性指定打印机中每个电源的颜色。它仅在驱动程序提供供电水平时可用。颜色为 “none” 或一种或多种十六进制编码的 sRGB 颜色，格式为 “#RRGGBB” 。</p>
+    <p>&emsp;&emsp;"marker-colors" 状态属性指定打印机中每个电源的颜色。它仅在驱动程序提供供电水平时可用。颜色为 “none” 或一种或多种十六进制编码的 sRGB 颜色，格式为 “#RRGGBB” 。
     <h4><a name="marker-high-levels">marker-high-levels (1setof integer(0:100))</a><span class='info'>CUPS 1.4/macOS 10.6</span></h4>
-    <p>&emsp;&emsp;"marker-high-levels" 状态属性指定指示接近满状态的供应级别。值 100 应该用于消耗/耗尽的耗材，例如墨盒。</p>
+    <p>&emsp;&emsp;"marker-high-levels" 状态属性指定指示接近满状态的供应级别。值 100 应该用于消耗/耗尽的耗材，例如墨盒。
     <h4><a name="marker-levels">marker-levels (1setof integer(-3:100))</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"marker-levels" 状态属性指定打印机的当前供应级别。它仅在驱动提供供电水平时可用。值 -1 表示级别不可用，-2 表示未知，-3 表示级别未知但尚未达到容量。从 0 到 100 的值表示相应的百分比。</p>
+    <p>&emsp;&emsp;"marker-levels" 状态属性指定打印机的当前供应级别。它仅在驱动提供供电水平时可用。值 -1 表示级别不可用，-2 表示未知，-3 表示级别未知但尚未达到容量。从 0 到 100 的值表示相应的百分比。
     <h4><a name="marker-low-levels">marker-low-levels (1setof integer(0:100))</a><span class='info'>CUPS 1.4/macOS 10.6</span></h4>
-    <p>&emsp;&emsp;"marker-low-levels" 状态属性指定指示接近空状态的供应级别。填充的耗材（例如废墨水罐）的值应为 0 。</p>
+    <p>&emsp;&emsp;"marker-low-levels" 状态属性指定指示接近空状态的供应级别。填充的耗材（例如废墨水罐）的值应为 0 。
     <h4><a name="marker-message">marker-message (text(MAX))</a><span class='info'>CUPS 1.4/macOS 10.6</span></h4>
-    <p>&emsp;&emsp;"marker-message" 状态属性为当前供应级别提供了一条可读的状态消息，例如“剩余12页墨水”。只有当驱动程序提供供应级别时，该属性才可用。</p>
+    <p>&emsp;&emsp;"marker-message" 状态属性为当前供应级别提供了一条可读的状态消息，例如“剩余 12 页墨水”。只有当驱动程序提供供应级别时，该属性才可用。
     <h4><a name="marker-names">marker-names (1setof name(MAX))</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"marker-names" 状态属性指定打印机中每个电源的名称。它仅在驱动程序提供供电水平时可用。</p>
+    <p>&emsp;&emsp;"marker-names" 状态属性指定打印机中每个电源的名称。它仅在驱动程序提供供电水平时可用。
     <h4><a name="marker-types">marker-types (1setof type3 keyword)</a><span class='info'>CUPS 1.3/macOS 10.5</span></h4>
-    <p>&emsp;&emsp;"marker-types" 状态属性指定打印机中每个电源的类型。它仅在驱动程序提供供电水平时可用。目前支持以下（ RFC 3805 ）类型：</p>
+    <p>&emsp;&emsp;"marker-types" 状态属性指定打印机中每个电源的类型。它仅在驱动程序提供供电水平时可用。目前支持以下（ RFC 3805 ）类型：
     <ul>
       <li>'toner'</li>
       <li>'waste-toner'</li>
@@ -1054,13 +1054,13 @@
     <h4><a name="port-monitor-supported">port-monitor-supported" (1setOf name(127))</a><span class="info">不建议使用</span></h4>
     <p>&emsp;&emsp;"port-monitor-supported" 属性指定可用的端口监视器。
     <h4><a name="printer-commands">printer-commands (1setOf Type3 keyword)</a><span class='info'>不建议使用</span></h4>
-    <p>&emsp;&emsp;"printer-commands" 属性指定 CUPS 命令文件筛选器支持的命令。关键字 “none” 表示不支持任何命令。</p>
+    <p>&emsp;&emsp;"printer-commands" 属性指定 CUPS 命令文件筛选器支持的命令。关键字 “none” 表示不支持任何命令。
     <h4><a name="printer-dns-sd-name">printer-dns-sd-name (name(MAX) | noValue)</a><span class='info'>CUPS 1.4/macOS 10.6</span></h4>
-    <p>&emsp;&emsp;"printer-dns-sd-name" 属性指定打印机的已注册 DNS-SD 服务名称。如果未使用此协议共享打印机，“printer-dns-sd-name” 的值将是 no-value 。</p>
+    <p>&emsp;&emsp;"printer-dns-sd-name" 属性指定打印机的已注册 DNS-SD 服务名称。如果未使用此协议共享打印机，“printer-dns-sd-name” 的值将是 no-value 。
     <h4><a name="printer-id">printer-id (integer(0:65535)</a><span class="info">CUPS 2.2</span></h4>
-    <p>&emsp;&emsp;"printer-id" 状态属性提供标识打印机的唯一整数。当仅提供 IP 地址和整数来标识打印队列时，使用该选项。</p>
+    <p>&emsp;&emsp;"printer-id" 状态属性提供标识打印机的唯一整数。当仅提供 IP 地址和整数来标识打印队列时，使用该选项。
     <h4><a name="printer-type">printer-type (type2 enum)</a></h4>
-    <p>&emsp;&emsp;"printer-type" 状态属性指定打印机或类的打印机类型和功能位。默认值是根据打印机的内部状态信息和 PPD 文件计算得出的。定义了以下位：</p>
+    <p>&emsp;&emsp;"printer-type" 状态属性指定打印机或类的打印机类型和功能位。默认值是根据打印机的内部状态信息和 PPD 文件计算得出的。定义了以下位：
     <div class='table'>
       <table align='center' border='1' width='80%' summary='Printer Type Bits'>
         <thead>
@@ -1186,14 +1186,14 @@
       </table>
     </div>
     <h4>printer-type-mask (type2 enum)<span class='info'>CUPS 1.1</span></h4>
-    <p>&emsp;&emsp;"printer-type-mask" 属性用于使用 CUPS-Get-Printers 和 CUPS-Get-Classes 操作选择打印机或类。位的定义与打印机类型属性相同，默认为所有 1。
+    <p>&emsp;&emsp;"printer-type-mask" 属性用于使用 CUPS-Get-Printers 和 CUPS-Get-Classes 操作选择打印机或类。位的定义与打印机类型属性相同，默认为所有 1 。
     <h4>requesting-user-name-allowed (1setof name(127))<span class='info'>CUPS 1.1</span></h4>
     <p>&emsp;&emsp;"requesting-user-name-allowed" 属性列出允许访问打印机或类的所有用户。将定义此属性或 “requesting-user-name-denied” 属性，但不能同时定义两者。
     <h4>requesting-user-name-denied (1setof name(127))<span class='info'>CUPS 1.1</span></h4>
     <p>&emsp;&emsp;"requesting-user-name-denied" 属性列出不允许访问打印机或类的所有用户。将定义此属性或 “requesting-user-name-allowed” 属性，但不能同时定义两者。
 
     <h3 class='title'><a name='CLASS_ATTRIBUTES'>打印机类属性</a></h3>
-    <p>&emsp;&emsp;打印机类属性放置在 printer-attributes-tag 组中。</p>
+    <p>&emsp;&emsp;打印机类属性放置在 printer-attributes-tag 组中。
     <h4>member-names (1setof name(127))</h4>
     <p>&emsp;&emsp;"member-names" 属性指定每个成员打印机和类的 “printer-name” 属性。每个名称对应于 “member-uris” 属性的相同元素。
     <h4>member-uris (1setof uri)</h4>

@@ -7,97 +7,97 @@
   </head>
   <body>
     <h1 class="title">命令行打印和选项</h1>
-    <p>&emsp;&emsp;CUPS 提供了 System V（<a href="man-lp.html">lp(1)</a>）和 Berkeley（<a href="man-lpr.html">lpr(1)</a>）打印文件的打印命令。此外，它还支持大量标准和打印机特定选项，允许您控制文件的打印方式和位置。</p>
+    <p>&emsp;&emsp;CUPS 提供了 System V （<a href="man-lp.html">lp(1)</a>）和 Berkeley （<a href="man-lpr.html">lpr(1)</a>）打印文件的打印命令。此外，它还支持大量标准和打印机特定选项，允许您控制文件的打印方式和位置。
 
 
     <h2 class="title"><a name="BASICS">打印文件</a></h2>
-    <p>&emsp;&emsp;CUPS 可以直接理解许多不同类型的文件，包括文本、PostScript、PDF 和图像文件。这允许您从应用程序内部或在命令行中打印，以最方便的为准！键入以下命令之一，将文件打印到系统上的默认（或唯一）打印机：</p>
+    <p>&emsp;&emsp;CUPS 可以直接理解许多不同类型的文件，包括文本、 PostScript 、 PDF 和图像文件。这允许您从应用程序内部或在命令行中打印，以最方便的为准！键入以下命令之一，将文件打印到系统上的默认（或唯一）打印机：
     <pre class="command">
 lp 文件名
 lpr 文件名</pre>
 
     <h3><a name="PRINTER">选择打印机</a></h3>
-    <p>&emsp;&emsp;许多系统将为用户提供多台打印机。这些打印机可以通过并行、串行或 USB 端口连接到本地系统，也可以通过网络连接。使用 <a href="man-lpstat.html">lpstat(1)</a> 命令查看可用打印机的列表：</p>
+    <p>&emsp;&emsp;许多系统将为用户提供多台打印机。这些打印机可以通过并行、串行或 USB 端口连接到本地系统，也可以通过网络连接。使用 <a href="man-lpstat.html">lpstat(1)</a> 命令查看可用打印机的列表：
     <pre class="command">lpstat -p -d</pre>
-    <p>&emsp;&emsp;<code>-p</code> 选项指定要查看打印机列表，而 <code>-d</code> 选项报告当前默认打印机或类。</p>
-    <p>&emsp;&emsp;使用 <code>-d</code> 选项和 <b>lp</b> 命令可打印到特定打印机：</p>
+    <p>&emsp;&emsp;<code>-p</code> 选项指定要查看打印机列表，而 <code>-d</code> 选项报告当前默认打印机或类。
+    <p>&emsp;&emsp;使用 <code>-d</code> 选项和 <b>lp</b> 命令可打印到特定打印机：
     <pre class="command">lp -d printer 文件名</pre>
-    <p>&emsp;&emsp;或使用 <b>lpr</b> 命令的 <code>-P</code> 选项：</p>
+    <p>&emsp;&emsp;或使用 <b>lpr</b> 命令的 <code>-P</code> 选项：
     <pre class="command">lpr -P printer 文件名</pre>
 
     <h3><a name="DEFAULT">设置默认打印机</a></h3>
-    <p>&emsp;&emsp;如果您通常使用特定打印机，您可以使用 <a href="man-lpoptions.html">lpoptions(1)</a> 命令告诉 CUPS 默认使用该打印机：</p>
+    <p>&emsp;&emsp;如果您通常使用特定打印机，您可以使用 <a href="man-lpoptions.html">lpoptions(1)</a> 命令告诉 CUPS 默认使用该打印机：
     <pre class="command">lpoptions -d printer</pre>
 
     <h3><a name="PIPE">打印其他程序输出的内容</a></h3>
-    <p>&emsp;&emsp;<b>lp</b> 和 <b>lpr</b> 命令都支持从标准输入打印：</p>
+    <p>&emsp;&emsp;<b>lp</b> 和 <b>lpr</b> 命令都支持从标准输入打印：
     <pre class="command">
 program | lp
 program | lp -d printer
 program | lpr
 program | lpr -P printer</pre>
-    <p>&emsp;&emsp;如果程序没有任何输出，则不会有任何内容排队等待打印。</p>
+    <p>&emsp;&emsp;如果程序没有任何输出，则不会有任何内容排队等待打印。
 
     <h3><a name="WITHOPTIONS">指定打印机选项</a></h3>
-    <p>&emsp;&emsp;对于许多类型的文件，默认打印机选项可能足以满足您的需要。但是，有时针对待打印的特定文件可能需要变更选项。</p>
-    <p>&emsp;&emsp;<b>lp</b> 和 <b>lpr</b> 命令允许您使用 <code>-o</code> 选项传递打印机选项：</p>
+    <p>&emsp;&emsp;对于许多类型的文件，默认打印机选项可能足以满足您的需要。但是，有时针对待打印的特定文件可能需要变更选项。
+    <p>&emsp;&emsp;<b>lp</b> 和 <b>lpr</b> 命令允许您使用 <code>-o</code> 选项传递打印机选项：
     <pre class="command">
 lp -o landscape -o fit-to-page -o media=A4 文件名.jpg
 lpr -o landscape -o fit-to-page -o media=A4 文件名.jpg</pre>
-    <p>&emsp;&emsp;可用的打印机选项因打印机而异。标准选项在下面的“<a href="#OPTIONS">标准打印选项</a>”部分中介绍。打印机特定选项也可用，可以使用 <b>lpoptions</b> 命令列出：</p>
+    <p>&emsp;&emsp;可用的打印机选项因打印机而异。标准选项在下面的“<a href="#OPTIONS">标准打印选项</a>”部分中介绍。打印机特定选项也可用，可以使用 <b>lpoptions</b> 命令列出：
     <pre class="command">lpoptions -p printer -l</pre>
 
     <h3><a name="INSTANCES">创建带持久选项的实例</a></h3>
-    <p>&emsp;&emsp;CUPS 通过<em>打印机实例</em>支持保存的选项。打印机实例，顾名思义，是具有特定选项的打印机副本。使用 <b>lpoptions</b> 命令创建打印机实例：</p>
+    <p>&emsp;&emsp;CUPS 通过<em>打印机实例</em>支持保存的选项。打印机实例，顾名思义，是具有特定选项的打印机副本。使用 <b>lpoptions</b> 命令创建打印机实例：
     <pre class="command">lpoptions -p 打印机名/实例名 -o name=value ...</pre>
-    <p>&emsp;&emsp;<code>-p 打印机名/实例名</code> 选项提供实例的名称，该名称始终是打印机名称、斜杠和实例名称的格式，该实例名称可以包含除空格和斜杠以外的任何可打印字符。然后，其余选项将与实例关联，而不是与主对象关联。例如，以下命令创建 LaserJet 队列的双工实例：</p>
+    <p>&emsp;&emsp;<code>-p 打印机名/实例名</code> 选项提供实例的名称，该名称始终是打印机名称、斜杠和实例名称的格式，该实例名称可以包含除空格和斜杠以外的任何可打印字符。然后，其余选项将与实例关联，而不是与主对象关联。例如，以下命令创建 LaserJet 队列的双工实例：
     <pre class="command">lpoptions -p LaserJet/duplex -o sides=two-sided-long-edge</pre>
-    <p>&emsp;&emsp;实例<em>不会</em>从主队列继承 lpoptions。</p>
+    <p>&emsp;&emsp;实例<em>不会</em>从主队列继承 lpoptions 。
 
     <h3><a name="COPIES">打印多份</a></h3>
-    <p>&emsp;&emsp;<b>lp</b> 和 <b>lpr</b> 命令都有用于打印文件多个副本的选项：</p>
+    <p>&emsp;&emsp;<b>lp</b> 和 <b>lpr</b> 命令都有用于打印文件多个副本的选项：
     <pre class="command">
 lp -n <em>num-copies</em> 文件名
 lpr -#<em>num-copies</em> 文件名</pre>
-    <p>&emsp;&emsp;副本通常<em>不会</em>为您按份整理。使用 <code>-o collate=true</code> 选项获取按份整理的副本：</p>
+    <p>&emsp;&emsp;副本通常<em>不会</em>为您按份整理。使用 <code>-o collate=true</code> 选项获取按份整理的副本：
     <pre class="command">
 lp -n <em>num-copies</em> -o collate=true 文件名
 lpr -#<em>num-copies</em> -o collate=true 文件名</pre>
 
 
     <h2 class="title"><a name="CANCEL">取消打印任务</a></h2>
-    <p>&emsp;&emsp;<a href="man-cancel.html">cancel(1)</a> 和 <a href="man-lprm.html">lprm(1)</a> 命令取消打印任务:</p>
+    <p>&emsp;&emsp;<a href="man-cancel.html">cancel(1)</a> 和 <a href="man-lprm.html">lprm(1)</a> 命令取消打印任务:
     <pre class="command">
-cancel <em>任务id</em>
-lprm <em>任务id</em></pre>
-    <p>&emsp;&emsp;<em>任务id</em> 是通过 <b>lp</b> 命令向您报告的编号。<a href="man-lpq.html">lpq(1)</a> 或 <a href="man-lpstat.html">lpstat</a> 命令获取任务ID：</p>
+cancel <em>任务 id</em>
+lprm <em>任务 id</em></pre>
+    <p>&emsp;&emsp;<em>任务 id</em> 是通过 <b>lp</b> 命令向您报告的编号。<a href="man-lpq.html">lpq(1)</a> 或 <a href="man-lpstat.html">lpstat</a> 命令获取任务 ID ：
     <pre class="command">
 lpq
 lpstat</pre>
 
 
     <h2 class="title"><a name="LPMOVE">移动打印任务</a></h2>
-    <p>&emsp;&emsp;<a href="man-lpmove.html">lpmove(8)</a> 命令将打印任务移动到新打印机或类：</p>
-    <pre class="command">lpmove <em>任务id</em> <i>目标</i></pre>
-    <p>&emsp;&emsp;<em>任务id</em> 是通过 <b>lp</b> 或 <b>lpstat</b> 命令向您报告的编号，<i>目标</i>是要实际打印任务的打印机或类的名称。</p>
+    <p>&emsp;&emsp;<a href="man-lpmove.html">lpmove(8)</a> 命令将打印任务移动到新打印机或类：
+    <pre class="command">lpmove <em>任务 id</em> <i>目标</i></pre>
+    <p>&emsp;&emsp;<em>任务 id</em> 是通过 <b>lp</b> 或 <b>lpstat</b> 命令向您报告的编号，<i>目标</i>是要实际打印任务的打印机或类的名称。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;<b>lpmove</b> 命令位于系统命令目录中（通常为 <var>/usr/sbin</var> 或 <var>/usr/local/sbin</var> ），因此可能不在命令路径中。如果出现“未找到命令”错误，请指定命令的完整路径，例如：</p>
+      <p>&emsp;&emsp;<b>lpmove</b> 命令位于系统命令目录中（通常为 <var>/usr/sbin</var> 或 <var>/usr/local/sbin</var> ），因此可能不在命令路径中。如果出现“未找到命令”错误，请指定命令的完整路径，例如：
       <pre class="command">/usr/sbin/lpmove foo-123 bar</pre>
     </blockquote>
 
 
     <h2 class="title"><a name="OPTIONS">标准打印选项</a></h2>
-    <p>&emsp;&emsp;打印所有类型的文件时，以下选项适用。</p>
+    <p>&emsp;&emsp;打印所有类型的文件时，以下选项适用。
 
-    <h3><a name="MEDIA">选择媒体大小、类型和源</a></h3>
-    <p>&emsp;&emsp;<code>-o media=xyz</code> 选项设置媒体大小、类型和/或来源：</p>
+    <h3><a name="MEDIA">选择介质尺寸、类型和源</a></h3>
+    <p>&emsp;&emsp;<code>-o media=xyz</code> 选项设置介质尺寸、类型和/或来源：
     <pre class="command">
 lp -o media=Letter 文件名
 lp -o media=Letter,MultiPurpose 文件名
 lpr -o media=Letter,Transparency 文件名
 lpr -o media=Letter,MultiPurpose,Transparency 文件名</pre>
-    <p>&emsp;&emsp;可用的介质大小、类型和来源取决于打印机，但大多数支持以下选项（大小写不重要）：</p>
+    <p>&emsp;&emsp;可用的介质大小、类型和来源取决于打印机，但大多数支持以下选项（大小写不重要）：
     <ul>
 	<li><code>Letter</code> - US Letter (8.5x11 inches, or 216x279mm)
 	<li><code>Legal</code> - US Legal (8.5x14 inches, or 216x356mm)
@@ -110,103 +110,103 @@ lpr -o media=Letter,MultiPurpose,Transparency 文件名</pre>
 	<li><code>MultiPurpose</code> - 多用途纸盘
 	<li><code>LargeCapacity</code> - 大容量纸盘
     </ul>
-    <p>&emsp;&emsp;支持的实际选项在打印机的 PPD 文件中的 <code>PageSize</code> 、<code>InputSlot</code> 和 <code>MediaType</code> 选项中定义。您可以使用 <b>lpoptions(1)</b> 命令列出它们：</p>
+    <p>&emsp;&emsp;支持的实际选项在打印机的 PPD 文件中的 <code>PageSize</code> 、<code>InputSlot</code> 和 <code>MediaType</code> 选项中定义。您可以使用 <b>lpoptions(1)</b> 命令列出它们：
     <pre class="command">lpoptions -p printer -l</pre>
-    <p>&emsp;&emsp;当列出 <code>Custom</code> 的 <code>PageSize</code> 选项时，您可以使用以下形式之一指定自定义媒体大小：</p>
+    <p>&emsp;&emsp;当列出 <code>Custom</code> 的 <code>PageSize</code> 选项时，您可以使用以下形式之一指定自定义介质尺寸：
     <pre class="command">
 lp -o media=Custom.<em>宽</em>x<em>长</em> 文件名
 lp -o media=Custom.<em>宽</em>x<em>长</em>in 文件名
 lp -o media=Custom.<em>宽</em>x<em>长</em>cm 文件名
 lp -o media=Custom.<em>宽</em>x<em>长</em>mm 文件名</pre>
-    <p>&emsp;&emsp;其中，“宽”和“长”分别是介质的宽度和长度，单位为点、英寸、厘米或毫米。</p>
+    <p>&emsp;&emsp;其中，“宽”和“长”分别是介质的宽度和长度，单位为点、英寸、厘米或毫米。
 
     <h3><a name="ORIENTATION">设置方向</a></h3>
-    <p>&emsp;&emsp;<code>-o landscape</code> 选项将页面旋转90度以横向打印：</p>
+    <p>&emsp;&emsp;<code>-o landscape</code> 选项将页面旋转 90 度以横向打印：
     <pre class="command">
 lp -o landscape 文件名
 lpr -o landscape 文件名</pre>
-    <p>&emsp;&emsp;<code>-o orientation-requested=N</code> 选项根据N的值旋转页面：</p>
+    <p>&emsp;&emsp;<code>-o orientation-requested=N</code> 选项根据 N 的值旋转页面：
     <ul>
 	<li><code>-o orientation-requested=3</code> - 纵向（无旋转）</li>
-	<li><code>-o orientation-requested=4</code> - 横向（90度）</li>
-	<li><code>-o orientation-requested=5</code> - 横向（270度）</li>
-	<li><code>-o orientation-requested=6</code> - 镜像或倒置（180度）</li>
+	<li><code>-o orientation-requested=4</code> - 横向（ 90 度）</li>
+	<li><code>-o orientation-requested=5</code> - 横向（ 270 度）</li>
+	<li><code>-o orientation-requested=6</code> - 镜像或倒置（ 180 度）</li>
     </ul>
 
     <h3><a name="SIDES">双面打印</a></h3>
-    <p>&emsp;&emsp;<code>-o sides=two-sided-short-edge</code> 和 <code>-o sides=two-sided-long-edge</code> 选项如果被打印机支持，则启用双面打印。<code>-o sides=two-sided-short-edge</code> 选项适用于横向页面，而 <code>-o sides=two-sided-long-edge</code> 选项适用于纵向页面：</p>
+    <p>&emsp;&emsp;<code>-o sides=two-sided-short-edge</code> 和 <code>-o sides=two-sided-long-edge</code> 选项如果被打印机支持，则启用双面打印。<code>-o sides=two-sided-short-edge</code> 选项适用于横向页面，而 <code>-o sides=two-sided-long-edge</code> 选项适用于纵向页面：
     <pre class="command">
 lp -o sides=two-sided-short-edge 文件名
 lp -o sides=two-sided-long-edge 文件名
 lpr -o sides=two-sided-long-edge 文件名</pre>
-    <p>&emsp;&emsp; 默认为单面打印： </p>
+    <p>&emsp;&emsp; 默认为单面打印： 
     <pre class="command">
 lp -o sides=one-sided 文件名
 lpr -o sides=one-sided 文件名</pre>
 
     <h3><a name="JOBSHEETS">选择 Banner 页</a></h3>
-    <p>&emsp;&emsp;<code>-o job-sheets=start,end</code> 选项设置要用于任务的 Banner 页：</p>
+    <p>&emsp;&emsp;<code>-o job-sheets=start,end</code> 选项设置要用于任务的 Banner 页：
     <pre class="command">
 lp -o job-sheets=none 文件名
 lp -o job-sheets=standard 文件名
 lpr -o job-sheets=classified,classified 文件名</pre>
-    <p>&emsp;&emsp;如果只指定了一个 Banner 文件，它将在任务文件之前打印。如果指定了第二个 Banner 文件，则会在任务文件之后打印该文件。</p>
-    <p>&emsp;&emsp;可用的 Banner 页取决于本地系统配置；CUPS 包括以下 Banner 文件：</p>
+    <p>&emsp;&emsp;如果只指定了一个 Banner 文件，它将在任务文件之前打印。如果指定了第二个 Banner 文件，则会在任务文件之后打印该文件。
+    <p>&emsp;&emsp;可用的 Banner 页取决于本地系统配置； CUPS 包括以下 Banner 文件：
     <ul>
 	<li><code>none</code> - 没有 Banner 页。
-	<li><code>classified</code> - 顶部和底部带有“Classified”标签的 Banner 页。
-	<li><code>confidential</code> - 顶部和底部带有“Confidential”标签的 Banner 页。
-	<li><code>secret</code> - 顶部和底部带有“Secret”标签的 Banner 页。
+	<li><code>classified</code> - 顶部和底部带有 “Classified” 标签的 Banner 页。
+	<li><code>confidential</code> - 顶部和底部带有 “Confidential” 标签的 Banner 页。
+	<li><code>secret</code> - 顶部和底部带有 “Secret” 标签的 Banner 页。
 	<li><code>standard</code> - 顶部和底部没有标签的 Banner 页。
-	<li><code>topsecret</code> - 顶部和底部带有“Top Secret”标签的 Banner 页。
+	<li><code>topsecret</code> - 顶部和底部带有 “Top Secret” 标签的 Banner 页。
 	<li><code>unclassified</code> - 顶部和底部带有“未分类”标签的 Banner 页。
     </ul>
 
     <h3><a name="JOBHOLDUNTIL">挂起队列中的打印任务</a></h3>
-    <p>&emsp;&emsp;<code>-o job-hold-until=时间选项</code> 选项告诉 CUPS 将打印延迟到“时间选项”，这可能是以下情况之一：</p>
+    <p>&emsp;&emsp;<code>-o job-hold-until=时间选项</code> 选项告诉 CUPS 将打印延迟到“时间选项”，这可能是以下情况之一：
     <ul>
 	<li><code>-o job-hold-until=indefinite</code>; 仅在用户或管理员恢复打印后打印</li>
-	<li><code>-o job-hold-until=day-time</code>; 打印时间为当地时间上午6点至下午6点（白天）</li>
-	<li><code>-o job-hold-until=night</code>; 打印时间为当地时间下午6点至早上6点（夜间）</li>
-	<li><code>-o job-hold-until=second-shift</code>; 打印时间为当地时间下午4点至凌晨12点（下班后）</li>
-	<li><code>-o job-hold-until=third-shift</code>; 打印时间为当地时间零点至上午8点（上班前）</li>
+	<li><code>-o job-hold-until=day-time</code>; 打印时间为当地时间上午 6 点至下午 6 点（白天）</li>
+	<li><code>-o job-hold-until=night</code>; 打印时间为当地时间下午 6 点至早上 6 点（夜间）</li>
+	<li><code>-o job-hold-until=second-shift</code>; 打印时间为当地时间下午 4 点至凌晨 12 点（下班后）</li>
+	<li><code>-o job-hold-until=third-shift</code>; 打印时间为当地时间 0 点至上午 8 点（上班前）</li>
 	<li><code>-o job-hold-until=weekend</code>; 周六或周日打印</li>
 	<li><code>-o job-hold-until=HH:MM</code>; 在指定的 UTC 时间打印</li>
     </ul>
 
     <h3><a name="RELEASEJOB">恢复被挂起的任务</a></h3>
-    <p>&emsp;&emsp;除了 Web 界面外，您还可以使用 <b>lp</b> 命令恢复被挂起的任务：</p>
-    <pre class="command">lp -i <em>任务id</em> -H resume</pre>
-    <p>&emsp;&emsp;其中，“任务id”是由 <b>lpstat</b> 命令报告的任务id。</p>
+    <p>&emsp;&emsp;除了 Web 界面外，您还可以使用 <b>lp</b> 命令恢复被挂起的任务：
+    <pre class="command">lp -i <em>任务 id</em> -H resume</pre>
+    <p>&emsp;&emsp;其中，“任务 id” 是由 <b>lpstat</b> 命令报告的任务 id 。
 
     <h3><a name="JOBPRIORITY">设置任务优先级</a></h3>
-    <p>&emsp;&emsp;<code>-o job-priority=NNN</code> 选项告诉 CUPS 为任务分配从 1（最低）到 100（最高）的优先级，这会影响任务在打印队列中的显示位置。高优先级任务在低优先级任务之前打印，但是提交高优先级的新任务不会中断正在打印的任务。</p>
+    <p>&emsp;&emsp;<code>-o job-priority=NNN</code> 选项告诉 CUPS 为任务分配从 1 （最低）到 100 （最高）的优先级，这会影响任务在打印队列中的显示位置。高优先级任务在低优先级任务之前打印，但是提交高优先级的新任务不会中断正在打印的任务。
 
     <h3><a name="OUTPUTORDER">指定输出顺序</a></h3>
-    <p>&emsp;&emsp;<code>-o outputorder=normal</code> 和 <code>-o outputorder=reverse</code> 选项指定页面的顺序。正常顺序先打印第1页，第2页，依此类推。倒序最后打印第1页。</p>
+    <p>&emsp;&emsp;<code>-o outputorder=normal</code> 和 <code>-o outputorder=reverse</code> 选项指定页面的顺序。正常顺序先打印第 1 页，第 2 页，依此类推。倒序最后打印第 1 页。
 
     <h3><a name="PAGERANGES">选择打印页码范围</a></h3>
-    <p>&emsp;&emsp;<code>-o page-ranges=页码范围</code> 选项选择要打印的页码范围：</p>
+    <p>&emsp;&emsp;<code>-o page-ranges=页码范围</code> 选项选择要打印的页码范围：
     <pre class="command">
 lp -o page-ranges=1 文件名
 lp -o page-ranges=1-4 文件名
 lp -o page-ranges=1-4,7,9-12 文件名
 lpr -o page-ranges=1-4,7,9-12 文件名</pre>
-    <p>&emsp;&emsp;如上所示，<code>页码范围</code> 可以是单个页码、页码范围，也可以是由逗号分隔的页码和范围的集合。无论 <code>page-ranges</code> 选项中的页面顺序如何，页面始终按升序打印。</p>
-    <p>&emsp;&emsp;默认情况下，打印所有页面。</p>
+    <p>&emsp;&emsp;如上所示，<code>页码范围</code> 可以是单个页码、页码范围，也可以是由逗号分隔的页码和范围的集合。无论 <code>page-ranges</code> 选项中的页面顺序如何，页面始终按升序打印。
+    <p>&emsp;&emsp;默认情况下，打印所有页面。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;<code>page-ranges</code> 使用的页码是指实际页数的顺序编号，而不是文档页脚的页码。像 <code>number-up</code> 这样的选项会使输出页码与文档页码不匹配。</p>
+      <p>&emsp;&emsp;<code>page-ranges</code> 使用的页码是指实际页数的顺序编号，而不是文档页脚的页码。像 <code>number-up</code> 这样的选项会使输出页码与文档页码不匹配。
     </blockquote>
 
     <h3><a name="NUMBERUP">多页合一打印</a></h3>
-    <p>&emsp;&emsp;<code>-o number-up=value</code> 选项选择多页合一打印。多页合一打印将多个文档页面放置在一个打印页面上。CUPS 支持 1-Up、2-Up、4-Up、6-Up、9-Up 和 16-Up 以上格式；默认格式为 1-Up ：</p>
+    <p>&emsp;&emsp;<code>-o number-up=value</code> 选项选择多页合一打印。多页合一打印将多个文档页面放置在一个打印页面上。 CUPS 支持 1-Up 、 2-Up 、 4-Up 、 6-Up 、 9-Up 和 16-Up 以上格式；默认格式为 1-Up ：
     <pre class="command">
 lp -o number-up=1 文件名
 lp -o number-up=2 文件名
 lp -o number-up=4 文件名
 lpr -o number-up=16 文件名</pre>
-    <p>&emsp;&emsp;<code>-o page-border=value</code> 选项选择要围绕每个页面绘制的边框：</p>
+    <p>&emsp;&emsp;<code>-o page-border=value</code> 选项选择要围绕每个页面绘制的边框：
     <ul>
 	<li><code>-o page-border=double</code>; 在每页周围画两条细线边框</li>
 	<li><code>-o page-border=double-thick</code>; 在每页周围画两个 1pt 边框</li>
@@ -214,7 +214,7 @@ lpr -o number-up=16 文件名</pre>
 	<li><code>-o page-border=single</code>; 在每页周围画一条细线边框</li>
 	<li><code>-o page-border=single-thick</code>; 在每页周围画一条 1pt 边框</li>
     </ul>
-    <p>&emsp;&emsp;<code>-o number-up-layout=value</code> 选项选择每个输出页面上的页面布局：</p>
+    <p>&emsp;&emsp;<code>-o number-up-layout=value</code> 选项选择每个输出页面上的页面布局：
     <ul>
 	<li><code>-o number-up-layout=btlr</code>; 从下到上，从左到右</li>
 	<li><code>-o number-up-layout=btrl</code>; Bottom to top, right to left</li>
@@ -227,32 +227,32 @@ lpr -o number-up=16 文件名</pre>
     </ul>
 
     <h3><a name="FIT_TO_PAGE">缩放以适应</a></h3>
-    <p>&emsp;&emsp;<code>-o fit-to-page</code> 选项指定应缩放文档以适应页面：</p>
+    <p>&emsp;&emsp;<code>-o fit-to-page</code> 选项指定应缩放文档以适应页面：
     <pre class="command">
 lp -o fit-to-page 文件名
 lpr -o fit-to-page 文件名</pre>
-    <p>&emsp;&emsp;默认值是使用文件中指定的大小。</p>
+    <p>&emsp;&emsp;默认值是使用文件中指定的大小。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;此功能取决于打印文件中的准确大小。如果文件中没有给出大小，页面可能缩放不正确！</p>
+      <p>&emsp;&emsp;此功能取决于打印文件中的准确大小。如果文件中没有给出大小，页面可能缩放不正确！
     </blockquote>
 
     <h3><a name="OUTPUTORDER">按相反顺序打印</a></h3>
-    <p>&emsp;&emsp;<code>-o outputorder=reverse</code> 选项将按相反顺序打印页面：</p>
+    <p>&emsp;&emsp;<code>-o outputorder=reverse</code> 选项将按相反顺序打印页面：
     <pre class="command">
 lp -o outputorder=reverse 文件名
 lpr -o outputorder=reverse 文件名</pre>
-    <p>&emsp;&emsp;类似地，<code>-o outputorder=normal</code> 选项将从第1页开始打印：</p>
+    <p>&emsp;&emsp;类似地，<code>-o outputorder=normal</code> 选项将从第 1 页开始打印：
     <pre class="command">
 lp -o outputorder=normal 文件名
 lpr -o outputorder=normal 文件名</pre>
-    <p>&emsp;&emsp;对于正面朝下打印的打印机，默认值为 <code>-o outputorder=normal</code>；对于正面朝上打印的打印机，默认值为 <code>-o outputorder=reverse</code>。</p>
+    <p>&emsp;&emsp;对于正面朝下打印的打印机，默认值为 <code>-o outputorder=normal</code>；对于正面朝上打印的打印机，默认值为 <code>-o outputorder=reverse</code>。
 
     <h3><a name="MIRROR">打印镜像页面</a></h3>
-    <p>&emsp;&emsp;<code>-o mirror</code> 选项沿垂直轴翻转每页以生成镜像图像：</p>
+    <p>&emsp;&emsp;<code>-o mirror</code> 选项沿垂直轴翻转每页以生成镜像图像：
     <pre class="command">
 lp -o mirror 文件名
 lpr -o mirror 文件名</pre>
-    <p>&emsp;&emsp;这通常用于在T恤转印介质上打印，有时也用于透明胶片上打印。</p>
+    <p>&emsp;&emsp;这通常用于在 T 恤转印介质上打印，有时也用于透明胶片上打印。
   </body>
 </html>

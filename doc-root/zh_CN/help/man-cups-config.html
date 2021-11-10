@@ -21,16 +21,16 @@
        &emsp;&emsp;<b>cups-config</b> [<i>--image</i>] [<i>--static</i>] <i>--libs</i><br>
        &emsp;&emsp;<b>cups-config</b> <i>--serverbin</i><br>
        &emsp;&emsp;<b>cups-config</b> <i>--serverroot</i><br>
-       &emsp;&emsp;<b>cups-config</b> <i>--version</i></p>
+       &emsp;&emsp;<b>cups-config</b> <i>--version</i>
        
     <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
     <p>&emsp;&emsp;<b>cups-config</b> 命令允许应用程序开发人员确定编译器和链接器的必要命令行选项，以及筛选器、配置文件和驱动程序的安装目录。所有值都报告到标准输出。
 
     <h2 class="title"><a name="OPTIONS">选项</a></h2>
-    <p>&emsp;&emsp;<b>cups-config</b> 命令接受以下命令行选项：</p>
+    <p>&emsp;&emsp;<b>cups-config</b> 命令接受以下命令行选项：
     <dl class="man">
       <dt><b>--api-version</b>
-      <dd style="margin-left: 5.0em">报告当前API版本（主要版本 次要版本）。
+      <dd style="margin-left: 5.0em">报告当前 API 版本（主要版本 次要版本）。
       <dt><b>--build</b>
       <dd style="margin-left: 5.0em">报告系统特定的内部版本号。
       <dt><b>--cflags</b>
@@ -56,23 +56,23 @@
     <h2 class="title"><a name="EXAMPLES">例子</a></h2>
     <p>&emsp;&emsp;显示 CUPS 的当前安装版本：
     <pre class="man">cups-config --version</pre>
-    <p>&emsp;&emsp;编译一个简单的单文件 CUPS 筛选器：</p>
+    <p>&emsp;&emsp;编译一个简单的单文件 CUPS 筛选器：
     <pre class="man">
     cc `cups-config --cflags --ldflags` -o filter filter.c \
         `cups-config --libs`</pre>
 
     <h2 class="title"><a name="DEPRECATED_OPTIONS">不建议使用的选项</a></h2>
-    <p>&emsp;&emsp;以下选项已弃用，但仍适用于向后兼容：</p>
+    <p>&emsp;&emsp;以下选项已弃用，但仍适用于向后兼容：
     <dl class="man">
       <dt><b>--image</b>
       <dd style="margin-left: 5.0em">以前用于将 CUPS 图像库添加到库列表中。
     </dd>
     
     <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
-    <p>&emsp;&emsp;<b>cups</b>(1)</p>
-    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）</p>
+    <p>&emsp;&emsp;<b>cups</b>(1)
+    <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
     
     <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
-    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
   </body>
 </html>

@@ -3,7 +3,7 @@
 <!-- SECTION: 程序设计 -->
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <title>PPD API（已弃用）</title>
+    <title>PPD API （已弃用）</title>
     <meta name="keywords" content="Programming">
     <meta name="creator" content="codedoc v3.1">
     <meta name="author" content="Unknown">
@@ -458,9 +458,9 @@ h3.title {
   Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
   -->
 
-    <h1 class='title'>PPD API（已弃用）</h1>
+    <h1 class='title'>PPD API （已弃用）</h1>
     <blockquote><b>提示：</b>
-    <p>&emsp;&emsp;PPD API 在 CUPS 1.6/macOS 10.8 中被弃用。请使用 <a href="cupspm.html">CUPS 编程手册</a>文档中的新工作通知单 API。这些功能将在 CUPS 的未来版本中删除。
+    <p>&emsp;&emsp;PPD API 在 CUPS 1.6/macOS 10.8 中被弃用。请使用 <a href="cupspm.html">CUPS 编程手册</a>文档中的新工作通知单 API 。这些函数将在 CUPS 的未来版本中删除。
     </blockquote>
     <div class='summary'>
       <table summary='General Information'>
@@ -613,12 +613,12 @@ h3.title {
     <h2 class='title'><a name='OVERVIEW'>概述</a></h2>
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;PPD API 在 CUPS 1.6/macOS 10.8 中被弃用。请使用 <a href="cupspm.html">CUPS 编程手册</a>文档中的新工作通知单 API 。这些功能将在 CUPS 的未来版本中删除。
+      <p>&emsp;&emsp;PPD API 在 CUPS 1.6/macOS 10.8 中被弃用。请使用 <a href="cupspm.html">CUPS 编程手册</a>文档中的新工作通知单 API 。这些函数将在 CUPS 的未来版本中删除。
     </blockquote>
     <p>&emsp;&emsp;CUPS PPD API 提供对 PostScript 打印机说明（ “PPD” ）文件中数据的只读访问，该文件用于所有带驱动程序的打印机。使用它，您可以获得向用户显示打印机选项所需的数据，标记选项选项并检查有无冲突的选项，以及在 PostScript 输出中输出标记的选项。 <a href="#ppd_file_t"><code>ppd_file_t</code></a> 结构包含 PPD 文件中的所有信息。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;CUPS PPD API 使用术语 “option” 和 “choice” 而不是 Adobe 术语 “MainKeyword” 和 “OptionKeyword” 来表示特定的打印机选项和功能。 CUPS 还将 option（ “MainKeyword” ）和 choice（ “OptionKeyword” ）值视为不区分大小写的字符串，因此 option “InputSlot” 和 choice “Upper” 分别等效于 “inputslot” 和 “upper” 。
+      <p>&emsp;&emsp;CUPS PPD API 使用术语 “option” 和 “choice” 而不是 Adobe 术语 “MainKeyword” 和 “OptionKeyword” 来表示特定的打印机选项和功能。 CUPS 还将 option （ “MainKeyword” ）和 choice （ “OptionKeyword” ）值视为不区分大小写的字符串，因此 option “InputSlot” 和 choice “Upper” 分别等效于 “inputslot” 和 “upper” 。
     </blockquote>
 
     <h3><a name="LOADING">加载 PPD 文件</a></h3>
@@ -639,7 +639,7 @@ h3.title {
     <h3><a name="OPTIONS_AND_GROUPS">选项和组</a></h3>
     <p>&emsp;&emsp;PPD 文件支持多个选项，这些选项存储在 <a href="#ppd_option_t"><code>ppd_option_t</code></a> 和 <a href="#ppd_choice_t"><code>ppd_choice_t</code></a> 结构的数组中。
     <p>&emsp;&emsp;每个选项依次与存储在 <a href="#ppd_group_t"><code>ppd_group_t</code></a> 结构中的组相关联。可以在 PPD 文件中指定组；如果选项未与组关联，则将其放入自动生成的 “General” 组中。组也可以有子组，但是 CUPS 目前会忽略子组，因为以前滥用了此功能。
-    <p>&emsp;&emsp;通过使用三个功能之一对选项进行标记来选择选项。第一个是 <a href="#ppdMarkDefaults"><code>ppdMarkDefaults</code></a> ，它选择 PPD 文件中的所有默认选项：
+    <p>&emsp;&emsp;通过使用三个函数之一对选项进行标记来选择选项。第一个是 <a href="#ppdMarkDefaults"><code>ppdMarkDefaults</code></a> ，它选择 PPD 文件中的所有默认选项：
     <pre class="example">
 #include &lt;cups/ppd.h&gt;
 
@@ -653,7 +653,7 @@ h3.title {
 <a href="#ppd_file_t">ppd_file_t</a> *ppd;
 
 <a href="#ppdMarkOption">ppdMarkOption</a>(ppd, "InputSlot", "Upper");</pre>
-    <p>&emsp;&emsp;最后一个函数是 <a href="#cupsMarkOptions"><code>cupsMarkOptions</code></a> ，它从 CUPS 选项数组中选择 PPD 文件中的多个选项，将 IPP 属性（如 “media” 和 “sides” ）映射到它们对应的 PPD 选项。您通常在打印筛选器中使用此功能与 <code>cupsParseOptions</code> 和 <a href="#ppdMarkDefaults"><code>ppdMarkDefaults</code></a> 一起选择任务所需的所有选项，例如：
+    <p>&emsp;&emsp;最后一个函数是 <a href="#cupsMarkOptions"><code>cupsMarkOptions</code></a> ，它从 CUPS 选项数组中选择 PPD 文件中的多个选项，将 IPP 属性（如 “media” 和 “sides” ）映射到它们对应的 PPD 选项。您通常在打印筛选器中使用此函数与 <code>cupsParseOptions</code> 和 <a href="#ppdMarkDefaults"><code>ppdMarkDefaults</code></a> 一起选择任务所需的所有选项，例如：
     <pre class="example">
 #include &lt;cups/ppd.h&gt;
 
@@ -765,7 +765,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
     <h4 class="returnvalue">返回值</h4>
-    <p class="description">&emsp;&emsp;PPD文件的文件名
+    <p class="description">&emsp;&emsp;PPD 文件的文件名
     <h4 class="discussion">详述</h4>
     <p class="discussion">&emsp;&emsp;对于类，<code>cupsGetPPD2</code> 返回类中第一台打印机的 PPD 文件。<br><br>
       &emsp;&emsp;返回的文件名存储在静态缓冲区中，每次调用 <a href="#cupsGetPPD"><code>cupsGetPPD</code></a> 或 <code>cupsGetPPD2</code> 都会覆盖该文件名。调用者“拥有”所创建的文件，并且必须 <code>unlink</code> 返回的文件名。
@@ -809,7 +809,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
     <h4 class="returnvalue">返回值</h4>
-    <p class="description">&emsp;&emsp;PPD文件名或错误时为 <code>NULL</code> 
+    <p class="description">&emsp;&emsp;PPD 文件名或错误时为 <code>NULL</code> 
     <h4 class="discussion">详述</h4>
     <p class="discussion">&emsp;&emsp;此函数用于从服务器返回命名的 PPD 文件。可用 PPD 的列表由 IPP<code>CUPS_GET_PPDS</code> 操作提供。<br><br>
       &emsp;&emsp;完成 PPD 文件后，必须将其删除（取消链接）。 PPD 文件名存储在一个静态位置，且会在下次调用 <a href="#cupsGetPPD"><code>cupsGetPPD</code></a> ， <a href="#cupsGetPPD2"><code>cupsGetPPD2</code></a> 或 <a href="#cupsGetServerPPD"><code>cupsGetServerPPD</code></a> 时被覆盖。
@@ -831,16 +831,16 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     <h4 class="returnvalue">返回值</h4>
     <p class="description">&emsp;&emsp;如果存在冲突为 1 ，否则为 0
     <h4 class="discussion">详述</h4>
-    <p class="discussion">&emsp;&emsp;此功能将 IPP “finishings” 、 “media” 、 “mirror” 、 “multiple-document-handling” 、 “output-bin” 、 “print-color-mode” 、 “print-quality” 、 “printer-resolution” 和 “sides” 属性映射到相应的 PPD options 选项和 choices 选项。
+    <p class="discussion">&emsp;&emsp;此函数将 IPP “finishings” 、 “media” 、 “mirror” 、 “multiple-document-handling” 、 “output-bin” 、 “print-color-mode” 、 “print-quality” 、 “printer-resolution” 和 “sides” 属性映射到相应的 PPD options 选项和 choices 选项。
 
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cupsRasterInterpretPPD">cupsRasterInterpretPPD</a></h3>
-    <p class="description">&emsp;&emsp;解释 PPD 命令以创建页眉。
+    <p class="description">&emsp;&emsp;解释 PPD 命令以创建页头。
     <p class="code">int cupsRasterInterpretPPD(cups_page_header2_t *h, <a href="#ppd_file_t">ppd_file_t</a> *ppd, int num_options, cups_option_t *options, <a href="#cups_interpret_cb_t">cups_interpret_cb_t</a> func);
     <h4 class="parameters">参数</h4>
     <table class="list">
       <tbody>
       <tr><th>h</th>
-        <td class="description">要创建的页眉</td></tr>
+        <td class="description">要创建的页头</td></tr>
       <tr><th>ppd</th>
         <td class="description">PPD 文件</td></tr>
       <tr><th>num_options</th>
@@ -848,7 +848,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       <tr><th>options</th>
         <td class="description">选项</td></tr>
       <tr><th>func</th>
-        <td class="description">可选的页眉回调（ <code>NULL</code> 表示无）</td></tr>
+        <td class="description">可选的页头回调（ <code>NULL</code> 表示无）</td></tr>
       </tbody>
     </table>
     <h4 class="returnvalue">返回值</h4>
@@ -894,7 +894,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     <table class="list">
       <tbody>
       <tr><th>ppd</th>
-        <td class="description">PPD文件数据</td></tr>
+        <td class="description">PPD 文件数据</td></tr>
       <tr><th>section</th>
         <td class="description">要收集的部分</td></tr>
       <tr><th>choices</th>
@@ -940,7 +940,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     <h4 class="returnvalue">返回值</h4>
     <p class="description">&emsp;&emsp;找到的冲突数
     <h4 class="discussion">详述</h4>
-    <p class="discussion">&emsp;&emsp;The returned value is the same as returned by <a href="#ppdMarkOption"><code>ppdMarkOption</code></a>.
+    <p class="discussion">&emsp;&emsp;返回的值与 <a href="#ppdMarkOption"><code>ppdMarkOption</code></a> 返回的值相同。
 
     <h3 class="function"><a id="ppdEmit">ppdEmit</a></h3>
     <p class="description">&emsp;&emsp;将标记选项的代码发送到文件。
@@ -966,7 +966,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     <table class="list">
       <tbody>
       <tr><th>ppd</th>
-        <td class="description">PPD文件记录</td></tr>
+        <td class="description">PPD 文件记录</td></tr>
       <tr><th>fp</th>
         <td class="description">要写入的文件</td></tr>
       <tr><th>section</th>
@@ -1431,85 +1431,85 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     <p class="description">&emsp;&emsp;cupsRasterInterpretPPD 回调函数
     <p class="code">typedef int (*cups_interpret_cb_t)(cups_page_header2_t *header, int preferred_bits);
 
-    <h3 class="typedef"><a id="ppd_attr_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_attr_t</a></h3>
+    <h3 class="typedef"><a id="ppd_attr_t"><span class="info">&#160;不建议使用&#160;</span>ppd_attr_t</a></h3>
     <p class="description">&emsp;&emsp;PPD 属性结构
     <p class="code">typedef struct <a href="#ppd_attr_s">ppd_attr_s</a> ppd_attr_t;
 
-    <h3 class="typedef"><a id="ppd_choice_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_choice_t</a></h3>
+    <h3 class="typedef"><a id="ppd_choice_t"><span class="info">&#160;不建议使用&#160;</span>ppd_choice_t</a></h3>
     <p class="description">&emsp;&emsp;Option choices 
     <p class="code">typedef struct <a href="#ppd_choice_s">ppd_choice_s</a> ppd_choice_t;
 
-    <h3 class="typedef"><a id="ppd_conform_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_conform_t</a></h3>
+    <h3 class="typedef"><a id="ppd_conform_t"><span class="info">&#160;不建议使用&#160;</span>ppd_conform_t</a></h3>
     <p class="description">&emsp;&emsp;一致性级别
     <p class="code">typedef enum <a href="#ppd_conform_e">ppd_conform_e</a> ppd_conform_t;
 
-    <h3 class="typedef"><a id="ppd_const_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_const_t</a></h3>
+    <h3 class="typedef"><a id="ppd_const_t"><span class="info">&#160;不建议使用&#160;</span>ppd_const_t</a></h3>
     <p class="description">&emsp;&emsp;约束条件 
     <p class="code">typedef struct <a href="#ppd_const_s">ppd_const_s</a> ppd_const_t;
 
-    <h3 class="typedef"><a id="ppd_coption_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_coption_t</a></h3>
+    <h3 class="typedef"><a id="ppd_coption_t"><span class="info">&#160;不建议使用&#160;</span>ppd_coption_t</a></h3>
     <p class="description">&emsp;&emsp;自定义选项
     <p class="code">typedef struct <a href="#ppd_coption_s">ppd_coption_s</a> ppd_coption_t;
 
-    <h3 class="typedef"><a id="ppd_cparam_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_cparam_t</a></h3>
+    <h3 class="typedef"><a id="ppd_cparam_t"><span class="info">&#160;不建议使用&#160;</span>ppd_cparam_t</a></h3>
     <p class="description">&emsp;&emsp;自定义参数
     <p class="code">typedef struct <a href="#ppd_cparam_s">ppd_cparam_s</a> ppd_cparam_t;
 
-    <h3 class="typedef"><a id="ppd_cplimit_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_cplimit_t</a></h3>
+    <h3 class="typedef"><a id="ppd_cplimit_t"><span class="info">&#160;不建议使用&#160;</span>ppd_cplimit_t</a></h3>
     <p class="description">&emsp;&emsp;自定义参数限制
     <p class="code">typedef union <a href="#ppd_cplimit_u">ppd_cplimit_u</a> ppd_cplimit_t;
 
-    <h3 class="typedef"><a id="ppd_cptype_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_cptype_t</a></h3>
+    <h3 class="typedef"><a id="ppd_cptype_t"><span class="info">&#160;不建议使用&#160;</span>ppd_cptype_t</a></h3>
     <p class="description">&emsp;&emsp;自定义参数类型
     <p class="code">typedef enum <a href="#ppd_cptype_e">ppd_cptype_e</a> ppd_cptype_t;
 
-    <h3 class="typedef"><a id="ppd_cpvalue_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_cpvalue_t</a></h3>
+    <h3 class="typedef"><a id="ppd_cpvalue_t"><span class="info">&#160;不建议使用&#160;</span>ppd_cpvalue_t</a></h3>
     <p class="description">&emsp;&emsp;自定义参数值
     <p class="code">typedef union <a href="#ppd_cpvalue_u">ppd_cpvalue_u</a> ppd_cpvalue_t;
 
-    <h3 class="typedef"><a id="ppd_cs_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_cs_t</a></h3>
+    <h3 class="typedef"><a id="ppd_cs_t"><span class="info">&#160;不建议使用&#160;</span>ppd_cs_t</a></h3>
     <p class="description">&emsp;&emsp;色彩空间 
     <p class="code">typedef enum <a href="#ppd_cs_e">ppd_cs_e</a> ppd_cs_t;
 
-    <h3 class="typedef"><a id="ppd_emul_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_emul_t</a></h3>
+    <h3 class="typedef"><a id="ppd_emul_t"><span class="info">&#160;不建议使用&#160;</span>ppd_emul_t</a></h3>
     <p class="description">&emsp;&emsp;模拟器 
     <p class="code">typedef struct <a href="#ppd_emul_s">ppd_emul_s</a> ppd_emul_t;
 
-    <h3 class="typedef"><a id="ppd_file_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_file_t</a></h3>
+    <h3 class="typedef"><a id="ppd_file_t"><span class="info">&#160;不建议使用&#160;</span>ppd_file_t</a></h3>
     <p class="description">&emsp;&emsp;PPD 文件 
     <p class="code">typedef struct <a href="#ppd_file_s">ppd_file_s</a> ppd_file_t;
 
-    <h3 class="typedef"><a id="ppd_group_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_group_t</a></h3>
+    <h3 class="typedef"><a id="ppd_group_t"><span class="info">&#160;不建议使用&#160;</span>ppd_group_t</a></h3>
     <p class="description">&emsp;&emsp;组 
     <p class="code">typedef struct <a href="#ppd_group_s">ppd_group_s</a> ppd_group_t;
 
-    <h3 class="typedef"><a id="ppd_option_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_option_t</a></h3>
+    <h3 class="typedef"><a id="ppd_option_t"><span class="info">&#160;不建议使用&#160;</span>ppd_option_t</a></h3>
     <p class="description">&emsp;&emsp;选项
     <p class="code">typedef struct <a href="#ppd_option_s">ppd_option_s</a> ppd_option_t;
 
-    <h3 class="typedef"><a id="ppd_profile_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_profile_t</a></h3>
+    <h3 class="typedef"><a id="ppd_profile_t"><span class="info">&#160;不建议使用&#160;</span>ppd_profile_t</a></h3>
     <p class="description">&emsp;&emsp;sRGB 颜色配置文件
     <p class="code">typedef struct <a href="#ppd_profile_s">ppd_profile_s</a> ppd_profile_t;
 
-    <h3 class="typedef"><a id="ppd_section_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_section_t</a></h3>
+    <h3 class="typedef"><a id="ppd_section_t"><span class="info">&#160;不建议使用&#160;</span>ppd_section_t</a></h3>
     <p class="description">&emsp;&emsp;顺序依赖部分
     <p class="code">typedef enum <a href="#ppd_section_e">ppd_section_e</a> ppd_section_t;
 
-    <h3 class="typedef"><a id="ppd_size_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_size_t</a></h3>
+    <h3 class="typedef"><a id="ppd_size_t"><span class="info">&#160;不建议使用&#160;</span>ppd_size_t</a></h3>
     <p class="description">&emsp;&emsp;页面大小
     <p class="code">typedef struct <a href="#ppd_size_s">ppd_size_s</a> ppd_size_t;
 
-    <h3 class="typedef"><a id="ppd_status_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_status_t</a></h3>
+    <h3 class="typedef"><a id="ppd_status_t"><span class="info">&#160;不建议使用&#160;</span>ppd_status_t</a></h3>
     <p class="description">&emsp;&emsp;状态代码
     <p class="code">typedef enum <a href="#ppd_status_e">ppd_status_e</a> ppd_status_t;
 
-    <h3 class="typedef"><a id="ppd_ui_t"><span class="info">&#160;不建议使用的&#160;</span>ppd_ui_t</a></h3>
+    <h3 class="typedef"><a id="ppd_ui_t"><span class="info">&#160;不建议使用&#160;</span>ppd_ui_t</a></h3>
     <p class="description">&emsp;&emsp;用户界面类型
     <p class="code">typedef enum <a href="#ppd_ui_e">ppd_ui_e</a> ppd_ui_t;
 
     <h2 class="title"><a id="STRUCTURES">结构</a></h2>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_attr_s">ppd_attr_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_attr_s">ppd_attr_s</a></h3>
     <p class="description">&emsp;&emsp;PPD 属性结构
     <p class="code">struct ppd_attr_s {<br>
 &#160;&#160;&#160;&#160;char name[PPD_MAX_NAME];<br>
@@ -1531,7 +1531,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_choice_s">ppd_choice_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_choice_s">ppd_choice_s</a></h3>
     <p class="description">&emsp;&emsp;Option choices 
     <p class="code">struct ppd_choice_s {<br>
 &#160;&#160;&#160;&#160;char choice[PPD_MAX_NAME];<br>
@@ -1556,7 +1556,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_const_s">ppd_const_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_const_s">ppd_const_s</a></h3>
     <p class="description">&emsp;&emsp;约束条件 
     <p class="code">struct ppd_const_s {<br>
 &#160;&#160;&#160;&#160;char choice1[PPD_MAX_NAME];<br>
@@ -1578,7 +1578,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_coption_s">ppd_coption_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_coption_s">ppd_coption_s</a></h3>
     <p class="description">&emsp;&emsp;自定义选项
     <p class="code">struct ppd_coption_s {<br>
 &#160;&#160;&#160;&#160;char keyword[PPD_MAX_NAME];<br>
@@ -1600,7 +1600,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_cparam_s">ppd_cparam_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_cparam_s">ppd_cparam_s</a></h3>
     <p class="description">&emsp;&emsp;自定义参数
     <p class="code">struct ppd_cparam_s {<br>
 &#160;&#160;&#160;&#160;<a href="#ppd_cpvalue_t">ppd_cpvalue_t</a> current;<br>
@@ -1628,7 +1628,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_emul_s">ppd_emul_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_emul_s">ppd_emul_s</a></h3>
     <p class="description">&emsp;&emsp;模拟器 
     <p class="code">struct ppd_emul_s {<br>
 &#160;&#160;&#160;&#160;char name[PPD_MAX_NAME];<br>
@@ -1647,7 +1647,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_file_s">ppd_file_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_file_s">ppd_file_s</a></h3>
     <p class="description">&emsp;&emsp;PPD 文件 
     <p class="code">struct ppd_file_s {<br>
 &#160;&#160;&#160;&#160;int accurate_screens;<br>
@@ -1712,7 +1712,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
         <td class="description">最小可变页面大小</td></tr>
       <tr><th>filters </th>
         <td class="description">筛选器字符串...</td></tr>
-      <tr><th>flip_duplex <span class="info">&#160;不建议使用的&#160;</span></th>
+      <tr><th>flip_duplex <span class="info">&#160;不建议使用&#160;</span></th>
         <td class="description">1 = 背面翻页</td></tr>
       <tr><th>fonts </th>
         <td class="description">预加载字体</td></tr>
@@ -1733,7 +1733,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       <tr><th>language_level </th>
         <td class="description">设备的语言级别</td></tr>
       <tr><th>manual_copies </th>
-        <td class="description">1 = 手动完成的复制，0 = 硬件</td></tr>
+        <td class="description">1 = 手动完成的复制， 0 = 硬件</td></tr>
       <tr><th>manufacturer </th>
         <td class="description">制造商名称</td></tr>
       <tr><th>model_number </th>
@@ -1750,7 +1750,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
         <td class="description">预加载字体的数量</td></tr>
       <tr><th>num_groups </th>
         <td class="description">用户界面组数</td></tr>
-      <tr><th>num_profiles <span class="info">&#160;不建议使用的&#160;</span></th>
+      <tr><th>num_profiles <span class="info">&#160;不建议使用&#160;</span></th>
         <td class="description">sRGB 颜色配置文件的数量</td></tr>
       <tr><th>num_sizes </th>
         <td class="description">页面大小的数量</td></tr>
@@ -1760,7 +1760,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
         <td class="description">PCFileName 字符串</td></tr>
       <tr><th>product </th>
         <td class="description">产品名称（来自 PS RIP/ 解释器）</td></tr>
-      <tr><th>profiles <span class="info">&#160;不建议使用的&#160;</span></th>
+      <tr><th>profiles <span class="info">&#160;不建议使用&#160;</span></th>
         <td class="description">sRGB 颜色配置文件</td></tr>
       <tr><th>protocols <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
         <td class="description">协议（ BCP 、 TBCP ）字符串</td></tr>
@@ -1773,11 +1773,11 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       <tr><th>ttrasterizer </th>
         <td class="description">Truetype 光栅化器</td></tr>
       <tr><th>variable_sizes </th>
-        <td class="description">1 = 支持可变大小，0 = 不支持</td></tr>
+        <td class="description">1 = 支持可变大小， 0 = 不支持</td></tr>
       </tbody>
     </table>
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_group_s">ppd_group_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_group_s">ppd_group_s</a></h3>
     <p class="description">&emsp;&emsp;Groups 
     <p class="code">struct ppd_group_s {<br>
 &#160;&#160;&#160;&#160;char text[PPD_MAX_TEXT - PPD_MAX_NAME];<br>
@@ -1806,7 +1806,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     </table>
     
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_option_s">ppd_option_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_option_s">ppd_option_s</a></h3>
     <p class="description">&emsp;&emsp;Options 
     <p class="code">struct ppd_option_s {<br>
 &#160;&#160;&#160;&#160;<a href="#ppd_choice_t">ppd_choice_t</a> *choices;<br>
@@ -1844,7 +1844,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     </table>
     
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_profile_s">ppd_profile_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_profile_s">ppd_profile_s</a></h3>
     <p class="description">&emsp;&emsp;sRGB 颜色配置文件
     <p class="code">struct ppd_profile_s {<br>
 &#160;&#160;&#160;&#160;float density;<br>
@@ -1870,7 +1870,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     </table>
     
 
-    <h3 class="struct"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_size_s">ppd_size_s</a></h3>
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_size_s">ppd_size_s</a></h3>
     <p class="description">&emsp;&emsp;页面大小
     <p class="code">struct ppd_size_s {<br>
 &#160;&#160;&#160;&#160;float bottom;<br>
@@ -1894,7 +1894,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       <tr><th>marked </th>
         <td class="description">选择页面大小？</td></tr>
       <tr><th>name[PPD_MAX_NAME] </th>
-        <td class="description">媒体大小选项</td></tr>
+        <td class="description">介质尺寸选项</td></tr>
       <tr><th>right </th>
         <td class="description">以点为单位的右可打印边距</td></tr>
       <tr><th>top </th>
@@ -1908,7 +1908,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     <h2 class="title"><a id="UNIONS">联合体</a></h2>
     
 
-    <h3 class="union"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_cplimit_u">ppd_cplimit_u</a></h3>
+    <h3 class="union"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_cplimit_u">ppd_cplimit_u</a></h3>
     <p class="description">&emsp;&emsp;自定义参数限制
     <p class="code">union ppd_cplimit_u {<br>
 &#160;&#160;&#160;&#160;float custom_curve;<br>
@@ -1943,7 +1943,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
     </table>
     
 
-    <h3 class="union"><span class="info">&#160;不建议使用的&#160;</span><a id="ppd_cpvalue_u">ppd_cpvalue_u</a></h3>
+    <h3 class="union"><span class="info">&#160;不建议使用&#160;</span><a id="ppd_cpvalue_u">ppd_cpvalue_u</a></h3>
     <p class="description">&emsp;&emsp;自定义参数值
     <p class="code">union ppd_cpvalue_u {<br>
 &#160;&#160;&#160;&#160;float custom_curve;<br>
@@ -1980,7 +1980,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
 
     <h2 class="title"><a id="ENUMERATIONS">常量</a></h2>
 
-    <h3 class="enumeration"><a id="ppd_conform_e"><span class="info">&#160;不建议使用的&#160;</span>ppd_conform_e</a></h3>
+    <h3 class="enumeration"><a id="ppd_conform_e"><span class="info">&#160;不建议使用&#160;</span>ppd_conform_e</a></h3>
     <p class="description">&emsp;&emsp;一致性级别
     <h4 class="constants">常量</h4>
     <table class="list"><tbody>
@@ -1991,7 +1991,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="enumeration"><a id="ppd_cptype_e"><span class="info">&#160;不建议使用的&#160;</span>ppd_cptype_e</a></h3>
+    <h3 class="enumeration"><a id="ppd_cptype_e"><span class="info">&#160;不建议使用&#160;</span>ppd_cptype_e</a></h3>
     <p class="description">&emsp;&emsp;自定义参数类型
     <h4 class="constants">常量</h4>
     <table class="list"><tbody>
@@ -2016,7 +2016,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="enumeration"><a id="ppd_cs_e"><span class="info">&#160;不建议使用的&#160;</span>ppd_cs_e</a></h3>
+    <h3 class="enumeration"><a id="ppd_cs_e"><span class="info">&#160;不建议使用&#160;</span>ppd_cs_e</a></h3>
     <p class="description">&emsp;&emsp;色彩空间 
     <h4 class="constants">常量</h4>
     <table class="list"><tbody>
@@ -2035,7 +2035,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="enumeration"><a id="ppd_section_e"><span class="info">&#160;不建议使用的&#160;</span>ppd_section_e</a></h3>
+    <h3 class="enumeration"><a id="ppd_section_e"><span class="info">&#160;不建议使用&#160;</span>ppd_section_e</a></h3>
     <p class="description">&emsp;&emsp;顺序依赖部分
     <h4 class="constants">常量</h4>
     <table class="list"><tbody>
@@ -2054,7 +2054,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="enumeration"><a id="ppd_status_e"><span class="info">&#160;不建议使用的&#160;</span>ppd_status_e</a></h3>
+    <h3 class="enumeration"><a id="ppd_status_e"><span class="info">&#160;不建议使用&#160;</span>ppd_status_e</a></h3>
     <p class="description">&emsp;&emsp;状态代码
     <h4 class="constants">常量</h4>
     <table class="list">
@@ -2114,7 +2114,7 @@ for (attr = <a href="#ppdFindAttr">ppdFindAttr</a>(ppd, "Product", NULL);
       </tbody>
     </table>
 
-    <h3 class="enumeration"><a id="ppd_ui_e"><span class="info">&#160;不建议使用的&#160;</span>ppd_ui_e</a></h3>
+    <h3 class="enumeration"><a id="ppd_ui_e"><span class="info">&#160;不建议使用&#160;</span>ppd_ui_e</a></h3>
     <p class="description">&emsp;&emsp;用户界面类型
     <h4 class="constants">常量</h4>
     <table class="list"><tbody>

@@ -7,50 +7,50 @@
   </head>
   <body>
     <h1 class="title">CUPS 设计说明</h1>
-    <p>&emsp;&emsp;本设计说明记录了 CUPS 的总体组织结构。其目的不是提供 CUPS 源代码的逐行描述，而是描述关键部分的总体架构和位置，以便开发人员能够更轻松地理解 CUPS 的底层操作。</p>
+    <p>&emsp;&emsp;本设计说明记录了 CUPS 的总体组织结构。其目的不是提供 CUPS 源代码的逐行描述，而是描述关键部分的总体架构和位置，以便开发人员能够更轻松地理解 CUPS 的底层操作。
 
     <h2 class="title"><a name="INTRO">介绍</a></h2>
-    <p>&emsp;&emsp;与大多数打印系统一样，CUPS 是围绕一个中央打印计划流程设计的，该流程可分派打印任务、处理管理命令、向本地和远程程序提供打印机状态信息，并根据需要通知用户。<a href="#FIGURE1">图1</a>显示了杯子的基本组织结构。</p>
+    <p>&emsp;&emsp;与大多数打印系统一样， CUPS 是围绕一个中央打印计划流程设计的，该流程可分派打印任务、处理管理命令、向本地和远程程序提供打印机状态信息，并根据需要通知用户。<a href="#FIGURE1">图 1</a> 显示了杯子的基本组织结构。
     <h3>调度程序</h3>
-    <p>&emsp;&emsp;调度器是一个 HTTP/1.1 和 IPP/2.1 服务器应用程序，用于管理系统上的 HTTP 和 IPP 请求、打印机、类、任务、订阅和通知。HTTP 用于正常的 Web 浏览器服务以及通过 HTTP POST 请求传递的 IPP 操作消息，该请求具有 <code>application/ipp</code> 内容类型。调度器使用一系列基于公共网关接口（“CGI”）的助手应用程序来提供动态 Web 接口，并且可以配置为运行 Web 接口的其他特定于站点的程序或脚本。</p>
-    <p>&emsp;&emsp;调度器被设计为传统的单线程服务器进程，它运行外部进程来执行长期操作，如打印、通知、设备/驱动程序枚举和远程打印机监控。外部进程通常作为非特权帐户（“lp”）运行，并且在某些平台上，附加限制限制了允许进程执行的操作。</p>
-    <p>&emsp;&emsp;可支持的并发客户端和打印任务的最大数量主要受服务器的可用内存、文件描述符和 CPU 的限制 － 调度器本身没有硬限制。</p>
+    <p>&emsp;&emsp;调度器是一个 HTTP/1.1 和 IPP/2.1 服务器应用程序，用于管理系统上的 HTTP 和 IPP 请求、打印机、类、任务、订阅和通知。 HTTP 用于正常的 Web 浏览器服务以及通过 HTTP POST 请求传递的 IPP 操作消息，该请求具有 <code>application/ipp</code> 内容类型。调度器使用一系列基于公共网关接口（“CGI”）的助手应用程序来提供动态 Web 接口，并且可以配置为运行 Web 接口的其他特定于站点的程序或脚本。
+    <p>&emsp;&emsp;调度器被设计为传统的单线程服务器进程，它运行外部进程来执行长期操作，如打印、通知、设备/驱动程序枚举和远程打印机监控。外部进程通常作为非特权帐户（“lp”）运行，并且在某些平台上，附加限制限制了允许进程执行的操作。
+    <p>&emsp;&emsp;可支持的并发客户端和打印任务的最大数量主要受服务器的可用内存、文件描述符和 CPU 的限制 － 调度器本身没有硬限制。
     <div class="figure">
       <table summary="CUPS Block Diagram">
-        <caption>图1：<a name="FIGURE1">CUPS 方框图</a></caption>
-        <tr><td align="CENTER"><img src="../images/cups-block-diagram.png" width="768" height="768" alt="CUPS方框图"></td></tr>
+        <caption>图 1 ：<a name="FIGURE1">CUPS 方框图</a></caption>
+        <tr><td align="CENTER"><img src="../images/cups-block-diagram.png" width="768" height="768" alt="CUPS 方框图"></td></tr>
       </table>
     </div>
     <h4>配置文件</h4>
-    <p>&emsp;&emsp;调度程序使用多个配置文件来存储服务器设置（<a href="man-cupsd.conf.html">cupsd.conf</a>）、可用类（<a href="man-classes.conf.html">classes.conf</a>）、可用打印机（<a href="man-printers.conf.html">printers.conf</a>）、当前通知订阅（<a href="man-subscriptions.conf.html">subscriptions.conf</a>），以及支持的文件类型和筛选器（<a href="man-mime.types.html">mime.types</a> ， <a href="man-mime.convs.html">mime.convs</a>）。此外，PostScript 打印机说明（“PPD”）文件与每台打印机关联，调度程序具有远程打印机的缓存文件、PPD 文件和当前任务，以优化调度程序的启动速度和可用性。</p>
+    <p>&emsp;&emsp;调度程序使用多个配置文件来存储服务器设置（ <a href="man-cupsd.conf.html">cupsd.conf</a> ）、可用类（ <a href="man-classes.conf.html">classes.conf</a> ）、可用打印机（ <a href="man-printers.conf.html">printers.conf</a> ）、当前通知订阅（ <a href="man-subscriptions.conf.html">subscriptions.conf</a> ），以及支持的文件类型和筛选器（ <a href="man-mime.types.html">mime.types</a> ， <a href="man-mime.convs.html">mime.convs</a> ）。此外， PostScript 打印机说明（ “PPD” ）文件与每台打印机关联，调度程序具有远程打印机的缓存文件、 PPD 文件和当前任务，以优化调度程序的启动速度和可用性。
     <h4>任务文件</h4>
-    <p>&emsp;&emsp;调度程序将任务文件存储在 <em>spool 目录</em>中，通常为 <var>/var/spool/cups</var> 。在 spool 目录中可以找到两种类型的文件：<em>控制文件</em> 以字母“c”（“c00001” 、 “C9999” 、 “c100000”等）开头，以及<em>数据文件</em>以字母“d”（“d00001-001” 、 “d99999-001” 、 “d100000-001”等）开头。控制文件是基于原始 IPP 打印任务或创建任务消息的 IPP 消息，而数据文件是提交打印的原始打印文件。系统已知的每个任务都有一个控制文件，每个任务有 0 个或多个数据文件。</p>
-    <p>&emsp;&emsp;控制文件通常在提交第 500 个任务后清除，而数据文件在任务成功打印后立即删除。这两种行为都可以配置。</p>
+    <p>&emsp;&emsp;调度程序将任务文件存储在 <em>spool 目录</em>中，通常为 <var>/var/spool/cups</var> 。在 spool 目录中可以找到两种类型的文件：<em>控制文件</em> 以字母 “c” （“c00001” 、 “C9999” 、 “c100000” 等）开头，以及<em>数据文件</em>以字母 “d” （ “d00001-001” 、 “d99999-001” 、 “d100000-001” 等）开头。控制文件是基于原始 IPP 打印任务或创建任务消息的 IPP 消息，而数据文件是提交打印的原始打印文件。系统已知的每个任务都有一个控制文件，每个任务有 0 个或多个数据文件。
+    <p>&emsp;&emsp;控制文件通常在提交第 500 个任务后清除，而数据文件在任务成功打印后立即删除。这两种行为都可以配置。
     <h4>日志文件</h4>
-    <p>&emsp;&emsp;调度程序保留三种日志文件，它们通常存储在 <var>/var/log/cups</var> 目录中。访问日志文件列出了调度器处理的每个 HTTP 和 IPP 请求。错误日志文件包含来自调度程序及其帮助程序应用程序的消息，可用于跟踪问题。页面日志文件列出了打印的每一页，允许进行简单的打印记帐。</p>
-    <p>&emsp;&emsp;Log files are rotated automatically by the scheduler when they reach the configured size limit, by default 1MB. If the limit is set to 0 then no rotation is performed in the scheduler - this mode is often used by Linux distributions so they can use the <b>logrotated(8)</b> program to rotate them instead.</p>
+    <p>&emsp;&emsp;调度程序保留三种日志文件，它们通常存储在 <var>/var/log/cups</var> 目录中。访问日志文件列出了调度器处理的每个 HTTP 和 IPP 请求。错误日志文件包含来自调度程序及其帮助程序应用程序的消息，可用于跟踪问题。页面日志文件列出了打印的每一页，允许进行简单的打印记帐。
+    <p>&emsp;&emsp;Log files are rotated automatically by the scheduler when they reach the configured size limit, by default 1MB. If the limit is set to 0 then no rotation is performed in the scheduler - this mode is often used by Linux distributions so they can use the <b>logrotated(8)</b> program to rotate them instead.
     <h3>Berkeley 命令</h3>
-    <p>&emsp;&emsp;CUPS 提供 Berkeley <a href="man-lpc.html">lpc(8)</a> 、 <a href="man-lpq.html">lpq(1)</a> 、 <a href="man-lpr.html">lpr(1)</a> 和 <a href="man-lprm.html">lprm(1)</a> 命令。一般来说，它们的功能与原始 Berkeley 命令相同，但有以下例外：</p>
+    <p>&emsp;&emsp;CUPS 提供 Berkeley <a href="man-lpc.html">lpc(8)</a> 、 <a href="man-lpq.html">lpq(1)</a> 、 <a href="man-lpr.html">lpr(1)</a> 和 <a href="man-lprm.html">lprm(1)</a> 命令。一般来说，它们的功能与原始 Berkeley 命令相同，但有以下例外：
     <ol>
       <li><b>lpc</b> 命令当前仅支持 “status” 子命令。</li>
       <li><b>lpr</b> 命令不支持格式修改器选项 “1” (TROFF font set 1)、“2” (TROFF font set 2)、“3” (TROFF font set 3)、“4” (TROFF font set 4)、“c” (CIFPLOT)、“d” (DVI)、“f” (FORTRAN)、“g” (GNU plot)、“i” (indentation)、“n” (Ditroff)、“r” (Sun raster)、“t” (Troff) 或 “w” (width)，因为它们不映射到基于 IPP MIME 媒体类型的文档格式。</li>
     </ol>
     <h3>System V 命令</h3>
-    <p>&emsp;&emsp;CUPS 提供 System V <a href="man-cancel.html">cancel(1)</a> ， <a href="man-lp.html">lp(1)</a> ， <a href="man-lpadmin.html">lpadmin(8)</a> ， <a href="man-lpmove.html">lpmove(8)</a> ，以及 <a href="man-lpstat.html">lpstat(1)</a> 命令。一般而言，它们的功能与原始 System V 命令相同，但以下情况除外：</p>
+    <p>&emsp;&emsp;CUPS 提供 System V <a href="man-cancel.html">cancel(1)</a> ， <a href="man-lp.html">lp(1)</a> ， <a href="man-lpadmin.html">lpadmin(8)</a> ， <a href="man-lpmove.html">lpmove(8)</a> ，以及 <a href="man-lpstat.html">lpstat(1)</a> 命令。一般而言，它们的功能与原始 System V 命令相同，但以下情况除外：
     <ol>
-      <li>所有命令都可能要求输入密码；System V 打印后台处理程序需要 root 访问权限才能执行管理任务，而 CUPS 允许更灵活的配置。</li>
+      <li>所有命令都可能要求输入密码； System V 打印后台处理程序需要 root 访问权限才能执行管理任务，而 CUPS 允许更灵活的配置。</li>
       <li><b>lpadmin</b> 命令未实现 Solaris “-A”（警报）、“-F”（故障恢复）、“-M”（装载表单/转轮）、“-P”（纸张列表）、“-S”（打印转轮）、“-T”（类型列表）、“-U”（拨号器信息）、“-W”（等待）、“-F”（表单名称）、“-l”（内容类型列表）、“-S”（远程打印机）或 “-T”（纸盒号）选项。</li>
     </ol>
     <h3>CUPS 命令</h3>
-    <p>&emsp;&emsp;CUPS 提供了 <a href="man-cupsaccept.html">cupsaccept(8)</a> ， <a href="man-cupsaddsmb.html">cupsaddsmb(8)</a> ， <a href="man-cupsenable.html">cupsdisable(8)</a> ， <a href="man-cupsenable.html">cupsenable(8)</a> ， <a href="man-cupsaccept.html">cupsreject(8)</a> ， <a href="man-cupstestppd.html">cupstestppd(1)</a> ， <a href="man-lpinfo.html">lpinfo(8)</a> 和 <a href="man-lppasswd.html">lppasswd(1)</a> 命令。<b>cupsacept</b> 、 <b>cupsdisable</b> 、 <b>cupsenable</b> 和 <b>cupsreject</b> 命令对应于 System V <b>accept</b> 、 <b>disable</b> 、 <b>enable</b> 和 <b>reject</b> 命令，但已重命名以避免与同名的 <b>bash(1)</b> 内部 <b>enable</b> 命令混淆和冲突。</p>
+    <p>&emsp;&emsp;CUPS 提供了 <a href="man-cupsaccept.html">cupsaccept(8)</a> ， <a href="man-cupsaddsmb.html">cupsaddsmb(8)</a> ， <a href="man-cupsenable.html">cupsdisable(8)</a> ， <a href="man-cupsenable.html">cupsenable(8)</a> ， <a href="man-cupsaccept.html">cupsreject(8)</a> ， <a href="man-cupstestppd.html">cupstestppd(1)</a> ， <a href="man-lpinfo.html">lpinfo(8)</a> 和 <a href="man-lppasswd.html">lppasswd(1)</a> 命令。<b>cupsacept</b> 、 <b>cupsdisable</b> 、 <b>cupsenable</b> 和 <b>cupsreject</b> 命令对应于 System V <b>accept</b> 、 <b>disable</b> 、 <b>enable</b> 和 <b>reject</b> 命令，但已重命名以避免与同名的 <b>bash(1)</b> 内部 <b>enable</b> 命令混淆和冲突。
     <h3>LPD 支持</h3>
-    <p>&emsp;&emsp;LPD 客户端通过 <a href="man-cups-lpd.html">cups-lpd(8)</a> 程序提供支持。本地 <b>inetd(8)</b> 、 <b>launchd(8)</b> 或 <b>xinetd(8)</b> 进程在 TCP 端口 515 上接受传入的 LPD 请求，并将其转发到 <b>cups-lpd</b> 程序，以转换为相应的 IPP 请求。</p>
-    <p>&emsp;&emsp;<b>cups-lpd</b> 程序在很大程度上符合 RFC 1179: 行式打印机守护程序协议，但不强制执行该文档中指定的特权源端口限制。此外，当相应的超级守护程序调用标题页和输出格式选项时，通常会通过命令行选项覆盖 <b>cups-lpd</b> 程序。</p>
+    <p>&emsp;&emsp;LPD 客户端通过 <a href="man-cups-lpd.html">cups-lpd(8)</a> 程序提供支持。本地 <b>inetd(8)</b> 、 <b>launchd(8)</b> 或 <b>xinetd(8)</b> 进程在 TCP 端口 515 上接受传入的 LPD 请求，并将其转发到 <b>cups-lpd</b> 程序，以转换为相应的 IPP 请求。
+    <p>&emsp;&emsp;<b>cups-lpd</b> 程序在很大程度上符合 RFC 1179: 行式打印机守护程序协议，但不强制执行该文档中指定的特权源端口限制。此外，当相应的超级守护程序调用标题页和输出格式选项时，通常会通过命令行选项覆盖 <b>cups-lpd</b> 程序。
     <h3>Web 接口</h3>
-    <p>&emsp;&emsp;Web 接口由五个 CGI 程序支持。<a href="#TABLE1">表1</a>描述了每个程序的目的。</p>
+    <p>&emsp;&emsp;Web 接口由五个 CGI 程序支持。<a href="#TABLE1">表 1</a> 描述了每个程序的目的。
     <div class="table">
       <table summary="CGI Programs">
-        <caption>表1：<a name="TABLE1">CGI 程序</a></caption>
+        <caption>表 1 ：<a name="TABLE1">CGI 程序</a></caption>
         <thead>
         <tr>
           <th>程序</th>
@@ -88,33 +88,33 @@
       </table>
     </div>
     <h3>通知程序</h3>
-    <p>&emsp;&emsp;通知程序（<a href="man-notifier.html">notifier(7)</a>）提供了从调度程序发送异步事件通知的方法。使用命令行上的收件人信息和标准输入上的事件数据执行通知程序。例如：</p>
+    <p>&emsp;&emsp;通知程序（<a href="man-notifier.html">notifier(7)</a>）提供了从调度程序发送异步事件通知的方法。使用命令行上的收件人信息和标准输入上的事件数据执行通知程序。例如：
     <pre class="command">CUPS_SERVERBIN/notifier/foo recipient user-data</pre>
-    <p>&emsp;&emsp;CUPS包括两个通知程序：<b>mailto</b> 用于提供基于 SMTP 的电子邮件通知，<b>rss</b> 用于从调度程序提供真正简单的联合（“rss”）通知。可以根据需要在 <var>notifier</var> 目录中安装其他通知程序，以支持其他方法。</p>
+    <p>&emsp;&emsp;CUPS 包括两个通知程序：<b>mailto</b> 用于提供基于 SMTP 的电子邮件通知，<b>rss</b> 用于从调度程序提供真正简单的联合（“rss”）通知。可以根据需要在 <var>notifier</var> 目录中安装其他通知程序，以支持其他方法。
     <h3>筛选器</h3>
-    <p>&emsp;&emsp;筛选器（<a href="man-filter.html">filter(7)</a>）将任务文件转换为可打印格式。根据需要运行多个筛选器，以将任务文件格式转换为可打印格式。筛选程序从标准输入或文件（如果提供文件名）中读取。所有筛选器必须支持一组通用选项，包括打印机名称、任务ID、用户名、任务标题、份数和任务选项。所有输出都被发送到标准输出。</p>
-    <p>&emsp;&emsp;CUPS 提供用于打印文本、PostScript 、 PDF 、 HP-GL/2 和多种类型图像文件的筛选器。CUPS 还为 HP-PCL 、 ESC/P 和几种类型的标签打印机提供打印机驱动程序筛选器。可以通过 mime.convs 和 PPD 文件向 CUPS 注册其他筛选器。</p>
+    <p>&emsp;&emsp;筛选器（<a href="man-filter.html">filter(7)</a>）将任务文件转换为可打印格式。根据需要运行多个筛选器，以将任务文件格式转换为可打印格式。筛选程序从标准输入或文件（如果提供文件名）中读取。所有筛选器必须支持一组通用选项，包括打印机名称、任务 ID 、用户名、任务标题、份数和任务选项。所有输出都被发送到标准输出。
+    <p>&emsp;&emsp;CUPS 提供用于打印文本、 PostScript 、 PDF 、 HP-GL/2 和多种类型图像文件的筛选器。 CUPS 还为 HP-PCL 、 ESC/P 和几种类型的标签打印机提供打印机驱动程序筛选器。可以通过 mime.convs 和 PPD 文件向 CUPS 注册其他筛选器。
     <h3>端口监视器</h3>
-    <p>&emsp;&emsp;端口监视器处理打印机的特定于设备和通道的数据格式化。端口监视器使用与筛选器相同的接口。</p>
-    <p>&emsp;&emsp;CUPS 包括两个端口监视器：支持 PostScript 二进制通信协议（“bcp”）的 <b>bcp</b> 端口监视器和支持 PostScript 标记二进制通信协议（“tbcp”）的 <b>tbcp</b> 端口监视器。可以在 PPD 文件中注册其他端口监视器。</p>
+    <p>&emsp;&emsp;端口监视器处理打印机的特定于设备和通道的数据格式化。端口监视器使用与筛选器相同的接口。
+    <p>&emsp;&emsp;CUPS 包括两个端口监视器：支持 PostScript 二进制通信协议（“bcp”）的 <b>bcp</b> 端口监视器和支持 PostScript 标记二进制通信协议（“tbcp”）的 <b>tbcp</b> 端口监视器。可以在 PPD 文件中注册其他端口监视器。
     <h3>后端</h3>
-    <p>&emsp;&emsp;后端（<a href="man-backend.html">backend(7)</a>）将打印数据发送到打印机，并根据需要枚举可用的打印机/设备。后端使用与筛选器相同的接口。</p>
-    <p>&emsp;&emsp;CUPS 包括用于 AppSocket（JetDirect）、 IPP 、 LPD 和 USB 连接的后端，以及用于查找的 DNS-SD 和 SNMP 。可以根据需要添加其他后端，而无需额外配置。</p>
+    <p>&emsp;&emsp;后端（<a href="man-backend.html">backend(7)</a>）将打印数据发送到打印机，并根据需要枚举可用的打印机/设备。后端使用与筛选器相同的接口。
+    <p>&emsp;&emsp;CUPS 包括用于 AppSocket （ JetDirect ）、 IPP 、 LPD 和 USB 连接的后端，以及用于查找的 DNS-SD 和 SNMP 。可以根据需要添加其他后端，而无需额外配置。
 
 
     <h2 class="title"><a name="PROGRAMMING">编程接口</a></h2>
-    <p>&emsp;&emsp;CUPS 利用多个通用库提供打印服务。与其他 CUPS 不同，这些库是根据 GNU LGPL 的条款提供的，因此非 GPL 应用程序可以使用它们。</p>
-    <h3>CUPS 库（libcups）</h3>
-    <p>&emsp;&emsp;CUPS 库包含所有核心 HTTP 和 IPP 通信代码，以及用于排队打印任务、获取打印机信息、通过 HTTP 和 IPP 访问资源以及操作 PPD 文件的方便功能。调度程序和所有命令、筛选器和后端都使用此库。</p>
-    <h3>CUPS CGI 库（libcupscgi）</h3>
-    <p>&emsp;&emsp;CUPS CGI 库提供所有 Web 界面支持功能。CGI 程序使用它来提供 CUPS Web 界面。</p>
-    <h3>CUPS 驱动程序库（libcupsdriver）</h3>
-    <p>&emsp;&emsp;CUPS 驱动程序库提供对 CUPS 样本打印机驱动程序使用的抖动、颜色转换和辅助功能的访问。</p>
-    <h3>CUPS 图像库（libcupsimage）</h3>
-    <p>&emsp;&emsp;CUPS 图像库提供用于管理大型图像、进行颜色空间转换和颜色管理、缩放图像以进行打印以及管理光栅页面流的功能。它由 CUPS 图像文件筛选器、PostScript RIP 和所有光栅打印机驱动程序使用。</p>
-    <h3>CUPS MIME 库 (libcupsmime)</h3>
-    <p>&emsp;&emsp;CUPS MIME 库提供文件键入和转换功能，由调度器和 <a href="man-cupsfilter.html">cupsfilter(8)</a> 命令使用，以自动键入打印文件并将其转换为可打印格式。</p>
-    <h3>CUPS PPD 编译器库 (libcupsppdc)</h3>
-    <p>&emsp;&emsp;CUPS PPD 编译器库提供对驱动程序信息文件的访问，供 PPD 编译器工具以及 <a href="man-cups-driverd.html">cups-driverd(8)</a> 帮助程序使用，以生成用于本地化的 PPD 文件和消息目录。</p>
+    <p>&emsp;&emsp;CUPS 利用多个通用库提供打印服务。与其他 CUPS 不同，这些库是根据 GNU LGPL 的条款提供的，因此非 GPL 应用程序可以使用它们。
+    <h3>CUPS 库（ libcups ）</h3>
+    <p>&emsp;&emsp;CUPS 库包含所有核心 HTTP 和 IPP 通信代码，以及用于排队打印任务、获取打印机信息、通过 HTTP 和 IPP 访问资源以及操作 PPD 文件的方便功能。调度程序和所有命令、筛选器和后端都使用此库。
+    <h3>CUPS CGI 库（ libcupscgi ）</h3>
+    <p>&emsp;&emsp;CUPS CGI 库提供所有 Web 界面支持功能。 CGI 程序使用它来提供 CUPS Web 界面。
+    <h3>CUPS 驱动程序库（ libcupsdriver ）</h3>
+    <p>&emsp;&emsp;CUPS 驱动程序库提供对 CUPS 样本打印机驱动程序使用的抖动、颜色转换和辅助功能的访问。
+    <h3>CUPS 图像库（ libcupsimage ）</h3>
+    <p>&emsp;&emsp;CUPS 图像库提供用于管理大型图像、进行颜色空间转换和颜色管理、缩放图像以进行打印以及管理光栅页面流的功能。它由 CUPS 图像文件筛选器、 PostScript RIP 和所有光栅打印机驱动程序使用。
+    <h3>CUPS MIME 库（ libcupsmime ）</h3>
+    <p>&emsp;&emsp;CUPS MIME 库提供文件键入和转换功能，由调度器和 <a href="man-cupsfilter.html">cupsfilter(8)</a> 命令使用，以自动键入打印文件并将其转换为可打印格式。
+    <h3>CUPS PPD 编译器库（ libcupsppdc ）</h3>
+    <p>&emsp;&emsp;CUPS PPD 编译器库提供对驱动程序信息文件的访问，供 PPD 编译器工具以及 <a href="man-cups-driverd.html">cups-driverd(8)</a> 帮助程序使用，以生成用于本地化的 PPD 文件和消息目录。
   </body>
 </html>

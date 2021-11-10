@@ -18,29 +18,29 @@
        &emsp;&emsp;<b>ippfind</b> <b>--version</b>
 
     <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
-    <p>&emsp;&emsp;<b>ippfind</b> 查找在 DNS 服务器上注册或通过本地设备可用的服务。其主要目的是查找 IPP 打印机并显示其 URI、显示其当前状态或运行命令。
+    <p>&emsp;&emsp;<b>ippfind</b> 查找在 DNS 服务器上注册或通过本地设备可用的服务。其主要目的是查找 IPP 打印机并显示其 URI 、显示其当前状态或运行命令。
     <h3><a name="REGISTRATION_TYPES">注册类型</a></h3>
     <p>&emsp;&emsp;<b>ippfind</b> 支持以下注册类型：
     <dl class="man">
       <dt>_http._tcp
-      <dd style="margin-left: 5.0em">超文本传输协议（ HTTP，RFC 2616 ）
+      <dd style="margin-left: 5.0em">超文本传输协议（ HTTP ， RFC 2616 ）
       <dt>_https._tcp
-      <dd style="margin-left: 5.0em">安全超文本传输协议（ HTTPS，RFC 2818 ）
+      <dd style="margin-left: 5.0em">安全超文本传输协议（ HTTPS , RFC 2818 ）
       <dt>_ipp._tcp
-      <dd style="margin-left: 5.0em">Internet 打印协议（ IPP，RFC 2911 ）
+      <dd style="margin-left: 5.0em">Internet 打印协议（ IPP , RFC 2911 ）
       <dt>_ipps._tcp
-      <dd style="margin-left: 5.0em">安全 Internet 打印协议（ IPPS，草稿）
+      <dd style="margin-left: 5.0em">安全 Internet 打印协议（ IPPS ,草稿）
       <dt>_printer._tcp
       <dd style="margin-left: 5.0em">行式打印机守护程序（ LPD, RFC 1179 ）
     </dd>
     <h3><a name="EXPRESSIONS">表达式</a></h3>
-    <p>&emsp;&emsp;<b>ippfind</b> 支持类似于 <b>find</b>(1) 实用程序的表达式。但是，与 <b>find</b>(1) ， <b>ippfind</b> 使用 POSIX 正则表达式而不是 shell 文件名匹配模式。如果未指定 <i>--exec</i> 、 <i>-l</i> 、 <i>--ls</i> 、 <i>-p</i> 、 <i>--print</i> 、 <i>--print name</i> 、 <i>-q</i> 、 <i>--quiet</i> 、 <i>-s</i> 或 <i>-x</i> ，<b>ippfind</b> 添加 <i>--print</i> 来打印它找到的任何服务 URI。支持以下表达式：
+    <p>&emsp;&emsp;<b>ippfind</b> 支持类似于 <b>find</b>(1) 实用程序的表达式。但是，与 <b>find</b>(1) ， <b>ippfind</b> 使用 POSIX 正则表达式而不是 shell 文件名匹配模式。如果未指定 <i>--exec</i> 、 <i>-l</i> 、 <i>--ls</i> 、 <i>-p</i> 、 <i>--print</i> 、 <i>--print name</i> 、 <i>-q</i> 、 <i>--quiet</i> 、 <i>-s</i> 或 <i>-x</i> ，<b>ippfind</b> 添加 <i>--print</i> 来打印它找到的任何服务 URI 。支持以下表达式：
     <dl class="man">
       <dt><b>-d </b><i>regex</i>
       <dt><b>--domain </b><i>regex</i>
       <dd style="margin-left: 5.0em">如果域与给定的正则表达式匹配，则为 true 。
       <dt><b>--false</b>
-      <dd style="margin-left: 5.0em">总是 false。
+      <dd style="margin-left: 5.0em">总是 false 。
       <dt><b>-h </b><i>regex</i>
       <dt><b>--host </b><i>regex</i>
       <dd style="margin-left: 5.0em">True 表示主机名与给定的正则表达式匹配。
@@ -109,7 +109,7 @@
       <dt><b>{service_name}</b>
       <dd style="margin-left: 5.0em">服务实例名称，例如， “My Fine Printer” 。
       <dt><b>{service_port}</b>
-      <dd style="margin-left: 5.0em">服务器的端口号，IPP 通常为 631 ， HTTP 通常为 80。
+      <dd style="margin-left: 5.0em">服务器的端口号， IPP 通常为 631 ， HTTP 通常为 80 。
       <dt><b>{service_regtype}</b>
       <dd style="margin-left: 5.0em">DNS-SD 注册类型，例如，“_ipp._tcp” 、 “_http._tcp” 等。
       <dt><b>{service_scheme}</b>
@@ -151,7 +151,7 @@
       <dt><b>IPPFIND_SERVICE_NAME</b>
       <dd style="margin-left: 5.0em">服务实例名称，例如， “My Fine Printer” 。
       <dt><b>IPPFIND_SERVICE_PORT</b>
-      <dd style="margin-left: 5.0em">服务器的端口号，IPP 通常为 631 ， HTTP 通常为 80 。
+      <dd style="margin-left: 5.0em">服务器的端口号， IPP 通常为 631 ， HTTP 通常为 80 。
       <dt><b>IPPFIND_SERVICE_REGTYPE</b>
       <dd style="margin-left: 5.0em">DNS-SD 注册类型，例如， “_ipp._tcp” 、 “_http._tcp” 等。
       <dt><b>IPPFIND_SERVICE_SCHEME</b>

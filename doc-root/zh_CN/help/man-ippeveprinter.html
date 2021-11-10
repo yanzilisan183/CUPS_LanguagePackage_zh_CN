@@ -15,7 +15,7 @@
     <p>&emsp;&emsp;<b>ippeveprinter</b> [<b>--help</b>] [<b>--no-web-forms</b>] [<b>--pam-service</b> <i>service</i>] [ <b>--version</b>] [<b>-2</b>] [<b>-A</b>] [<b>-D</b> <i>device-uri</i>] [<b>-F</b> <i>output-type/subtype</i>] [<b>-K</b> <i>keypath</i>] [<b>-M</b> <i>manufacturer</i>] [<b>-P</b> <i>filename.ppd</i>] [<b>-V</b> <i>ipp-version</i>] [<b>-a</b> <i>filename.conf</i>] [<b>-c</b> <i>command</i>] [<b>-d</b> <i>spool-directory</i>] [<b>-f</b> <i>type/subtype[,...]</i>] [<b>-i</b> <i>iconfile.png</i>] [<b>-k</b> ] [<b>-l</b> <i>location</i>] [<b>-m</b> <i>model</i>] [<b>-n</b> <i>hostname</i>] [<b>-p</b> <i>port</i>] [<b>-r</b> <i>subtype[,subtype]</i>] [<b>-s</b> <i>speed[,color-speed]</i>] [<b>-v[vvv]</b>] <i>service-name</i>
 
     <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
-    <p>&emsp;&emsp;<b>ippeveprinter</b> 是一个简单的互联网打印协议（ IPP ）服务器，符合 IPP Everywhere（ PWG 5100.14 ）规范。它可以用来测试客户端软件，或者作为一个非常基本的打印服务器，为打印的每个任务运行一个命令。
+    <p>&emsp;&emsp;<b>ippeveprinter</b> 是一个简单的互联网打印协议（ IPP ）服务器，符合 IPP Everywhere （ PWG 5100.14 ）规范。它可以用来测试客户端软件，或者作为一个非常基本的打印服务器，为打印的每个任务运行一个命令。
 
     <h2 class="title"><a name="OPTIONS">选项</a></h2>
     <p>&emsp;&emsp;<b>ippeveprinter:</b> 可以识别以下选项：</b>
@@ -42,7 +42,7 @@
       <dd style="margin-left: 5.0em">从指定的 PPD 文件加载打印机属性。此选项通常与 <b>ippevps</b>(7) 打印机命令（ “-c ippevps” ）一起使用。
       <dt><b>-V 1.1</b>
       <dt><b>-V 2.0</b>
-      <dd style="margin-left: 5.0em">指定要报告的最大 IPP 版本。默认值为 2.0。
+      <dd style="margin-left: 5.0em">指定要报告的最大 IPP 版本。默认值为 2.0 。
       <dt><b>-c </b><i>command</i>
       <dd style="margin-left: 5.0em">对打印的每个文档运行指定的命令。如果 “command” 不是绝对路径（ “/path/to/command” ）， <b>ippeveprinter</b> 在 CUPS 二进制目录的 “command” 子目录中查找该命令，通常是 /usr/lib/CUPS/command 或 /usr/libexec/CUPS/command 。 <b>cups-config</b>(1) 命令可用于发现正确的二进制目录（ “cups-config --serverbin” ）。此外， CUPS_SERVERBIN 环境变量可用于覆盖此目录的默认位置  － 有关详细信息，请参阅 <b>cups</b>(1) 手册页。
       <dt><b>-d </b><i>spool-directory</i>
@@ -75,13 +75,13 @@
     <p>&emsp;&emsp;如果无法处理命令行参数或注册 IPP 服务，<b>ippeveprinter</b> 程序将返回 1 。否则，打印机将持续运行，直到终止。
 
     <h2 class="title"><a name="CONFORMING_TO">遵循</a></h2>
-    <p>&emsp;&emsp;<b>ippeveprinter</b> 程序是 CUPS 独有的，符合 IPP Everywhere（ PWG 5100.14 ）规范。
+    <p>&emsp;&emsp;<b>ippeveprinter</b> 程序是 CUPS 独有的，符合 IPP Everywhere （ PWG 5100.14 ）规范。
 
     <h2 class="title"><a name="ENVIRONMENT">环境变量</a></h2>
     <p>&emsp;&emsp;<b>ippeveprinter</b> 为打印请求中的所有 IPP 任务属性添加以 “IPP_” 开头的环境变量。例如，当为包含 “media” 任务模板属性的 IPP 任务执行命令时， “IPP_MEDIA” 环境变量将设置为该属性的值。
     <p>&emsp;&emsp;此外，所有 IPP “xxx-default” 和 “pwg-xxx” 打印机描述属性都添加到环境中。例如，“IPP_MEDIA_DEFAULT” 环境变量将设置为 “media” 任务模板属性的默认值。
     <p>&emsp;&emsp;枚举值将转换为它们的关键字等价项。例如，枚举值为 3 的 “print-quality” 任务模板属性将成为值为 “draft” 的 “IPP_PRINT_QUALITY” 环境变量。此字符串转换仅适用于标准任务模板属性，当前为 “finishings” 、 “orientation-requested” 和 “print-quality” 。
-    <p>&emsp;&emsp;最后，“CONTENT_TYPE” 环境变量包含正在打印的文档的 MIME 媒体类型， “DEVICE_URI” 环境变量包含用 “-D” 选项指定的设备 URI， “OUTPUT_FORMAT” 环境变量包含输出 MIME 媒体类型， “PPD” 环境变量包含用 “-P” 选项指定的 PPD 文件名。
+    <p>&emsp;&emsp;最后，“CONTENT_TYPE” 环境变量包含正在打印的文档的 MIME 媒体类型， “DEVICE_URI” 环境变量包含用 “-D” 选项指定的设备 URI ， “OUTPUT_FORMAT” 环境变量包含输出 MIME 媒体类型， “PPD” 环境变量包含用 “-P” 选项指定的 PPD 文件名。
 
     <h2 class="title"><a name="COMMAND_OUTPUT">命令输出</a></h2>
     <p>&emsp;&emsp;除非它们直接与打印机通信，否则打印命令会将 printer-ready 数据发送到标准输出。
@@ -113,6 +113,6 @@
     <p>&emsp;&emsp;PWG 互联网打印协议任务组（<a href="http://www.pwg.org/ipp">http://www.pwg.org/ipp</a>）
 
     <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
-    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
   </body>
 </html>

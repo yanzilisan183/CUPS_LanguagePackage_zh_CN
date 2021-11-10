@@ -2,7 +2,7 @@
 <html>
 <!-- SECTION: 程序设计 -->
   <head>
-    <title>Raster API</title>
+    <title>光栅 API</title>
     <meta name="keywords" content="Programming">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta name="creator" content="codedoc v3.1">
@@ -450,151 +450,127 @@ h3.title {
 --></style>
   </head>
   <body>
-<!--
+  <!--
   Raster API documentation for CUPS.
 
   Copyright © 2008-2019 by Apple Inc.
 
-  Licensed under Apache License v2.0.  See the file "LICENSE" for more
-  information.
--->
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
 
-    <h1 class='title'>Raster API</h1>
-
-<div class='summary'><table summary='General Information'>
-<thead>
-<tr>
-	<th>Header</th>
-	<th>cups/raster.h</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<th>Library</th>
-	<td>-lcups</td>
-</tr>
-<tr>
-	<th>See Also</th>
-	<td>Programming: <a href='cupspm.html'>CUPS Programming Manual</a><br>
-	Programming: <a href='api-ppd.html'>PPD API</a><br>
-	References: <a href='spec-ppd.html'>CUPS PPD Specification</a></td>
-</tr>
-</tbody>
-</table></div>
+    <h1 class='title'>光栅 API</h1>
+    <div class='summary'>
+      <table summary='General Information'>
+        <thead>
+        <tr>
+          <th>头文件</th>
+          <th>cups/raster.h</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th>库</th>
+          <td>-lcups</td>
+        </tr>
+        <tr>
+          <th>另见</th>
+          <td>程序设计：<a href='cupspm.html'>CUPS 编程手册</a><br>
+              程序设计：<a href='api-ppd.html'>PPD API</a><br>
+              参考资料：<a href='spec-ppd.html'>CUPS PPD 扩展</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    
     <div class="contents">
-      <h2 class="title">Contents</h2>
+
+
+    <h2 class="title">目录</h2>
       <ul class="contents">
-        <li><a href="#OVERVIEW">Overview</a></li>
-        <li><a href="#TASKS">Functions by Task</a><ul class="subcontents">
-          <li><a href="#OPENCLOSE">Opening and Closing Raster Streams</a></li>
-          <li><a href="#READING">Reading Raster Streams</a></li>
-          <li><a href="#WRITING">Writing Raster Streams</a></li>
-        </ul></li>
-        <li><a href="#FUNCTIONS">Functions</a><ul class="subcontents">
-          <li><a href="#cupsRasterClose">cupsRasterClose</a></li>
-          <li><a href="#cupsRasterErrorString">cupsRasterErrorString</a></li>
-          <li><a href="#cupsRasterInitPWGHeader">cupsRasterInitPWGHeader</a></li>
-          <li><a href="#cupsRasterOpen">cupsRasterOpen</a></li>
-          <li><a href="#cupsRasterOpenIO">cupsRasterOpenIO</a></li>
-          <li><a href="#cupsRasterReadHeader">cupsRasterReadHeader</a></li>
-          <li><a href="#cupsRasterReadHeader2">cupsRasterReadHeader2</a></li>
-          <li><a href="#cupsRasterReadPixels">cupsRasterReadPixels</a></li>
-          <li><a href="#cupsRasterWriteHeader">cupsRasterWriteHeader</a></li>
-          <li><a href="#cupsRasterWriteHeader2">cupsRasterWriteHeader2</a></li>
-          <li><a href="#cupsRasterWritePixels">cupsRasterWritePixels</a></li>
-        </ul></li>
-        <li><a href="#TYPES">Data Types</a><ul class="subcontents">
-          <li><a href="#cups_adv_t">cups_adv_t</a></li>
-          <li><a href="#cups_bool_t">cups_bool_t</a></li>
-          <li><a href="#cups_cspace_t">cups_cspace_t</a></li>
-          <li><a href="#cups_cut_t">cups_cut_t</a></li>
-          <li><a href="#cups_edge_t">cups_edge_t</a></li>
-          <li><a href="#cups_jog_t">cups_jog_t</a></li>
-          <li><a href="#cups_mode_t">cups_mode_t</a></li>
-          <li><a href="#cups_order_t">cups_order_t</a></li>
-          <li><a href="#cups_orient_t">cups_orient_t</a></li>
-          <li><a href="#cups_page_header2_t">cups_page_header2_t</a></li>
-          <li><a href="#cups_page_header_t">cups_page_header_t</a></li>
-          <li><a href="#cups_raster_iocb_t">cups_raster_iocb_t</a></li>
-          <li><a href="#cups_raster_t">cups_raster_t</a></li>
-        </ul></li>
-        <li><a href="#STRUCTURES">Structures</a><ul class="subcontents">
-          <li><a href="#cups_page_header2_s">cups_page_header2_s</a></li>
-          <li><a href="#cups_page_header_s">cups_page_header_s</a></li>
-        </ul></li>
-        <li><a href="#ENUMERATIONS">Enumerations</a><ul class="subcontents">
-          <li><a href="#cups_adv_e">cups_adv_e</a></li>
-          <li><a href="#cups_bool_e">cups_bool_e</a></li>
-          <li><a href="#cups_cspace_e">cups_cspace_e</a></li>
-          <li><a href="#cups_cut_e">cups_cut_e</a></li>
-          <li><a href="#cups_edge_e">cups_edge_e</a></li>
-          <li><a href="#cups_jog_e">cups_jog_e</a></li>
-          <li><a href="#cups_mode_e">cups_mode_e</a></li>
-          <li><a href="#cups_order_e">cups_order_e</a></li>
-          <li><a href="#cups_orient_e">cups_orient_e</a></li>
-        </ul></li>
+      <li><a href="#OVERVIEW">概述</a></li>
+      <li><a href="#TASKS">按任务划分的函数</a>
+          <ul class="subcontents">
+            <li><a href="#OPENCLOSE">打开和关闭光栅流</a></li>
+            <li><a href="#READING">读取光栅流</a></li>
+            <li><a href="#WRITING">写入光栅流</a></li>
+          </ul>
+        </li>
+      <li><a href="#FUNCTIONS">函数</a>
+          <ul class="subcontents">
+            <li><a href="#cupsRasterClose">cupsRasterClose</a></li>
+            <li><a href="#cupsRasterErrorString">cupsRasterErrorString</a></li>
+            <li><a href="#cupsRasterInitPWGHeader">cupsRasterInitPWGHeader</a></li>
+            <li><a href="#cupsRasterOpen">cupsRasterOpen</a></li>
+            <li><a href="#cupsRasterOpenIO">cupsRasterOpenIO</a></li>
+            <li><a href="#cupsRasterReadHeader">cupsRasterReadHeader</a></li>
+            <li><a href="#cupsRasterReadHeader2">cupsRasterReadHeader2</a></li>
+            <li><a href="#cupsRasterReadPixels">cupsRasterReadPixels</a></li>
+            <li><a href="#cupsRasterWriteHeader">cupsRasterWriteHeader</a></li>
+            <li><a href="#cupsRasterWriteHeader2">cupsRasterWriteHeader2</a></li>
+            <li><a href="#cupsRasterWritePixels">cupsRasterWritePixels</a></li>
+          </ul>
+        </li>
+      <li><a href="#TYPES">数据类型</a>
+          <ul class="subcontents">
+            <li><a href="#cups_adv_t">cups_adv_t</a></li>
+            <li><a href="#cups_bool_t">cups_bool_t</a></li>
+            <li><a href="#cups_cspace_t">cups_cspace_t</a></li>
+            <li><a href="#cups_cut_t">cups_cut_t</a></li>
+            <li><a href="#cups_edge_t">cups_edge_t</a></li>
+            <li><a href="#cups_jog_t">cups_jog_t</a></li>
+            <li><a href="#cups_mode_t">cups_mode_t</a></li>
+            <li><a href="#cups_order_t">cups_order_t</a></li>
+            <li><a href="#cups_orient_t">cups_orient_t</a></li>
+            <li><a href="#cups_page_header2_t">cups_page_header2_t</a></li>
+            <li><a href="#cups_page_header_t">cups_page_header_t</a></li>
+            <li><a href="#cups_raster_iocb_t">cups_raster_iocb_t</a></li>
+            <li><a href="#cups_raster_t">cups_raster_t</a></li>
+          </ul>
+        </li>
+      <li><a href="#STRUCTURES">结构</a>
+          <ul class="subcontents">
+            <li><a href="#cups_page_header2_s">cups_page_header2_s</a></li>
+            <li><a href="#cups_page_header_s">cups_page_header_s</a></li>
+          </ul>
+        </li>
+      <li><a href="#ENUMERATIONS">枚举</a>
+          <ul class="subcontents">
+            <li><a href="#cups_adv_e">cups_adv_e</a></li>
+            <li><a href="#cups_bool_e">cups_bool_e</a></li>
+            <li><a href="#cups_cspace_e">cups_cspace_e</a></li>
+            <li><a href="#cups_cut_e">cups_cut_e</a></li>
+            <li><a href="#cups_edge_e">cups_edge_e</a></li>
+            <li><a href="#cups_jog_e">cups_jog_e</a></li>
+            <li><a href="#cups_mode_e">cups_mode_e</a></li>
+            <li><a href="#cups_order_e">cups_order_e</a></li>
+            <li><a href="#cups_orient_e">cups_orient_e</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
     <div class="body">
-<!--
+  <!--
   Raster API introduction for CUPS.
 
   Copyright © 2007-2019 by Apple Inc.
   Copyright © 1997-2006 by Easy Software Products, all rights reserved.
 
-  Licensed under Apache License v2.0.  See the file "LICENSE" for more
-  information.
--->
+  Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
+  -->
 
-    <h2 class='title'><a name="OVERVIEW">Overview</a></h2>
 
-    <p>The CUPS raster API provides a standard interface for reading and writing
-CUPS raster streams which are used for printing to raster printers. Because the
-raster format is updated from time to time, it is important to use this API to
-avoid incompatibilities with newer versions of CUPS.</p>
+    <h2 class='title'><a name="OVERVIEW">概述</a></h2>
 
-    <p>Two kinds of CUPS filters use the CUPS raster API - raster image processor
-(RIP) filters such as <code>pstoraster</code> and <code>cgpdftoraster</code>
-(macOS) that produce CUPS raster files and printer driver filters that
-convert CUPS raster files into a format usable by the printer. Printer
-driver filters are by far the most common.</p>
-
-    <p>CUPS raster files (<code>application/vnd.cups-raster</code>) consists of
-a stream of raster page descriptions produced by one of the RIP filters such as
-<var>pstoraster</var>, <var>imagetoraster</var>, or
-<var>cgpdftoraster</var>. CUPS raster files are referred to using the
-<a href='#cups_raster_t'><code>cups_raster_t</code></a> type and are
-opened using the <a href='#cupsRasterOpen'><code>cupsRasterOpen</code></a>
-function. For example, to read raster data from the standard input, open
-file descriptor 0:</p>
-
-    <pre class="example">
-#include &lt;cups/raster.h&gt;
-
-<a href="#cups_raster_t">cups_raster_t</a> *ras = <a href="#cupsRasterOpen">cupsRasterOpen</a>(0, CUPS_RASTER_READ);
-</pre>
-
-    <p>Each page of data begins with a page dictionary structure called
-<a href="#cups_page_header2_t"><code>cups_page_header2_t</code></a>. This
-structure contains the colorspace, bits per color, media size, media type,
-hardware resolution, and so forth used for the page.</p>
-
-<blockquote><b>Note:</b>
-
-  <p>Do not confuse the colorspace in the page header with the PPD
-  <tt>ColorModel</tt> keyword. <tt>ColorModel</tt> refers to the general type of
-  color used for a device (Gray, RGB, CMYK, DeviceN) and is often used to
-  select a particular colorspace for the page header along with the associate
-  color profile. The page header colorspace (<tt>cupsColorSpace</tt>) describes
-  both the type and organization of the color data, for example KCMY (black
-  first) instead of CMYK and RGBA (RGB + alpha) instead of RGB.</p>
-
-</blockquote>
-
-    <p>You read the page header using the
-<a href="#cupsRasterReadHeader2"><code>cupsRasterReadHeader2</code></a>
-function:</p>
-
+    <p>&emsp;&emsp;CUPS 光栅 API 提供了一个标准接口，用于读取和写入用于打印到光栅打印机的 CUPS 光栅流。由于光栅格式会不时更新，因此使用此 API 以避免与较新版本的 CUPS 不兼容非常重要。
+    <p>&emsp;&emsp;两种 CUPS 筛选器使用 CUPS 光栅 API － 光栅图像处理器（ RIP ）筛选器，如 <code>pstoraster</code> 和 <code>cgpdftoraster</code> （ macOS ），用于生成 CUPS 光栅文件，以及将 CUPS 光栅文件转换为打印机可用格式的打印机驱动程序筛选器。打印机驱动程序筛选器是目前最常见的。
+    <p>&emsp;&emsp;CUPS 光栅文件（ <code>application/vnd.cups-raster</code> ）由一个 RIP 筛选器生成的光栅页面描述流组成，如 <var>pstoraster</var> 、 <var>imagetoraster</var> 或 <var>cgpdftoraster</var> 。 CUPS 光栅文件使用 <a href='#cups_raster_t'><code>cups_raster_t</code></a> 类型引用，并使用 <a href='#cupsRasterOpen'><code>cupsRasterOpen</code></a> 函数打开。例如，要从标准输入读取光栅数据，请打开文件描述符 0 ：
+    <pre class="example">#include &lt;cups/raster.h&gt;<br><br><a href="#cups_raster_t">cups_raster_t</a> *ras = <a href="#cupsRasterOpen">cupsRasterOpen</a>(0, CUPS_RASTER_READ);</pre>
+    <p>&emsp;&emsp;每页数据都以一个名为 <a href="#cups_page_header2_t"><code>cups_page_header2_t</code></a> 的页面字典结构开始。此结构包含用于页面的颜色空间、每种颜色的位数、介质尺寸、介质类型、硬件分辨率等。
+    <blockquote>
+      <b>提示：</b>
+      <p>&emsp;&emsp;不要将页头中的颜色空间与 PPD <tt>ColorModel</tt> 关键字混淆。 <tt>ColorModel</tt> 是指用于设备的一般颜色类型（ Gray 、 RGB 、 CMYK 、 DeviceN ），通常用于为页头以及相关颜色配置文件选择特定的颜色空间。页头颜色空间（ <tt>cupsColorSpace</tt> ）描述了颜色数据的类型和组织，例如 KCMY （黑色优先）而不是 CMYK ， RGBA （ RGB + alpha ）而不是 RGB 。
+    </blockquote>
+    <p>&emsp;&emsp;您可以使用 <a href="#cupsRasterReadHeader2"><code>cupsRasterReadHeader2</code></a> 函数读取页头：
     <pre class="example">
 #include &lt;cups/raster.h&gt;
 
@@ -603,21 +579,13 @@ function:</p>
 
 while (<a href="#cupsRasterReadHeader2">cupsRasterReadHeader2</a>(ras, &amp;header))
 {
-  /* setup this page */
+  /* 设置此页 */
 
-  /* read raster data */
+  /* 读取光栅数据 */
 
-  /* finish this page */
-}
-</pre>
-
-    <p>After the page dictionary comes the page data which is a full-resolution,
-possibly compressed bitmap representing the page in the printer's output
-colorspace. You read uncompressed raster data using the
-<a href="#cupsRasterReadPixels"><code>cupsRasterReadPixels</code></a>
-function. A <code>for</code> loop is normally used to read the page one line
-at a time:</p>
-
+  /* 完成此页 */
+}</pre>
+    <p>&emsp;&emsp;页面字典之后是页面数据，它是一个完整分辨率，可能是代表打印机输出颜色空间中页面的压缩位图。您可以使用 <a href="#cupsRasterReadPixels"><code>cupsRasterReadPixels</code></a> 函数读取未压缩的光栅数据。 <code>for</code> 循环通常用于一次读取页面的一行：
     <pre class="example">
 #include &lt;cups/raster.h&gt;
 
@@ -629,358 +597,308 @@ char *buffer;
 
 while (<a href="#cupsRasterReadHeader2">cupsRasterReadHeader2</a>(ras, &amp;header))
 {
-  /* setup this page */
+  /* 设置此页 */
   page ++;
   fprintf(stderr, "PAGE: %d %d\n", page, header.NumCopies);
 
-  /* allocate memory for 1 line */
+  /* 为 1 行分配内存 */
   buffer = malloc(header.cupsBytesPerLine);
 
-  /* read raster data */
+  /* 读取光栅数据 */
   for (y = 0; y &lt; header.cupsHeight; y ++)
   {
     if (<a href="#cupsRasterReadPixels">cupsRasterReadPixels</a>(ras, buffer, header.cupsBytesPerLine) == 0)
       break;
 
-    /* write raster data to printer on stdout */
+    /* 将光栅数据写入标准输出上的打印机 */
   }
 
-  /* finish this page */
-}
-</pre>
-
-    <p>When you are done reading the raster data, call the
-<a href="#cupsRasterClose"><code>cupsRasterClose</code></a> function to free
-the memory used to read the raster file:</p>
-
-    <pre class="example">
-<a href="#cups_raster_t">cups_raster_t</a> *ras;
-
-<a href="#cupsRasterClose">cupsRasterClose</a>(ras);
-</pre>
+  /* 完成此页 */
+}</pre>
+    <p>&emsp;&emsp;读取完光栅数据后，请调用 <a href="#cupsRasterClose"><code>cupsRasterClose</code></a> 函数以释放用于读取光栅文件的内存：
+    <pre class="example"><a href="#cups_raster_t">cups_raster_t</a> *ras;<br><br><a href="#cupsRasterClose">cupsRasterClose</a>(ras);</pre>
 
 
-    <h2 class='title'><a name="TASKS">Functions by Task</a></h2>
+    <h2 class='title'><a name="TASKS">按任务划分的函数</a></h2>
 
-    <h3><a name="OPENCLOSE">Opening and Closing Raster Streams</a></h3>
+    <h3><a name="OPENCLOSE">打开和关闭光栅流</a></h3>
+    <ul class="code">
+      <li><a href="#cupsRasterClose" title="Close a raster stream.">cupsRasterClose</a></li>
+      <li><a href="#cupsRasterOpen" title="Open a raster stream.">cupsRasterOpen</a></li>
+    </ul>
 
-<ul class="code">
+    <h3><a name="READING">读取光栅流</a></h3>
+    <ul class="code">
+      <li><a href="#cupsRasterReadHeader" title="Read a raster page header and store it in a version 1 page header structure.">cupsRasterReadHeader</a> <span class="info">Deprecated in CUPS 1.2/macOS 10.5</span></li>
+      <li><a href="#cupsRasterReadHeader2" title="Read a raster page header and store it in a version 2 page header structure.">cupsRasterReadHeader2</a></li>
+      <li><a href="#cupsRasterReadPixels" title="Read raster pixels.">cupsRasterReadPixels</a></li>
+    </ul>
 
-	<li><a href="#cupsRasterClose" title="Close a raster stream.">cupsRasterClose</a></li>
-	<li><a href="#cupsRasterOpen" title="Open a raster stream.">cupsRasterOpen</a></li>
+    <h3><a name="WRITING">写入光栅流</a></h3>
+    <ul class="code">
+      <li><a href="#cupsRasterInitPWGHeader" title="Interpret IPP attributes to create a page header.">cupsRasterInitPWGHeader</a></li>
+      <li><a href="#cupsRasterWriteHeader" title="Write a raster page header from a version 1 page header structure.">cupsRasterWriteHeader</a> <span class="info">Deprecated in CUPS 1.2/macOS 10.5</span></li>
+      <li><a href="#cupsRasterWriteHeader2" title="Write a raster page header from a version 2 page header structure.">cupsRasterWriteHeader2</a></li>
+      <li><a href="#cupsRasterWritePixels" title="Write raster pixels.">cupsRasterWritePixels</a></li>
+    </ul>
 
-</ul>
 
-    <h3><a name="READING">Reading Raster Streams</a></h3>
+    <h2 class="title"><a id="FUNCTIONS">函数</a></h2>
 
-<ul class="code">
-
-	<li><a href="#cupsRasterReadHeader" title="Read a raster page header and store it in a version 1 page header structure.">cupsRasterReadHeader</a> <span class="info">Deprecated in CUPS 1.2/macOS 10.5</span></li>
-	<li><a href="#cupsRasterReadHeader2" title="Read a raster page header and store it in a version 2 page header structure.">cupsRasterReadHeader2</a></li>
-	<li><a href="#cupsRasterReadPixels" title="Read raster pixels.">cupsRasterReadPixels</a></li>
-
-</ul>
-
-    <h3><a name="WRITING">Writing Raster Streams</a></h3>
-
-<ul class="code">
-
-	<li><a href="#cupsRasterInitPWGHeader" title="Interpret IPP attributes to create a page header.">cupsRasterInitPWGHeader</a></li>
-	<li><a href="#cupsRasterWriteHeader" title="Write a raster page header from a version 1 page header structure.">cupsRasterWriteHeader</a> <span class="info">Deprecated in CUPS 1.2/macOS 10.5</span></li>
-	<li><a href="#cupsRasterWriteHeader2" title="Write a raster page header from a version 2 page header structure.">cupsRasterWriteHeader2</a></li>
-	<li><a href="#cupsRasterWritePixels" title="Write raster pixels.">cupsRasterWritePixels</a></li>
-
-</ul>
-      <h2 class="title"><a id="FUNCTIONS">Functions</a></h2>
     <h3 class="function"><a id="cupsRasterClose">cupsRasterClose</a></h3>
-        <p class="description">Close a raster stream.</p>
-    <p class="code">
-void cupsRasterClose(<a href="#cups_raster_t">cups_raster_t</a> *r);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Stream to close</td></tr>
-</tbody></table>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">The file descriptor associated with the raster stream must be closed
-separately as needed.</p>
+    <p class="description">&emsp;&emsp;关闭光栅流。
+    <p class="code">void cupsRasterClose(<a href="#cups_raster_t">cups_raster_t</a> *r);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">要关闭的流</td></tr>
+      </tbody>
+    </table>
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;必须根据需要单独关闭与光栅流关联的文件描述符。
+
     <h3 class="function"><span class="info">&#160;CUPS 1.3/macOS 10.5&#160;</span><a id="cupsRasterErrorString">cupsRasterErrorString</a></h3>
-        <p class="description">Return the last error from a raster function.</p>
-    <p class="code">
-const char *cupsRasterErrorString(void);</p>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Last error or <code>NULL</code></p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">If there are no recent errors, <code>NULL</code> is returned.
+    <p class="description">&emsp;&emsp;返回光栅函数的最后一个错误。
+    <p class="code">const char *cupsRasterErrorString(void);
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;最后一个错误或 <code>NULL</code>
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;如果最近没有错误，则返回 <code>NULL</code> 。
 
-</p>
     <h3 class="function"><span class="info">&#160;CUPS 2.2/macOS 10.12&#160;</span><a id="cupsRasterInitPWGHeader">cupsRasterInitPWGHeader</a></h3>
-        <p class="description">Initialize a page header for PWG Raster output.</p>
-    <p class="code">
-int cupsRasterInitPWGHeader(<a href="#cups_page_header2_t">cups_page_header2_t</a> *h, pwg_media_t *media, const char *type, int xdpi, int ydpi, const char *sides, const char *sheet_back);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>h</th>
-        <td class="description">Page header</td></tr>
-<tr><th>media</th>
-        <td class="description">PWG media information</td></tr>
-<tr><th>type</th>
-        <td class="description">PWG raster type string</td></tr>
-<tr><th>xdpi</th>
-        <td class="description">Cross-feed direction (horizontal) resolution</td></tr>
-<tr><th>ydpi</th>
-        <td class="description">Feed direction (vertical) resolution</td></tr>
-<tr><th>sides</th>
-        <td class="description">IPP &quot;sides&quot; option value</td></tr>
-<tr><th>sheet_back</th>
-        <td class="description">Transform for back side or <code>NULL</code> for none</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">1 on success, 0 on failure</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">The &quot;media&quot; argument specifies the media to use.<br>
-<br>
-The &quot;type&quot; argument specifies a &quot;pwg-raster-document-type-supported&quot; value
-that controls the color space and bit depth of the raster data.<br>
-<br>
-The &quot;xres&quot; and &quot;yres&quot; arguments specify the raster resolution in dots per
-inch.<br>
-<br>
-The &quot;sheet_back&quot; argument specifies a &quot;pwg-raster-document-sheet-back&quot; value
-to apply for the back side of a page.  Pass <code>NULL</code> for the front side.
+    <p class="description">&emsp;&emsp;初始化 PWG 光栅输出的页头。
+    <p class="code">int cupsRasterInitPWGHeader(<a href="#cups_page_header2_t">cups_page_header2_t</a> *h, pwg_media_t *media, const char *type, int xdpi, int ydpi, const char *sides, const char *sheet_back);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>h</th>
+        <td class="description">页头</td></tr>
+      <tr><th>media</th>
+        <td class="description">PWG 媒体信息</td></tr>
+      <tr><th>type</th>
+        <td class="description">PWG 光栅类型字符串</td></tr>
+      <tr><th>xdpi</th>
+        <td class="description">交叉馈电方向（水平）分辨率</td></tr>
+      <tr><th>ydpi</th>
+        <td class="description">进给方向（垂直）分辨率</td></tr>
+      <tr><th>sides</th>
+        <td class="description">IPP “边” 选项值</td></tr>
+      <tr><th>sheet_back</th>
+        <td class="description">背面变换或 <code>NULL</code> 表示无</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 1 ，失败为 0
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;“media” 参数指定要使用的媒体。<br><br>
+      &emsp;&emsp;“type” 参数指定一个 “pwg-raster-document-type-supported” 值，该值控制光栅数据的颜色空间和位深度。<br><br>
+      &emsp;&emsp;“xres” 和 “yres” 参数指定光栅分辨率，单位为每英寸点数。<br><br>
+      &emsp;&emsp;“sheet_back” 参数指定了一个 “pwg-raster-document-sheet-back” 值，用于页面背面。传入 <code>NULL</code> 则为正面。
 
-</p>
     <h3 class="function"><a id="cupsRasterOpen">cupsRasterOpen</a></h3>
-        <p class="description">Open a raster stream using a file descriptor.</p>
-    <p class="code">
-<a href="#cups_raster_t">cups_raster_t</a> *cupsRasterOpen(int fd, <a href="#cups_mode_t">cups_mode_t</a> mode);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>fd</th>
-        <td class="description">File descriptor</td></tr>
-<tr><th>mode</th>
-        <td class="description">Mode - <code>CUPS_RASTER_READ</code>,
-<code>CUPS_RASTER_WRITE</code>,
-<code>CUPS_RASTER_WRITE_COMPRESSED</code>,
-or <code>CUPS_RASTER_WRITE_PWG</code></td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">New stream</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function associates a raster stream with the given file descriptor.
-For most printer driver filters, &quot;fd&quot; will be 0 (stdin).  For most raster
-image processor (RIP) filters that generate raster data, &quot;fd&quot; will be 1
-(stdout).<br>
-<br>
-When writing raster data, the <code>CUPS_RASTER_WRITE</code>,
-<code>CUPS_RASTER_WRITE_COMPRESS</code>, or <code>CUPS_RASTER_WRITE_PWG</code> mode can
-be used - compressed and PWG output is generally 25-50% smaller but adds a
-100-300% execution time overhead.</p>
+    <p class="description">&emsp;&emsp;使用文件描述符打开光栅流。
+    <p class="code"><a href="#cups_raster_t">cups_raster_t</a> *cupsRasterOpen(int fd, <a href="#cups_mode_t">cups_mode_t</a> mode);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>fd</th>
+        <td class="description">文件描述符</td></tr>
+      <tr><th>mode</th>
+        <td class="description">模式 － <code>CUPS_RASTER_READ</code> 、 <code>CUPS_RASTER_WRITE</code> 、 <code>CUPS_RASTER_WRITE_COMPRESSED</code> 或 <code>CUPS_RASTER_WRITE_PWG</code></td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;新的流
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数用于将光栅流与给定的文件描述符相关联。对于大多数打印机驱动程序筛选器， “fd” 将为 0 （标准输入）。对于大多数生成光栅数据的光栅图像处理器（ RIP ）筛选器，“fd” 将为 1 （标准输出）。
+      &emsp;&emsp;写入光栅数据时，可以使用 <code>CUPS_RASTER_WRITE</code> 、 <code>CUPS_RASTER_WRITE_COMPRESS</code> 或 <code>CUPS_RASTER_WRITE_PWG</code> 模式 － 压缩和 PWG 输出通常要小 25-50% ，但会增加 100-300% 的执行时间开销。
+
     <h3 class="function"><a id="cupsRasterOpenIO">cupsRasterOpenIO</a></h3>
-        <p class="description">Open a raster stream using a callback function.</p>
-    <p class="code">
-<a href="#cups_raster_t">cups_raster_t</a> *cupsRasterOpenIO(<a href="#cups_raster_iocb_t">cups_raster_iocb_t</a> iocb, void *ctx, <a href="#cups_mode_t">cups_mode_t</a> mode);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>iocb</th>
-        <td class="description">Read/write callback</td></tr>
-<tr><th>ctx</th>
-        <td class="description">Context pointer for callback</td></tr>
-<tr><th>mode</th>
-        <td class="description">Mode - <code>CUPS_RASTER_READ</code>,
-<code>CUPS_RASTER_WRITE</code>,
-<code>CUPS_RASTER_WRITE_COMPRESSED</code>,
-or <code>CUPS_RASTER_WRITE_PWG</code></td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">New stream</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function associates a raster stream with the given callback function and
-context pointer.<br>
-<br>
-When writing raster data, the <code>CUPS_RASTER_WRITE</code>,
-<code>CUPS_RASTER_WRITE_COMPRESS</code>, or <code>CUPS_RASTER_WRITE_PWG</code> mode can
-be used - compressed and PWG output is generally 25-50% smaller but adds a
-100-300% execution time overhead.</p>
-    <h3 class="function"><span class="info">&#160;DEPRECATED&#160;</span><a id="cupsRasterReadHeader">cupsRasterReadHeader</a></h3>
-        <p class="description">Read a raster page header and store it in a
-version 1 page header structure.</p>
-    <p class="code">
-unsigned cupsRasterReadHeader(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header_t">cups_page_header_t</a> *h);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Raster stream</td></tr>
-<tr><th>h</th>
-        <td class="description">Pointer to header data</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">1 on success, 0 on failure/end-of-file</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function is deprecated. Use <a href="#cupsRasterReadHeader2"><code>cupsRasterReadHeader2</code></a> instead.<br>
-<br>
-Version 1 page headers were used in CUPS 1.0 and 1.1 and contain a subset
-of the version 2 page header data. This function handles reading version 2
-page headers and copying only the version 1 data into the provided buffer.
+    <p class="description">&emsp;&emsp;使用回调函数打开光栅流。
+    <p class="code"><a href="#cups_raster_t">cups_raster_t</a> *cupsRasterOpenIO(<a href="#cups_raster_iocb_t">cups_raster_iocb_t</a> iocb, void *ctx, <a href="#cups_mode_t">cups_mode_t</a> mode);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>iocb</th>
+        <td class="description">读/写回调</td></tr>
+      <tr><th>ctx</th>
+        <td class="description">回调的上下文指针</td></tr>
+      <tr><th>mode</th>
+        <td class="description">模式 － <code>CUPS_RASTER_READ</code> 、 <code>CUPS_RASTER_WRITE</code> 、 <code>CUPS_RASTER_WRITE_COMPRESSED</code> 或 <code>CUPS_RASTER_WRITE_PWG</code></td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;新的流
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数将光栅流与给定的回调函数和上下文指针相关联。<br><br>
+      &emsp;&emsp;写入光栅数据时，可以使用 <code>CUPS_RASTER_WRITE</code> 、 <code>CUPS_RASTER_WRITE_COMPRESS</code> 或 <code>CUPS_RASTER_WRITE_PWG</code> 模式 － 压缩和 PWG 输出通常要小 25-50% ，但会增加 100-300% 的执行时间开销。
 
-</p>
+    <h3 class="function"><span class="info">&#160;不建议使用&#160;</span><a id="cupsRasterReadHeader">cupsRasterReadHeader</a></h3>
+    <p class="description">&emsp;&emsp;读取光栅页头并将其存储在版本 1 页头结构中。
+    <p class="code">unsigned cupsRasterReadHeader(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header_t">cups_page_header_t</a> *h);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">光栅流</td></tr>
+      <tr><th>h</th>
+        <td class="description">指向头数据的指针</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 1 ，失败/文件结束为 0
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数已弃用。改用 <a href="#cupsRasterReadHeader2"><code>cupsRasterReadHeader2</code></a> 。<br><br>
+      &emsp;&emsp;CUP 1.0 和 1.1 中使用了版本 1 的页头，包含版本 2 页头数据的子集。此函数用于读取版本 2 的页头，并仅将版本 1 的数据复制到提供的缓冲区中。
+
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cupsRasterReadHeader2">cupsRasterReadHeader2</a></h3>
-        <p class="description">Read a raster page header and store it in a
-version 2 page header structure.</p>
-    <p class="code">
-unsigned cupsRasterReadHeader2(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header2_t">cups_page_header2_t</a> *h);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Raster stream</td></tr>
-<tr><th>h</th>
-        <td class="description">Pointer to header data</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">1 on success, 0 on failure/end-of-file</p>
+    <p class="description">&emsp;&emsp;读取光栅页头并将其存储在版本 2 页头结构中。
+    <p class="code">unsigned cupsRasterReadHeader2(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header2_t">cups_page_header2_t</a> *h);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">光栅流</td></tr>
+      <tr><th>h</th>
+        <td class="description">指向头数据的指针</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 1 ，失败/文件结束为 0
+
     <h3 class="function"><a id="cupsRasterReadPixels">cupsRasterReadPixels</a></h3>
-        <p class="description">Read raster pixels.</p>
-    <p class="code">
-unsigned cupsRasterReadPixels(<a href="#cups_raster_t">cups_raster_t</a> *r, unsigned char *p, unsigned len);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Raster stream</td></tr>
-<tr><th>p</th>
-        <td class="description">Pointer to pixel buffer</td></tr>
-<tr><th>len</th>
-        <td class="description">Number of bytes to read</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Number of bytes read</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">For best performance, filters should read one or more whole lines.
-The &quot;cupsBytesPerLine&quot; value from the page header can be used to allocate
-the line buffer and as the number of bytes to read.</p>
-    <h3 class="function"><span class="info">&#160;DEPRECATED&#160;</span><a id="cupsRasterWriteHeader">cupsRasterWriteHeader</a></h3>
-        <p class="description">Write a raster page header from a version 1 page
-header structure.</p>
-    <p class="code">
-unsigned cupsRasterWriteHeader(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header_t">cups_page_header_t</a> *h);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Raster stream</td></tr>
-<tr><th>h</th>
-        <td class="description">Raster page header</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">1 on success, 0 on failure</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">This function is deprecated. Use <a href="#cupsRasterWriteHeader2"><code>cupsRasterWriteHeader2</code></a> instead.
+    <p class="description">&emsp;&emsp;读取光栅像素。
+    <p class="code">unsigned cupsRasterReadPixels(<a href="#cups_raster_t">cups_raster_t</a> *r, unsigned char *p, unsigned len);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">光栅流</td></tr>
+      <tr><th>p</th>
+        <td class="description">指向像素缓冲区的指针</td></tr>
+      <tr><th>len</th>
+        <td class="description">要读取的字节数</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;读取的字节数
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;为了获得最佳性能，筛选器应该读取一条或多条整行。页头中的 “cupsBytesPerLine” 值可用于分配行缓冲区，并作为要读取的字节数。
 
-</p>
+    <h3 class="function"><span class="info">&#160;不建议使用&#160;</span><a id="cupsRasterWriteHeader">cupsRasterWriteHeader</a></h3>
+    <p class="description">&emsp;&emsp;从版本 1 页头结构写入光栅页头。
+    <p class="code">unsigned cupsRasterWriteHeader(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header_t">cups_page_header_t</a> *h);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">光栅流</td></tr>
+      <tr><th>h</th>
+        <td class="description">光栅页头</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 1 ，失败为 0
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;此函数已弃用。改用 <a href="#cupsRasterWriteHeader2"><code>cupsRasterWriteHeader2</code></a> 。
+
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cupsRasterWriteHeader2">cupsRasterWriteHeader2</a></h3>
-        <p class="description">Write a raster page header from a version 2
-page header structure.</p>
-    <p class="code">
-unsigned cupsRasterWriteHeader2(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header2_t">cups_page_header2_t</a> *h);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Raster stream</td></tr>
-<tr><th>h</th>
-        <td class="description">Raster page header</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">1 on success, 0 on failure</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">The page header can be initialized using <a href="#cupsRasterInitPWGHeader"><code>cupsRasterInitPWGHeader</code></a>.
+    <p class="description">&emsp;&emsp;从版本 2 页头结构写入光栅页头。
+    <p class="code">unsigned cupsRasterWriteHeader2(<a href="#cups_raster_t">cups_raster_t</a> *r, <a href="#cups_page_header2_t">cups_page_header2_t</a> *h);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">光栅流</td></tr>
+      <tr><th>h</th>
+        <td class="description">光栅页头</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;成功为 1 ，失败为 0
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;可以使用 <a href="#cupsRasterInitPWGHeader"><code>cupsRasterInitPWGHeader</code></a> 初始化页头。
 
-</p>
     <h3 class="function"><a id="cupsRasterWritePixels">cupsRasterWritePixels</a></h3>
-        <p class="description">Write raster pixels.</p>
-    <p class="code">
-unsigned cupsRasterWritePixels(<a href="#cups_raster_t">cups_raster_t</a> *r, unsigned char *p, unsigned len);</p>
-<h4 class="parameters">Parameters</h4>
-<table class="list"><tbody>
-<tr><th>r</th>
-        <td class="description">Raster stream</td></tr>
-<tr><th>p</th>
-        <td class="description">Bytes to write</td></tr>
-<tr><th>len</th>
-        <td class="description">Number of bytes to write</td></tr>
-</tbody></table>
-<h4 class="returnvalue">Return Value</h4>
-        <p class="description">Number of bytes written</p>
-<h4 class="discussion">Discussion</h4>
-        <p class="discussion">For best performance, filters should write one or more whole lines.
-The &quot;cupsBytesPerLine&quot; value from the page header can be used to allocate
-the line buffer and as the number of bytes to write.</p>
-      <h2 class="title"><a id="TYPES">Data Types</a></h2>
-      <h3 class="typedef"><a id="cups_adv_t">cups_adv_t</a></h3>
-        <p class="description">AdvanceMedia attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_adv_e">cups_adv_e</a> cups_adv_t;
-</p>
-      <h3 class="typedef"><a id="cups_bool_t">cups_bool_t</a></h3>
-        <p class="description">Boolean type</p>
-      <p class="code">
-typedef enum <a href="#cups_bool_e">cups_bool_e</a> cups_bool_t;
-</p>
-      <h3 class="typedef"><a id="cups_cspace_t">cups_cspace_t</a></h3>
-        <p class="description">cupsColorSpace attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_cspace_e">cups_cspace_e</a> cups_cspace_t;
-</p>
-      <h3 class="typedef"><a id="cups_cut_t">cups_cut_t</a></h3>
-        <p class="description">CutMedia attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_cut_e">cups_cut_e</a> cups_cut_t;
-</p>
-      <h3 class="typedef"><a id="cups_edge_t">cups_edge_t</a></h3>
-        <p class="description">LeadingEdge attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_edge_e">cups_edge_e</a> cups_edge_t;
-</p>
-      <h3 class="typedef"><a id="cups_jog_t">cups_jog_t</a></h3>
-        <p class="description">Jog attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_jog_e">cups_jog_e</a> cups_jog_t;
-</p>
-      <h3 class="typedef"><a id="cups_mode_t">cups_mode_t</a></h3>
-        <p class="description">cupsRasterOpen modes</p>
-      <p class="code">
-typedef enum <a href="#cups_mode_e">cups_mode_e</a> cups_mode_t;
-</p>
-      <h3 class="typedef"><a id="cups_order_t">cups_order_t</a></h3>
-        <p class="description">cupsColorOrder attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_order_e">cups_order_e</a> cups_order_t;
-</p>
-      <h3 class="typedef"><a id="cups_orient_t">cups_orient_t</a></h3>
-        <p class="description">Orientation attribute values</p>
-      <p class="code">
-typedef enum <a href="#cups_orient_e">cups_orient_e</a> cups_orient_t;
-</p>
-      <h3 class="typedef"><a id="cups_page_header2_t"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span>cups_page_header2_t</a></h3>
-        <p class="description">Version 2 page header </p>
-      <p class="code">
-typedef struct <a href="#cups_page_header2_s">cups_page_header2_s</a> cups_page_header2_t;
-</p>
-      <h3 class="typedef"><a id="cups_page_header_t"><span class="info">&#160;DEPRECATED&#160;</span>cups_page_header_t</a></h3>
-        <p class="description">Version 1 page header </p>
-      <p class="code">
-typedef struct <a href="#cups_page_header_s">cups_page_header_s</a> cups_page_header_t;
-</p>
-      <h3 class="typedef"><a id="cups_raster_iocb_t">cups_raster_iocb_t</a></h3>
-        <p class="description">cupsRasterOpenIO callback function</p>
-      <p class="code">
-typedef ssize_t (*cups_raster_iocb_t)(void *ctx, unsigned char *buffer, size_t length);
-</p>
-      <h3 class="typedef"><a id="cups_raster_t">cups_raster_t</a></h3>
-        <p class="description">Raster stream data</p>
-      <p class="code">
-typedef struct _cups_raster_s cups_raster_t;
-</p>
-      <h2 class="title"><a id="STRUCTURES">Structures</a></h2>
+    <p class="description">&emsp;&emsp;写入光栅像素。
+    <p class="code">unsigned cupsRasterWritePixels(<a href="#cups_raster_t">cups_raster_t</a> *r, unsigned char *p, unsigned len);
+    <h4 class="parameters">参数</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>r</th>
+        <td class="description">光栅流</td></tr>
+      <tr><th>p</th>
+        <td class="description">要写入的字节</td></tr>
+      <tr><th>len</th>
+        <td class="description">要写入的字节数</td></tr>
+      </tbody>
+    </table>
+    <h4 class="returnvalue">返回值</h4>
+    <p class="description">&emsp;&emsp;写入的字节数
+    <h4 class="parameters">详述</h4>
+    <p class="discussion">&emsp;&emsp;为了获得最佳性能，筛选器应该写入一行或多行。页头中的 “cupsBytesPerLine” 值可用于分配行缓冲区，并用作要写入的字节数。
+
+
+    <h2 class="title"><a id="TYPES">数据类型</a></h2>
+
+    <h3 class="typedef"><a id="cups_adv_t">cups_adv_t</a></h3>
+    <p class="description">&emsp;&emsp;推进介质属性值
+    <p class="code">typedef enum <a href="#cups_adv_e">cups_adv_e</a> cups_adv_t;
+
+    <h3 class="typedef"><a id="cups_bool_t">cups_bool_t</a></h3>
+    <p class="description">&emsp;&emsp;布尔型
+    <p class="code">typedef enum <a href="#cups_bool_e">cups_bool_e</a> cups_bool_t;
+
+    <h3 class="typedef"><a id="cups_cspace_t">cups_cspace_t</a></h3>
+    <p class="description">&emsp;&emsp;CUPS 颜色空间属性值
+    <p class="code">typedef enum <a href="#cups_cspace_e">cups_cspace_e</a> cups_cspace_t;
+
+    <h3 class="typedef"><a id="cups_cut_t">cups_cut_t</a></h3>
+    <p class="description">&emsp;&emsp;介质裁切属性值
+    <p class="code">typedef enum <a href="#cups_cut_e">cups_cut_e</a> cups_cut_t;
+
+    <h3 class="typedef"><a id="cups_edge_t">cups_edge_t</a></h3>
+    <p class="description">&emsp;&emsp;LeadingEdge 属性值
+    <p class="code">typedef enum <a href="#cups_edge_e">cups_edge_e</a> cups_edge_t;
+
+    <h3 class="typedef"><a id="cups_jog_t">cups_jog_t</a></h3>
+    <p class="description">&emsp;&emsp;Jog 属性值
+    <p class="code">typedef enum <a href="#cups_jog_e">cups_jog_e</a> cups_jog_t;
+
+    <h3 class="typedef"><a id="cups_mode_t">cups_mode_t</a></h3>
+    <p class="description">&emsp;&emsp;CPUS 光栅打开模式
+    <p class="code">typedef enum <a href="#cups_mode_e">cups_mode_e</a> cups_mode_t;
+
+    <h3 class="typedef"><a id="cups_order_t">cups_order_t</a></h3>
+    <p class="description">&emsp;&emsp;CUPS 色彩顺序属性值
+    <p class="code">typedef enum <a href="#cups_order_e">cups_order_e</a> cups_order_t;
+
+    <h3 class="typedef"><a id="cups_orient_t">cups_orient_t</a></h3>
+    <p class="description">&emsp;&emsp;方向属性值
+    <p class="code">typedef enum <a href="#cups_orient_e">cups_orient_e</a> cups_orient_t;
+
+    <h3 class="typedef"><a id="cups_page_header2_t"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span>cups_page_header2_t</a></h3>
+    <p class="description">&emsp;&emsp;版本 2 页头
+    <p class="code">typedef struct <a href="#cups_page_header2_s">cups_page_header2_s</a> cups_page_header2_t;
+
+    <h3 class="typedef"><a id="cups_page_header_t"><span class="info">&#160;不建议使用&#160;</span>cups_page_header_t</a></h3>
+    <p class="description">&emsp;&emsp;版本 1 页头
+    <p class="code">typedef struct <a href="#cups_page_header_s">cups_page_header_s</a> cups_page_header_t;
+
+    <h3 class="typedef"><a id="cups_raster_iocb_t">cups_raster_iocb_t</a></h3>
+    <p class="description">&emsp;&emsp;cupsRasterOpenIO 回调函数
+    <p class="code">typedef ssize_t (*cups_raster_iocb_t)(void *ctx, unsigned char *buffer, size_t length);
+
+    <h3 class="typedef"><a id="cups_raster_t">cups_raster_t</a></h3>
+    <p class="description">&emsp;&emsp;光栅流数据
+    <p class="code">typedef struct _cups_raster_s cups_raster_t;
+
+
+    <h2 class="title"><a id="STRUCTURES">结构</a></h2>
+
     <h3 class="struct"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="cups_page_header2_s">cups_page_header2_s</a></h3>
-        <p class="description">Version 2 page header </p>
+    <p class="description">&emsp;&emsp;版本 2 页头
     <p class="code">struct cups_page_header2_s {<br>
 &#160;&#160;&#160;&#160;unsigned AdvanceDistance;<br>
 &#160;&#160;&#160;&#160;<a href="#cups_adv_t">cups_adv_t</a> AdvanceMedia;<br>
@@ -1031,113 +949,113 @@ typedef struct _cups_raster_s cups_raster_t;
 &#160;&#160;&#160;&#160;unsigned cupsRowStep;<br>
 &#160;&#160;&#160;&#160;char cupsString[16][64];<br>
 &#160;&#160;&#160;&#160;unsigned cupsWidth;<br>
-};</p>
-<h4 class="members">Members</h4>
-<table class="list"><tbody>
-<tr><th>AdvanceDistance </th>
-        <td class="description">AdvanceDistance value in points</td></tr>
-<tr><th>AdvanceMedia </th>
-        <td class="description">AdvanceMedia value (<a href="#cups_adv_t"><code>cups_adv_t</code></a>)</td></tr>
-<tr><th>Collate </th>
-        <td class="description">Collated copies value</td></tr>
-<tr><th>CutMedia </th>
-        <td class="description">CutMedia value (<a href="#cups_cut_t"><code>cups_cut_t</code></a>)</td></tr>
-<tr><th>Duplex </th>
-        <td class="description">Duplexed (double-sided) value</td></tr>
-<tr><th>HWResolution[2] </th>
-        <td class="description">Resolution in dots-per-inch</td></tr>
-<tr><th>ImagingBoundingBox[4] </th>
-        <td class="description">Pixel region that is painted (points, left, bottom, right, top)</td></tr>
-<tr><th>InsertSheet </th>
-        <td class="description">InsertSheet value</td></tr>
-<tr><th>Jog </th>
-        <td class="description">Jog value (<a href="#cups_jog_t"><code>cups_jog_t</code></a>)</td></tr>
-<tr><th>LeadingEdge </th>
-        <td class="description">LeadingEdge value (<a href="#cups_edge_t"><code>cups_edge_t</code></a>)</td></tr>
-<tr><th>ManualFeed </th>
-        <td class="description">ManualFeed value</td></tr>
-<tr><th>Margins[2] </th>
-        <td class="description">Lower-lefthand margins in points</td></tr>
-<tr><th>MediaClass[64] </th>
-        <td class="description">MediaClass string</td></tr>
-<tr><th>MediaColor[64] </th>
-        <td class="description">MediaColor string</td></tr>
-<tr><th>MediaPosition </th>
-        <td class="description">MediaPosition value</td></tr>
-<tr><th>MediaType[64] </th>
-        <td class="description">MediaType string</td></tr>
-<tr><th>MediaWeight </th>
-        <td class="description">MediaWeight value in grams/m^2</td></tr>
-<tr><th>MirrorPrint </th>
-        <td class="description">MirrorPrint value</td></tr>
-<tr><th>NegativePrint </th>
-        <td class="description">NegativePrint value</td></tr>
-<tr><th>NumCopies </th>
-        <td class="description">Number of copies to produce</td></tr>
-<tr><th>Orientation </th>
-        <td class="description">Orientation value (<a href="#cups_orient_t"><code>cups_orient_t</code></a>)</td></tr>
-<tr><th>OutputFaceUp </th>
-        <td class="description">OutputFaceUp value</td></tr>
-<tr><th>OutputType[64] </th>
-        <td class="description">OutputType string</td></tr>
-<tr><th>PageSize[2] </th>
-        <td class="description">Width and length of page in points</td></tr>
-<tr><th>Separations </th>
-        <td class="description">Separations value</td></tr>
-<tr><th>TraySwitch </th>
-        <td class="description">TraySwitch value</td></tr>
-<tr><th>Tumble </th>
-        <td class="description">Tumble value</td></tr>
-<tr><th>cupsBitsPerColor </th>
-        <td class="description">Number of bits for each color</td></tr>
-<tr><th>cupsBitsPerPixel </th>
-        <td class="description">Number of bits for each pixel</td></tr>
-<tr><th>cupsBorderlessScalingFactor <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">Scaling that was applied to page data </td></tr>
-<tr><th>cupsBytesPerLine </th>
-        <td class="description">Number of bytes per line</td></tr>
-<tr><th>cupsColorOrder </th>
-        <td class="description">Order of colors</td></tr>
-<tr><th>cupsColorSpace </th>
-        <td class="description">True colorspace</td></tr>
-<tr><th>cupsCompression </th>
-        <td class="description">Device compression to use</td></tr>
-<tr><th>cupsHeight </th>
-        <td class="description">Height of page image in pixels</td></tr>
-<tr><th>cupsImagingBBox[4] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">Floating point ImagingBoundingBox
-(scaling factor not applied, left,
-bottom, right, top) </td></tr>
-<tr><th>cupsInteger[16] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">User-defined integer values </td></tr>
-<tr><th>cupsMarkerType[64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">Ink/toner type </td></tr>
-<tr><th>cupsMediaType </th>
-        <td class="description">Media type code</td></tr>
-<tr><th>cupsNumColors <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">Number of color compoents </td></tr>
-<tr><th>cupsPageSizeName[64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">PageSize name </td></tr>
-<tr><th>cupsPageSize[2] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">Floating point PageSize (scaling *
-factor not applied) </td></tr>
-<tr><th>cupsReal[16] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">User-defined floating-point values </td></tr>
-<tr><th>cupsRenderingIntent[64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">Color rendering intent </td></tr>
-<tr><th>cupsRowCount </th>
-        <td class="description">Rows per band</td></tr>
-<tr><th>cupsRowFeed </th>
-        <td class="description">Feed between bands</td></tr>
-<tr><th>cupsRowStep </th>
-        <td class="description">Spacing between lines</td></tr>
-<tr><th>cupsString[16][64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
-        <td class="description">User-defined string values </td></tr>
-<tr><th>cupsWidth </th>
-        <td class="description">Width of page image in pixels</td></tr>
-</tbody></table>
-    <h3 class="struct"><span class="info">&#160;DEPRECATED&#160;</span><a id="cups_page_header_s">cups_page_header_s</a></h3>
-        <p class="description">Version 1 page header </p>
+};
+    <h4 class="members">成员</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>AdvanceDistance</th>
+        <td class="description">推进距离值（点）</td></tr>
+      <tr><th>AdvanceMedia</th>
+        <td class="description">推进介质值（ <a href="#cups_adv_t"><code>cups_adv_t</code></a> ）</td></tr>
+      <tr><th>Collate</th>
+        <td class="description">校对副本值</td></tr>
+      <tr><th>CutMedia</th>
+        <td class="description">CutMedia 值（ <a href="#cups_cut_t"><code>cups_cut_t</code></a> ）</td></tr>
+      <tr><th>Duplex</th>
+        <td class="description">双面值</td></tr>
+      <tr><th>HWResolution[2]</th>
+        <td class="description">分辨率（每英寸点数）</td></tr>
+      <tr><th>ImagingBoundingBox[4]</th>
+        <td class="description">绘制的像素区域（点，左、下、右、上）</td></tr>
+      <tr><th>InsertSheet</th>
+        <td class="description">InsertSheet 值</td></tr>
+      <tr><th>Jog</th>
+        <td class="description">Jog 值（ <a href="#cups_jog_t"><code>cups_jog_t</code></a> ）</td></tr>
+      <tr><th>LeadingEdge</th>
+        <td class="description">LeadingEdge 值（ <a href="#cups_edge_t"><code>cups_edge_t</code></a> ）</td></tr>
+      <tr><th>ManualFeed</th>
+        <td class="description">手动进纸值</td></tr>
+      <tr><th>Margins[2]</th>
+        <td class="description">Lower-lefthand 边距（点）</td></tr>
+      <tr><th>MediaClass[64]</th>
+        <td class="description">MediaClass 字符串</td></tr>
+      <tr><th>MediaColor[64]</th>
+        <td class="description">MediaColor 字符串</td></tr>
+      <tr><th>MediaPosition</th>
+        <td class="description">MediaPosition 值</td></tr>
+      <tr><th>MediaType[64]</th>
+        <td class="description">MediaType 字符串</td></tr>
+      <tr><th>MediaWeight</th>
+        <td class="description">MediaWeight 值（克/平方米）</td></tr>
+      <tr><th>MirrorPrint</th>
+        <td class="description">MirrorPrint 值</td></tr>
+      <tr><th>NegativePrint</th>
+        <td class="description">NegativePrint 值</td></tr>
+      <tr><th>NumCopies</th>
+        <td class="description">要制作的份数</td></tr>
+      <tr><th>Orientation</th>
+        <td class="description">方向值（ <a href="#cups_orient_t"><code>cups_orient_t</code></a> ）</td></tr>
+      <tr><th>OutputFaceUp</th>
+        <td class="description">OutputFaceUp 值</td></tr>
+      <tr><th>OutputType[64]</th>
+        <td class="description">输出类型字符串</td></tr>
+      <tr><th>PageSize[2]</th>
+        <td class="description">页面的宽度和长度（点）</td></tr>
+      <tr><th>Separations</th>
+        <td class="description">Separations 值</td></tr>
+      <tr><th>TraySwitch</th>
+        <td class="description">TraySwitch 值</td></tr>
+      <tr><th>Tumble</th>
+        <td class="description">Tumble 值</td></tr>
+      <tr><th>cupsBitsPerColor</th>
+        <td class="description">每种颜色的位数</td></tr>
+      <tr><th>cupsBitsPerPixel</th>
+        <td class="description">每个像素的位数</td></tr>
+      <tr><th>cupsBorderlessScalingFactor <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">应用于页面数据的缩放</td></tr>
+      <tr><th>cupsBytesPerLine</th>
+        <td class="description">每行的字节数</td></tr>
+      <tr><th>cupsColorOrder</th>
+        <td class="description">颜色顺序</td></tr>
+      <tr><th>cupsColorSpace</th>
+        <td class="description">真彩色空间</td></tr>
+      <tr><th>cupsCompression</th>
+        <td class="description">使用设备压缩</td></tr>
+      <tr><th>cupsHeight</th>
+        <td class="description">页面图像的高度（像素）</td></tr>
+      <tr><th>cupsImagingBBox[4] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">浮点 ImagingBoundingBox （未应用比例因子，左、下、右、上）</td></tr>
+      <tr><th>cupsInteger[16] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">用户定义的整数值</td></tr>
+      <tr><th>cupsMarkerType[64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">墨水/墨粉类型</td></tr>
+      <tr><th>cupsMediaType</th>
+        <td class="description">介质类型代码</td></tr>
+      <tr><th>cupsNumColors <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">颜色成分的数量</td></tr>
+      <tr><th>cupsPageSizeName[64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">页面大小名称</td></tr>
+      <tr><th>cupsPageSize[2] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">浮点页面大小（未应用缩放因子 * ）</td></tr>
+      <tr><th>cupsReal[16] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">用户定义的浮点值</td></tr>
+      <tr><th>cupsRenderingIntent[64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">显色意图</td></tr>
+      <tr><th>cupsRowCount</th>
+        <td class="description">每段行数</td></tr>
+      <tr><th>cupsRowFeed</th>
+        <td class="description">段间馈送</td></tr>
+      <tr><th>cupsRowStep</th>
+        <td class="description">行距</td></tr>
+      <tr><th>cupsString[16][64] <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+        <td class="description">用户定义的字符串值</td></tr>
+      <tr><th>cupsWidth</th>
+        <td class="description">页面图像的宽度（像素）</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="struct"><span class="info">&#160;不建议使用&#160;</span><a id="cups_page_header_s">cups_page_header_s</a></h3>
+    <p class="description">&emsp;&emsp;版本 1 页头
     <p class="code">struct cups_page_header_s {<br>
 &#160;&#160;&#160;&#160;unsigned AdvanceDistance;<br>
 &#160;&#160;&#160;&#160;<a href="#cups_adv_t">cups_adv_t</a> AdvanceMedia;<br>
@@ -1178,216 +1096,329 @@ factor not applied) </td></tr>
 &#160;&#160;&#160;&#160;unsigned cupsRowFeed;<br>
 &#160;&#160;&#160;&#160;unsigned cupsRowStep;<br>
 &#160;&#160;&#160;&#160;unsigned cupsWidth;<br>
-};</p>
-<h4 class="members">Members</h4>
-<table class="list"><tbody>
-<tr><th>AdvanceDistance </th>
-        <td class="description">AdvanceDistance value in points</td></tr>
-<tr><th>AdvanceMedia </th>
-        <td class="description">AdvanceMedia value (<a href="#cups_adv_t"><code>cups_adv_t</code></a>)</td></tr>
-<tr><th>Collate </th>
-        <td class="description">Collated copies value</td></tr>
-<tr><th>CutMedia </th>
-        <td class="description">CutMedia value (<a href="#cups_cut_t"><code>cups_cut_t</code></a>)</td></tr>
-<tr><th>Duplex </th>
-        <td class="description">Duplexed (double-sided) value</td></tr>
-<tr><th>HWResolution[2] </th>
-        <td class="description">Resolution in dots-per-inch</td></tr>
-<tr><th>ImagingBoundingBox[4] </th>
-        <td class="description">Pixel region that is painted (points, left, bottom, right, top)</td></tr>
-<tr><th>InsertSheet </th>
-        <td class="description">InsertSheet value</td></tr>
-<tr><th>Jog </th>
-        <td class="description">Jog value (<a href="#cups_jog_t"><code>cups_jog_t</code></a>)</td></tr>
-<tr><th>LeadingEdge </th>
-        <td class="description">LeadingEdge value (<a href="#cups_edge_t"><code>cups_edge_t</code></a>)</td></tr>
-<tr><th>ManualFeed </th>
-        <td class="description">ManualFeed value</td></tr>
-<tr><th>Margins[2] </th>
-        <td class="description">Lower-lefthand margins in points</td></tr>
-<tr><th>MediaClass[64] </th>
-        <td class="description">MediaClass string</td></tr>
-<tr><th>MediaColor[64] </th>
-        <td class="description">MediaColor string</td></tr>
-<tr><th>MediaPosition </th>
-        <td class="description">MediaPosition value</td></tr>
-<tr><th>MediaType[64] </th>
-        <td class="description">MediaType string</td></tr>
-<tr><th>MediaWeight </th>
-        <td class="description">MediaWeight value in grams/m^2</td></tr>
-<tr><th>MirrorPrint </th>
-        <td class="description">MirrorPrint value</td></tr>
-<tr><th>NegativePrint </th>
-        <td class="description">NegativePrint value</td></tr>
-<tr><th>NumCopies </th>
-        <td class="description">Number of copies to produce</td></tr>
-<tr><th>Orientation </th>
-        <td class="description">Orientation value (<a href="#cups_orient_t"><code>cups_orient_t</code></a>)</td></tr>
-<tr><th>OutputFaceUp </th>
-        <td class="description">OutputFaceUp value</td></tr>
-<tr><th>OutputType[64] </th>
-        <td class="description">OutputType string</td></tr>
-<tr><th>PageSize[2] </th>
-        <td class="description">Width and length of page in points</td></tr>
-<tr><th>Separations </th>
-        <td class="description">Separations value</td></tr>
-<tr><th>TraySwitch </th>
-        <td class="description">TraySwitch value</td></tr>
-<tr><th>Tumble </th>
-        <td class="description">Tumble value</td></tr>
-<tr><th>cupsBitsPerColor </th>
-        <td class="description">Number of bits for each color</td></tr>
-<tr><th>cupsBitsPerPixel </th>
-        <td class="description">Number of bits for each pixel</td></tr>
-<tr><th>cupsBytesPerLine </th>
-        <td class="description">Number of bytes per line</td></tr>
-<tr><th>cupsColorOrder </th>
-        <td class="description">Order of colors</td></tr>
-<tr><th>cupsColorSpace </th>
-        <td class="description">True colorspace</td></tr>
-<tr><th>cupsCompression </th>
-        <td class="description">Device compression to use</td></tr>
-<tr><th>cupsHeight </th>
-        <td class="description">Height of page image in pixels</td></tr>
-<tr><th>cupsMediaType </th>
-        <td class="description">Media type code</td></tr>
-<tr><th>cupsRowCount </th>
-        <td class="description">Rows per band</td></tr>
-<tr><th>cupsRowFeed </th>
-        <td class="description">Feed between bands</td></tr>
-<tr><th>cupsRowStep </th>
-        <td class="description">Spacing between lines</td></tr>
-<tr><th>cupsWidth </th>
-        <td class="description">Width of page image in pixels</td></tr>
-</tbody></table>
-      <h2 class="title"><a id="ENUMERATIONS">Constants</a></h2>
-      <h3 class="enumeration"><a id="cups_adv_e">cups_adv_e</a></h3>
-        <p class="description">AdvanceMedia attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_ADVANCE_FILE </th>        <td class="description">Advance the roll after this file</td></tr>
-        <tr><th>CUPS_ADVANCE_JOB </th>        <td class="description">Advance the roll after this job</td></tr>
-        <tr><th>CUPS_ADVANCE_NONE </th>        <td class="description">Never advance the roll</td></tr>
-        <tr><th>CUPS_ADVANCE_PAGE </th>        <td class="description">Advance the roll after this page</td></tr>
-        <tr><th>CUPS_ADVANCE_SET </th>        <td class="description">Advance the roll after this set</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_bool_e">cups_bool_e</a></h3>
-        <p class="description">Boolean type</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_FALSE </th>        <td class="description">Logical false</td></tr>
-        <tr><th>CUPS_TRUE </th>        <td class="description">Logical true</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_cspace_e">cups_cspace_e</a></h3>
-        <p class="description">cupsColorSpace attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_CSPACE_ADOBERGB <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">Red, green, blue (Adobe RGB) </td></tr>
-        <tr><th>CUPS_CSPACE_CIELab <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">CIE Lab </td></tr>
-        <tr><th>CUPS_CSPACE_CIEXYZ <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">CIE XYZ </td></tr>
-        <tr><th>CUPS_CSPACE_CMY </th>        <td class="description">Cyan, magenta, yellow (DeviceCMY)</td></tr>
-        <tr><th>CUPS_CSPACE_CMYK </th>        <td class="description">Cyan, magenta, yellow, black (DeviceCMYK)</td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE1 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 1 color </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE2 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 2 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE3 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 3 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE4 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 4 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE5 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 5 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE6 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 6 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE7 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 7 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE8 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 8 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICE9 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 9 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICEA <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 10 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICEB <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 11 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICEC <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 12 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICED <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 13 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICEE <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 14 colors </td></tr>
-        <tr><th>CUPS_CSPACE_DEVICEF <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">DeviceN, 15 colors </td></tr>
-        <tr><th>CUPS_CSPACE_GMCK <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Gold, magenta, yellow, black </td></tr>
-        <tr><th>CUPS_CSPACE_GMCS <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Gold, magenta, yellow, silver </td></tr>
-        <tr><th>CUPS_CSPACE_GOLD <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Gold foil </td></tr>
-        <tr><th>CUPS_CSPACE_ICC1 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 1 color </td></tr>
-        <tr><th>CUPS_CSPACE_ICC2 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 2 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC3 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 3 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC4 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 4 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC5 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 5 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC6 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 6 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC7 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 7 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC8 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 8 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICC9 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 9 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICCA <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 10 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICCB <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 11 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICCC <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 12 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICCD <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 13 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICCE <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 14 colors </td></tr>
-        <tr><th>CUPS_CSPACE_ICCF <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>        <td class="description">ICC-based, 15 colors </td></tr>
-        <tr><th>CUPS_CSPACE_K </th>        <td class="description">Black (DeviceK)</td></tr>
-        <tr><th>CUPS_CSPACE_KCMY <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Black, cyan, magenta, yellow </td></tr>
-        <tr><th>CUPS_CSPACE_KCMYcm <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Black, cyan, magenta, yellow, light-cyan, light-magenta </td></tr>
-        <tr><th>CUPS_CSPACE_RGB </th>        <td class="description">Red, green, blue (DeviceRGB, sRGB by default)</td></tr>
-        <tr><th>CUPS_CSPACE_RGBA </th>        <td class="description">Red, green, blue, alpha (DeviceRGB, sRGB by default)</td></tr>
-        <tr><th>CUPS_CSPACE_RGBW <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>        <td class="description">Red, green, blue, white (DeviceRGB, sRGB by default) </td></tr>
-        <tr><th>CUPS_CSPACE_SILVER <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Silver foil </td></tr>
-        <tr><th>CUPS_CSPACE_SRGB <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">Red, green, blue (sRGB) </td></tr>
-        <tr><th>CUPS_CSPACE_SW <span class="info">&#160;CUPS 1.4.5&#160;</span></th>        <td class="description">Luminance (gamma 2.2) </td></tr>
-        <tr><th>CUPS_CSPACE_W </th>        <td class="description">Luminance (DeviceGray, gamma 2.2 by default)</td></tr>
-        <tr><th>CUPS_CSPACE_WHITE <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">White ink (as black) </td></tr>
-        <tr><th>CUPS_CSPACE_YMC <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Yellow, magenta, cyan </td></tr>
-        <tr><th>CUPS_CSPACE_YMCK <span class="info">&#160;DEPRECATED&#160;</span></th>        <td class="description">Yellow, magenta, cyan, black </td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_cut_e">cups_cut_e</a></h3>
-        <p class="description">CutMedia attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_CUT_FILE </th>        <td class="description">Cut the roll after this file</td></tr>
-        <tr><th>CUPS_CUT_JOB </th>        <td class="description">Cut the roll after this job</td></tr>
-        <tr><th>CUPS_CUT_NONE </th>        <td class="description">Never cut the roll</td></tr>
-        <tr><th>CUPS_CUT_PAGE </th>        <td class="description">Cut the roll after this page</td></tr>
-        <tr><th>CUPS_CUT_SET </th>        <td class="description">Cut the roll after this set</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_edge_e">cups_edge_e</a></h3>
-        <p class="description">LeadingEdge attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_EDGE_BOTTOM </th>        <td class="description">Leading edge is the bottom of the page</td></tr>
-        <tr><th>CUPS_EDGE_LEFT </th>        <td class="description">Leading edge is the left of the page</td></tr>
-        <tr><th>CUPS_EDGE_RIGHT </th>        <td class="description">Leading edge is the right of the page</td></tr>
-        <tr><th>CUPS_EDGE_TOP </th>        <td class="description">Leading edge is the top of the page</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_jog_e">cups_jog_e</a></h3>
-        <p class="description">Jog attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_JOG_FILE </th>        <td class="description">Move pages after this file</td></tr>
-        <tr><th>CUPS_JOG_JOB </th>        <td class="description">Move pages after this job</td></tr>
-        <tr><th>CUPS_JOG_NONE </th>        <td class="description">Never move pages</td></tr>
-        <tr><th>CUPS_JOG_SET </th>        <td class="description">Move pages after this set</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_mode_e">cups_mode_e</a></h3>
-        <p class="description">cupsRasterOpen modes</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_RASTER_READ </th>        <td class="description">Open stream for reading</td></tr>
-        <tr><th>CUPS_RASTER_WRITE </th>        <td class="description">Open stream for writing</td></tr>
-        <tr><th>CUPS_RASTER_WRITE_COMPRESSED <span class="info">&#160;CUPS 1.3/macOS 10.5&#160;</span></th>        <td class="description">Open stream for compressed writing </td></tr>
-        <tr><th>CUPS_RASTER_WRITE_PWG <span class="info">&#160;CUPS 1.5/macOS 10.7&#160;</span></th>        <td class="description">Open stream for compressed writing in PWG Raster mode </td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_order_e">cups_order_e</a></h3>
-        <p class="description">cupsColorOrder attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_ORDER_BANDED </th>        <td class="description">CCC MMM YYY KKK ...</td></tr>
-        <tr><th>CUPS_ORDER_CHUNKED </th>        <td class="description">CMYK CMYK CMYK ...</td></tr>
-        <tr><th>CUPS_ORDER_PLANAR </th>        <td class="description">CCC ... MMM ... YYY ... KKK ...</td></tr>
-</tbody></table>
-      <h3 class="enumeration"><a id="cups_orient_e">cups_orient_e</a></h3>
-        <p class="description">Orientation attribute values</p>
-      <h4 class="constants">Constants</h4>
-      <table class="list"><tbody>
-        <tr><th>CUPS_ORIENT_0 </th>        <td class="description">Don't rotate the page</td></tr>
-        <tr><th>CUPS_ORIENT_180 </th>        <td class="description">Turn the page upside down</td></tr>
-        <tr><th>CUPS_ORIENT_270 </th>        <td class="description">Rotate the page clockwise</td></tr>
-        <tr><th>CUPS_ORIENT_90 </th>        <td class="description">Rotate the page counter-clockwise</td></tr>
-</tbody></table>
+};
+    <h4 class="members">成员</h4>
+    <table class="list">
+      <tbody>
+      <tr><th>AdvanceDistance</th>
+        <td class="description">推进距离值值（点）</td></tr>
+      <tr><th>AdvanceMedia</th>
+        <td class="description">推进介质值（ <a href="#cups_adv_t"><code>cups_adv_t</code></a> ）</td></tr>
+      <tr><th>Collate</th>
+        <td class="description">校对副本值</td></tr>
+      <tr><th>CutMedia</th>
+        <td class="description">CutMedia 值（ <a href="#cups_cut_t"><code>cups_cut_t</code></a> ）</td></tr>
+      <tr><th>Duplex</th>
+        <td class="description">双面值</td></tr>
+      <tr><th>HWResolution[2]</th>
+        <td class="description">分辨率（每英寸点数）</td></tr>
+      <tr><th>ImagingBoundingBox[4]</th>
+        <td class="description">绘制的像素区域（点，左、下、右、上）</td></tr>
+      <tr><th>InsertSheet</th>
+        <td class="description">InsertSheet 值</td></tr>
+      <tr><th>Jog</th>
+        <td class="description">Jog 值（ <a href="#cups_jog_t"><code>cups_jog_t</code></a> ）</td></tr>
+      <tr><th>LeadingEdge</th>
+        <td class="description">LeadingEdge 值（ <a href="#cups_edge_t"><code>cups_edge_t</code></a> ）</td></tr>
+      <tr><th>ManualFeed</th>
+        <td class="description">手动进纸值</td></tr>
+      <tr><th>Margins[2]</th>
+        <td class="description">Lower-lefthand 边距（点）</td></tr>
+      <tr><th>MediaClass[64]</th>
+        <td class="description">MediaClass 字符串</td></tr>
+      <tr><th>MediaColor[64]</th>
+        <td class="description">MediaColor 字符串</td></tr>
+      <tr><th>MediaPosition</th>
+        <td class="description">MediaPosition 值</td></tr>
+      <tr><th>MediaType[64]</th>
+        <td class="description">MediaType 字符串</td></tr>
+      <tr><th>MediaWeight</th>
+        <td class="description">MediaWeight 值（克/平方米）</td></tr>
+      <tr><th>MirrorPrint</th>
+        <td class="description">MirrorPrint 值</td></tr>
+      <tr><th>NegativePrint</th>
+        <td class="description">NegativePrint 值</td></tr>
+      <tr><th>NumCopies</th>
+        <td class="description">要制作的份数</td></tr>
+      <tr><th>Orientation</th>
+        <td class="description">方向值（  <a href="#cups_orient_t"><code>cups_orient_t</code></a> ）</td></tr>
+      <tr><th>OutputFaceUp</th>
+        <td class="description">OutputFaceUp 值</td></tr>
+      <tr><th>OutputType[64]</th>
+        <td class="description">输出类型字符串</td></tr>
+      <tr><th>PageSize[2]</th>
+        <td class="description">页面的宽度和长度（点）</td></tr>
+      <tr><th>Separations</th>
+        <td class="description">Separations 值</td></tr>
+      <tr><th>TraySwitch</th>
+        <td class="description">TraySwitch 值</td></tr>
+      <tr><th>Tumble</th>
+        <td class="description">Tumble 值</td></tr>
+      <tr><th>cupsBitsPerColor</th>
+        <td class="description">每种颜色的位数</td></tr>
+      <tr><th>cupsBitsPerPixel</th>
+        <td class="description">每个像素的位数</td></tr>
+      <tr><th>cupsBytesPerLine</th>
+        <td class="description">每行的字节数</td></tr>
+      <tr><th>cupsColorOrder</th>
+        <td class="description">颜色顺序</td></tr>
+      <tr><th>cupsColorSpace</th>
+        <td class="description">真彩色空间</td></tr>
+      <tr><th>cupsCompression</th>
+        <td class="description">使用设备压缩</td></tr>
+      <tr><th>cupsHeight</th>
+        <td class="description">页面图像的高度（像素）</td></tr>
+      <tr><th>cupsMediaType</th>
+        <td class="description">介质类型代码</td></tr>
+      <tr><th>cupsRowCount</th>
+        <td class="description">每段行数</td></tr>
+      <tr><th>cupsRowFeed</th>
+        <td class="description">段间馈送</td></tr>
+      <tr><th>cupsRowStep</th>
+        <td class="description">行距</td></tr>
+      <tr><th>cupsWidth</th>
+        <td class="description">页面图像的宽度（像素）</td></tr>
+      </tbody>
+    </table>
+
+
+    <h2 class="title"><a id="ENUMERATIONS">常量</a></h2>
+
+    <h3 class="enumeration"><a id="cups_adv_e">cups_adv_e</a></h3>
+    <p class="description">&emsp;&emsp;推进介质属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_ADVANCE_FILE</th>
+            <td class="description">在此文件后向前滚动</td></tr>
+        <tr><th>CUPS_ADVANCE_JOB</th>
+            <td class="description">在此任务后向前滚动</td></tr>
+        <tr><th>CUPS_ADVANCE_NONE</th>
+            <td class="description">从不向前滚动</td></tr>
+        <tr><th>CUPS_ADVANCE_PAGE</th>
+            <td class="description">在此页后向前滚动</td></tr>
+        <tr><th>CUPS_ADVANCE_SET</th>
+            <td class="description">在本次设置后向前滚动</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_bool_e">cups_bool_e</a></h3>
+    <p class="description">&emsp;&emsp;布尔型
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_FALSE</th>
+            <td class="description">逻辑假</td></tr>
+        <tr><th>CUPS_TRUE</th>
+            <td class="description">逻辑真</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_cspace_e">cups_cspace_e</a></h3>
+    <p class="description">&emsp;&emsp;cupsColorSpace 属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_CSPACE_ADOBERGB <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">红，绿，蓝（ Adobe RGB ） </td></tr>
+        <tr><th>CUPS_CSPACE_CIELab <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">CIE Lab </td></tr>
+        <tr><th>CUPS_CSPACE_CIEXYZ <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">CIE XYZ </td></tr>
+        <tr><th>CUPS_CSPACE_CMY</th>
+            <td class="description">青色、品红、黄色（ DeviceCMY ）</td></tr>
+        <tr><th>CUPS_CSPACE_CMYK</th>
+            <td class="description">青色、品红、黄色、黑色（ DeviceCMYK ）</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE1 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 1 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE2 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 2 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE3 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 3 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE4 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 4 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE5 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 5 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE6 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 6 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE7 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 7 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE8 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 8 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICE9 <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 9 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICEA <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 10 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICEB <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 11 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICEC <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 12 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICED <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 13 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICEE <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 14 色</td></tr>
+        <tr><th>CUPS_CSPACE_DEVICEF <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">DeviceN, 15 色</td></tr>
+        <tr><th>CUPS_CSPACE_GMCK <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">金色、品红色、黄色、黑色</td></tr>
+        <tr><th>CUPS_CSPACE_GMCS <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">金、品红、黄、银</td></tr>
+        <tr><th>CUPS_CSPACE_GOLD <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">金箔</td></tr>
+        <tr><th>CUPS_CSPACE_ICC1 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 1 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC2 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 2 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC3 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 3 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC4 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 4 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC5 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 5 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC6 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 6 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC7 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 7 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC8 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 8 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICC9 <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 9 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICCA <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 10 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICCB <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 11 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICCC <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 12 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICCD <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 13 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICCE <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 14 色</td></tr>
+        <tr><th>CUPS_CSPACE_ICCF <span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span></th>
+            <td class="description">ICC-based, 15 色</td></tr>
+        <tr><th>CUPS_CSPACE_K</th>
+            <td class="description">黑色（ DeviceK ）</td></tr>
+        <tr><th>CUPS_CSPACE_KCMY <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">黑色、青色、品红色、黄色</td></tr>
+        <tr><th>CUPS_CSPACE_KCMYcm <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">黑色、青色、品红、黄色、浅青色、浅品红</td></tr>
+        <tr><th>CUPS_CSPACE_RGB</th>
+            <td class="description">红色、绿色、蓝色（默认情况下为 DeviceRGB 、 sRGB ）</td></tr>
+        <tr><th>CUPS_CSPACE_RGBA</th>
+            <td class="description">红色、绿色、蓝色、 alpha （默认情况下为 DeviceRGB 、 sRGB ）</td></tr>
+        <tr><th>CUPS_CSPACE_RGBW <span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span></th>
+            <td class="description">红色、绿色、蓝色、白（默认为 DeviceRGB 、 sRGB ）</td></tr>
+        <tr><th>CUPS_CSPACE_SILVER <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">银箔</td></tr>
+        <tr><th>CUPS_CSPACE_SRGB <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">红色、绿色、蓝色（ sRGB ）</td></tr>
+        <tr><th>CUPS_CSPACE_SW <span class="info">&#160;CUPS 1.4.5&#160;</span></th>
+            <td class="description">亮度（伽马 2.2 ）</td></tr>
+        <tr><th>CUPS_CSPACE_W</th>
+            <td class="description">亮度（默认情况下为 DeviceGray 、 伽马 2.2 ）</td></tr>
+        <tr><th>CUPS_CSPACE_WHITE <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">白色墨水（如黑纸）</td></tr>
+        <tr><th>CUPS_CSPACE_YMC <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">黄色、品红色、青色</td></tr>
+        <tr><th>CUPS_CSPACE_YMCK <span class="info">&#160;不建议使用&#160;</span></th>
+            <td class="description">黄色、品红色、青色、黑色</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_cut_e">cups_cut_e</a></h3>
+    <p class="description">&emsp;&emsp;CutMedia 属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_CUT_FILE</th>
+            <td class="description">在此文件后裁切</td></tr>
+        <tr><th>CUPS_CUT_JOB</th>
+            <td class="description">在此任务后裁切</td></tr>
+        <tr><th>CUPS_CUT_NONE</th>
+            <td class="description">从不裁切</td></tr>
+        <tr><th>CUPS_CUT_PAGE</th>
+            <td class="description">在此页后裁切</td></tr>
+        <tr><th>CUPS_CUT_SET</th>
+            <td class="description">在本次设置后裁切</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_edge_e">cups_edge_e</a></h3>
+    <p class="description">&emsp;&emsp;LeadingEdge 属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_EDGE_BOTTOM</th>
+            <td class="description">前缘是页面的底边</td></tr>
+        <tr><th>CUPS_EDGE_LEFT</th>
+            <td class="description">前缘是页面的左边</td></tr>
+        <tr><th>CUPS_EDGE_RIGHT</th>
+            <td class="description">前缘是页面的右边</td></tr>
+        <tr><th>CUPS_EDGE_TOP</th>
+            <td class="description">前缘是页面的上边</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_jog_e">cups_jog_e</a></h3>
+    <p class="description">&emsp;&emsp;Jog 属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_JOG_FILE</th>
+            <td class="description">在此文件后移动页面</td></tr>
+        <tr><th>CUPS_JOG_JOB</th>
+            <td class="description">在此任务后移动页面</td></tr>
+        <tr><th>CUPS_JOG_NONE</th>
+            <td class="description">从不移动页面</td></tr>
+        <tr><th>CUPS_JOG_SET</th>
+            <td class="description">在本次设置后移动页面</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_mode_e">cups_mode_e</a></h3>
+    <p class="description">&emsp;&emsp;cupsRasterOpen 模式
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_RASTER_READ</th>
+            <td class="description">以读方式打开流</td></tr>
+        <tr><th>CUPS_RASTER_WRITE</th>
+            <td class="description">以写方式打开流</td></tr>
+        <tr><th>CUPS_RASTER_WRITE_COMPRESSED <span class="info">&#160;CUPS 1.3/macOS 10.5&#160;</span></th>
+            <td class="description">以压缩写入方式打开流</td></tr>
+        <tr><th>CUPS_RASTER_WRITE_PWG <span class="info">&#160;CUPS 1.5/macOS 10.7&#160;</span></th>
+            <td class="description">使用 PWG 光栅模式以压缩写入方式打开流</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_order_e">cups_order_e</a></h3>
+    <p class="description">&emsp;&emsp;cupsColorOrder 属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_ORDER_BANDED</th>
+            <td class="description">CCC MMM YYY KKK ...</td></tr>
+        <tr><th>CUPS_ORDER_CHUNKED</th>
+            <td class="description">CMYK CMYK CMYK ...</td></tr>
+        <tr><th>CUPS_ORDER_PLANAR</th>
+            <td class="description">CCC ... MMM ... YYY ... KKK ...</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="enumeration"><a id="cups_orient_e">cups_orient_e</a></h3>
+    <p class="description">&emsp;&emsp;方向属性值
+    <h4 class="constants">常量</h4>
+    <table class="list">
+      <tbody>
+        <tr><th>CUPS_ORIENT_0</th>
+            <td class="description">不要旋转页面</td></tr>
+        <tr><th>CUPS_ORIENT_180</th>
+            <td class="description">把这一页翻过来</td></tr>
+        <tr><th>CUPS_ORIENT_270</th>
+            <td class="description">顺时针旋转页面</td></tr>
+        <tr><th>CUPS_ORIENT_90</th>
+            <td class="description">逆时针旋转页面</td></tr>
+      </tbody>
+    </table>
     </div>
   </body>
 </html>

@@ -51,7 +51,7 @@
     cupsMarkOptions(ppd, num_options, options);
 
     ppd_choice_t *choice = ppdFindMarkedChoice(ppd, "Duplex");</pre>
-    <p>&emsp;&emsp;光栅筛选器应使用通过光栅页面标题设置的选项，因为这些选项反映了对给定页面有效的选项。命令行上指定的选项确定整个任务的默认值，可以在每页的基础上覆盖该值。
+    <p>&emsp;&emsp;光栅筛选器应使用通过光栅页头设置的选项，因为这些选项反映了对给定页面有效的选项。命令行上指定的选项确定整个任务的默认值，可以在每页的基础上覆盖该值。
 
     <h2 class="title"><a name="LOG_MESSAGES">日志消息</a></h2>
     <p>&emsp;&emsp;发送到标准错误的消息通常存储在打印机的 “printer-state-message” 属性和当前的 <b>ErrorLog</b> 文件中。每行以标准前缀开头：
@@ -131,13 +131,13 @@
 
     <h2 class="title"><a name="NOTES">提示</a></h2>
     <p>&emsp;&emsp;CUPS 打印机驱动程序和后端已弃用，在未来的 CUPS 功能版本中将不再受支持。不支持 IPP 的打印机可以使用应用程序（如 <b>ippeveprinter</b>(1) ）来支持。
-    <p>&emsp;&emsp;CUPS 筛选器并不意味着由用户直接运行。除了遗留的 System V 接口问题（ <i>argv[0]</i> 是打印机名称），CUPS 筛选器还需要特定的环境变量和文件描述符，并且通常在（在 macOS 上）具有影响其运行方式的附加限制的用户会话中运行。除非您是开发人员并且知道自己在做什么，否则请不要直接运行筛选器。相反，使用 <b>cupsfilter</b>(8) 程序使用适当的筛选器进行所需的转换。
+    <p>&emsp;&emsp;CUPS 筛选器并不意味着由用户直接运行。除了遗留的 System V 接口问题（ <i>argv[0]</i> 是打印机名称）， CUPS 筛选器还需要特定的环境变量和文件描述符，并且通常在（在 macOS 上）具有影响其运行方式的附加限制的用户会话中运行。除非您是开发人员并且知道自己在做什么，否则请不要直接运行筛选器。相反，使用 <b>cupsfilter</b>(8) 程序使用适当的筛选器进行所需的转换。
 
     <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
     <p>&emsp;&emsp;<b>backend</b>(7) 、 <b>cups</b>(1) 、 <b>cups-files.conf</b>(5) 、 <b>cupsd</b>(8) 、 <b>cupsfilter</b>(8)
     <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
 
     <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
-    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
   </body>
 </html>

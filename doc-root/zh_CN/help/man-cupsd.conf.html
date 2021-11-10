@@ -68,7 +68,7 @@
       <dt><a name="FilterLimit"></a><b>FilterLimit </b><i>limit</i>
       <dd style="margin-left: 5.0em">指定并发运行的筛选器的最大成本，可用于最小化磁盘、内存和 CPU 资源问题。限制为 0 将禁用筛选器限制。非 PostScript 打印机的平均打印需要大约 200 的筛选限制。 PostScript 打印机需要大约一半（ 100 ）。将限制设置为低于这些阈值将有效地限制调度程序在任何时候打印单个任务。默认限制为 “0” 。
       <dt><a name="FilterNice"></a><b>FilterNice </b><i>nice-value</i>
-      <dd style="margin-left: 5.0em">指定为打印任务而运行的筛选器的计划优先级（ <b>nice</b>(8) 值）。nice 值的范围从 0（最高优先级）到 19（最低优先级）。默认值为 0 。
+      <dd style="margin-left: 5.0em">指定为打印任务而运行的筛选器的计划优先级（ <b>nice</b>(8) 值）。 nice 值的范围从 0 （最高优先级）到 19 （最低优先级）。默认值为 0 。
       <dt><a name="GSSServiceName"></a><b>GSSServiceName </b><i>name</i>
       <dd style="margin-left: 5.0em">指定使用 Kerberos 身份验证时的服务名称。默认的服务名称是 “http”。
       <dt><b>HostNameLookups On</b>
@@ -89,17 +89,17 @@
       <dt><a name="KeepAliveTimeout"></a><b>KeepAliveTimeout </b><i>seconds</i>
       <dd style="margin-left: 5.0em">指定空闲客户端连接保留打开的时间。默认值为 “30” 。
       <dt><a name="LimitIPP"></a><b>&lt;Limit </b><i>operation </i>...<b>> </b>... <b>&lt;/Limit></b>
-      <dd style="margin-left: 5.0em">指定被限制在策略节内的 IPP 操作。IPP 操作名称列在下面的 “IPP 操作名称” 一节中。
+      <dd style="margin-left: 5.0em">指定被限制在策略节内的 IPP 操作。 IPP 操作名称列在下面的 “IPP 操作名称” 一节中。
       <dt><a name="Limit"></a><b>&lt;Limit </b><i>method </i>...<b>> </b>... <b>&lt;/Limit></b>
       <dt><a name="LimitExcept"></a><b>&lt;LimitExcept </b><i>method </i>...<b>> </b>... <b>&lt;/LimitExcept></b>
-      <dd style="margin-left: 5.0em">指定限制在位置节内的 HTTP 方法。HTTP 方法名称列在下面的 “HTTP 方法名称” 部分中。
+      <dd style="margin-left: 5.0em">指定限制在位置节内的 HTTP 方法。 HTTP 方法名称列在下面的 “HTTP 方法名称” 部分中。
       <dt><a name="LimitRequestBody"></a><b>LimitRequestBody </b><i>size</i>
-      <dd style="margin-left: 5.0em">指定打印文件、IPP 请求和 HTML 表单数据的最大大小。默认值为 “0” ，禁用限制检查。
+      <dd style="margin-left: 5.0em">指定打印文件、 IPP 请求和 HTML 表单数据的最大大小。默认值为 “0” ，禁用限制检查。
       <dt><a name="Listen"></a><b>Listen </b><i>ipv4-address</i><b>:</b><i>port</i>
       <dt><b>Listen [</b><i>ipv6-address</i><b>]:</b><i>port</i>
       <dt><b>Listen *:</b><i>port</i>
       <dt><b>Listen </b><i>/path/to/domain/socket</i>
-      <dd style="margin-left: 5.0em">侦听连接的指定地址和端口或域套接字路径。可以提供多个侦听指令来侦听多个地址。Listen 指令与 Port 指令类似，但允许您限制对特定接口或网络的访问。
+      <dd style="margin-left: 5.0em">侦听连接的指定地址和端口或域套接字路径。可以提供多个侦听指令来侦听多个地址。 Listen 指令与 Port 指令类似，但允许您限制对特定接口或网络的访问。
       <dt><a name="ListenBackLog"></a><b>ListenBackLog </b><i>number</i>
       <dd style="margin-left: 5.0em">指定将允许的挂起连接数。这通常只影响已达到 MaxClient 限制的非常繁忙的服务器，但也可能由大量同时连接触发。当达到限制时，操作系统将拒绝额外的连接，直到调度程序可以接受挂起的连接为止。默认值是操作系统定义的默认限制，对于较旧的操作系统，通常为 “5” ，对于较新的操作系统，通常为 “128” 。
       <dt><a name="Location"></a><b>&lt;Location </b><i>/path</i><b>> </b>... <b>&lt;/Location></b>
@@ -135,11 +135,11 @@
       <dt><a name="MaxJobsPerUser"></a><b>MaxJobsPerUser </b><i>number</i>
       <dd style="margin-left: 5.0em">指定每个用户允许的最大同时任务数。默认值为 “0” ，允许每个用户最多有 MaxJobs 任务。
       <dt><a name="MaxJobTime"></a><b>MaxJobTime </b><i>seconds</i>
-      <dd style="margin-left: 5.0em">指定取消任务之前打印任务所需的最长时间。设置为 “0” 可禁用 “stuck” 任务的取消。默认值为 “10800”（3小时）。
+      <dd style="margin-left: 5.0em">指定取消任务之前打印任务所需的最长时间。设置为 “0” 可禁用 “stuck” 任务的取消。默认值为 “10800”（ 3 小时）。
       <dt><a name="MaxLogSize"></a><b>MaxLogSize </b><i>size</i>
-      <dd style="margin-left: 5.0em">指定日志文件在轮换之前的最大大小。值 “0” 禁用日志轮换。默认值为 “1048576”（1MB）。
+      <dd style="margin-left: 5.0em">指定日志文件在轮换之前的最大大小。值 “0” 禁用日志轮换。默认值为 “1048576”（ 1MB ）。
       <dt><a name="MultipleOperationTimeout"></a><b>MultipleOperationTimeout </b><i>seconds</i>
-      <dd style="margin-left: 5.0em">指定多文件打印任务中文件之间允许的最长时间。默认值为 “900”（15分钟）。
+      <dd style="margin-left: 5.0em">指定多文件打印任务中文件之间允许的最长时间。默认值为 “900”（ 15 分钟）。
       <dt><a name="Policy"></a><b>&lt;Policy </b><i>name</i><b>> </b>... <b>&lt;/Policy></b>
       <dd style="margin-left: 5.0em">指定命名策略的访问控制。
       <dt><a name="Port"></a><b>Port </b><i>number</i>
@@ -158,7 +158,7 @@
       <dd style="margin-left: 5.0em">指定服务器管理员的电子邮件地址。默认值为 “root@ServerName" 。
       <dt><a name="ServerAlias"></a><b>ServerAlias </b><i>hostname </i>[ ... <i>hostname </i>]
       <dt><b>ServerAlias *</b>
-      <dd style="margin-left: 5.0em">当客户端从外部接口连接到调度程序时，ServerAlias 指令用于 HTTP 主机头验证。使用特殊名称 “*” 会使您的系统暴露于已知的基于浏览器的 DNS 重新绑定攻击，即使是通过防火墙访问站点。如果备用名称的自动发现不起作用，建议使用 ServerAlias 指令列出每个备用名称，而不是使用 “*” 。
+      <dd style="margin-left: 5.0em">当客户端从外部接口连接到调度程序时， ServerAlias 指令用于 HTTP 主机头验证。使用特殊名称 “*” 会使您的系统暴露于已知的基于浏览器的 DNS 重新绑定攻击，即使是通过防火墙访问站点。如果备用名称的自动发现不起作用，建议使用 ServerAlias 指令列出每个备用名称，而不是使用 “*” 。
       <dt><a name="ServerName"></a><b>ServerName </b><i>hostname</i>
       <dd style="margin-left: 5.0em">指定服务器的完全限定主机名。默认值是 <b>hostname</b>(1) 命令报告的值。
       <dt><a name="ServerTokens"></a><b>ServerTokens None</b>
@@ -175,7 +175,7 @@
       <dd style="margin-left: 5.0em">侦听指定地址和端口上的加密连接。
       <dt><a name="SSLOptions"></a><dt><b>SSLOptions </b>[<i>AllowDH</i>] [<i>AllowRC4</i>] [<i>AllowSSL3</i>] [<i>DenyCBC</i>] [<i>DenyTLS1.0</i>] [<i>MaxTLS1.0</i>] [<i>MaxTLS1.1</i>] [<i>MaxTLS1.2</i>] [<i>MaxTLS1.3</i>] [<i>MinTLS1.0</i>] [<i>MinTLS1.1</i>] [<i>MinTLS1.2</i>] [<i>MinTLS1.3</i>]
       <dt><b>SSLOptions None</b>
-      <dd style="margin-left: 5.0em">设置加密选项（仅在 /etc/cups/client.conf 中）。默认情况下，CUPS 仅支持使用已知安全密码套件使用 TLS v1.0 或更高版本进行加密。当使用 <i>Allow</i> 选项时，安全性会降低。当使用 <i>Deny</i> 选项时，安全性得到增强。<i>AllowDH</i> 选项启用使用普通 Diffie-Hellman 密钥协商的密码套件（在使用 GNU TLS 的系统上不受支持）。 <i>AllowRC4</i> 选项启用 128 位 RC4 密码套件，这是一些旧客户端所必需的。 <i>AllowSSL3</i> 选项启用 SSL v3.0 ，这是一些不支持 TLS v1.0 的旧客户端所必需的。 <i>DenyCBC</i> 选项禁用所有 CBC 密码套件。 <i>DenyTLS1.0</i> 选项禁用 TLS v1.0 支持 － 这将最低协议版本设置为 TLS v1.1 。 <i>MinTLS</i> 选项设置要支持的最低 TLS 版本。 <i>MaxTLS</i> 选项设置要支持的最大 TLS 版本。目前并非所有操作系统都支持 TLS 1.3。
+      <dd style="margin-left: 5.0em">设置加密选项（仅在 /etc/cups/client.conf 中）。默认情况下， CUPS 仅支持使用已知安全密码套件使用 TLS v1.0 或更高版本进行加密。当使用 <i>Allow</i> 选项时，安全性会降低。当使用 <i>Deny</i> 选项时，安全性得到增强。<i>AllowDH</i> 选项启用使用普通 Diffie-Hellman 密钥协商的密码套件（在使用 GNU TLS 的系统上不受支持）。 <i>AllowRC4</i> 选项启用 128 位 RC4 密码套件，这是一些旧客户端所必需的。 <i>AllowSSL3</i> 选项启用 SSL v3.0 ，这是一些不支持 TLS v1.0 的旧客户端所必需的。 <i>DenyCBC</i> 选项禁用所有 CBC 密码套件。 <i>DenyTLS1.0</i> 选项禁用 TLS v1.0 支持 － 这将最低协议版本设置为 TLS v1.1 。 <i>MinTLS</i> 选项设置要支持的最低 TLS 版本。 <i>MaxTLS</i> 选项设置要支持的最大 TLS 版本。目前并非所有操作系统都支持 TLS 1.3 。
       <dt><a name="SSLPort"></a><b>SSLPort </b><i>port</i>
       <dd style="margin-left: 5.0em">侦听指定端口上的加密连接。
       <dt><a name="StrictConformance"></a><b>StrictConformance Yes</b>
@@ -447,6 +447,6 @@
     <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
 
     <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
-    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
   </body>
 </html>

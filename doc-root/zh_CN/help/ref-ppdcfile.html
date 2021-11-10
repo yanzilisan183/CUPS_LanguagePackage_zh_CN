@@ -7,45 +7,45 @@
   </head>
   <body>
     <h1 class="title">PPD 编译器驱动信息文件参考</h1>
-    <p>&emsp;&emsp;CUPS PPD 编译器读取包含一个或多个 PPD 文件描述的元文件，这些 PPD 文件将由 <a href="man-ppdc.html">ppdc(1)</a> 或相应的驱动程序接口程序 <a href="man-drv.html">drv(1)</a> 生成。源文件格式为纯 ASCII 文本，可使用您喜爱的文本编辑器进行编辑。</p>
-    <p>&emsp;&emsp;指令可以放在一行的任何地方，后面跟着零个或多个值。</p>
-    <p>&emsp;&emsp;支持使用 C 语言 (/* ... */) 和 C++ (// ...) 格式注释。</p>
-    <p>&emsp;&emsp;接受表达式的指令查找以下形式的序列：</p>
+    <p>&emsp;&emsp;CUPS PPD 编译器读取包含一个或多个 PPD 文件描述的元文件，这些 PPD 文件将由 <a href="man-ppdc.html">ppdc(1)</a> 或相应的驱动程序接口程序 <a href="man-drv.html">drv(1)</a> 生成。源文件格式为纯 ASCII 文本，可使用您喜爱的文本编辑器进行编辑。
+    <p>&emsp;&emsp;指令可以放在一行的任何地方，后面跟着零个或多个值。
+    <p>&emsp;&emsp;支持使用 C 语言 (/* ... */) 和 C++ (// ...) 格式注释。
+    <p>&emsp;&emsp;接受表达式的指令查找以下形式的序列：
     <dl>
       <dt>NAME</dt>
-      <dd>如果定义了名称，则计算为1，否则为0。</dd>
+      <dd>如果定义了名称，则计算为 1 ，否则为 0 。</dd>
 
       <dt>number</dt>
-      <dd>计算为指定的整数；该数字可以开始于前导符号（+/-），后面跟着十进制数（1234）、八进制数（01234）或十六进制数（0x1234），它们使用与 C 语言和 C++ 相同的规则。</dd>
+      <dd>计算为指定的整数；该数字可以开始于前导符号（ +/- ），后面跟着十进制数（ 1234 ）、八进制数（ 01234 ）或十六进制数（ 0x1234 ），它们使用与 C 语言和 C++ 相同的规则。</dd>
 
       <dt>(NAME NAME ... number number ...)</dt>
       <dd>计算为每个命名的 #define 常量或数字的位或。</dd>
 
       <dt>(NAME == OTHERNAME)</dt>
       <dt>(NAME == number)</dt>
-      <dd>如果名称等于另一个命名常量或数字，则计算为1，否则为0。</dd>
+      <dd>如果名称等于另一个命名常量或数字，则计算为 1 ，否则为 0 。</dd>
 
       <dt>(NAME != OTHERNAME)</dt>
       <dt>(NAME != number)</dt>
-      <dd>如果名称不等于另一个命名常量或数字，则计算为1，否则为0。</dd>
+      <dd>如果名称不等于另一个命名常量或数字，则计算为 1 ，否则为 0 。</dd>
 
       <dt>(NAME &lt; OTHERNAME)</dt>
       <dt>(NAME &lt; number)</dt>
-      <dd>如果名称小于另一个命名常量或数字，则计算为1，否则为0。</dd>
+      <dd>如果名称小于另一个命名常量或数字，则计算为 1 ，否则为 0 。</dd>
 
       <dt>(NAME &lt;= OTHERNAME)</dt>
       <dt>(NAME &lt;= number)</dt>
-      <dd>如果名称小于或等于另一个命名常量或数字，则计算为1，否则为0。</dd>
+      <dd>如果名称小于或等于另一个命名常量或数字，则计算为 1 ，否则为 0 。</dd>
 
       <dt>(NAME &gt; OTHERNAME)</dt>
       <dt>(NAME &gt; number)</dt>
-      <dd>如果名称大于另一个命名常量或数字，则计算为1，否则为0。</dd>
+      <dd>如果名称大于另一个命名常量或数字，则计算为 1 ，否则为 0 。</dd>
 
       <dt>(NAME &gt;= OTHERNAME)</dt>
       <dt>(NAME &gt;= number)</dt>
-      <dd>如果名称大于或等于另一个命名常量或数字，则计算为1，否则为0。</dd>
+      <dd>如果名称大于或等于另一个命名常量或数字，则计算为 1 ，否则为 0 。</dd>
     </dl>
-    <p>&emsp;&emsp;打印机驱动程序信息可以使用大括号（{…}）分组和共享；当看到右大括号或文件结尾并且定义了 <a href="#PCFileName">PCFileName</a> 指令时，将写入 PPD 文件。</p>
+    <p>&emsp;&emsp;打印机驱动程序信息可以使用大括号（{…}）分组和共享；当看到右大括号或文件结尾并且定义了 <a href="#PCFileName">PCFileName</a> 指令时，将写入 PPD 文件。
 
 
     <h2 class="title"><a name='_define'>#define</a></h2>
@@ -54,19 +54,19 @@
     <h3>例子</h3>
     <pre>#define FOO 100<br>#define BAR "Bar, Inc."</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#define</code> 指令为名称分配一个值，该值可在以后使用 <code>$name</code> 引用。名称不区分大小写，可以是字母、数字和下划线的任意序列。该值可以是任何有效的表达式。</p>
+    <p>&emsp;&emsp;<code>#define</code> 指令为名称分配一个值，该值可在以后使用 <code>$name</code> 引用。名称不区分大小写，可以是字母、数字和下划线的任意序列。该值可以是任何有效的表达式。
     <h3>预定义名称</h3>
-    <p>&emsp;&emsp;以下 <code>#define</code> 名称由 PPD 编译器设置：</p>
+    <p>&emsp;&emsp;以下 <code>#define</code> 名称由 PPD 编译器设置：
     <ul>
       <li><code>CUPS_VERSION</code> - 完整 CUPS 版本字符串，例如“1.4.0”</li>
       <li><code>CUPS_VERSION_MAJOR</code> - 主要版本号，例如“1”</li>
       <li><code>CUPS_VERSION_MINOR</code> - 次要版本号，例如“4”</li>
       <li><code>CUPS_VERSION_PATCH</code> - 修补程序版本号，例如“0”</li>
-      <li><code>PLATFORM_NAME</code> - “uname”命令返回的当前操作系统名称（Microsoft Windows上为“Windows”）</li>
-      <li><code>PLATFORM_ARCH</code> - “uname -m”命令返回的当前系统的处理器体系结构（Microsoft Windows上为“X86”或“X64”）</li>
+      <li><code>PLATFORM_NAME</code> - “uname”命令返回的当前操作系统名称（ Microsoft Windows 上为“Windows”）</li>
+      <li><code>PLATFORM_ARCH</code> - “uname -m”命令返回的当前系统的处理器体系结构（ Microsoft Windows 上为“X86”或“X64”）</li>
     </ul>
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_include'><code>#include</code></a></p>
+    <p>&emsp;&emsp;<a href='#_include'><code>#include</code></a>
 
 
     <h2 class="title"><a name='_elif'>#elif</a></h2>
@@ -82,9 +82,9 @@
 ...
 #endif</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#elif</code> 指令允许有条件地使用部分驱动信息文件。<code>#elif</code> 指令必须出现在相应的 <a href="#_if"><code>#if</code></a> 指令之后。</p>
+    <p>&emsp;&emsp;<code>#elif</code> 指令允许有条件地使用部分驱动信息文件。<code>#elif</code> 指令必须出现在相应的 <a href="#_if"><code>#if</code></a> 指令之后。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_else'><code>#else</code></a>, <a href='#_endif'><code>#endif</code></a>, <a href='#_if'><code>#if</code></a></p>
+    <p>&emsp;&emsp;<a href='#_else'><code>#else</code></a>, <a href='#_endif'><code>#endif</code></a>, <a href='#_if'><code>#if</code></a>
 
     <h2 class="title"><a name='_else'>#else</a></h2>
     <h3>语法</h3>
@@ -99,9 +99,9 @@
 ...
 #endif</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#else</code> 指令允许在相应的 <a href="#_if"><code>#if</code></a> 和 <a href="#_elif"><code>#elif</code></a> 表达式值非零时有条件地使用驱动信息文件的部分。</p>
+    <p>&emsp;&emsp;<code>#else</code> 指令允许在相应的 <a href="#_if"><code>#if</code></a> 和 <a href="#_elif"><code>#elif</code></a> 表达式值非零时有条件地使用驱动信息文件的部分。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_elif'><code>#elif</code></a>, <a href='#_endif'><code>#endif</code></a>, <a href='#_if'><code>#if</code></a></p>
+    <p>&emsp;&emsp;<a href='#_elif'><code>#elif</code></a>, <a href='#_endif'><code>#endif</code></a>, <a href='#_if'><code>#if</code></a>
 
 
     <h2 class="title"><a name='_endif'>#endif</a></h2>
@@ -117,9 +117,9 @@
 ...
 #endif</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#endif</code> 指令结束驱动信息文件的条件块。它必须出现在当前条件块的所有 <a href="#_if"><code>#if</code></a> 、 <a href="#_elif"><code>#elif</code></a> 和 <a href="#_else"><code>#else</code></a> 指令之后。</p>
+    <p>&emsp;&emsp;<code>#endif</code> 指令结束驱动信息文件的条件块。它必须出现在当前条件块的所有 <a href="#_if"><code>#if</code></a> 、 <a href="#_elif"><code>#elif</code></a> 和 <a href="#_else"><code>#else</code></a> 指令之后。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_elif'><code>#elif</code></a>, <a href='#_else'><code>#else</code></a>, <a href='#_if'><code>#if</code></a></p>
+    <p>&emsp;&emsp;<a href='#_elif'><code>#elif</code></a>, <a href='#_else'><code>#else</code></a>, <a href='#_if'><code>#if</code></a>
 
 
     <h2 class="title"><a name='_font'>#font</a></h2>
@@ -132,15 +132,15 @@
 #font Barcode-Foo Special "(1.0)" Special Disk
 #font Unicode-Foo Expert "(2.0)" Adobe-Identity ROM</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#font</code> 指令为所有打印机驱动程序定义了一个“基本字体”。该名称是 PostScript 字体名称。</p>
-    <p>&emsp;&emsp;编码是字体的默认编码，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 、 <code>Expert</code> 或 <code>Special</code> 。</p>
-    <p>&emsp;&emsp;版本是与字体版本号对应的 PostScript 字符串定义。</p>
-    <p>&emsp;&emsp;字符集定义字体中的可用字符，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 或 <code>Special</code>。</p>
-    <p>&emsp;&emsp;状态是字体的安装状态，必须是单词 <code>ROM</code> 或 <code>Disk</code> 。</p>
-    <p>&emsp;&emsp;基本字体不同于使用 <a href='#Font'><code>Font</code></a> 指令定义的字体，因为它们不会自动与所有驱动程序关联 － 您必须使用特殊的 <code>Font *</code> 指令将它们包含在驱动程序中。</p>
-    <p>&emsp;&emsp;目前，<code>#font</code> 指令主要用于定义 <code>&lt;font.defs&gt;</code> 引用文件中的标准光栅字体。</p>
+    <p>&emsp;&emsp;<code>#font</code> 指令为所有打印机驱动程序定义了一个“基本字体”。该名称是 PostScript 字体名称。
+    <p>&emsp;&emsp;编码是字体的默认编码，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 、 <code>Expert</code> 或 <code>Special</code> 。
+    <p>&emsp;&emsp;版本是与字体版本号对应的 PostScript 字符串定义。
+    <p>&emsp;&emsp;字符集定义字体中的可用字符，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 或 <code>Special</code>。
+    <p>&emsp;&emsp;状态是字体的安装状态，必须是单词 <code>ROM</code> 或 <code>Disk</code> 。
+    <p>&emsp;&emsp;基本字体不同于使用 <a href='#Font'><code>Font</code></a> 指令定义的字体，因为它们不会自动与所有驱动程序关联 － 您必须使用特殊的 <code>Font *</code> 指令将它们包含在驱动程序中。
+    <p>&emsp;&emsp;目前，<code>#font</code> 指令主要用于定义 <code>&lt;font.defs&gt;</code> 引用文件中的标准光栅字体。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_include'><code>#include</code></a>, <a href='#Font'><code>Font</code></a></p>
+    <p>&emsp;&emsp;<a href='#_include'><code>#include</code></a>, <a href='#Font'><code>Font</code></a>
 
 
     <h2 class="title"><a name='_if'>#if</a></h2>
@@ -156,9 +156,9 @@
 ...
 #endif</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#if</code> 指令允许有条件地使用部分驱动信息文件。当后跟变量名时，仅在定义变量名时才使用变量的值，否则将忽略。<code>#if</code> 指令最多可以嵌套 100 次。</p>
+    <p>&emsp;&emsp;<code>#if</code> 指令允许有条件地使用部分驱动信息文件。当后跟变量名时，仅在定义变量名时才使用变量的值，否则将忽略。<code>#if</code> 指令最多可以嵌套 100 次。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_elif'><code>#elif</code></a>, <a href='#_else'><code>#else</code></a>, <a href='#_endif'><code>#endif</code></a></p>
+    <p>&emsp;&emsp;<a href='#_elif'><code>#elif</code></a>, <a href='#_else'><code>#else</code></a>, <a href='#_endif'><code>#endif</code></a>
 
 
     <h2 class="title"><a name='_include'>#include</a></h2>
@@ -171,10 +171,10 @@
 #include &lt;font.defs&gt;
 #include "myfile.h"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#include</code> 指令读取指定的驱动信息文件。如果文件名包含在尖括号内（<code>&lt；filename&gt；</code>），则 PPD 编译器将在其知道的所有包含目录中查找该文件。否则，将在相对于当前驱动信息文件的当前目录中打开该文件，如果失败，则会在包含目录中查找该文件。</p>
-    <p>&emsp;&emsp;<code>#include</code> 指令可以嵌套到主机操作系统允许的任意多个文件中，通常至少100个文件。</p>
+    <p>&emsp;&emsp;<code>#include</code> 指令读取指定的驱动信息文件。如果文件名包含在尖括号内（ <code>&lt;filename&gt;</code> ），则 PPD 编译器将在其知道的所有包含目录中查找该文件。否则，将在相对于当前驱动信息文件的当前目录中打开该文件，如果失败，则会在包含目录中查找该文件。
+    <p>&emsp;&emsp;<code>#include</code> 指令可以嵌套到主机操作系统允许的任意多个文件中，通常至少 100 个文件。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_define'><code>#define</code></a>, <a href='#_font'><code>#font</code></a>, <a href='#_media'><code>#media</code></a></p>
+    <p>&emsp;&emsp;<a href='#_define'><code>#define</code></a>, <a href='#_font'><code>#font</code></a>, <a href='#_media'><code>#media</code></a>
 
 
     <h2 class="title"><a name='_media'>#media</a></h2>
@@ -189,8 +189,8 @@
 #media "w936h1368/Super B/A3 - 13x19in" 936 1368
 #media Photo 4in 6in</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#media</code> 指令定义了要包含在驱动程序中的命名媒体大小。带有可选用户文本的名称定义媒体大小的名称，并与 <a href='#MediaSize'><code>MediaSize</code></a> 指令一起使用，以将媒体大小与驱动程序关联。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。用户文本（如果提供）的长度不得超过 80 字节。</p>
-    <p>&emsp;&emsp;宽度和长度定义了介质的尺寸。每个数字后面可选地跟有以下单位后缀之一：</p>
+    <p>&emsp;&emsp;<code>#media</code> 指令定义了要包含在驱动程序中的命名介质尺寸。带有可选用户文本的名称定义介质尺寸的名称，并与 <a href='#MediaSize'><code>MediaSize</code></a> 指令一起使用，以将介质尺寸与驱动程序关联。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。用户文本（如果提供）的长度不得超过 80 字节。
+    <p>&emsp;&emsp;宽度和长度定义了介质的尺寸。每个数字后面可选地跟有以下单位后缀之一：
     <ul>
       <li><code>cm</code> - 厘米</li>
       <li><code>ft</code> - 英尺</li>
@@ -199,9 +199,9 @@
       <li><code>mm</code> - 毫米</li>
       <li><code>pt</code> - 点 (72 点 = 1 英寸)</li>
     </ul>
-    <p>&emsp;&emsp;如果未指定单位，则假定为点。</p>
+    <p>&emsp;&emsp;如果未指定单位，则假定为点。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_include'><code>#include</code></a>, <a href='#CustomMedia'><code>CustomMedia</code></a>, <a href='#MediaSize'><code>MediaSize</code></a></p>
+    <p>&emsp;&emsp;<a href='#_include'><code>#include</code></a>, <a href='#CustomMedia'><code>CustomMedia</code></a>, <a href='#MediaSize'><code>MediaSize</code></a>
 
 
     <h2 class="title"><a name='_po'>#po</a></h2>
@@ -212,7 +212,7 @@
 #po es "es.po"
 #po fr_CA "mydriver-fr_CA.po"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>#po</code> 指令定义了用于给定 POSIX 语言缩写的消息目录。可以指定多个 <code>#po</code> 指令来列出多个目录。文件名可以是绝对路径，也可以是相对于驱动程序信息文件的路径。支持 GNU gettext 和 macOS.strings 文件。</p>
+    <p>&emsp;&emsp;<code>#po</code> 指令定义了用于给定 POSIX 语言缩写的消息目录。可以指定多个 <code>#po</code> 指令来列出多个目录。文件名可以是绝对路径，也可以是相对于驱动程序信息文件的路径。支持 GNU gettext 和 macOS.strings 文件。
 
 
     <h2 class="title"><a name='Attribute'>Attribute</a></h2>
@@ -227,11 +227,11 @@ Attribute cupsInkChannels "" 1
 Attribute cupsAllDither 600dpi "1.0"
 Attribute fooProfile "Photo/Photographic Profile" "photopro.icc"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Attribute</code> 指令创建 PPD 属性。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;选择器可以是空字符串（<code>""</code>）或最多 80 字节的文本。</p>
-    <p>&emsp;&emsp;值是任意字符串或数字；字符串可以包含多行，但是任何一行都不能超过 255 字节。</p>
+    <p>&emsp;&emsp;<code>Attribute</code> 指令创建 PPD 属性。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;选择器可以是空字符串（<code>""</code>）或最多 80 字节的文本。
+    <p>&emsp;&emsp;值是任意字符串或数字；字符串可以包含多行，但是任何一行都不能超过 255 字节。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href="#LocAttribute"><code>LocAttribute</code></a></p>
+    <p>&emsp;&emsp;<a href="#LocAttribute"><code>LocAttribute</code></a>
 
 
     <h2 class="title"><a name='Choice'>Choice</a></h2>
@@ -244,11 +244,11 @@ Choice <i>"选项名/文本" "代码"</i></pre>
 Choice None "&lt;&lt;/MediaType (None)&gt;&gt;setpagedevice"
 Choice "False/No" "&lt;&lt;/cupsCompression 0&gt;&gt;setpagedevice"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Choice</code> 指令将单个选项添加到当前选项。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;代码可以是任何字符串，可以包含多行，但是任何一行都不能超过255字节。</p>
+    <p>&emsp;&emsp;<code>Choice</code> 指令将单个选项添加到当前选项。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;代码可以是任何字符串，可以包含多行，但是任何一行都不能超过 255 字节。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='ColorDevice'>ColorDevice</a></h2>
@@ -259,9 +259,9 @@ Choice "False/No" "&lt;&lt;/cupsCompression 0&gt;&gt;setpagedevice"</pre>
 ColorDevice no
 ColorDevice yes</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>ColorDevice</code> 指令告诉应用程序打印机是否支持颜色。它通常与 <a href='#ColorModel'><code>ColorModel</code></a> 指令一起使用，以提供彩色打印支持。</p>
+    <p>&emsp;&emsp;<code>ColorDevice</code> 指令告诉应用程序打印机是否支持颜色。它通常与 <a href='#ColorModel'><code>ColorModel</code></a> 指令一起使用，以提供彩色打印支持。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#ColorModel'><code>ColorModel</code></a></p>
+    <p>&emsp;&emsp;<a href='#ColorModel'><code>ColorModel</code></a>
 
 
     <h2 class="title"><span class="info">不推荐使用</span><a name='ColorModel'>ColorModel</a></h2>
@@ -275,13 +275,13 @@ ColorModel Gray/Grayscale w chunky 0
 ColorModel RGB/Color rgb chunky 0
 ColorModel CMYK cmyk chunky 0</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>ColorModel</code> 指令是一个方便的指令，它为当前打印机驱动程序创建一个 ColorModel 选项和选项。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过80字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;colorspace 参数是本附录后面标题为“<a href='#REF_COLOR_SPACE'>色彩空间关键字</a>”一节中定义的标准色彩空间关键字之一。</p>
-    <p>&emsp;&emsp;colororder 参数是本附录后面标题为“<a href='#REF_COLOR_ORDER'>颜色顺序关键字</a>”一节中定义的标准颜色顺序关键字之一。</p>
-    <p>&emsp;&emsp;压缩参数是任意数字，并分配给 PostScript 页面设备字典中的 <code>cupsCompression</code> 属性。</p>
+    <p>&emsp;&emsp;<code>ColorModel</code> 指令是一个方便的指令，它为当前打印机驱动程序创建一个 ColorModel 选项和选项。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;colorspace 参数是本附录后面标题为“<a href='#REF_COLOR_SPACE'>色彩空间关键字</a>”一节中定义的标准色彩空间关键字之一。
+    <p>&emsp;&emsp;colororder 参数是本附录后面标题为“<a href='#REF_COLOR_ORDER'>颜色顺序关键字</a>”一节中定义的标准颜色顺序关键字之一。
+    <p>&emsp;&emsp;压缩参数是任意数字，并分配给 PostScript 页面设备字典中的 <code>cupsCompression</code> 属性。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorDevice'><code>ColorDevice</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorDevice'><code>ColorDevice</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><span class="info">不推荐使用</span><a name='ColorProfile'>ColorProfile</a></h2>
@@ -305,12 +305,12 @@ ColorProfile 720dpi/Special 1.5 1.0
      0.0   -0.38   0.9
 </pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>ColorProfile</code> 指令定义了基于 CMY 变换的颜色配置文件。resolution 和 mediatype 参数指定使用配置文件的 <code>Resolution</code> 和 <code>MediaType</code> 选项；连字符（ <code>-</code> ）用于指定任何分辨率或媒体类型都可以与配置文件一起使用。</p>
-    <p>&emsp;&emsp;gamma 参数指定要应用于颜色值（ P = p<sup>g</sup> ）的 gamma 校正，并且是大于 0 的实数。大于 1 的值会导致打印的整体变亮，而小于 1 的值会导致打印的整体变暗。值为 1 将禁用 gamma 校正。</p>
-    <p>&emsp;&emsp;density 参数指定要应用于颜色值（ P = d * p<sup>g</sup> ）的线性密度校正，并且是大于 0 且小于或等于 1 的实数。值为 1 将禁用密度校正，而较低的值将按比例产生较轻的输出。</p>
-    <p>&emsp;&emsp;矩阵参数按行主顺序指定 3 x 3 线性变换矩阵。该矩阵仅应用于 RGB 到 CMYK 转换的 CMY 分量，在灰度或 CMYK 模式下打印时不使用，除非打印机仅支持 3 种颜色的打印。</p>
+    <p>&emsp;&emsp;<code>ColorProfile</code> 指令定义了基于 CMY 变换的颜色配置文件。 resolution 和 mediatype 参数指定使用配置文件的 <code>Resolution</code> 和 <code>MediaType</code> 选项；连字符（ <code>-</code> ）用于指定任何分辨率或媒体类型都可以与配置文件一起使用。
+    <p>&emsp;&emsp;gamma 参数指定要应用于颜色值（ P = p<sup>g</sup> ）的 gamma 校正，并且是大于 0 的实数。大于 1 的值会导致打印的整体变亮，而小于 1 的值会导致打印的整体变暗。值为 1 将禁用 gamma 校正。
+    <p>&emsp;&emsp;density 参数指定要应用于颜色值（ P = d * p<sup>g</sup> ）的线性密度校正，并且是大于 0 且小于或等于 1 的实数。值为 1 将禁用密度校正，而较低的值将按比例产生较轻的输出。
+    <p>&emsp;&emsp;矩阵参数按行主顺序指定 3 x 3 线性变换矩阵。该矩阵仅应用于 RGB 到 CMYK 转换的 CMY 分量，在灰度或 CMYK 模式下打印时不使用，除非打印机仅支持 3 种颜色的打印。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#SimpleColorProfile'><code>SimpleColorProfile</code></a></p>
+    <p>&emsp;&emsp;<a href='#SimpleColorProfile'><code>SimpleColorProfile</code></a>
 
 
     <h2 class="title"><a name='Copyright'>Copyright</a></h2>
@@ -336,7 +336,7 @@ License along with this software; if not, write to the Free
 Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 MA 02111 USA"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Copyright</code> 指令将文本注释添加到 PPD 文件的顶部，通常用于版权声明。text 参数可以包含多行文本，但任何一行都不能超过 255 字节。</p>
+    <p>&emsp;&emsp;<code>Copyright</code> 指令将文本注释添加到 PPD 文件的顶部，通常用于版权声明。 text 参数可以包含多行文本，但任何一行都不能超过 255 字节。
 
 
     <h2 class="title"><a name='CustomMedia'>CustomMedia</a></h2>
@@ -360,13 +360,13 @@ CustomMedia "A4/A4 - 210x297mm" 210mm 297mm 12 12 12 12
     "&lt;&lt;/PageSize[595 842]/ImagingBBox null&gt;&gt;setpagedevice"
 </pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>CustomMedia</code> 指令将自定义媒体大小添加到驱动程序中。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;宽和长参数指定为 <a href="#_media"><code>#media</code></a> 指令定义的媒体尺寸。</p>
-    <p>&emsp;&emsp;左、下、右和上参数指定介质的可打印边距。</p>
-    <p>&emsp;&emsp;size-code 和 region-code 参数分别指定要为 <code>PageSize</code> 和 <code>PageRegion</code> 选项运行的 PostScript 命令。命令可以包含多行，但是任何行的长度都不能超过255字节。</p>
+    <p>&emsp;&emsp;<code>CustomMedia</code> 指令将自定义介质尺寸添加到驱动程序中。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;宽和长参数指定为 <a href="#_media"><code>#media</code></a> 指令定义的媒体尺寸。
+    <p>&emsp;&emsp;左、下、右和上参数指定介质的可打印边距。
+    <p>&emsp;&emsp;size-code 和 region-code 参数分别指定要为 <code>PageSize</code> 和 <code>PageRegion</code> 选项运行的 PostScript 命令。命令可以包含多行，但是任何行的长度都不能超过 255 字节。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_media'><code>#media</code></a>, <a href='#MediaSize'><code>MediaSize</code></a></p>
+    <p>&emsp;&emsp;<a href='#_media'><code>#media</code></a>, <a href='#MediaSize'><code>MediaSize</code></a>
 
 
     <h2 class="title"><a name='Cutter'>Cutter</a></h2>
@@ -377,9 +377,9 @@ CustomMedia "A4/A4 - 210x297mm" 210mm 297mm 12 12 12 12
 Cutter yes
 Cutter no</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Cutter</code> 指令指定打印机是否具有内置介质切割器。当有切割器时，打印机的 PPD 文件将包含一个 <code>CutMedia</code> 选项，允许用户控制是否在打印任务结束时裁剪介质。</p>
+    <p>&emsp;&emsp;<code>Cutter</code> 指令指定打印机是否具有内置介质切割器。当有切割器时，打印机的 PPD 文件将包含一个 <code>CutMedia</code> 选项，允许用户控制是否在打印任务结束时裁剪介质。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><span class="info">不推荐使用</span><a name='Darkness'>Darkness</a></h2>
@@ -392,12 +392,12 @@ Darkness <i>温度 "名称/文本"</i></pre>
 Darkness 0 Light
 Darkness 2 "Normal/Standard"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Darkness</code> 指令定义了 <code>cupsDarkness</code> 选项的选项，该选项设置 PostScript 页面设备字典中的 <code>cupsCompression</code> 属性。它与 CUPS <var>rastertolabel</var> 样本驱动器一起使用，以控制打印头温度，从而控制打印的对比度。</p>
-    <p>&emsp;&emsp;温度参数指定 Dymo 驱动程序的温度值从 0（最低）到 3（最高），其中 2 表示正常设置。</p>
-    <p>&emsp;&emsp;除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
+    <p>&emsp;&emsp;<code>Darkness</code> 指令定义了 <code>cupsDarkness</code> 选项的选项，该选项设置 PostScript 页面设备字典中的 <code>cupsCompression</code> 属性。它与 CUPS <var>rastertolabel</var> 样本驱动器一起使用，以控制打印头温度，从而控制打印的对比度。
+    <p>&emsp;&emsp;温度参数指定 Dymo 驱动程序的温度值从 0 （最低）到 3 （最高），其中 2 表示正常设置。
+    <p>&emsp;&emsp;除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='DriverType'>DriverType</a></h2>
@@ -410,7 +410,7 @@ DriverType escp
 DriverType pcl
 DriverType ps</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>DriverType</code> 指令告诉 PPD 编译器要在 PPD 文件中包含哪些 DDK 筛选器。支持以下类型：</p>
+    <p>&emsp;&emsp;<code>DriverType</code> 指令告诉 PPD 编译器要在 PPD 文件中包含哪些 DDK 筛选器。支持以下类型：
     <ul>
       <li><code>custom</code> - 仅使用驱动程序信息文件中定义的筛选器</li>
       <li><code>epson</code> - 使用 CUPS 样本 Epson 驱动程序筛选器 <var>rastertoepson</var></li>
@@ -421,7 +421,7 @@ DriverType ps</pre>
       <li><code>ps</code> - 不要使用筛选器；此驱动程序适用于标准 PostScript 设备</li>
     </ul>
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Filter'><code>Filter</code></a>, <a href='#ModelNumber'><code>ModelNumber</code></a></p>
+    <p>&emsp;&emsp;<a href='#Filter'><code>Filter</code></a>, <a href='#ModelNumber'><code>ModelNumber</code></a>
 
 
     <h2 class="title"><a name='Duplex'>Duplex</a></h2>
@@ -435,7 +435,7 @@ Duplex flip
 Duplex rotated
 Duplex manualtumble</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Duplex</code> 指令确定当前驱动程序是否支持双面打印。type 参数指定支持的双工类型：</p>
+    <p>&emsp;&emsp;<code>Duplex</code> 指令确定当前驱动程序是否支持双面打印。 type 参数指定支持的双工类型：
     <ul>
       <li><code>none</code> - 不支持双面打印</li>
       <li><code>normal</code> - 支持双面打印</li>
@@ -444,7 +444,7 @@ Duplex manualtumble</pre>
       <li><code>manualtumble</code> - 支持双面打印，但双面翻滚需要将背面图像旋转 180 度</li>
     </ul>
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='FileName'>FileName</a></h2>
@@ -455,9 +455,9 @@ Duplex manualtumble</pre>
 FileName "Acme Laser Printer 2000"
 FileName "Acme Ink Waster 1000"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>FileName</code> 属性指定当前驱动程序的 PPD 文件的“长”名称。</p>
+    <p>&emsp;&emsp;<code>FileName</code> 属性指定当前驱动程序的 PPD 文件的“长”名称。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href="#PCFileName"><code>PCFileName</code></a>, <a href='#Version'><code>Version</code></a></p>
+    <p>&emsp;&emsp;<a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href="#PCFileName"><code>PCFileName</code></a>, <a href='#Version'><code>Version</code></a>
 
 
     <h2 class="title"><a name='Filter'>Filter</a></h2>
@@ -468,11 +468,11 @@ FileName "Acme Ink Waster 1000"</pre>
 Filter application/vnd.cups-raster 50 rastertofoo
 Filter application/vnd.hp-HPGL 25 /usr/foo/filter/hpgltofoo</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Filter</code> 指令为当前驱动程序添加一个筛选器。mime-type 参数是 CUPS <var>mime.types</var> 文件中定义的有效 MIME 媒体类型名称。</p>
-    <p>&emsp;&emsp;cost 参数指定筛选器的相对成本。通常，请使用表示打印指定 MIME 媒体类型时使用的 CPU 时间平均百分比的数字。</p>
-    <p>&emsp;&emsp;program 参数指定要运行的程序；如果程序不是绝对文件名，CUPS 将在 CUPS 筛选器目录中查找该程序。</p>
+    <p>&emsp;&emsp;<code>Filter</code> 指令为当前驱动程序添加一个筛选器。 mime-type 参数是 CUPS <var>mime.types</var> 文件中定义的有效 MIME 媒体类型名称。
+    <p>&emsp;&emsp;cost 参数指定筛选器的相对成本。通常，请使用表示打印指定 MIME 媒体类型时使用的 CPU 时间平均百分比的数字。
+    <p>&emsp;&emsp;program 参数指定要运行的程序；如果程序不是绝对文件名， CUPS 将在 CUPS 筛选器目录中查找该程序。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#DriverType'><code>DriverType</code></a></p>
+    <p>&emsp;&emsp;<a href='#DriverType'><code>DriverType</code></a>
 
 
     <h2 class="title"><span class="info">不推荐使用</span><a name='Finishing'>Finishing</a></h2>
@@ -485,11 +485,11 @@ Finishing <i>"名称/文本"</i></pre>
 Finishing None
 Finishing "Glossy/Photo Overcoat"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Finishing</code> 指令为 <code>cupsFinishing</code> 选项添加了一个选项。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;该名称存储在 PostScript 页面设备字典的 <code>OutputType</code> 属性中。</p>
+    <p>&emsp;&emsp;<code>Finishing</code> 指令为 <code>cupsFinishing</code> 选项添加了一个选项。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;该名称存储在 PostScript 页面设备字典的 <code>OutputType</code> 属性中。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='Font'>Font</a></h2>
@@ -505,14 +505,14 @@ Font Symbol Special "(001.005)" Special ROM
 Font Barcode-Foo Special "(1.0)" Special Disk
 Font Unicode-Foo Expert "(2.0)" Adobe-Identity ROM</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Font</code> 指令为当前打印机驱动程序定义“设备字体”。该名称是 PostScript 字体名称。</p>
-    <p>&emsp;&emsp;编码是字体的默认编码，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 、 <code>Expert</code> 或 <code>Special</code> 。</p>
-    <p>&emsp;&emsp;版本是与字体版本号对应的 PostScript 字符串定义。</p>
-    <p>&emsp;&emsp;字符集定义字体中的可用字符，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 或 <code>Special</code> 。</p>
-    <p>&emsp;&emsp;状态是字体的安装状态，必须是单词 <code>ROM</code> 或 <code>Disk</code> 。</p>
-    <p>&emsp;&emsp;设备字体不同于使用 <a href='#_font'><code>#font</code></a> 指令定义的字体，因为它们自动与当前驱动程序关联。使用 <code>#font</code> 定义的字体可以使用本指令的 <code>font *</code> 格式导入当前驱动程序。</p>
+    <p>&emsp;&emsp;<code>Font</code> 指令为当前打印机驱动程序定义“设备字体”。该名称是 PostScript 字体名称。
+    <p>&emsp;&emsp;编码是字体的默认编码，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 、 <code>Expert</code> 或 <code>Special</code> 。
+    <p>&emsp;&emsp;版本是与字体版本号对应的 PostScript 字符串定义。
+    <p>&emsp;&emsp;字符集定义字体中的可用字符，通常是 Adobe PPD 文件规范中定义的 <code>Standard</code> 或 <code>Special</code> 。
+    <p>&emsp;&emsp;状态是字体的安装状态，必须是单词 <code>ROM</code> 或 <code>Disk</code> 。
+    <p>&emsp;&emsp;设备字体不同于使用 <a href='#_font'><code>#font</code></a> 指令定义的字体，因为它们自动与当前驱动程序关联。使用 <code>#font</code> 定义的字体可以使用本指令的 <code>font *</code> 格式导入当前驱动程序。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_font'><code>#font</code></a></p>
+    <p>&emsp;&emsp;<a href='#_font'><code>#font</code></a>
 
 
     <h2 class="title"><a name='Group'>Group</a></h2>
@@ -526,21 +526,21 @@ Group General
 Group "InstallableOptions/Options Installed"
 Group "Special/Vendor Options"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Group</code> 指令指定新 <code>Option</code> 选项的组。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 40 字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;分别为标准 Adobe UI 关键字和可安装选项预定义了名称 <code>General</code> 和 <code>InstallableOptions</code> 。</p>
+    <p>&emsp;&emsp;<code>Group</code> 指令指定新 <code>Option</code> 选项的组。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 40 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;分别为标准 Adobe UI 关键字和可安装选项预定义了名称 <code>General</code> 和 <code>InstallableOptions</code> 。
     <center>
     <table width='80%' border='1' bgcolor='#cccccc' cellpadding='5' cellspacing='0'>
       <tr>
         <td align='justify'>
           <b>提示：</b>
-          <p>&emsp;&emsp;由于某些 API 二进制兼容性问题，CUPS 将 PPD 组翻译字符串（文本）的长度限制为 40 字节，而 PPD 规范最多允许 80 字节。</p>
+          <p>&emsp;&emsp;由于某些 API 二进制兼容性问题， CUPS 将 PPD 组翻译字符串（文本）的长度限制为 40 字节，而 PPD 规范最多允许 80 字节。
         </td>
       </tr>
     </table>
     </center>
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='HWMargins'>HWMargins</a></h2>
@@ -552,9 +552,9 @@ HWMargins 18 36 18 36
 HWMargins 0.25in 0.5in 0.25in 0.5in
 HWMargins 0.6cm 1.2cm 0.6cm 1.2cm</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>HWMargins</code> 指令指定基于 <a href='#MediaSize'><code>MediaSize</code></a> 的当前边距。左、下、右和上值指定可打印的页边距。</p>
+    <p>&emsp;&emsp;<code>HWMargins</code> 指令指定基于 <a href='#MediaSize'><code>MediaSize</code></a> 的当前边距。左、下、右和上值指定可打印的页边距。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#MediaSize'><code>MediaSize</code></a></p>
+    <p>&emsp;&emsp;<a href='#MediaSize'><code>MediaSize</code></a>
 
 
     <h2 class="title"><a name='InputSlot'>InputSlot</a></h2>
@@ -567,11 +567,11 @@ InputSlot <i>位置 "名称/文本"</i></pre>
 InputSlot 0 Auto
 InputSlot 1 "Upper/Tray 1"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>InputSlot</code> 指令为 <code>InputSlot</code> 选项添加了一个新选项。位置参数是一个从 0 到 2<sup>32</sup>-1 之间的数字，指定放置在 PostScript 页面设备字典中的 <code>MediaPosition</code> 属性中的值。</p>
-    <p>&emsp;&emsp;除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
+    <p>&emsp;&emsp;<code>InputSlot</code> 指令为 <code>InputSlot</code> 选项添加了一个新选项。位置参数是一个从 0 到 2<sup>32</sup>-1 之间的数字，指定放置在 PostScript 页面设备字典中的 <code>MediaPosition</code> 属性中的值。
+    <p>&emsp;&emsp;除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='Installable'>Installable</a></h2>
@@ -584,8 +584,8 @@ Installable <i>"名称/文本"</i></pre>
 Installable EnvTray
 Installable "Option1/Duplexer Installed"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Installable</code> 指令向 <code>InstallableOptions</code> 组添加一个新的布尔选项，默认值为 <code>False</code>。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
+    <p>&emsp;&emsp;<code>Installable</code> 指令向 <code>InstallableOptions</code> 组添加一个新的布尔选项，默认值为 <code>False</code>。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
 
 
     <h2 class="title"><a name='LocAttribute'>LocAttribute</a></h2>
@@ -594,11 +594,11 @@ Installable "Option1/Duplexer Installed"</pre>
     <h3>例子</h3>
     <pre>LocAttribute fooProfile "Photo/Photographic Profile" "photopro.icc"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>LocAttribute</code> 指令创建本地化的 PPD 属性。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;选择器可以是空字符串（<code>""</code>）或最多 80 字节的文本。</p>
-    <p>&emsp;&emsp;该值是任意字符串或数字；字符串可以包含多行，但是任何一行都不能超过 255 字节。</p>
+    <p>&emsp;&emsp;<code>LocAttribute</code> 指令创建本地化的 PPD 属性。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;选择器可以是空字符串（<code>""</code>）或最多 80 字节的文本。
+    <p>&emsp;&emsp;该值是任意字符串或数字；字符串可以包含多行，但是任何一行都不能超过 255 字节。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href="#Attribute"><code>Attribute</code></a></p>
+    <p>&emsp;&emsp;<a href="#Attribute"><code>Attribute</code></a>
 
 
     <h2 class="title"><a name='ManualCopies'>ManualCopies</a></h2>
@@ -609,9 +609,9 @@ Installable "Option1/Duplexer Installed"</pre>
 ManualCopies no
 ManualCopies yes</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>ManualCopies</code> 指令指定是否需要由 RIP 筛选器生成副本。默认值为 <code>False</code> 。</p>
+    <p>&emsp;&emsp;<code>ManualCopies</code> 指令指定是否需要由 RIP 筛选器生成副本。默认值为 <code>False</code> 。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='Manufacturer'>Manufacturer</a></h2>
@@ -622,9 +622,9 @@ ManualCopies yes</pre>
 Manufacturer "Foo"
 Manufacturer "HP"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Manufacturer</code> 指令指定当前驱动程序的制造商名称。名称参数必须符合 Adobe PPD 文件规范中的制造商名称要求。</p>
+    <p>&emsp;&emsp;<code>Manufacturer</code> 指令指定当前驱动程序的制造商名称。名称参数必须符合 Adobe PPD 文件规范中的制造商名称要求。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href="#FileName"><code>FileName</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href='#PCFileName'><code>PCFileName</code></a>, <a href='#Version'><code>Version</code></a></p>
+    <p>&emsp;&emsp;<a href="#FileName"><code>FileName</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href='#PCFileName'><code>PCFileName</code></a>, <a href='#Version'><code>Version</code></a>
 
 
     <h2 class="title"><a name='MaxSize'>MaxSize</a></h2>
@@ -635,9 +635,9 @@ Manufacturer "HP"</pre>
 MaxSize 36in 100ft
 MaxSize 300cm 30m</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>MaxSize</code> 指令指定自定义页面大小支持的最大宽度和长度。</p>
+    <p>&emsp;&emsp;<code>MaxSize</code> 指令指定自定义页面大小支持的最大宽度和长度。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#MinSize'><code>MinSize</code></a>, <a href='#VariablePaperSize'><code>VariablePaperSize</code></a></p>
+    <p>&emsp;&emsp;<a href='#MinSize'><code>MinSize</code></a>, <a href='#VariablePaperSize'><code>VariablePaperSize</code></a>
 
 
     <h2 class="title"><a name='MediaSize'>MediaSize</a></h2>
@@ -648,9 +648,9 @@ MaxSize 300cm 30m</pre>
 MediaSize Letter
 MediaSize A4</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>MediaSize</code> 指令使用使用 <a href="#HWMargins"><code>HWMargins</code></a> 指令定义的当前页边距，将指定的大小添加到当前打印机驱动程序中。名称参数必须与使用 <a href="#_media"><code>#media</code></a> 指令定义的媒体大小匹配。</p>
+    <p>&emsp;&emsp;<code>MediaSize</code> 指令使用使用 <a href="#HWMargins"><code>HWMargins</code></a> 指令定义的当前页边距，将指定的大小添加到当前打印机驱动程序中。名称参数必须与使用 <a href="#_media"><code>#media</code></a> 指令定义的介质尺寸匹配。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#_media'><code>#media</code></a>, <a href='#HWMargins'><code>HWMargins</code></a></p>
+    <p>&emsp;&emsp;<a href='#_media'><code>#media</code></a>, <a href='#HWMargins'><code>HWMargins</code></a>
 
 
     <h2 class="title"><a name='MediaType'>MediaType</a></h2>
@@ -663,12 +663,12 @@ MediaType <i>类型 "名称/文本"</i></pre>
 MediaType 0 Auto
 MediaType 1 "Plain/Plain Paper"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>MediaType</code> 指令为 <code>MediaType</code> 选项添加了一个新选项。类型参数是一个从 0 到 2<sup>32</sup>-1 之间的数字，指定放置在 PostScript 页面设备字典中的 <code>cupsMediaType</code> 属性中的值。</p>
-    <p>&emsp;&emsp;除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;该名称位于 PostScript 页面设备字典的 <code>MediaType</code> 属性中。</p>
+    <p>&emsp;&emsp;<code>MediaType</code> 指令为 <code>MediaType</code> 选项添加了一个新选项。类型参数是一个从 0 到 2<sup>32</sup>-1 之间的数字，指定放置在 PostScript 页面设备字典中的 <code>cupsMediaType</code> 属性中的值。
+    <p>&emsp;&emsp;除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;该名称位于 PostScript 页面设备字典的 <code>MediaType</code> 属性中。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='MinSize'>MinSize</a></h2>
@@ -679,9 +679,9 @@ MediaType 1 "Plain/Plain Paper"</pre>
 MinSize 4in 8in
 MinSize 10cm 20cm</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>MinSize</code> 指令指定自定义页面大小支持的最小宽度和长度。</p>
+    <p>&emsp;&emsp;<code>MinSize</code> 指令指定自定义页面大小支持的最小宽度和长度。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#MaxSize'><code>MaxSize</code></a>, <a href='#VariablePaperSize'><code>VariablePaperSize</code></a></p>
+    <p>&emsp;&emsp;<a href='#MaxSize'><code>MaxSize</code></a>, <a href='#VariablePaperSize'><code>VariablePaperSize</code></a>
 
 
     <h2 class="title"><a name='ModelName'>ModelName</a></h2>
@@ -692,9 +692,9 @@ MinSize 10cm 20cm</pre>
 ModelName "Foo Laser Printer 2000"
 ModelName "Colorific 123"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>ModelName</code> 指令为打印机驱动程序的 <code>ModelName</code> 、 <code>NickName</code> 和 <code>ShortNickName</code> 属性设置打印机名称。名称是由字母、数字、空格和 “.” 、 “/” 、 “-” 和 “+” 组成的任意字符串，不应以制造商名称开头，因为 PPD 编译器将自动为您添加此名称。名称字符串的最大长度为 31 字节，以符合 Adobe 对 <code>ShortNickName</code> 长度的限制。</p>
+    <p>&emsp;&emsp;<code>ModelName</code> 指令为打印机驱动程序的 <code>ModelName</code> 、 <code>NickName</code> 和 <code>ShortNickName</code> 属性设置打印机名称。名称是由字母、数字、空格和 “.” 、 “/” 、 “-” 和 “+” 组成的任意字符串，不应以制造商名称开头，因为 PPD 编译器将自动为您添加此名称。名称字符串的最大长度为 31 字节，以符合 Adobe 对 <code>ShortNickName</code> 长度的限制。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href="#FileName"><code>FileName</code></a>, <a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#PCFileName'><code>PCFileName</code></a>, <a href='#Version'><code>Version</code></a></p>
+    <p>&emsp;&emsp;<a href="#FileName"><code>FileName</code></a>, <a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#PCFileName'><code>PCFileName</code></a>, <a href='#Version'><code>Version</code></a>
 
 
     <h2 class="title"><a name='ModelNumber'>ModelNumber</a></h2>
@@ -705,10 +705,10 @@ ModelName "Colorific 123"</pre>
 ModelNumber 123
 ModelNumber ($PCL_PAPER_SIZE $PCL_PJL)</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>ModelNumber</code> 指令为打印机驱动程序设置 <code>cupsModelNumber</code> 属性，打印机驱动程序筛选器通常使用该属性为当前设备定制输出。该数字是适用于打印机驱动程序筛选器的任意整数或按位或整数和常量。</p>
-    <p>&emsp;&emsp;打印机驱动程序型号常量的完整列表在本附录后面标题为“<a href='#REF_MODEL_NUMBER'>打印机驱动程序型号常量</A>”的部分中提供。</p>
+    <p>&emsp;&emsp;<code>ModelNumber</code> 指令为打印机驱动程序设置 <code>cupsModelNumber</code> 属性，打印机驱动程序筛选器通常使用该属性为当前设备定制输出。该数字是适用于打印机驱动程序筛选器的任意整数或按位或整数和常量。
+    <p>&emsp;&emsp;打印机驱动程序型号常量的完整列表在本附录后面标题为“<a href='#REF_MODEL_NUMBER'>打印机驱动程序型号常量</A>”的部分中提供。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#DriverType'><code>DriverType</code></a>, <a href='#Filter'><code>Filter</code></a></p>
+    <p>&emsp;&emsp;<a href='#DriverType'><code>DriverType</code></a>, <a href='#Filter'><code>Filter</code></a>
 
 
     <h2 class="title"><a name='Option'>Option</a></h2>
@@ -721,15 +721,15 @@ Option <i>"名称/文本" 类型 section order</i></pre>
 Option Punch Boolean AnySetup 10
 Option "fooFinish/Finishing Option" PickOne DocumentSetup 10</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Option</code> 指令在当前组中创建一个新选项，默认情况下为 <code>General</code> 组。除逗号（44）、斜杠（47）和冒号（58）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
-    <p>&emsp;&emsp;类型参数是以下关键字之一：</p>
+    <p>&emsp;&emsp;<code>Option</code> 指令在当前组中创建一个新选项，默认情况下为 <code>General</code> 组。除逗号（ 44 ）、斜杠（ 47 ）和冒号（ 58 ）外，名称最多可包含 40 个字符（ ASCII 十进制值 33 到 126 之间）。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
+    <p>&emsp;&emsp;类型参数是以下关键字之一：
     <ul>
       <li><code>Boolean</code> - 一个 True / False 选项</li>
       <li><code>PickOne</code> - 允许用户从列表中选择一个选项</li>
       <li><code>PickMany</code> - 允许用户从列表中选择零个或多个选项</li>
     </ul>
-    <p>&emsp;&emsp;section 参数是以下关键字之一：</p>
+    <p>&emsp;&emsp;section 参数是以下关键字之一：
     <ul>
       <li><code>AnySetup</code> - 该选项可以放在 PostScript 文档的 DocumentSetup 或 PageSetup 部分</li>
       <li><code>DocumentSetup</code> - 该选项必须放在 PostScript 文档的 DocumentSetup 部分；这不允许在单个页面上覆盖该选项</li>
@@ -738,9 +738,9 @@ Option "fooFinish/Finishing Option" PickOne DocumentSetup 10</pre>
       <li><code>PageSetup</code> - 该选项必须放在 PostScript 文档中每页的开头</li>
       <li><code>Prolog</code> - 该选项必须放在 PostScript 文档的序言部分；这通常用于为高端排字机添加特殊注释，但也可用于添加 CUPS PostScript 任务通知单注释。</li>
     </ul>
-    <p>&emsp;&emsp;order 参数是一个大于或等于 0.0 的实数，用于在将打印机命令发送到打印机或 RIP 筛选器之前，对许多选项中的打印机命令进行排序。</p>
+    <p>&emsp;&emsp;order 参数是一个大于或等于 0.0 的实数，用于在将打印机命令发送到打印机或 RIP 筛选器之前，对许多选项中的打印机命令进行排序。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Resolution'><code>Resolution</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><a name='PCFileName'>PCFileName</a></h2>
@@ -751,9 +751,9 @@ Option "fooFinish/Finishing Option" PickOne DocumentSetup 10</pre>
 PCFileName "foljt2k1.ppd"
 PCFileName "deskjet.ppd"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>PCFileName</code> 属性指定当前驱动程序的 PPD 文件名。文件名参数必须符合 Adobe PPD 文件规范，并且不能超过 8 个文件名字符加上扩展名“.PPD”。</p>
+    <p>&emsp;&emsp;<code>PCFileName</code> 属性指定当前驱动程序的 PPD 文件名。文件名参数必须符合 Adobe PPD 文件规范，并且不能超过 8 个文件名字符加上扩展名“.PPD”。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href="#FileName"><code>FileName</code></a>, <a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href='#Version'><code>Version</code></a></p>
+    <p>&emsp;&emsp;<a href="#FileName"><code>FileName</code></a>, <a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href='#Version'><code>Version</code></a>
 
 
     <h2 class="title"><span class="info">不推荐使用</span><a name='Resolution'>Resolution</a></h2>
@@ -766,13 +766,13 @@ Resolution <i>色彩空间 每种颜色位数 row-count row-feed row-step "名�
 Resolution - 8 0 0 0 300dpi
 Resolution k 8 0 0 0 "600x300dpi/600 DPI Grayscale"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Resolution</code> 指令创建一个新的 <code>Resolution</code> 选项，用于设置 <code>HWResolution</code> 、 <code>cupsBitsPerColor</code> 、 <code>cupsRowCount</code> 、 <code>cupsRowFeed</code> 、 <code>cupsRowStep</code>，以及可选的 <code>cupsColorSpace</code> 页面设备字典属性。色彩空间参数指定用于指定分辨率的颜色空间，可以是连字符（<code>-</code>）字符，以不更改选定的颜色模型或标题为“<a href='#REF_COLOR_SPACE'>色彩空间关键词</a>”的部分中列出的任何关键字，从而强制指定的颜色空间。</p>
-    <p>&emsp;&emsp;“每种颜色位数”参数指定在进行一项任务时要生成的每种颜色位数。CUPS 当前支持值 1 、 2 、 4 和 8 。</p>
-    <p>&emsp;&emsp;row-count 、row-feed 和 row-step 参数分别为 <code>cupsRowCount</code> 、 <code>cupsRowFeed</code> 和 <code>cupsRowStep</code> 属性指定与驱动程序相关的值。大多数驱动程序将这些属性设置为 0，但允许 0 到 2<sup>32</sup>-1 之间的任何数字。</p>
-    <p>&emsp;&emsp;名称参数必须符合 Adobe PPD 文件规范中的分辨率命名约定，对称分辨率为 <code>HHHdpi</code> ，非对称分辨率为<code>HHHxVVVdpi</code>。示例中的 <code>HHH</code> 和 <code>VVV</code> 表示必须为正整数值的水平和垂直分辨率。</p>
-    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。</p>
+    <p>&emsp;&emsp;<code>Resolution</code> 指令创建一个新的 <code>Resolution</code> 选项，用于设置 <code>HWResolution</code> 、 <code>cupsBitsPerColor</code> 、 <code>cupsRowCount</code> 、 <code>cupsRowFeed</code> 、 <code>cupsRowStep</code>，以及可选的 <code>cupsColorSpace</code> 页面设备字典属性。色彩空间参数指定用于指定分辨率的颜色空间，可以是连字符（<code>-</code>）字符，以不更改选定的颜色模型或标题为“<a href='#REF_COLOR_SPACE'>色彩空间关键词</a>”的部分中列出的任何关键字，从而强制指定的颜色空间。
+    <p>&emsp;&emsp;“每种颜色位数”参数指定在进行一项任务时要生成的每种颜色位数。 CUPS 当前支持值 1 、 2 、 4 和 8 。
+    <p>&emsp;&emsp;row-count 、 row-feed 和 row-step 参数分别为 <code>cupsRowCount</code> 、 <code>cupsRowFeed</code> 和 <code>cupsRowStep</code> 属性指定与驱动程序相关的值。大多数驱动程序将这些属性设置为 0 ，但允许 0 到 2<sup>32</sup>-1 之间的任何数字。
+    <p>&emsp;&emsp;名称参数必须符合 Adobe PPD 文件规范中的分辨率命名约定，对称分辨率为 <code>HHHdpi</code> ，非对称分辨率为<code>HHHxVVVdpi</code>。示例中的 <code>HHH</code> 和 <code>VVV</code> 表示必须为正整数值的水平和垂直分辨率。
+    <p>&emsp;&emsp;如果提供，文本可以是任何长度不超过 80 字节的字符串。如果未提供文本，则使用名称。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#UIConstraints'><code>UIConstraints</code></a>
 
 
     <h2 class="title"><span class="info">不推荐使用</span><a name='SimpleColorProfile'>SimpleColorProfile</a></h2>
@@ -789,14 +789,14 @@ SimpleColorProfile 360dpi/- 100 95 150 1.2 5 10 15
 
 SimpleColorProfile 720dpi/Glossy 100 90 120 1.5 -5 5 10</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>SimpleColorProfile</code> 指令创建一个基于矩阵的 <a href="#ColorProfile"><code>ColorProfile</code></a> 。resolution 和 mediatype 参数指定使用配置文件的 <code>Resolution</code> 和 <code>MediaType</code> 选项；连字符（<code>-</code>）用于指定任何分辨率或媒体类型都可以与配置文件一起使用。</p>
-    <p>&emsp;&emsp;density 参数指定要应用于颜色值（P = d * 0.01 * p<sup>g</sup>）的线性密度校正，并且是大于 0 且小于或等于 100 的整数。值 100 将禁用密度校正，而较低的值将按比例产生较轻的输出。“密度”值在所有颜色模式中均匀调整所有颜色通道。</p>
-    <p>&emsp;&emsp;yellow-density 参数指定在灰度或 RGB 模式下打印时黄色通道的密度，是大于 0 且小于或等于 100 的整数。值为 100 将禁用黄色密度校正，而较低的值将按比例产生较轻的输出。</p>
-    <p>&emsp;&emsp;red-density 参数指定在灰度或 RGB 模式下打印时的双色密度限制（例如 C+M 、 C+Y 、 M+Y ），并且是大于 0 且小于或等于 200 的整数。值为 200 将禁用双色密度校正，而较低的值将按比例生成较亮的输出。</p>
-    <p>&emsp;&emsp;gamma 参数指定要应用于颜色值（P = p<sup>g</sup>）的 gamma 校正，并且是大于 0 的实数。大于 1 的值会导致打印的整体变亮，而小于 1 的值会导致打印的整体变暗。值为 1 将禁用 gamma 校正。</p>
-    <p>&emsp;&emsp;red-adjust, green-adjust, blue-adjust 参数指定要添加或删除的颜色百分比。正红色调整值添加洋红色，负红色调整值添加黄色。正值绿色调整值添加青色，负值添加黄色。正蓝色调整值添加青色，负蓝色调整值添加品红。值为 0 将禁用颜色调整。</p>
+    <p>&emsp;&emsp;<code>SimpleColorProfile</code> 指令创建一个基于矩阵的 <a href="#ColorProfile"><code>ColorProfile</code></a> 。 resolution 和 mediatype 参数指定使用配置文件的 <code>Resolution</code> 和 <code>MediaType</code> 选项；连字符（<code>-</code>）用于指定任何分辨率或媒体类型都可以与配置文件一起使用。
+    <p>&emsp;&emsp;density 参数指定要应用于颜色值（ P = d * 0.01 * p<sup>g</sup>）的线性密度校正，并且是大于 0 且小于或等于 100 的整数。值 100 将禁用密度校正，而较低的值将按比例产生较轻的输出。“密度”值在所有颜色模式中均匀调整所有颜色通道。
+    <p>&emsp;&emsp;yellow-density 参数指定在灰度或 RGB 模式下打印时黄色通道的密度，是大于 0 且小于或等于 100 的整数。值为 100 将禁用黄色密度校正，而较低的值将按比例产生较轻的输出。
+    <p>&emsp;&emsp;red-density 参数指定在灰度或 RGB 模式下打印时的双色密度限制（例如 C+M 、 C+Y 、 M+Y ），并且是大于 0 且小于或等于 200 的整数。值为 200 将禁用双色密度校正，而较低的值将按比例生成较亮的输出。
+    <p>&emsp;&emsp;gamma 参数指定要应用于颜色值（ P = p<sup>g</sup>）的 gamma 校正，并且是大于 0 的实数。大于 1 的值会导致打印的整体变亮，而小于 1 的值会导致打印的整体变暗。值为 1 将禁用 gamma 校正。
+    <p>&emsp;&emsp;red-adjust, green-adjust, blue-adjust 参数指定要添加或删除的颜色百分比。正红色调整值添加洋红色，负红色调整值添加黄色。正值绿色调整值添加青色，负值添加黄色。正蓝色调整值添加青色，负蓝色调整值添加品红。值为 0 将禁用颜色调整。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#ColorProfile'><code>ColorProfile</code></a></p>
+    <p>&emsp;&emsp;<a href='#ColorProfile'><code>ColorProfile</code></a>
 
 
     <h2 class="title"><a name='Throughput'>Throughput</a></h2>
@@ -807,7 +807,7 @@ SimpleColorProfile 720dpi/Glossy 100 90 120 1.5 -5 5 10</pre>
 Throughput 1
 Throughput 10</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Throughput</code> 指令为当前打印机驱动程序设置 <code>Throughput</code> 属性。“每分钟页数”参数是一个正整数，表示打印机每分钟能够生成的最大页数。对于每分钟生成少于 1 页的打印机，请使用值 1 。</p>
+    <p>&emsp;&emsp;<code>Throughput</code> 指令为当前打印机驱动程序设置 <code>Throughput</code> 属性。“每分钟页数”参数是一个正整数，表示打印机每分钟能够生成的最大页数。对于每分钟生成少于 1 页的打印机，请使用值 1 。
 
 
     <h2 class="title"><a name='UIConstraints'>UIConstraints</a></h2>
@@ -824,9 +824,9 @@ UIConstraints "*Option1 False *Duplex"
 UIConstraints "*Duplex *MediaType Transparency"
 UIConstraints "*Resolution 600dpi *ColorModel RGB"</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>UIConstraints</code> 指令在两个选项之间添加了一个约束。当用户选择了不兼容的选项时，约束会通知应用程序。每个选项名称前面都有星号（<code>*</code>）。如果某个选项没有选择，则除 <i>except</i> 、 <code>False</code> 和 </code>None</code> 之外的所有选项都将与其他选项冲突。由于 PPD 编译器会自动添加交互约束（选项 A 与选项 B 冲突，因此选项 B 与选项 A 冲突），因此只需指定一次约束。</p>
+    <p>&emsp;&emsp;<code>UIConstraints</code> 指令在两个选项之间添加了一个约束。当用户选择了不兼容的选项时，约束会通知应用程序。每个选项名称前面都有星号（<code>*</code>）。如果某个选项没有选择，则除 <i>except</i> 、 <code>False</code> 和 </code>None</code> 之外的所有选项都将与其他选项冲突。由于 PPD 编译器会自动添加交互约束（选项 A 与选项 B 冲突，因此选项 B 与选项 A 冲突），因此只需指定一次约束。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a></p>
+    <p>&emsp;&emsp;<a href='#Choice'><code>Choice</code></a>, <a href='#ColorModel'><code>ColorModel</code></a>, <a href='#Cutter'><code>Cutter</code></a>, <a href='#Darkness'><code>Darkness</code></a>, <a href='#Duplex'><code>Duplex</code></a>, <a href='#Finishing'><code>Finishing</code></a>, <a href='#Group'><code>Group</code></a>, <a href='#InputSlot'><code>InputSlot</code></a>, <a href='#Installable'><code>Installable</code></a>, <a href='#MediaType'><code>MediaType</code></a>, <a href='#Option'><code>Option</code></a>, <a href='#Resolution'><code>Resolution</code></a>
 
 
     <h2 class="title"><a name='VariablePaperSize'>VariablePaperSize</a></h2>
@@ -837,9 +837,9 @@ UIConstraints "*Resolution 600dpi *ColorModel RGB"</pre>
 VariablePaperSize yes
 VariablePaperSize no</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>VariablePaperSize</code> 指令指定当前打印机是否支持可变（自定义）页面大小。指定 <code>yes</code> 时，PPD 编译器将包含支持自定义页面大小所需的标准 PPD 属性。</p>
+    <p>&emsp;&emsp;<code>VariablePaperSize</code> 指令指定当前打印机是否支持可变（自定义）页面大小。指定 <code>yes</code> 时， PPD 编译器将包含支持自定义页面大小所需的标准 PPD 属性。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#MaxSize'><code>MaxSize</code></a>, <a href='#MinSize'><code>MinSize</code></a></p>
+    <p>&emsp;&emsp;<a href='#MaxSize'><code>MaxSize</code></a>, <a href='#MinSize'><code>MinSize</code></a>
 
 
     <h2 class="title"><a name='Version'>Version</a></h2>
@@ -850,16 +850,16 @@ VariablePaperSize no</pre>
 Version 1.0
 Version 3.7</pre>
     <h3>说明</h3>
-    <p>&emsp;&emsp;<code>Version</code> 指令设置 PPD 文件中的 <code>FileVersion</code> 属性，也用于 <code>NickName</code> 属性。number 参数是一个正实数。</p>
+    <p>&emsp;&emsp;<code>Version</code> 指令设置 PPD 文件中的 <code>FileVersion</code> 属性，也用于 <code>NickName</code> 属性。 number 参数是一个正实数。
     <h3>参见</h3>
-    <p>&emsp;&emsp;<a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href='#PCFileName'><code>PCFileName</code></a></p>
+    <p>&emsp;&emsp;<a href='#Manufacturer'><code>Manufacturer</code></a>, <a href='#ModelName'><code>ModelName</code></a>, <a href='#PCFileName'><code>PCFileName</code></a>
 
 
     <h2 class="title"><a name='REF_INCLUDE'>标准包含文件</h2>
-    <p>&emsp;&emsp;<a href='#TABLEB-1'>表 B-1</a> 显示随 DDK 提供的标准包含文件。</p>
+    <p>&emsp;&emsp;<a href='#TABLEB-1'>表 B-1</a> 显示随 DDK 提供的标准包含文件。
     <center>
     <table border='1' cellpadding='5' cellspacing='0' width='80%'>
-      <caption align='bottom'><a name='TABLEB-1'><i>表 B-1，标准包含文件</i></a></caption>
+      <caption align='bottom'><a name='TABLEB-1'><i>表 B-1 ，标准包含文件</i></a></caption>
       <tr bgcolor='#cccccc'>
         <th>包含文件</th>
         <th>说明</th>
@@ -886,7 +886,7 @@ Version 3.7</pre>
       </tr>
       <tr>
         <td valign='top'><code>&lt;media.defs&gt;</code></td>
-        <td align='justify' valign='top'>定义 Adobe PostScript 打印机说明文件格式规范附录B中列出的所有标准介质大小。</td>
+        <td align='justify' valign='top'>定义 Adobe PostScript 打印机说明文件格式规范附录 B 中列出的所有标准介质大小。</td>
       </tr>
       <tr>
         <td valign='top'><code>&lt;pcl.h&gt;</code></td>
@@ -901,9 +901,9 @@ Version 3.7</pre>
 
 
     <h2 class="title"><a name='REF_MODEL_NUMBER'>打印机驱动程序型号常量</a></h2>
-    <p>&emsp;&emsp;CUPS DDK 和示例驱动程序使用 PPD 文件中的 <code>cupsModelNumber</code> 属性来定制打印机的输出。以下各节描述了每个驱动程序的常数。</p>
+    <p>&emsp;&emsp;CUPS DDK 和示例驱动程序使用 PPD 文件中的 <code>cupsModelNumber</code> 属性来定制打印机的输出。以下各节描述了每个驱动程序的常数。
     <h3><a name='REF_MODEL_EPSON'>CUPS ESC/P 示例驱动程序（爱普生）</a></h3>
-    <p>&emsp;&emsp;<code>epson</code> 驱动程序支持爱普生和 Okidata 点阵、Epson Stylus 彩色 和 Epson Stylus 照片打印机。<a href='#TABLEB-2'>表 B-2</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应仅通过引用其中一个常量插入。</p>
+    <p>&emsp;&emsp;<code>epson</code> 驱动程序支持爱普生和 Okidata 点阵、 Epson Stylus 彩色 和 Epson Stylus 照片打印机。<a href='#TABLEB-2'>表 B-2</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应仅通过引用其中一个常量插入。
     <!-- NEED 20 -->
     <center>
     <table border='1' cellpadding='5' cellspacing='0' width='80%'>
@@ -914,11 +914,11 @@ Version 3.7</pre>
       </tr>
       <tr>
         <td valign='top'><code>EPSON_9PIN</code></td>
-        <td align='justify' valign='top'>Epson 和 Okidata 9针点阵打印机</td>
+        <td align='justify' valign='top'>Epson 和 Okidata 9 针点阵打印机</td>
       </tr>
       <tr>
         <td valign='top'><code>EPSON_24PIN</code></td>
-        <td align='justify' valign='top'>Epson 和 Okidata 24针点阵打印机</td>
+        <td align='justify' valign='top'>Epson 和 Okidata 24 针点阵打印机</td>
       </tr>
       <tr>
         <td valign='top'><code>EPSON_COLOR</code></td>
@@ -939,7 +939,7 @@ Version 3.7</pre>
     </table>
     </center>
     <h3><a name='REF_MODEL_HP'>CUPS HP-PCL 示例驱动程序（惠普）</a></h3>
-    <p>&emsp;&emsp;<code>惠普</code>驱动程序支持惠普 LaserJet 和 DeskJet 打印机。<a href='#TABLEB-3'>表 B-3</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应仅通过引用其中一个常量插入。</p>
+    <p>&emsp;&emsp;<code>惠普</code>驱动程序支持惠普 LaserJet 和 DeskJet 打印机。<a href='#TABLEB-3'>表 B-3</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应仅通过引用其中一个常量插入。
     <center>
     <table border='1' cellpadding='5' cellspacing='0' width='80%'>
       <caption align='bottom'><a name='TABLEB-3'><i>表 B-3, <code>惠普</code>驱动常数</i></a></caption>
@@ -949,7 +949,7 @@ Version 3.7</pre>
       </tr>
       <tr>
         <td valign='top'><code>HP_LASERJET</code></td>
-        <td align='justify' valign='top'>支持 PCL 3、4 或 5 的惠普 LaserJet 打印机</td>
+        <td align='justify' valign='top'>支持 PCL 3 、 4 或 5 的惠普 LaserJet 打印机</td>
       </tr>
       <tr>
         <td valign='top'><code>HP_DESKJET</code></td>
@@ -962,10 +962,10 @@ Version 3.7</pre>
     </table>
     </center>
     <h3><a name='REF_MODEL_LABEL'>CUPS 标签样本驱动程序（标签）</a></h3>
-    <p>&emsp;&emsp;<code>标签</code>驱动程序支持 Dymo Labelwriter 、 Zebra CPCL 、 Zebra EPL 和 Zebra ZPL 以及 Intellitech PCL 标签打印机。<a href='#TABLEB-4'>表 B-4</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应仅通过引用其中一个常量插入。</p>
+    <p>&emsp;&emsp;<code>标签</code>驱动程序支持 Dymo Labelwriter 、 Zebra CPCL 、 Zebra EPL 和 Zebra ZPL 以及 Intellitech PCL 标签打印机。<a href='#TABLEB-4'>表 B-4</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应仅通过引用其中一个常量插入。
     <center>
     <table border='1' cellpadding='5' cellspacing='0' width='80%'>
-      <caption align='bottom'><a name='TABLEB-4'><i>表 B-4，<code>标签</code>驱动常数</i></a></caption>
+      <caption align='bottom'><a name='TABLEB-4'><i>表 B-4 ，<code>标签</code>驱动常数</i></a></caption>
       <tr bgcolor='#cccccc'>
         <th>常数</th>
         <th>说明</th>
@@ -984,11 +984,11 @@ Version 3.7</pre>
       </tr>
       <tr>
         <td valign='top'><code>ZEBRA_EPL_LINE</code></td>
-        <td align='justify' valign='top'>Zebra EPL 行模式（EPL 1）打印机的格式输出。</td>
+        <td align='justify' valign='top'>Zebra EPL 行模式（ EPL 1 ）打印机的格式输出。</td>
       </tr>
       <tr>
         <td valign='top'><code>ZEBRA_EPL_PAGE</code></td>
-        <td align='justify' valign='top'>Zebra EPL 页面模式（EPL 2）打印机的格式输出。</td>
+        <td align='justify' valign='top'>Zebra EPL 页面模式（ EPL 2 ）打印机的格式输出。</td>
       </tr>
       <tr>
         <td valign='top'><code>ZEBRA_ZPL</code></td>
@@ -996,11 +996,11 @@ Version 3.7</pre>
       </tr>
     </table>
     </center>
-    <h3><a name='REF_MODEL_ESCP'>DDK ESC/P 驱动器（escp）</a></h3>
-    <p>&emsp;&emsp;<code>escp</code>驱动程序支持所有爱普生喷墨打印机。<a href='#TABLEB-6'>表 B-6</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应指定为一个或多个这些常量的按位或。</p>
+    <h3><a name='REF_MODEL_ESCP'>DDK ESC/P 驱动器（ escp ）</a></h3>
+    <p>&emsp;&emsp;<code>escp</code>驱动程序支持所有爱普生喷墨打印机。<a href='#TABLEB-6'>表 B-6</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code> 值应指定为一个或多个这些常量的按位或。
     <center>
     <table border='1' cellpadding='5' cellspacing='0' width='80%'>
-      <caption align='bottom'><a name='TABLEB-6'><i>表 B-6，<code>escp</code>驱动常数</i></a></caption>
+      <caption align='bottom'><a name='TABLEB-6'><i>表 B-6 ，<code>escp</code>驱动常数</i></a></caption>
       <tr bgcolor='#cccccc'>
         <th>常数</th>
         <th>说明</th>
@@ -1055,7 +1055,7 @@ Version 3.7</pre>
       </tr>
       <tr>
         <td valign='top'><code>ESCP_REMOTE_MS</code></td>
-        <td align='justify' valign='top'>使用媒体大小命令</td>
+        <td align='justify' valign='top'>使用介质尺寸命令</td>
       </tr>
       <tr>
         <td valign='top'><code>ESCP_REMOTE_MT</code></td>
@@ -1095,11 +1095,11 @@ Version 3.7</pre>
       </tr>
     </table>
     </center>
-    <h3><a name='REF_MODEL_PCL'>DDK HP-PCL 驱动程序（PCL）</a></h3>
-    <p>&emsp;&emsp;<code>pcl</code> 驱动程序支持所有惠普 LaserJet 、 DeskJet 和 DesignJet 打印机。<a href='#TABLEB-5'>表 B-5</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code>值应指定为一个或多个这些常量的按位或。</p>
+    <h3><a name='REF_MODEL_PCL'>DDK HP-PCL 驱动程序（ PCL ）</a></h3>
+    <p>&emsp;&emsp;<code>pcl</code> 驱动程序支持所有惠普 LaserJet 、 DeskJet 和 DesignJet 打印机。<a href='#TABLEB-5'>表 B-5</a> 列出了 <a href='#ModelNumber'><code>ModelNumber</code></a> 指令的常量。<code>ModelNumber</code>值应指定为一个或多个这些常量的按位或。
     <center>
     <table border='1' cellpadding='5' cellspacing='0' width='80%'>
-      <caption align='bottom'><a name='TABLEB-5'><i>表 B-5，<code>pcl</code> 驱动常数</i></a></caption>
+      <caption align='bottom'><a name='TABLEB-5'><i>表 B-5 ，<code>pcl</code> 驱动常数</i></a></caption>
       <tr bgcolor='#cccccc'>
         <th>常数</th>
         <th>说明</th>
@@ -1157,9 +1157,9 @@ Version 3.7</pre>
 
 
     <h2><a name="REF_COLOR">颜色关键字</a></h2>
-    <p>&emsp;&emsp;PPD编译器定义了两种类型的颜色关键字：colorspace和color order。以下部分列出了每种类型支持的关键字。</p>
+    <p>&emsp;&emsp;PPD 编译器定义了两种类型的颜色关键字： colorspace 和 color order 。以下部分列出了每种类型支持的关键字。
     <h3><a name="REF_COLOR_SPACE">色彩空间关键词</a></h3>
-    <p>&emsp;&emsp;可以识别以下颜色空间关键字：</p>
+    <p>&emsp;&emsp;可以识别以下颜色空间关键字：
     <ul>
       <li><tt>cielab</tt> - CIE Lab <a href="#REF_COLOR_APPLE2">**</a></li>
       <li><tt>ciexyz</tt> - CIE XYZ <a href="#REF_COLOR_APPLE2">**</a></li>
@@ -1200,7 +1200,7 @@ Version 3.7</pre>
 
     </ul>
     <h3><a name="REF_COLOR_ORDER">颜色顺序关键字</a></h3>
-    <p>&emsp;&emsp;可以识别以下颜色顺序关键字：</p>
+    <p>&emsp;&emsp;可以识别以下颜色顺序关键字：
     <ul>
       <li><tt>chunked</tt> or <tt>chunky</tt> - 颜色值作为 RGB RGB RGB RGB 在一条线上传递</li>
       <li><tt>banded</tt> - 颜色值作为 RRRR GGGG BBBB 在一行上单独传递 <a href="#REF_COLOR_APPLE2">*</a></li>

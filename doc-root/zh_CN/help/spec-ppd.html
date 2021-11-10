@@ -17,7 +17,7 @@ PRE B {
   <!--
   PPD extension documentation for CUPS.
 
-  Copyright © 2007-2011 by Apple Inc.
+  Copyright © 2007-2011 by Apple Inc.
   Copyright © 1997-2007 by Easy Software Products.
 
   Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
@@ -25,7 +25,7 @@ PRE B {
 
     <h1 CLASS="title">CUPS PPD 扩展</h1>
 
-    <p>&emsp;&emsp;本规范描述 CUPS 添加到 <a href="http://partners.adobe.com/public/developer/en/ps/5003.PPD_Spec_v4.3.pdf" target="_blank">Adobe 技术说明 #5003: PostScript 打印机说明文件格式规范版本 4.3</a>。PostScript 打印机说明（“PPD”）文件描述每台打印机的功能，CUPS 使用这些文件支持打印机特定功能和智能筛选。</p>
+    <p>&emsp;&emsp;本规范描述 CUPS 添加到 <a href="http://partners.adobe.com/public/developer/en/ps/5003.PPD_Spec_v4.3.pdf" target="_blank">Adobe 技术说明 #5003: PostScript 打印机说明文件格式规范版本 4.3</a>。 PostScript 打印机说明（“PPD”）文件描述每台打印机的功能， CUPS 使用这些文件支持打印机特定功能和智能筛选。
     <div class='summary'>
       <table summary='General Information'>
         <tbody>
@@ -131,7 +131,7 @@ PRE B {
     
 
     <h2 class='title'><a name='SYNTAX'>PPD 文件语法</a></h2>
-    <p>&emsp;&emsp;PPD 格式基于文本，使用最多 255 个字符的行，以回车符、换行符或回车符和换行符的组合终止。以下 ABNF 定义 [<a href="http://tools.ietf.org/html/rfc5234" target="_blank">RFC5234</a>] 定义 PPD 文件中行的一般格式：</p>
+    <p>&emsp;&emsp;PPD 格式基于文本，使用最多 255 个字符的行，以回车符、换行符或回车符和换行符的组合终止。以下 ABNF 定义 [<a href="http://tools.ietf.org/html/rfc5234" target="_blank">RFC5234</a>] 定义 PPD 文件中行的一般格式：
     <pre class='command'>
 PPD-FILE = HEADER +(DATA / COMMENT / LINE-END)
 
@@ -156,22 +156,22 @@ LINE-END = CR / LF / CR LF</pre>
 
 
     <h2 class='title'><a name='AUTOCONFIG'>自动配置</a></h2>
-    <p>&emsp;&emsp;CUPS 支持多种通过 PPD 关键字自动配置的方法。</p>
+    <p>&emsp;&emsp;CUPS 支持多种通过 PPD 关键字自动配置的方法。
 
     <h3 class="title"><span class='info'>macOS 10.5</span><a name='APAutoSetupTool'>APAutoSetupTool</a></h3>
-    <p class='summary'>*APAutoSetupTool: "/LibraryPrinters/vendor/filename"</p>
-    <p>&emsp;&emsp;此 macOS 关键字定义设置默认选项选项的程序。当从 <var>添加打印机</var> 窗口或 <var>打印</var> 对话框中的 <var>附近打印机</var> 列表添加打印机时，会运行该命令。</p>
-    <p>&emsp;&emsp;程序提供了两个参数：打印机的设备 URI 和用于打印机的 PPD 文件。程序必须将更新的 PPD 文件写入标准输出。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APAutoSetupTool: "/LibraryPrinters/vendor/filename"
+    <p>&emsp;&emsp;此 macOS 关键字定义设置默认选项选项的程序。当从 <var>添加打印机</var> 窗口或 <var>打印</var> 对话框中的 <var>附近打印机</var> 列表添加打印机时，会运行该命令。
+    <p>&emsp;&emsp;程序提供了两个参数：打印机的设备 URI 和用于打印机的 PPD 文件。程序必须将更新的 PPD 文件写入标准输出。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Use our setup tool when adding a printer
 *APAutoSetupTool: "/Library/Printers/vendor/Tools/autosetuptool"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.2/CUPS 1.4</span><a name='QUERYKEYWORD'>?MainKeyword</a></h3>
-    <p class='summary'>*?<i>MainKeyword</i>: "<br>  PostScript query code that writes a message using the = operator...<br>"<br>*End</p>
-    <p>&emsp;&emsp;<tt>?<i>MainKeyword</i></tt> 关键字定义 PostScript 代码，用于确定主关键字（选项）当前选定/启用的选项关键字（选项）。它通常在与 USB、串行、Appletalk 和 AppSocket（端口 9100 ）打印机通信时使用。</p>
-    <p>&emsp;&emsp;PostScript 代码通常使用 <tt>=</tt> 运算符发送其响应。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*?<i>MainKeyword</i>: "<br>  PostScript query code that writes a message using the = operator...<br>"<br>*End
+    <p>&emsp;&emsp;<tt>?<i>MainKeyword</i></tt> 关键字定义 PostScript 代码，用于确定主关键字（选项）当前选定/启用的选项关键字（选项）。它通常在与 USB 、串行、 Appletalk 和 AppSocket （端口 9100 ）打印机通信时使用。
+    <p>&emsp;&emsp;PostScript 代码通常使用 <tt>=</tt> 运算符发送其响应。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *OpenUI OptionDuplex/Duplexer Installed: Boolean
 *DuplexOptionDuplex: False
@@ -188,9 +188,9 @@ LINE-END = CR / LF / CR LF</pre>
 *CloseUI: OptionDuplex</pre>
 
     <h3 class="title"><span class='info'>macOS 10.4/CUPS 1.5</span><a name='OID'>OIDMainKeyword</a></h3>
-    <p class='summary'>*?OID<i>MainKeyword</i>: ".n.n.n..."<br>*OID<i>MainKeyword</i> <i>OptionKeyword1</i>: "value"<br>...<br>*OID<i>MainKeyword</i> <i>OptionKeywordN</i>: "value"</p>
-    <p>&emsp;&emsp;<tt>OID<i>MainKeyword</i></tt> 关键字用于定义映射到可安装选项的 SNMP OID 。第一行（查询）定义要在网络设备上查找的 OID。第二个关键字和后续关键字定义了从 OID 值到 option 关键字的映射。由于 SNMP 是基于 IP 的网络协议，因此此方法通常仅用于配置 AppSocket 、 IPP 和 LPD 网络打印机。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*?OID<i>MainKeyword</i>: ".n.n.n..."<br>*OID<i>MainKeyword</i> <i>OptionKeyword1</i>: "value"<br>...<br>*OID<i>MainKeyword</i> <i>OptionKeywordN</i>: "value"
+    <p>&emsp;&emsp;<tt>OID<i>MainKeyword</i></tt> 关键字用于定义映射到可安装选项的 SNMP OID 。第一行（查询）定义要在网络设备上查找的 OID 。第二个关键字和后续关键字定义了从 OID 值到 option 关键字的映射。由于 SNMP 是基于 IP 的网络协议，因此此方法通常仅用于配置 AppSocket 、 IPP 和 LPD 网络打印机。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Get the installed memory on the printer...
 *?OIDInstalledMemory: ".1.3.6.1.2.1.25.2.2.0"
@@ -201,24 +201,24 @@ LINE-END = CR / LF / CR LF</pre>
 
 
     <h2 class='title'><a name='PROFILES'>颜色配置文件</a></h2>
-    <p>&emsp;&emsp;CUPS 支持三种类型的颜色配置文件。第一种类型基于 sRGB ，由标准 CUPS 光栅筛选器和 GPL Ghostscript 使用。第二种类型基于 ICC 配置文件，由 macOS 上基于石英的筛选器使用。最后一种类型基于众所周知的颜色空间，如 sRGB 和 Adobe RGB 。</p>
+    <p>&emsp;&emsp;CUPS 支持三种类型的颜色配置文件。第一种类型基于 sRGB ，由标准 CUPS 光栅筛选器和 GPL Ghostscript 使用。第二种类型基于 ICC 配置文件，由 macOS 上基于石英的筛选器使用。最后一种类型基于众所周知的颜色空间，如 sRGB 和 Adobe RGB 。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;目前，CUPS 光栅筛选器均不支持 ICC 配置文件。这将在时间和资源允许的情况下予以解决。</p>
+      <p>&emsp;&emsp;目前， CUPS 光栅筛选器均不支持 ICC 配置文件。这将在时间和资源允许的情况下予以解决。
     </blockquote>
 
     <h3 class="title"><span class='info'>不建议使用</span><a name='cupsColorProfile'>cupsColorProfile</a></h3>
-    <p class='summary'>*cupsColorProfile 分辨率/媒体类型: "density gamma m00 m01 m02 m10 m11 m12 m20 m21 m22"</p>
-    <p>&emsp;&emsp;此字符串关键字指定基于 sRGB 的颜色配置文件，该颜色配置文件由 gamma 和 density 控件以及 3x3 CMY 颜色变换矩阵组成。<em>macOS 不支持此关键字</em></p>
-    <p>&emsp;&emsp;<i>分辨率</i> 和 <i>媒体类型</i> 值可以是 “-” 作为通配符。否则，它们必须匹配 PPD 文件中定义的 <tt>分辨率</tt> 或 <tt>媒体类型</tt> 选项关键字之一。</p>
-    <p>&emsp;&emsp;<i>density</i> 和 <i>gamma</i> 值定义伽马和密度调整函数，以便：</p>
+    <p class='summary'>*cupsColorProfile 分辨率/媒体类型: "density gamma m00 m01 m02 m10 m11 m12 m20 m21 m22"
+    <p>&emsp;&emsp;此字符串关键字指定基于 sRGB 的颜色配置文件，该颜色配置文件由 gamma 和 density 控件以及 3x3 CMY 颜色变换矩阵组成。<em>macOS 不支持此关键字</em>
+    <p>&emsp;&emsp;<i>分辨率</i> 和 <i>媒体类型</i> 值可以是 “-” 作为通配符。否则，它们必须匹配 PPD 文件中定义的 <tt>分辨率</tt> 或 <tt>媒体类型</tt> 选项关键字之一。
+    <p>&emsp;&emsp;<i>density</i> 和 <i>gamma</i> 值定义伽马和密度调整函数，以便：
     <pre class='command'>f(x) = density * x <sup style='font-size: 100%'>gamma</sup></pre>
-    <p>&emsp;&emsp;<i>m00</i> 到 <i>m22</i> 值定义了 CMY 颜色值的 3x3 变换矩阵。密度函数在 CMY 变换<i>后</i>应用：</p>
+    <p>&emsp;&emsp;<i>m00</i> 到 <i>m22</i> 值定义了 CMY 颜色值的 3x3 变换矩阵。密度函数在 CMY 变换<i>后</i>应用：
     <pre class='command'>
 | m00 m01 m02 |
 | m10 m11 m12 |
 | m20 m21 m22 |</pre>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify a profile for printing at 360dpi on all media types</em>
 *cupsColorProfile 360dpi/-: "1.0 1.5 1.0 0.0 -0.2 -0.4 1.0 0.0 -0.2 0.0 1.0"
@@ -230,10 +230,10 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsColorProfile -/-: "0.9 2.0 1.0 0.0 -0.2 -0.4 1.0 0.0 -0.2 0.0 1.0"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.3/CUPS 1.2</span><a name='cupsICCProfile'>cupsICCProfile</a></h3>
-    <p class='summary'>*cupsICCProfile 彩色模型.媒体类型.分辨率/说明: "文件名"</p>
-    <p>&emsp;&emsp;此关键字指定用于将文档颜色转换为设备颜色空间的 ICC 颜色配置文件。<tt>彩色模型</tt>、<tt>媒体类型</tt> 和 <tt>分辨率</tt> 选项关键字指定颜色配置文件的选择器。如果省略，颜色配置文件将匹配对应主关键字的任何选项关键字。</p>
-    <p>&emsp;&emsp;<tt>说明</tt> 指定与颜色配置文件关联的人类可读文本。文件名部分指定要使用的 ICC 颜色配置文件；如果文件名不是绝对的，则相对于 <var>/usr/share/cups/profiles</var> 目录加载。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsICCProfile 彩色模型.媒体类型.分辨率/说明: "文件名"
+    <p>&emsp;&emsp;此关键字指定用于将文档颜色转换为设备颜色空间的 ICC 颜色配置文件。<tt>彩色模型</tt>、<tt>媒体类型</tt> 和 <tt>分辨率</tt> 选项关键字指定颜色配置文件的选择器。如果省略，颜色配置文件将匹配对应主关键字的任何选项关键字。
+    <p>&emsp;&emsp;<tt>说明</tt> 指定与颜色配置文件关联的人类可读文本。文件名部分指定要使用的 ICC 颜色配置文件；如果文件名不是绝对的，则相对于 <var>/usr/share/cups/profiles</var> 目录加载。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify a profile for CMYK printing at 360dpi on all media types</em>
 *cupsICCProfile CMYK..360dpi/360dpi CMYK: "/Library/Printers/vendor/Profiles/foo-360-cmyk.icc"
@@ -245,12 +245,12 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsICCProfile ../Default: "/Library/Printers/vendor/Profiles/foo-default.icc"</pre>
 
     <h4 class="title">自定义配置文件选择关键字</h4>
-    <p>&emsp;&emsp;<tt>彩色模型</tt>, <tt>媒体类型</tt>, 和 <tt>分辨率</tt> 主关键字可以重新分配给不同的主关键字，允许驱动程序根据不同的参数选择颜色配置文件。<tt>CupsicQualifier1</tt> 、 <tt>CupsicQualifier2</tt> 和 <tt>CupsicQualifier3</tt> 关键字定义了从选择器到主关键字的映射：</p>
+    <p>&emsp;&emsp;<tt>彩色模型</tt>, <tt>媒体类型</tt>, 和 <tt>分辨率</tt> 主关键字可以重新分配给不同的主关键字，允许驱动程序根据不同的参数选择颜色配置文件。<tt>CupsicQualifier1</tt> 、 <tt>CupsicQualifier2</tt> 和 <tt>CupsicQualifier3</tt> 关键字定义了从选择器到主关键字的映射：
     <pre class='command'>
 *cupsICCQualifier1: MainKeyword1
 *cupsICCQualifier2: MainKeyword2
 *cupsICCQualifier3: MainKeyword3</pre>
-    <p>&emsp;&emsp;默认映射如下所示：</p>
+    <p>&emsp;&emsp;默认映射如下所示：
     <pre class='command'>
 *cupsICCQualifier1: ColorModel
 *cupsICCQualifier2: MediaType
@@ -260,28 +260,28 @@ LINE-END = CR / LF / CR LF</pre>
     <p class='summary'>*<a href='#APSupportsCustomColorMatching'>APSupportsCustomColorMatching</a>: true<br>
 *<a href='#APCustomColorMatchingName'>APCustomColorMatchingName</a> name/text: ""<br>
 *<a href='#APCustomColorMatchingProfile'>APCustomColorMatchingProfile</a>: profile<br>
-*<a href='#APDefaultCustomColorMatchingProfile'>APDefaultCustomColorMatchingProfile</a>: profile</p>
-    <p>&emsp;&emsp;这些关键字告诉 macOS 光栅筛选器，打印机驱动程序提供自己的自定义颜色匹配，并且在根据驱动程序的请求生成 1 、 3 和 4 分量光栅数据时，应使用通用颜色配置文件。<tt>APCustomColorMatchingProfile</tt> 和 <tt>APDefaultColorMatchingProfile</tt> 关键字指定用于三色（ RGB ）光栅数据的备用颜色配置文件（ sRGB 或 AdobeRGB ）。</p>
+*<a href='#APDefaultCustomColorMatchingProfile'>APDefaultCustomColorMatchingProfile</a>: profile
+    <p>&emsp;&emsp;这些关键字告诉 macOS 光栅筛选器，打印机驱动程序提供自己的自定义颜色匹配，并且在根据驱动程序的请求生成 1 、 3 和 4 分量光栅数据时，应使用通用颜色配置文件。<tt>APCustomColorMatchingProfile</tt> 和 <tt>APDefaultColorMatchingProfile</tt> 关键字指定用于三色（ RGB ）光栅数据的备用颜色配置文件（ sRGB 或 AdobeRGB ）。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;在 macOS 10.6 之前，默认的 RGB 颜色空间是苹果的 “GenericRGB” 。macOS 10.6 及更高版本中的新默认值是 “sRGB” 。有关更多信息，请参见苹果支持网站上的 <a href="http://support.apple.com/kb/HT3712">"macOS v10.6: 关于 gamma 2.2"</a> 。</p>
+      <p>&emsp;&emsp;在 macOS 10.6 之前，默认的 RGB 颜色空间是苹果的 “GenericRGB” 。 macOS 10.6 及更高版本中的新默认值是 “sRGB” 。有关更多信息，请参见苹果支持网站上的 <a href="http://support.apple.com/kb/HT3712">"macOS v10.6: 关于 gamma 2.2"</a> 。
     </blockquote>
     <h4 class="title"><span class='info'>macOS 10.5</span><a name='APCustomColorMatchingName'>APCustomColorMatchingName</a></h4>
-    <p class='summary'>*APCustomColorMatchingName name/text: ""</p>
-    <p>&emsp;&emsp;此关键字为 <var>颜色匹配</var> 打印面板中的驱动程序提供的颜色匹配定义备用名称。默认情况下，使用名称 “供应商匹配” 或其本地化等效名称。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APCustomColorMatchingName name/text: ""
+    <p>&emsp;&emsp;此关键字为 <var>颜色匹配</var> 打印面板中的驱动程序提供的颜色匹配定义备用名称。默认情况下，使用名称 “供应商匹配” 或其本地化等效名称。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Define the names for our color matching...
 *APCustomColorMatchingName name/AcmeColor(tm): ""
 *fr.APCustomColorMatchingName name/La AcmeColor(tm): ""</pre>
     <h4 class="title"><span class='info'>macOS 10.5</span><a name='APCustomColorMatchingProfile'>APCustomColorMatchingProfile</a></h4>
-    <p class='summary'>*APCustomColorMatchingProfile: name</p>
-    <p>&emsp;&emsp;此关键字定义支持的 RGB 颜色配置文件，可在进行自定义颜色匹配时使用。目前只支持 <tt>sRGB</tt> 、 <tt>AdobeRGB</tt> 和 <tt>GenericRGB</tt> 。如果未指定，RGB 数据将使用 GenericRGB 颜色空间。</p>
+    <p class='summary'>*APCustomColorMatchingProfile: name
+    <p>&emsp;&emsp;此关键字定义支持的 RGB 颜色配置文件，可在进行自定义颜色匹配时使用。目前只支持 <tt>sRGB</tt> 、 <tt>AdobeRGB</tt> 和 <tt>GenericRGB</tt> 。如果未指定， RGB 数据将使用 GenericRGB 颜色空间。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;如果您提供多个 <tt>APCustomColorMatchingProfile</tt> 关键字，则您有责任提供必要的用户界面控件，以便在 <a href='#APDialogExtension'>打印对话框窗格</a> 中选择配置文件。使用键 <tt>kPMCustomColorMatchingProfileKey</tt> 将命名的配置文件添加到打印设置中。</p>
+      <p>&emsp;&emsp;如果您提供多个 <tt>APCustomColorMatchingProfile</tt> 关键字，则您有责任提供必要的用户界面控件，以便在 <a href='#APDialogExtension'>打印对话框窗格</a> 中选择配置文件。使用键 <tt>kPMCustomColorMatchingProfileKey</tt> 将命名的配置文件添加到打印设置中。
     </blockquote>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Use sRGB for RGB color by default, but support both sRGB and AdobeRGB
 *APSupportsCustomColorMatching: true
@@ -289,33 +289,33 @@ LINE-END = CR / LF / CR LF</pre>
 *APCustomColorMatchingProfile: sRGB
 *APCustomColorMatchingProfile: AdobeRGB</pre>
     <h4 class="title"><span class='info'>macOS 10.5</span><a name='APDefaultCustomColorMatchingProfile'>APDefaultCustomColorMatchingProfile</a></h4>
-    <p class='summary'>*APDefaultCustomColorMatchingProfile: name</p>
-    <p>&emsp;&emsp;此关键字定义进行自定义颜色匹配时将使用的默认 RGB 颜色配置文件。目前只支持 <tt>sRGB</tt> 、 <tt>AdobeRGB</tt> 和 <tt>GenericRGB</tt> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APDefaultCustomColorMatchingProfile: name
+    <p>&emsp;&emsp;此关键字定义进行自定义颜色匹配时将使用的默认 RGB 颜色配置文件。目前只支持 <tt>sRGB</tt> 、 <tt>AdobeRGB</tt> 和 <tt>GenericRGB</tt> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Use sRGB for RGB color by default
 *APSupportsCustomColorMatching: true
 *APDefaultCustomColorMatchingProfile: sRGB</pre>
     <h4 class="title"><span class='info'>macOS 10.4</span><a name='APSupportsCustomColorMatching'>APSupportsCustomColorMatching</a></h4>
-    <p class='summary'>*APSupportsCustomColorMatching: boolean</p>
-    <p>&emsp;&emsp;此关键字指定驱动程序提供自己的自定义颜色匹配。当 <tt>true</tt> 时，默认的切换颜色空间将是 GenericGray 、 GenericRGB 或 GenericCMYK ，具体取决于驱动程序请求的组件数量。<a href='#APDefaultCustomColorMatchingProfile'><tt>APDefaultCustomColorMatchingProfile</tt></a> 关键字可用于覆盖默认的三分量（ RGB ）颜色空间。</p>
-    <p>&emsp;&emsp;<tt>APSupportsCustomColorMatching</tt> 的默认值为 <tt>false</tt> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APSupportsCustomColorMatching: boolean
+    <p>&emsp;&emsp;此关键字指定驱动程序提供自己的自定义颜色匹配。当 <tt>true</tt> 时，默认的切换颜色空间将是 GenericGray 、 GenericRGB 或 GenericCMYK ，具体取决于驱动程序请求的组件数量。<a href='#APDefaultCustomColorMatchingProfile'><tt>APDefaultCustomColorMatchingProfile</tt></a> 关键字可用于覆盖默认的三分量（ RGB ）颜色空间。
+    <p>&emsp;&emsp;<tt>APSupportsCustomColorMatching</tt> 的默认值为 <tt>false</tt> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *APSupportsCustomColorMatching: true
 *APDefaultCustomColorMatchingProfile: sRGB</pre>
 
     <h2 class='title'><a name='CONSTRAINTS'>约束条件</a></h2>
-    <p>&emsp;&emsp;约束是驱动程序或设备不允许的选项选择，例如打印双面透明胶片。CUPS 的所有版本都支持旧式 Adobe <tt>UIConstraints</tt> 和 <tt>NonUIConstraints</tt> 关键字定义的约束，这些关键字支持任意两个选项之间的冲突，例如：</p>
+    <p>&emsp;&emsp;约束是驱动程序或设备不允许的选项选择，例如打印双面透明胶片。 CUPS 的所有版本都支持旧式 Adobe <tt>UIConstraints</tt> 和 <tt>NonUIConstraints</tt> 关键字定义的约束，这些关键字支持任意两个选项之间的冲突，例如：
     <pre class='command'>
 *% Do not allow 2-sided printing on transparency media
 *UIConstraints: "*Duplex *MediaType Transparency"
 *UIConstraints: "*MediaType Transparency *Duplex"</pre>
-    <p>&emsp;&emsp;虽然几乎所有的约束都可以使用这些关键字来表示，但有一些有效的场景需要在两个以上的选项选择之间进行约束。此外，约束的解决是有问题的，因为用户和软件必须猜测如何最好地解决特定约束。</p>
-    <p>&emsp;&emsp;CUPS 1.4 和更高版本为约束定义了两个新关键字，<tt>cupsUIConstraints</tt> 和 <tt>cupsUIResolver</tt> 。每个 <tt>cupsUIConstraints</tt> 关键字指向一个 <tt>cupsUIResolver</tt> 关键字，该关键字指定解决冲突条件的备选选项。相同的 <tt>cupsUIResolver</tt> 可由多个 <tt>cupsUIResolver</tt> 使用。</p>
+    <p>&emsp;&emsp;虽然几乎所有的约束都可以使用这些关键字来表示，但有一些有效的场景需要在两个以上的选项选择之间进行约束。此外，约束的解决是有问题的，因为用户和软件必须猜测如何最好地解决特定约束。
+    <p>&emsp;&emsp;CUPS 1.4 和更高版本为约束定义了两个新关键字，<tt>cupsUIConstraints</tt> 和 <tt>cupsUIResolver</tt> 。每个 <tt>cupsUIConstraints</tt> 关键字指向一个 <tt>cupsUIResolver</tt> 关键字，该关键字指定解决冲突条件的备选选项。相同的 <tt>cupsUIResolver</tt> 可由多个 <tt>cupsUIResolver</tt> 使用。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;开发包含约束的 PPD 文件时，使用 <a href="man-cupstestppd.html">cupstestppd(1)</a> 程序来验证约束是否准确，并且不会导致无法解决的选项选择，这一点非常重要。</p>
+      <p>&emsp;&emsp;开发包含约束的 PPD 文件时，使用 <a href="man-cupstestppd.html">cupstestppd(1)</a> 程序来验证约束是否准确，并且不会导致无法解决的选项选择，这一点非常重要。
     </blockquote>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsUIConstraints'>cupsUIConstraints</a></h3>
@@ -323,9 +323,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsUIConstraints resolver: "*Keyword1 OptionKeyword1 *Keyword2 ..."<br>
 *cupsUIConstraints resolver: "*Keyword1 *Keyword2 OptionKeyword2 ..."<br>
 *cupsUIConstraints resolver: "*Keyword1 OptionKeyword1 *Keyword2 OptionKeyword2 ..."<br>
-*cupsUIConstraints: "*InstallableKeyword1 OptionKeyword1 *Keyword2 OptionKeyword2 ..."</p>
-    <p>&emsp;&emsp;列出两个或多个冲突的选项。“resolver” 字符串是一个（可能是唯一的）关键字，用于指定存在约束时要更改的选项。如果未提供冲突解决程序，CUPS 将首先尝试默认选项，然后测试每个选项以解决冲突。</p>
-    <p>&emsp;&emsp;示例：</p>
+*cupsUIConstraints: "*InstallableKeyword1 OptionKeyword1 *Keyword2 OptionKeyword2 ..."
+    <p>&emsp;&emsp;列出两个或多个冲突的选项。“resolver” 字符串是一个（可能是唯一的）关键字，用于指定存在约束时要更改的选项。如果未提供冲突解决程序， CUPS 将首先尝试默认选项，然后测试每个选项以解决冲突。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify that 2-sided printing cannot happen on transparencies</em>
 *cupsUIConstraints transparency: "*Duplex *MediaType Transparency"
@@ -344,9 +344,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsUIConstraints photo: "*OutputMode Photo *MediaType Transparency *Resolution 1200dpi"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsUIResolver'>cupsUIResolver</a></h3>
-    <p class='summary'>*cupsUIResolver resolver: "*Keyword1 OptionKeyword1 *Keyword2 OptionKeyword2 ..."</p>
-    <p>&emsp;&emsp;指定两个或多个要标记/选择以解析约束的选项。“resolver” 字符串标识要对一个或多个 <a href='#cupsUIConstraints'><tt>cupsUIConstraints</tt></a> 执行的特定操作。同一动作可用于多个约束。选项关键字对被视为要尝试的选项选择的有序列表 － 仅使用前 N 个选项，其中 N 是所需的最小选择数。由于 <a href="api-ppd.html#cupsResolveConflicts"><code>cupsResolveConflicts()</code></a> 不会更改传递给它的最新选项选择，因此必须列出约束中的至少两个选项，以避免无法解决冲突的情况。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsUIResolver resolver: "*Keyword1 OptionKeyword1 *Keyword2 OptionKeyword2 ..."
+    <p>&emsp;&emsp;指定两个或多个要标记/选择以解析约束的选项。“resolver” 字符串标识要对一个或多个 <a href='#cupsUIConstraints'><tt>cupsUIConstraints</tt></a> 执行的特定操作。同一动作可用于多个约束。选项关键字对被视为要尝试的选项选择的有序列表 － 仅使用前 N 个选项，其中 N 是所需的最小选择数。由于 <a href="api-ppd.html#cupsResolveConflicts"><code>cupsResolveConflicts()</code></a> 不会更改传递给它的最新选项选择，因此必须列出约束中的至少两个选项，以避免无法解决冲突的情况。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify the options to change for the 2-sided transparency constraint</em>
 *cupsUIResolver transparency: "*Duplex None *MediaType Plain"
@@ -361,12 +361,12 @@ LINE-END = CR / LF / CR LF</pre>
 
 
     <h2 class='title'><a name='I18N'>全球化的 PPD 支持</a></h2>
-    <p>&emsp;&emsp;CUPS 1.2 及更高版本通过以下附加规则添加了对包含多种语言的 PPD 文件的支持：</p>
+    <p>&emsp;&emsp;CUPS 1.2 及更高版本通过以下附加规则添加了对包含多种语言的 PPD 文件的支持：
     <ol>
       <li><tt>LanguageVersion</tt> 必须是 <tt>English</tt></li>
       <li><tt>LanguageEncoding</tt> 必须是 <tt>ISOLatin1</tt></li>
       <li><tt>cupsLanguages</tt> 必须提供关键字，并在 PPD 文件中列出每个受支持的区域设置</li>
-      <li>主关键字和选项关键字不得超过 34（而不是 40）个字符，以便为翻译关键字中的区域设置前缀留出空间</li>
+      <li>主关键字和选项关键字不得超过 34 （而不是 40 ）个字符，以便为翻译关键字中的区域设置前缀留出空间</li>
       <li>不得使用主关键字 “Translation”</li>
       <li>包含在 main 和 option 关键字中的翻译字符串不得包含 ISOLatin1 和 UTF-8 的 ASCII 子集之外的字符；希望使用 ASCII 以外字符的开发人员必须为受影响的关键字提供一组单独的英语本地化关键字。</li>
       <li>本地化是使用 “ll” 或 “ll_CC” 形式的区域设置前缀指定的。 “ll” 是两个字母的 ISO 语言代码， “CC” 是两个字母的 ISO 国家代码
@@ -378,19 +378,19 @@ LINE-END = CR / LF / CR LF</pre>
       <li>特定于语言环境的翻译字符串必须使用 UTF-8 编码。</li>
       <li>必须使用以下形式之一对主要关键字进行本地化：
           <p>&emsp;&emsp;<tt>*ll.Translation MainKeyword/translation text: ""</tt><br />
-          <tt>*ll_CC.Translation MainKeyword/translation text: ""</tt></p>
+          <tt>*ll_CC.Translation MainKeyword/translation text: ""</tt>
       </li>
       <li>选项关键字必须使用以下形式之一进行本地化：
           <p>&emsp;&emsp;<tt>*ll.MainKeyword OptionKeyword/translation text: ""</tt><br>
-          <tt>*ll_CC.MainKeyword OptionKeyword/translation text: ""</tt></p>
+          <tt>*ll_CC.MainKeyword OptionKeyword/translation text: ""</tt>
       </li>
       <li>本地化关键字可能出现在 PPD 文件第一行之后的任何位置</li>
     </ol>
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;我们使用 <tt>LanguageEncoding</tt> 的值为 <tt>ISOLatin1</tt> ，并将允许的基本翻译字符串限制为 ASCII ，以避免可能出现的字符编码问题。此外，当 PPD 文件中未提供给定语言环境的本地化时，要求基本翻译字符串为英语可以更轻松地进行回退翻译。</p>
+      <p>&emsp;&emsp;我们使用 <tt>LanguageEncoding</tt> 的值为 <tt>ISOLatin1</tt> ，并将允许的基本翻译字符串限制为 ASCII ，以避免可能出现的字符编码问题。此外，当 PPD 文件中未提供给定语言环境的本地化时，要求基本翻译字符串为英语可以更轻松地进行回退翻译。
     </blockquote>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *LanguageVersion: English
 *LanguageEncoding: ISOLatin1
@@ -426,16 +426,16 @@ LINE-END = CR / LF / CR LF</pre>
 
 
     <h2 class='title'><a name='OPTIONS'><span class="info">CUPS 1.3/macOS 10.6</span>自定义选项</a></h2>
-    <p>&emsp;&emsp;CUPS 支持使用 <tt>CustomPageSize</tt> 和 <tt>ParamCustomPageSize</tt> 语法扩展的自定义选项：</p>
+    <p>&emsp;&emsp;CUPS 支持使用 <tt>CustomPageSize</tt> 和 <tt>ParamCustomPageSize</tt> 语法扩展的自定义选项：
     <pre class='command'>
 *CustomFoo True: "command"
 *ParamCustomFoo Name1/Text 1: order type minimum maximum
 *ParamCustomFoo Name2/Text 2: order type minimum maximum
 ...
 *ParamCustomFoo NameN/Text N: order type minimum maximum</pre>
-    <p>&emsp;&emsp;当基本选项是 <tt>JCLSetup</tt> 节的一部分时，“command” 字符串包含 JCL 命令，每个编号参数都有 “\order” 占位符。CUPS API 为 HP-PJL 命令处理任何必要的值引用。例如，如果 JCL 命令字符串为 “@PJL SET PASSCODE=\1” 且第一个选项值为 “1234”，则 CUPS 将输出字符串 “@PJL SET PASSCODE=1234” 。</p>
-    <p>&emsp;&emsp;对于非 <tt>JCLSetup</tt> 选项，“order” 值是从 1 到 N 的数字，并指定值在命令之前放置在堆栈上的顺序。例如，如果 PostScript 命令字符串为 "&lt;&lt;/cupsReal1 2 1 roll&gt;&gt;setpagedevice" 且选项值为 “2.0” ，则 CUPS 将输出字符串 “2.0 &lt;&lt;/cupsReal1 2 1 roll&gt;&gt;setpagedevice” 。</p>
-    <p>&emsp;&emsp;“类型”是以下关键字之一：</p>
+    <p>&emsp;&emsp;当基本选项是 <tt>JCLSetup</tt> 节的一部分时，“command” 字符串包含 JCL 命令，每个编号参数都有 “\order” 占位符。 CUPS API 为 HP-PJL 命令处理任何必要的值引用。例如，如果 JCL 命令字符串为 “@PJL SET PASSCODE=\1” 且第一个选项值为 “1234”，则 CUPS 将输出字符串 “@PJL SET PASSCODE=1234” 。
+    <p>&emsp;&emsp;对于非 <tt>JCLSetup</tt> 选项，“order” 值是从 1 到 N 的数字，并指定值在命令之前放置在堆栈上的顺序。例如，如果 PostScript 命令字符串为 "&lt;&lt;/cupsReal1 2 1 roll&gt;&gt;setpagedevice" 且选项值为 “2.0” ，则 CUPS 将输出字符串 “2.0 &lt;&lt;/cupsReal1 2 1 roll&gt;&gt;setpagedevice” 。
+    <p>&emsp;&emsp;“类型”是以下关键字之一：
     <ul>
       <li><tt>curve</tt> - 从“最小值”到“最大值”的实际值，表示使用函数 f(x) = x <sup>value</sup> 值的伽马校正曲线</li>
       <li><tt>int</tt> - 从“最小值”到“最大值”的整数值</li>
@@ -446,7 +446,7 @@ LINE-END = CR / LF / CR LF</pre>
       <li><tt>real</tt> - 从“最小值”到“最大值”的实际值</li>
       <li><tt>string</tt> - 字符串值，最少包含“最小”字符，最多包含“最大”字符（“最小”和“最大”是数字）</li>
     </ul>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Base JCL key code option</em>
 *JCLOpenUI JCLPasscode/Key Code: PickOne
@@ -492,20 +492,20 @@ LINE-END = CR / LF / CR LF</pre>
 
 
     <h2 class='title'><a name='RASTERPS'>为光栅驱动程序编写 PostScript 选项命令</a></h2>
-    <p>&emsp;&emsp;PPD 文件用于 PostScript 和非 PostScript 打印机。对于 CUPS 光栅驱动程序，可以使用 PostScript 语言的子集来设置页面设备关键字，例如页面大小、分辨率等。例如，以下代码将页面大小设置为A4大小：</p>
+    <p>&emsp;&emsp;PPD 文件用于 PostScript 和非 PostScript 打印机。对于 CUPS 光栅驱动程序，可以使用 PostScript 语言的子集来设置页面设备关键字，例如页面大小、分辨率等。例如，以下代码将页面大小设置为 A4 大小：
     <pre class='command'>*PageSize A4: "&lt;&lt;/PageSize[595 842]&gt;&gt;setpagedevice"</pre>
-    <p>&emsp;&emsp;自定义选项通常使用其他运算符将值组织到 <tt>setpagedevice</tt> 的键/值字典中。例如，我们以前的 <tt>CustomWatermarkText</tt> 选项代码使用 <tt>roll</tt> 操作符将自定义字符串值移动到 <tt>setpagedevice</tt> 的字典中：</p>
+    <p>&emsp;&emsp;自定义选项通常使用其他运算符将值组织到 <tt>setpagedevice</tt> 的键/值字典中。例如，我们以前的 <tt>CustomWatermarkText</tt> 选项代码使用 <tt>roll</tt> 操作符将自定义字符串值移动到 <tt>setpagedevice</tt> 的字典中：
     <pre class='command'>*CustomWatermarkText True: "&lt;&lt;/cupsString1 3 -1 roll&gt;&gt;setpagedevice"</pre>
-    <p>&emsp;&emsp;对于自定义字符串值 “My Watermark” ，CUPS 将为该选项生成以下 PostScript 代码：</p>
+    <p>&emsp;&emsp;对于自定义字符串值 “My Watermark” ， CUPS 将为该选项生成以下 PostScript 代码：
     <pre class='command'>
 (My Watermark)
 &lt;&lt;/cupsString1 3 -1 roll&gt;&gt;setpagedevice</pre>
-    <p>&emsp;&emsp;代码将字符串值（ “My Watermark” ）从堆栈的底部移动到顶部，从而创建一个如下所示的字典：</p>
+    <p>&emsp;&emsp;代码将字符串值（ “My Watermark” ）从堆栈的底部移动到顶部，从而创建一个如下所示的字典：
     <pre class='command'>&lt;&lt;/cupsString1(My Watermark)&gt;&gt;setpagedevice</pre>
-    <p>&emsp;&emsp;生成的字典将设置发送到页面标题中光栅驱动程序的页面设备属性。</p>
+    <p>&emsp;&emsp;生成的字典将设置发送到页头中光栅驱动程序的页面设备属性。
 
     <h3 class="title">自定义页面大小代码</h3>
-    <p>&emsp;&emsp;有许多可能实现的 <tt>CustomPageSize</tt> 代码。对于 CUPS 光栅驱动程序，建议使用以下代码：</p>
+    <p>&emsp;&emsp;有许多可能实现的 <tt>CustomPageSize</tt> 代码。对于 CUPS 光栅驱动程序，建议使用以下代码：
     <pre class='command'>
 *ParamCustomPageSize Width:        1 points <i>min-width max-width</i>
 *ParamCustomPageSize Height:       2 points <i>min-height max-height</i>
@@ -515,7 +515,7 @@ LINE-END = CR / LF / CR LF</pre>
 *CustomPageSize True: "pop pop pop &lt;&lt;/PageSize[5 -2 roll]/ImagingBBox null&gt;&gt;setpagedevice"</pre>
 
     <h3 class="title">支持的 PostScript 运算符</h3>
-    <p>&emsp;&emsp;CUPS 除了支持常用的 PostScript 编号、字符串（文字和十六进制编码）、布尔值、空值和名称值外，还支持以下 PostScript 运算符：</p>
+    <p>&emsp;&emsp;CUPS 除了支持常用的 PostScript 编号、字符串（文字和十六进制编码）、布尔值、空值和名称值外，还支持以下 PostScript 运算符：
     <ul>
       <li><tt>&lt;&lt;</tt> - 字典开始。</li>
       <li><tt>&gt;&gt;</tt> - 字典结束。</li>
@@ -526,18 +526,18 @@ LINE-END = CR / LF / CR LF</pre>
       <li><tt>index</tt> - 复制堆栈顶部第 N 个对象。</li>
       <li><tt>pop</tt> - 弹出堆栈顶部对象。</li>
       <li><tt>roll</tt> - 移动堆栈上的前 N 个对象。</li>
-      <li><tt>setpagedevice</tt> - 根据堆栈上的键/值字典设置页眉值。</li>
+      <li><tt>setpagedevice</tt> - 根据堆栈上的键/值字典设置页头值。</li>
     </ul>
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;<em>切勿</em>在选项代码中使用不支持的 <tt>dict</tt> 或 <tt>put</tt> 运算符。这些运算符通常用于 1 级 PostScript 打印机的选项代码，该打印机不支持更简单的 <tt>&lt;&lt;</tt> 或 <tt>&gt;&gt;</tt> 运算符。如果您有使用 <tt>dict</tt> 或 <tt>put</tt> 的旧选项代码，您可以很容易地重写它以使用较新的 <tt>&lt;&lt;</tt> 和 <tt>&gt;&gt;</tt> 运算符。例如，以下代码用于设置页面大小：</p>
+      <p>&emsp;&emsp;<em>切勿</em>在选项代码中使用不支持的 <tt>dict</tt> 或 <tt>put</tt> 运算符。这些运算符通常用于 1 级 PostScript 打印机的选项代码，该打印机不支持更简单的 <tt>&lt;&lt;</tt> 或 <tt>&gt;&gt;</tt> 运算符。如果您有使用 <tt>dict</tt> 或 <tt>put</tt> 的旧选项代码，您可以很容易地重写它以使用较新的 <tt>&lt;&lt;</tt> 和 <tt>&gt;&gt;</tt> 运算符。例如，以下代码用于设置页面大小：
       <pre class='command'><b>1 dict dup</b> /PageSize [612 792] <b>put</b> setpagedevice</pre>
-      <p>&emsp;&emsp;可以重写为：</p>
+      <p>&emsp;&emsp;可以重写为：
       <pre class='command'><b>&lt;&lt;</b> /PageSize [612 792] <b>&gt;&gt;</b> setpagedevice</pre>
     </blockquote>
 
     <h3 class="title">支持的页面设备属性</h3>
-    <p>&emsp;&emsp;表 2 显示了支持的页面设备属性以及 PostScript 代码示例。</p>
+    <p>&emsp;&emsp;表 2 显示了支持的页面设备属性以及 PostScript 代码示例。
     <div class='table'>
       <table summary='Supported Page Device Attributes'>
         <caption>表 2 ：<a name='TABLE_2'>支持的页面设备属性</a></caption>
@@ -559,7 +559,7 @@ LINE-END = CR / LF / CR LF</pre>
         <tr valign='top'>
           <td><tt>AdvanceMedia</tt></td>
           <td>Integer</td>
-          <td>指定何时推进介质：0 = 从不，1 = 文件后，2 = 任务后，3 = 设置后，4 = 页面后。</td>
+          <td>指定何时推进介质： 0 = 从不， 1 = 文件后， 2 = 任务后， 3 = 设置后， 4 = 页面后。</td>
           <td><tt>&lt;&lt;/AdvanceMedia 4&gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
@@ -571,7 +571,7 @@ LINE-END = CR / LF / CR LF</pre>
         <tr valign='top'>
           <td><tt>CutMedia</tt></td>
           <td>Integer</td>
-          <td>指定剪切介质的时间：0 = 从不，1 = 文件后，2 = 任务后，3 = 设置后，4 = 页面后。</td>
+          <td>指定剪切介质的时间： 0 = 从不， 1 = 文件后， 2 = 任务后， 3 = 设置后， 4 = 页面后。</td>
           <td><tt>&lt;&lt;/CutMedia 1&gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
@@ -595,13 +595,13 @@ LINE-END = CR / LF / CR LF</pre>
         <tr valign='top'>
           <td><tt>Jog</tt></td>
           <td>Integer</td>
-          <td>指定何时在输出箱中移动媒体：0 = 从不，1 = 文件后，2 = 任务后，3 = 设置后，4 = 页面后。</td>
+          <td>指定何时在输出箱中移动媒体： 0 = 从不， 1 = 文件后， 2 = 任务后， 3 = 设置后， 4 = 页面后。</td>
           <td><tt>&lt;&lt;/Jog 2&gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
           <td><tt>LeadingEdge</tt></td>
           <td>Integer</td>
-          <td>指定介质的前缘：0 = 顶部，1 = 右侧，2 = 底部，3 = 左侧。</td>
+          <td>指定介质的前缘： 0 = 顶部， 1 = 右侧， 2 = 底部， 3 = 左侧。</td>
           <td><tt>&lt;&lt;/LeadingEdge 0&gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
@@ -661,7 +661,7 @@ LINE-END = CR / LF / CR LF</pre>
         <tr valign='top'>
           <td><tt>Orientation</tt></td>
           <td>Integer</td>
-          <td>指定输出的方向：0 = 纵向，1 = 逆时针旋转的横向，2 = 倒置，3 = 顺时针旋转的横向。</td>
+          <td>指定输出的方向： 0 = 纵向， 1 = 逆时针旋转的横向， 2 = 倒置， 3 = 顺时针旋转的横向。</td>
           <td><tt>&lt;&lt;/Orientation 3&gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
@@ -709,13 +709,13 @@ LINE-END = CR / LF / CR LF</pre>
         <tr valign='top'>
           <td><tt>cupsColorOrder</tt></td>
           <td>Integer</td>
-          <td>指定颜色顺序：0 = 分块，1 = 带状，2 = 平面。</td>
+          <td>指定颜色顺序： 0 = 分块， 1 = 带状， 2 = 平面。</td>
           <td><tt>&lt;&lt;/cupsColorOrder 0&gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
           <td><tt>cupsColorSpace</tt></td>
           <td>Integer</td>
-          <td>指定页面图像颜色空间：0 = W，1 = RGB，2 = RGBA，3 = K，4 = CMY，5 = YMC，6 = CMYK，7 = YMCK，8 = KCMY，9 = KCMYcm，10 = GMCK，11 = GMCS，12 = White，13 = Gold，14 = Silver，15 = CIE XYZ，16 = CIE Lab，17 = RGBW，32 到 46 = CIE Lab（ 1 到 15 种墨水）</td>
+          <td>指定页面图像颜色空间： 0 = W ， 1 = RGB ， 2 = RGBA ， 3 = K ， 4 = CMY ， 5 = YMC ， 6 = CMYK ， 7 = YMCK ， 8 = KCMY ， 9 = KCMYcm ， 10 = GMCK ， 11 = GMCS ， 12 = White ， 13 = Gold ， 14 = Silver ， 15 = CIE XYZ ， 16 = CIE Lab ， 17 = RGBW ， 32 到 46 = CIE Lab （ 1 到 15 种墨水）</td>
           <td><tt>&lt;&lt;/cupsColorSpace 1 &gt;&gt;setpagedevice</tt></td>
         </tr>
         <tr valign='top'>
@@ -795,12 +795,12 @@ LINE-END = CR / LF / CR LF</pre>
     </div>
 
     <h2 class='title'><a name='MEDIA'>媒体关键词</a></h2>
-    <p>&emsp;&emsp;CUPS媒体关键字允许驱动程序根据最多两个选项指定备用自定义页面大小限制。</p>
+    <p>&emsp;&emsp;CUPS 媒体关键字允许驱动程序根据最多两个选项指定备用自定义页面大小限制。
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsMediaQualifier2'>cupsMediaQualifier2</a></h3>
-    <p class='summary'>*cupsMediaQualifier2: MainKeyword</p>
-    <p>&emsp;&emsp;此关键字指定用于覆盖自定义页面大小限制的第二个选项。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMediaQualifier2: MainKeyword
+    <p>&emsp;&emsp;此关键字指定用于覆盖自定义页面大小限制的第二个选项。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify alternate custom page size limits based on InputSlot and Quality</em>
 *cupsMediaQualifier2: InputSlot
@@ -811,9 +811,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsMinSize ..Photo: "300 300"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsMediaQualifier3'>cupsMediaQualifier3</a></h3>
-    <p class='summary'>*cupsMediaQualifier3: MainKeyword</p>
-    <p>&emsp;&emsp;此关键字指定用于覆盖自定义页面大小限制的第三个选项。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMediaQualifier3: MainKeyword
+    <p>&emsp;&emsp;此关键字指定用于覆盖自定义页面大小限制的第三个选项。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify alternate custom page size limits based on InputSlot and Quality</em>
 *cupsMediaQualifier2: InputSlot
@@ -824,9 +824,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsMinSize ..Photo: "300 300"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsMinSize'>cupsMinSize</a></h3>
-    <p class='summary'>*cupsMinSize .Qualifier2.Qualifier3: "width length"<br>*cupsMinSize .Qualifier2.: "width length"<br>*cupsMinSize ..Qualifier3: "width length"</p>
-    <p>&emsp;&emsp;此关键字以点为单位指定备用最小自定义页面大小。使用 <a href='#cupsMediaQualifier2'><tt>cupsMediaQualifier2</tt></a> 和 <a href='#cupsMediaQualifier3'><tt>cupsMediaQualifier3</tt></a> 关键字识别用于匹配的选项。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMinSize .Qualifier2.Qualifier3: "width length"<br>*cupsMinSize .Qualifier2.: "width length"<br>*cupsMinSize ..Qualifier3: "width length"
+    <p>&emsp;&emsp;此关键字以点为单位指定备用最小自定义页面大小。使用 <a href='#cupsMediaQualifier2'><tt>cupsMediaQualifier2</tt></a> 和 <a href='#cupsMediaQualifier3'><tt>cupsMediaQualifier3</tt></a> 关键字识别用于匹配的选项。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify alternate custom page size limits based on InputSlot and Quality</em>
 *cupsMediaQualifier2: InputSlot
@@ -837,9 +837,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsMinSize ..Photo: "300 300"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsMaxSize'>cupsMaxSize</a></h3>
-    <p class='summary'>*cupsMaxSize .Qualifier2.Qualifier3: "width length"<br>*cupsMaxSize .Qualifier2.: "width length"<br>*cupsMaxSize ..Qualifier3: "width length"</p>
-    <p>&emsp;&emsp;此关键字以点为单位指定备用最大自定义页面大小。使用 <a href='#cupsMediaQualifier2'><tt>cupsMediaQualifier2</tt></a> 和 <a href='#cupsMediaQualifier3'><tt>cupsMediaQualifier3</tt></a> 关键字识别用于匹配的选项。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMaxSize .Qualifier2.Qualifier3: "width length"<br>*cupsMaxSize .Qualifier2.: "width length"<br>*cupsMaxSize ..Qualifier3: "width length"
+    <p>&emsp;&emsp;此关键字以点为单位指定备用最大自定义页面大小。使用 <a href='#cupsMediaQualifier2'><tt>cupsMediaQualifier2</tt></a> 和 <a href='#cupsMediaQualifier3'><tt>cupsMediaQualifier3</tt></a> 关键字识别用于匹配的选项。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify alternate custom page size limits based on InputSlot and Quality</em>
 *cupsMediaQualifier2: InputSlot
@@ -850,9 +850,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsMinSize ..Photo: "300 300"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsPageSizeCategory'>cupsPageSizeCategory</a></h3>
-    <p class="summary">*cupsPageSizeCategory name/text: "name name2 ... nameN"</p>
-    <p>&emsp;&emsp;此关键字列出了应在“打印”或“页面设置”对话框中组合在一起的相关纸张尺寸名称。关键字的“名称”部分指定分组的根/默认大小。在 macOS 上，分组的纸张尺寸显示在主纸张尺寸的子菜单中。省略时，具有相同尺寸的尺寸将自动分组在一起，例如 “Letter” 和 “Letter.Borderless” 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class="summary">*cupsPageSizeCategory name/text: "name name2 ... nameN"
+    <p>&emsp;&emsp;此关键字列出了应在“打印”或“页面设置”对话框中组合在一起的相关纸张尺寸名称。关键字的“名称”部分指定分组的根/默认大小。在 macOS 上，分组的纸张尺寸显示在主纸张尺寸的子菜单中。省略时，具有相同尺寸的尺寸将自动分组在一起，例如 “Letter” 和 “Letter.Borderless” 。
+    <p>&emsp;&emsp;示例：
     <pre class="command">
 <em>*% Specify grouping of borderless/non-borderless sizes</em>
 *cupsPageSizeCategory Letter/US Letter: "Letter Letter.Borderless"
@@ -860,15 +860,15 @@ LINE-END = CR / LF / CR LF</pre>
 
     <h2 class='title'><a name='ATTRIBUTES'>一般属性</a></h2>
     <h3 class="title"><span class='info'>CUPS 1.3/macOS 10.5</span><a name='cupsBackSide'>cupsBackSide</a></h3>
-    <p class='summary'>*cupsBackSide: keyword</p>
-    <p>&emsp;&emsp;此关键字要求在进行双面（双面）输出时对页面背面进行特殊处理 <a href='#TABLE_1'>表 1</a> 显示了此关键字支持的关键字值及其对发送到驱动程序的光栅数据的影响。例如，当 <tt>cupsBackSide</tt> 为 <code>Rotated</code> 且 <tt>Tumble</tt> 为 <tt>false</tt> 时，驱动程序将从页面的右下角开始接收打印数据，每行从右向左而不是从左向右。默认值为 <code>Normal</code> 。</p>
+    <p class='summary'>*cupsBackSide: keyword
+    <p>&emsp;&emsp;此关键字要求在进行双面（双面）输出时对页面背面进行特殊处理 <a href='#TABLE_1'>表 1</a> 显示了此关键字支持的关键字值及其对发送到驱动程序的光栅数据的影响。例如，当 <tt>cupsBackSide</tt> 为 <code>Rotated</code> 且 <tt>Tumble</tt> 为 <tt>false</tt> 时，驱动程序将从页面的右下角开始接收打印数据，每行从右向左而不是从左向右。默认值为 <code>Normal</code> 。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;<tt>cupsBackSide</tt> 替换旧的 <tt>cupsFlipDuplex</tt> 关键字 －  如果指定了 <tt>cupsBackSide</tt> ，则将忽略 <tt>cupsFlipDuplex</tt> 。</p>
+      <p>&emsp;&emsp;<tt>cupsBackSide</tt> 替换旧的 <tt>cupsFlipDuplex</tt> 关键字 －  如果指定了 <tt>cupsBackSide</tt> ，则将忽略 <tt>cupsFlipDuplex</tt> 。
     </blockquote>
     <div class='table'>
       <table width='80%' summary='Back Side Raster Coordinate System'>
-        <caption>表 1：<a name='TABLE_1'>背面光栅坐标系</a></caption>
+        <caption>表 1 ：<a name='TABLE_1'>背面光栅坐标系</a></caption>
         <thead>
         <tr>
           <th>cupsBackSide</th>
@@ -920,48 +920,48 @@ LINE-END = CR / LF / CR LF</pre>
         </tbody>
       </table>
     </div>
-    <p>&emsp;&emsp;<em>* - macOS 10.5.x 及更早版本中不支持</em></p>
+    <p>&emsp;&emsp;<em>* - macOS 10.5.x 及更早版本中不支持</em>
     <div class='figure'>
       <table summary='Back side images'>
-        <caption>图 1：背面图像</caption>
+        <caption>图 1 ：背面图像</caption>
         <tr><td><img src='../images/raster.png' width='624' height='448' alt='Back side images'></td></tr>
       </table>
     </div>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Flip the page image for the back side of duplexed output</em>
 *cupsBackSide: Flipped
 
 <em>*% Rotate the page image for the back side of duplexed output</em>
 *cupsBackSide: Rotated</pre>
-    <p>&emsp;&emsp;另请参阅相关的 <a href='#APDuplexRequiresFlippedMargin'><tt>APDuplexRequiresFlippedMargin</tt></a> 关键字。</p>
+    <p>&emsp;&emsp;另请参阅相关的 <a href='#APDuplexRequiresFlippedMargin'><tt>APDuplexRequiresFlippedMargin</tt></a> 关键字。
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsCommands'>cupsCommands</a></h3>
-    <p class='summary'>*cupsCommands: "name name2 ... nameN"</p>
-    <p>&emsp;&emsp;此字符串关键字指定此设备的 CUPS 命令文件筛选器支持的命令。命令名之间用空格分隔。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsCommands: "name name2 ... nameN"
+    <p>&emsp;&emsp;此字符串关键字指定此设备的 CUPS 命令文件筛选器支持的命令。命令名之间用空格分隔。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify the list of commands we support</em>
 *cupsCommands: "AutoConfigure Clean PrintSelfTestPage ReportLevels com.vendor.foo"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.3/macOS 10.5</span><a name='cupsEvenDuplex'>cupsEvenDuplex</a></h3>
-    <p class='summary'>*cupsEvenDuplex: boolean</p>
-    <p>&emsp;&emsp;当选择双面打印时，此布尔关键字通知 RIP 筛选器目标打印机需要偶数页。默认值为 <code>false</code> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsEvenDuplex: boolean
+    <p>&emsp;&emsp;当选择双面打印时，此布尔关键字通知 RIP 筛选器目标打印机需要偶数页。默认值为 <code>false</code> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Always send an even number of pages when duplexing</em>
 *cupsEvenDuplex: true</pre>
 
     <h3 class="title"><a name='cupsFax'>cupsFax</a></h3>
-    <p class='summary'>*cupsFax: boolean</p>
-    <p>&emsp;&emsp;此布尔关键字指定 PPD 是否定义传真设备。默认值为 <tt>false</tt> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsFax: boolean
+    <p>&emsp;&emsp;此布尔关键字指定 PPD 是否定义传真设备。默认值为 <tt>false</tt> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>*cupsFax: true</pre>
 
     <h3 class="title"><a name='cupsFilter'>cupsFilter</a></h3>
-    <p class='summary'>*cupsFilter: "source/type cost program"</p>
-    <p>&emsp;&emsp;此字符串关键字使用筛选器“程序”提供从给定源类型到打印机本机格式的转换规则。如果打印机直接支持源类型，则可以指定特殊的筛选程序 “-” 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsFilter: "source/type cost program"
+    <p>&emsp;&emsp;此字符串关键字使用筛选器“程序”提供从给定源类型到打印机本机格式的转换规则。如果打印机直接支持源类型，则可以指定特殊的筛选程序 “-” 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Standard raster printer driver filter</em>
 *cupsFilter: "application/vnd.cups-raster 100 rastertofoo"
@@ -973,13 +973,13 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsFilter: "application/vnd.cups-postscript 0 -"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.5</span><a name='cupsFilter2'>cupsFilter2</a></h3>
-    <p class='summary'>*cupsFilter2: "source/type destination/type cost program"</p>
-    <p>&emsp;&emsp;此字符串关键字使用筛选器“程序”提供从给定源类型到打印机本机格式的转换规则。如果打印机直接支持源类型，则可以指定特殊的筛选程序 “-” 。目标类型会根据需要自动创建，并作为 “FINAL_CONTENT_TYPE” 值传递给筛选器和后端。</p>
+    <p class='summary'>*cupsFilter2: "source/type destination/type cost program"
+    <p>&emsp;&emsp;此字符串关键字使用筛选器“程序”提供从给定源类型到打印机本机格式的转换规则。如果打印机直接支持源类型，则可以指定特殊的筛选程序 “-” 。目标类型会根据需要自动创建，并作为 “FINAL_CONTENT_TYPE” 值传递给筛选器和后端。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;PPD 文件中存在单个 <code>cupsFilter2</code> 关键字将从 CUPS 调度程序中隐藏任何 <code>cupsFilter</code> 关键字。使用 <code>cupsFilter2</code> 为 CUPS 1.5 及更高版本提供特定的筛选器时，为每个筛选器提供 <code>cupsFilter2</code> 行，并为与旧版本 CUPS 兼容的每个筛选器提供 <code>cupsFilter</code> 行。</p>
+      <p>&emsp;&emsp;PPD 文件中存在单个 <code>cupsFilter2</code> 关键字将从 CUPS 调度程序中隐藏任何 <code>cupsFilter</code> 关键字。使用 <code>cupsFilter2</code> 为 CUPS 1.5 及更高版本提供特定的筛选器时，为每个筛选器提供 <code>cupsFilter2</code> 行，并为与旧版本 CUPS 兼容的每个筛选器提供 <code>cupsFilter</code> 行。
     </blockquote>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Standard raster printer driver filter</em>
 *cupsFilter2: "application/vnd.cups-raster application/vnd.foo 100 rastertofoo"
@@ -991,9 +991,9 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsFilter2: "application/vnd.cups-postscript application/postscript 0 -"</pre>
 
     <h3 class="title"><span class='info'>CUPS 2.3</span><a name='cupsFinishingTemplate'>cupsFinishingTemplate</a></h3>
-    <p class='summary'>*cupsFinishingTemplate name/text: ""</p>
-    <p>&emsp;&emsp;此选项关键字指定将零个或多个精加工过程应用于任务的精加工模板（预设）。与 <a href="#cupsIPPFinishings"><tt>cupsIPPFinishings</tt></a> 不同，用户只能选择一个模板。PPD 文件通常也会在该选项和其他整理选项之间应用约束，如 <tt>Booklet</tt> ， <tt>FoldType</tt> ， <tt>PunchMedia</tt> 以及 <tt>StapleWhen</tt> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsFinishingTemplate name/text: ""
+    <p>&emsp;&emsp;此选项关键字指定将零个或多个精加工过程应用于任务的精加工模板（预设）。与 <a href="#cupsIPPFinishings"><tt>cupsIPPFinishings</tt></a> 不同，用户只能选择一个模板。 PPD 文件通常也会在该选项和其他整理选项之间应用约束，如 <tt>Booklet</tt> ， <tt>FoldType</tt> ， <tt>PunchMedia</tt> 以及 <tt>StapleWhen</tt> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *cupsFinishingTemplate none/None: ""
 *cupsFinishingTemplate fold/Letter Fold: ""
@@ -1004,26 +1004,26 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsFinishingTemplate staple-and-punch/Corner Staple and 2/3-Hole Punch: ""</pre>
 
     <h3 class="title"><span class='info'>不建议使用</span><a name='cupsFlipDuplex'>cupsFlipDuplex</a></h3>
-    <p class='summary'>*cupsFlipDuplex: boolean</p>
-    <p>&emsp;&emsp;由于 macOS 和 Ghostscript 之间的实现差异，不推荐使用 <tt>cupsFlipDuplex</tt> 关键字。相反，使用 <a href='#cupsBackSide'><tt>cupsBackSide</tt></a> 关键字指定双面页面背面页面数据的坐标系（像素布局）。</p>
-    <p>&emsp;&emsp;<code>true</code> 值映射到 macOS 上 <code>Rotated</code> 的 <tt>cupsBackSide</tt> 值，并使用 Ghostscript 翻转<code>。</p>
-    <p>&emsp;&emsp;默认值为 <code>false</code> 。</p>
+    <p class='summary'>*cupsFlipDuplex: boolean
+    <p>&emsp;&emsp;由于 macOS 和 Ghostscript 之间的实现差异，不推荐使用 <tt>cupsFlipDuplex</tt> 关键字。相反，使用 <a href='#cupsBackSide'><tt>cupsBackSide</tt></a> 关键字指定双面页面背面页面数据的坐标系（像素布局）。
+    <p>&emsp;&emsp;<code>true</code> 值映射到 macOS 上 <code>Rotated</code> 的 <tt>cupsBackSide</tt> 值，并使用 Ghostscript 翻转<code>。
+    <p>&emsp;&emsp;默认值为 <code>false</code> 。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;以前使用过 <tt>cupsFlipDuplex</tt> 的 macOS 驱动程序可能希望提供新旧关键字以实现最大兼容性，例如：</p>
+      <p>&emsp;&emsp;以前使用过 <tt>cupsFlipDuplex</tt> 的 macOS 驱动程序可能希望提供新旧关键字以实现最大兼容性，例如：
       <pre class='command'>
 *cupsBackSide: Rotated
 *cupsFlipDuplex: true</pre>
-      <p>&emsp;&emsp;类似地，使用 Ghostscript 为其他操作系统编写的驱动程序可以使用：</p>
+      <p>&emsp;&emsp;类似地，使用 Ghostscript 为其他操作系统编写的驱动程序可以使用：
       <pre class='command'>
 *cupsBackSide: Flipped
 *cupsFlipDuplex: true</pre>
     </blockquote>
 
     <h3 class="title"><span class='info'>CUPS 1.3/macOS 10.5</span><a name='cupsIPPFinishings'>cupsIPPFinishings</a></h3>
-    <p class='summary'>*cupsIPPFinishings number/text: "*Option Choice ..."</p>
-    <p>&emsp;&emsp;此关键字定义了从 IPP <code>finishings</code> 值到 PPD 选项和选项的映射。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsIPPFinishings number/text: "*Option Choice ..."
+    <p>&emsp;&emsp;此关键字定义了从 IPP <code>finishings</code> 值到 PPD 选项和选项的映射。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *cupsIPPFinishings 4/staple: "*StapleLocation SinglePortrait"
 *cupsIPPFinishings 5/punch: "*PunchMedia Yes *PunchLocation LeftSide"
@@ -1031,10 +1031,10 @@ LINE-END = CR / LF / CR LF</pre>
 *cupsIPPFinishings 21/staple-bottom-left: "*StapleLocation SingleLandscape"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.3/macOS 10.5</span><a name='cupsIPPReason'>cupsIPPReason</a></h3>
-    <p class='summary'>*cupsIPPReason reason/Reason Text: "optional URIs"</p>
-    <p>&emsp;&emsp;此可选关键字将驱动程序生成的自定义 <code>printer-state-reasons</code> 关键字映射为人类可读文本。可选的 URI 字符串包含由换行符分隔的零个或多个 URI。每个 URI 都可以是调度程序的 <code>DocumentRoot</code> 目录下帮助文件的 CUPS 服务器绝对路径，即完整的 HTTP URL（“http://www.domain.com/path/to/help/page.html）或任何其他有效 URI，该 URI 指示用户获取有关所报告条件的附加信息。</p>
-    <p>&emsp;&emsp;由于 PPD 规范将文本限制为 80 个字符，因此可以通过使用 “text” 方案（例如 “text:some%20text” ）对文本进行 URI 编码来包含更长的文本字符串。多个 <code>text</code> URI 由 <tt>ppdLocalizeIPPReason</tt> 组合成一个字符串，可以显示给用户。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsIPPReason reason/Reason Text: "optional URIs"
+    <p>&emsp;&emsp;此可选关键字将驱动程序生成的自定义 <code>printer-state-reasons</code> 关键字映射为人类可读文本。可选的 URI 字符串包含由换行符分隔的零个或多个 URI 。每个 URI 都可以是调度程序的 <code>DocumentRoot</code> 目录下帮助文件的 CUPS 服务器绝对路径，即完整的 HTTP URL （ “http://www.domain.com/path/to/help/page.html” ）或任何其他有效 URI ，该 URI 指示用户获取有关所报告条件的附加信息。
+    <p>&emsp;&emsp;由于 PPD 规范将文本限制为 80 个字符，因此可以通过使用 “text” 方案（例如 “text:some%20text” ）对文本进行 URI 编码来包含更长的文本字符串。多个 <code>text</code> URI 由 <tt>ppdLocalizeIPPReason</tt> 组合成一个字符串，可以显示给用户。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Map com.vendor-error to text but no page</em>
 *cupsIPPReason com.vendor-error/A serious error occurred: ""
@@ -1057,32 +1057,32 @@ http://www.vendor.com/help"
 *End</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.5</span><a name='cupsIPPSupplies'>cupsIPPSupplies</a></h3>
-    <p class='summary'>*cupsIPPSupplies: boolean</p>
-    <p>&emsp;&emsp;此关键字告知 IPP 后端是否应报告当前 marker-xxx 提供属性值。默认值为 <code>True</code> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsIPPSupplies: boolean
+    <p>&emsp;&emsp;此关键字告知 IPP 后端是否应报告当前 marker-xxx 提供属性值。默认值为 <code>True</code> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Do not use IPP marker-xxx attributes to report supply levels</em>
 *cupsIPPSupplies: False</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.7/macOS 10.9</span><a name='cupsJobAccountId'>cupsJobAccountId</a></h3>
-    <p class='summary'>*cupsJobAccountId: boolean</p>
-    <p>&emsp;&emsp;此关键字定义打印机是否接受 job-account-id IPP 属性。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsJobAccountId: boolean
+    <p>&emsp;&emsp;此关键字定义打印机是否接受 job-account-id IPP 属性。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify the printer accepts the job-account-id IPP attribute.</em>
 *cupsJobAccountId: True</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.7/macOS 10.9</span><a name='cupsJobAccountingUserId'>cupsJobAccountingUserId</a></h3>
-    <p class='summary'>*cupsJobAccountingUserId: boolean</p>
-    <p>&emsp;&emsp;此关键字定义打印机是否接受 job-accounting-user-id IPP 属性。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsJobAccountingUserId: boolean
+    <p>&emsp;&emsp;此关键字定义打印机是否接受 job-accounting-user-id IPP 属性。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify the printer accepts the job-accounting-user-id IPP attribute.</em>
 *cupsJobAccountingUserId: True</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.7/macOS 10.9</span><a name='cupsJobPassword'>cupsJobPassword</a></h3>
-    <p class='summary'>*cupsJobPassword: "format"</p>
-    <p>&emsp;&emsp;如果打印机支持，此关键字定义 “job-password” IPP 属性的格式。支持以下格式字符：</p>
+    <p class='summary'>*cupsJobPassword: "format"
+    <p>&emsp;&emsp;如果打印机支持，此关键字定义 “job-password” IPP 属性的格式。支持以下格式字符：
     <ul>
       <li><code>1</code>: ASCII 数字。</li>
       <li><code>A</code>: ASCII 字母。</li>
@@ -1090,80 +1090,80 @@ http://www.vendor.com/help"
       <li><code>.</code>: 任何 ASCII 可打印字符（ 0x20 到 0x7e ）。</li>
       <li><code>N</code>: 任何 Unicode 数字字符。</li>
       <li><code>U</code>: 任何 Unicode 字母字符。</li>
-      <li><code>*</code>: 任何 Unicode（ utf-8 ）字符。</li>
+      <li><code>*</code>: 任何 Unicode （ utf-8 ）字符。</li>
     </ul>
-    <p>&emsp;&emsp;格式字符被重复以指示密码字符串的长度。例如，“1111” 表示 4 位美国 ASCII PIN 码。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;格式字符被重复以指示密码字符串的长度。例如，“1111” 表示 4 位美国 ASCII PIN 码。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify the printer supports 4-digit PIN codes.</em>
 *cupsJobPassword: "1111"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.2/macOS 10.5</span><a name='cupsLanguages'>cupsLanguages</a></h3>
-    <p class='summary'>*cupsLanguages: "locale list"</p>
-    <p>&emsp;&emsp;此关键字描述 PPD 中包含的语言本地化。“locale list” 字符串是以空格分隔的区域设置名称列表（ “en” 、 “en_US” 、 “fr_CA” 等）</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsLanguages: "locale list"
+    <p>&emsp;&emsp;此关键字描述 PPD 中包含的语言本地化。“locale list” 字符串是以空格分隔的区域设置名称列表（ “en” 、 “en_US” 、 “fr_CA” 等）
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify Canadian, UK, and US English, and Canadian and French French</em>
 *cupsLanguages: "en_CA en_UK en_US fr_CA fr_FR"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.7/macOS 10.9</span><a name='cupsMandatory'>cupsMandatory</a></h3>
-    <p class='summary'>*cupsMandatory: "attribute1 attribute2 ... attributeN"</p>
-    <p>&emsp;&emsp;此关键字定义提交打印任务创建请求时必须提供的 IPP 属性列表。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMandatory: "attribute1 attribute2 ... attributeN"
+    <p>&emsp;&emsp;此关键字定义提交打印任务创建请求时必须提供的 IPP 属性列表。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify that the user must supply a job-password</em>
 *cupsMandatory: "job-password job-password-encryption"</pre>
 
     <h3 class="title"><a name='cupsManualCopies'>cupsManualCopies</a></h3>
-    <p class='summary'>*cupsManualCopies: boolean</p>
-    <p>&emsp;&emsp;此布尔关键字通知 RIP 筛选器目标打印机不支持在硬件中生成副本。默认值为 <code>false</code> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsManualCopies: boolean
+    <p>&emsp;&emsp;此布尔关键字通知 RIP 筛选器目标打印机不支持在硬件中生成副本。默认值为 <code>false</code> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Tell the RIP filters to generate the copies for us</em>
 *cupsManualCopies: true</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsMarkerName'>cupsMarkerName</a></h3>
-    <p class='summary'>*cupsMarkerName/Name Text: ""</p>
-    <p>&emsp;&emsp;此可选关键字将驱动程序生成的 <code>marker-names</code> 字符串映射为人类可读文本。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMarkerName/Name Text: ""
+    <p>&emsp;&emsp;此可选关键字将驱动程序生成的 <code>marker-names</code> 字符串映射为人类可读文本。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Map cyanToner to "Cyan Toner"</em>
 *cupsMarkerName cyanToner/Cyan Toner: ""</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsMarkerNotice'>cupsMarkerNotice</a></h3>
-    <p class='summary'>*cupsMarkerNotice: "disclaimer text"</p>
-    <p>&emsp;&emsp;此可选关键字为驱动程序提供的供应级别信息提供免责声明文本，通常类似于 “供应级别为近似值”。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMarkerNotice: "disclaimer text"
+    <p>&emsp;&emsp;此可选关键字为驱动程序提供的供应级别信息提供免责声明文本，通常类似于 “供应级别为近似值”。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>*cupsMarkerNotice: "Supply levels are approximate."</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.6/macOS 10.8</span><a name='cupsMaxCopies'>cupsMaxCopies</a></h3>
-    <p class='summary'>*cupsMaxCopies: integer</p>
-    <p>&emsp;&emsp;此整型关键字通知筛选器目标打印机在硬件中最多支持 N 份副本。默认值为 <code>9999</code> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsMaxCopies: integer
+    <p>&emsp;&emsp;此整型关键字通知筛选器目标打印机在硬件中最多支持 N 份副本。默认值为 <code>9999</code> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Tell the RIP filters we can do up to 99 copies</em>
 *cupsMaxCopies: 99</pre>
 
     <h3 class="title"><a name='cupsModelNumber'>cupsModelNumber</a></h3>
-    <p class='summary'>*cupsModelNumber: number</p>
-    <p>&emsp;&emsp;此整数关键字指定打印机特定的型号。筛选器程序可以使用此数字调整特定型号打印机的输出。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsModelNumber: number
+    <p>&emsp;&emsp;此整数关键字指定打印机特定的型号。筛选器程序可以使用此数字调整特定型号打印机的输出。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify an integer for a driver-specific model number</em>
 *cupsModelNumber: 1234</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.3/macOS 10.5</span><a name='cupsPJLCharset'>cupsPJLCharset</a></h3>
-    <p class='summary'>*cupsPJLCharset: "ISO character set name"</p>
-    <p>&emsp;&emsp;此字符串关键字指定 PJL 命令中用于字符串的字符集。如果未指定，则假定为 US-ASCII 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsPJLCharset: "ISO character set name"
+    <p>&emsp;&emsp;此字符串关键字指定 PJL 命令中用于字符串的字符集。如果未指定，则假定为 US-ASCII 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify UTF-8 is used in PJL strings</em>
 *cupsPJLCharset: "UTF-8"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsPJLDisplay'>cupsPJLDisplay</a></h3>
-    <p class='summary'>*cupsPJLDisplay: "what"</p>
-    <p>&emsp;&emsp;此可选关键字指定用于在打印机控制面板上显示任务 ID、名称和用户的命令。禁用此功能时 “What” 值为 “none” ， “@PJL JOB DISPLAY” 对应值为 “job” ， “@PJL RDYMSG DISPLAY” 对应值为 “rdymsg” 。默认值为 “job” 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsPJLDisplay: "what"
+    <p>&emsp;&emsp;此可选关键字指定用于在打印机控制面板上显示任务 ID 、名称和用户的命令。禁用此功能时 “What” 值为 “none” ， “@PJL JOB DISPLAY” 对应值为 “job” ， “@PJL RDYMSG DISPLAY” 对应值为 “rdymsg” 。默认值为 “job” 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Display job information using @PJL SET RDYMSG DISPLAY="foo"</em>
 *cupsPJLDisplay: "rdymsg"
@@ -1172,10 +1172,10 @@ http://www.vendor.com/help"
 *cupsPJLDisplay: "none"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.2/macOS 10.5</span><a name='cupsPortMonitor'>cupsPortMonitor</a></h3>
-    <p class='summary'>*cupsPortMonitor urischeme/Descriptive Text: "port monitor"</p>
-    <p>&emsp;&emsp;此字符串关键字指定可与打印机一起使用的特定于打印机的 “port monitor” 筛选器。CUPS 调度程序还查找 <tt>Protocols</tt> 关键字，查看是否支持 <tt>BCP</tt> 或 <tt>TBCP</tt> 协议。如果是，相应的端口监视器（ “bcp” 和 “tbcp” 分别）将列在打印机的 <tt>port-monitor-supported</tt> 关键字中。</p>
-    <p>&emsp;&emsp;关键字的 “urischeme” 部分指定此端口监视器应用于的 URI 方案。通常，这用于为打印机支持的每种连接类型预先选择特定的端口监视器。“port monitor” 字符串可以是 “none” ，以禁用给定 URI 方案的端口监视器。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsPortMonitor urischeme/Descriptive Text: "port monitor"
+    <p>&emsp;&emsp;此字符串关键字指定可与打印机一起使用的特定于打印机的 “port monitor” 筛选器。 CUPS 调度程序还查找 <tt>Protocols</tt> 关键字，查看是否支持 <tt>BCP</tt> 或 <tt>TBCP</tt> 协议。如果是，相应的端口监视器（ “bcp” 和 “tbcp” 分别）将列在打印机的 <tt>port-monitor-supported</tt> 关键字中。
+    <p>&emsp;&emsp;关键字的 “urischeme” 部分指定此端口监视器应用于的 URI 方案。通常，这用于为打印机支持的每种连接类型预先选择特定的端口监视器。“port monitor” 字符串可以是 “none” ，以禁用给定 URI 方案的端口监视器。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify a PostScript printer that supports the TBCP protocol</em>
 *Protocols: TBCP PJL
@@ -1188,9 +1188,9 @@ http://www.vendor.com/help"
 *cupsPortMonitor usb/USB Status Monitor: "epson-usb"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.3/macOS 10.5</span><a name='cupsPreFilter'>cupsPreFilter</a></h3>
-    <p class='summary'>*cupsPreFilter: "source/type cost program"</p>
-    <p>&emsp;&emsp;此字符串关键字提供预筛选规则。预筛选程序将插入转换链中，紧挨着接受给定 MIME 类型的筛选器之前。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsPreFilter: "source/type cost program"
+    <p>&emsp;&emsp;此字符串关键字提供预筛选规则。预筛选程序将插入转换链中，紧挨着接受给定 MIME 类型的筛选器之前。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% PDF pre-filter</em>
 *cupsPreFilter: "application/pdf 100 mypdfprefilter"
@@ -1199,13 +1199,13 @@ http://www.vendor.com/help"
 *cupsPreFilter: "image/png 0 mypngprefilter"</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.5</span><a name='cupsPrintQuality'>cupsPrintQuality</a></h3>
-    <p class='summary'>*cupsPrintQuality keyword/text: "code"</p>
-    <p>&emsp;&emsp;此 UI 关键字定义直接从 IPP “print-quality” 任务模板关键字映射的标准打印质量。标准关键字值为 “Draft” 、 “Normal” 和 “High” ，分别从 IPP “print-quality” 值 3 、 4 和 5 映射而来。每个 </code>cupsPrintQuality</code> 选项通常在页面设备字典中设置输出模式和分辨率参数，从而消除了单独（有时会混淆）输出模式和分辨率选项的需要。</p>
+    <p class='summary'>*cupsPrintQuality keyword/text: "code"
+    <p>&emsp;&emsp;此 UI 关键字定义直接从 IPP “print-quality” 任务模板关键字映射的标准打印质量。标准关键字值为 “Draft” 、 “Normal” 和 “High” ，分别从 IPP “print-quality” 值 3 、 4 和 5 映射而来。每个 </code>cupsPrintQuality</code> 选项通常在页面设备字典中设置输出模式和分辨率参数，从而消除了单独（有时会混淆）输出模式和分辨率选项的需要。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;与本文档中定义的所有其他关键字不同，<code>cupsPrintQuality</code> 是一个 UI 关键字，必须包含在 PPD <code>OpenUI</code> 和 <code>CloseUI</code> 关键字中。</p>
+      <p>&emsp;&emsp;与本文档中定义的所有其他关键字不同，<code>cupsPrintQuality</code> 是一个 UI 关键字，必须包含在 PPD <code>OpenUI</code> 和 <code>CloseUI</code> 关键字中。
     </blockquote>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *OpenUI *cupsPrintQuality/Print Quality: PickOne
 *OrderDependency: 10 AnySetup *cupsPrintQuality
@@ -1216,9 +1216,9 @@ http://www.vendor.com/help"
 *CloseUI: *cupsPrintQuality</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.5</span><a name='cupsSingleFile'>cupsSingleFile</a></h3>
-    <p class='summary'>*cupsSingleFile: Boolean</p>
-    <p>&emsp;&emsp;此布尔关键字告诉调度程序是一起打印任务中的多个文件，还是单独打印。默认值为 “False” ，它为打印任务中的所有文件使用一个后端实例。将此关键字设置为 “True” 将为打印任务中的每个文件生成单独的后端实例。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsSingleFile: Boolean
+    <p>&emsp;&emsp;此布尔关键字告诉调度程序是一起打印任务中的多个文件，还是单独打印。默认值为 “False” ，它为打印任务中的所有文件使用一个后端实例。将此关键字设置为 “True” 将为打印任务中的每个文件生成单独的后端实例。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Send all print data to a single backend</em>
 *cupsSingleFile: False
@@ -1227,25 +1227,25 @@ http://www.vendor.com/help"
 *cupsSingleFile: True</pre>
 
     <h3 class="title"><span class='info'>CUPS 1.4/macOS 10.6</span><a name='cupsSNMPSupplies'>cupsSNMPSupplies</a></h3>
-    <p class='summary'>*cupsSNMPSupplies: boolean</p>
-    <p>&emsp;&emsp;此关键字告知标准网络后端是否应查询标准 SNMP 打印机 MIB OID 以了解供应级别。默认值为 <code>True</code> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsSNMPSupplies: boolean
+    <p>&emsp;&emsp;此关键字告知标准网络后端是否应查询标准 SNMP 打印机 MIB OID 以了解供应级别。默认值为 <code>True</code> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Do not use SNMP queries to report supply levels</em>
 *cupsSNMPSupplies: False</pre>
 
     <h3 class="title"><a name='cupsVersion'>cupsVersion</a></h3>
-    <p class='summary'>*cupsVersion: major.minor</p>
-    <p>&emsp;&emsp;此必填关键字描述使用了哪个版本的 CUPS PPD 文件扩展名。目前，它必须是字符串 “1.0” 、 “1.1” 、 “1.2” 、 “1.3” 、 “1.4” 、 “1.5” 或 “1.6” 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*cupsVersion: major.minor
+    <p>&emsp;&emsp;此必填关键字描述使用了哪个版本的 CUPS PPD 文件扩展名。目前，它必须是字符串 “1.0” 、 “1.1” 、 “1.2” 、 “1.3” 、 “1.4” 、 “1.5” 或 “1.6” 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Specify a CUPS 1.2 driver</em>
 *cupsVersion: "1.2"</pre>
 
     <h3 class="title"><span class="info">CUPS 1.6/macOS 10.8</span><a name="JCLToPDFInterpreter">JCLToPDFInterpreter</a></h3>
-    <p class="summary">*JCLToPDFInterpreter: "JCL"</p>
-    <p>&emsp;&emsp;此关键字提供 JCL 命令，用于将 PDF 任务文件插入打印机就绪数据流。JCL 命令添加在 PPD 文件中 JCL 选项的 <tt>JCLBegin</tt> 值和任何命令之后。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class="summary">*JCLToPDFInterpreter: "JCL"
+    <p>&emsp;&emsp;此关键字提供 JCL 命令，用于将 PDF 任务文件插入打印机就绪数据流。 JCL 命令添加在 PPD 文件中 JCL 选项的 <tt>JCLBegin</tt> 值和任何命令之后。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% PJL command to start the PDF interpreter</em>
 *JCLToPDFInterpreter: "@PJL ENTER LANGUAGE = PDF&lt;0A&gt;"</pre>
@@ -1253,24 +1253,24 @@ http://www.vendor.com/help"
 
     <h2 class='title'><a name='MACOSX'>macOS Attributes</a></h2>
     <h3 class="title"><span class='info'>不建议使用</span><a name='APDialogExtension'>APDialogExtension</a></h3>
-    <p class='summary'>*APDialogExtension: "/Library/Printers/vendor/filename.plugin"</p>
-    <p>&emsp;&emsp;此关键字定义在打印对话框中显示的其他选项窗格。每个关键字添加一个或多个选项窗格。请参阅 “OutputBinsPDE” 示例， 有关编写自己的打印对话框插件的信息请参阅 <a href='http://developer.apple.com/qa/qa2004/qa1352.html'>Apple Technical Q&amp;A QA1352</a>。</p>
+    <p class='summary'>*APDialogExtension: "/Library/Printers/vendor/filename.plugin"
+    <p>&emsp;&emsp;此关键字定义在打印对话框中显示的其他选项窗格。每个关键字添加一个或多个选项窗格。请参阅 “OutputBinsPDE” 示例， 有关编写自己的打印对话框插件的信息请参阅 <a href='http://developer.apple.com/qa/qa2004/qa1352.html'>Apple Technical Q&amp;A QA1352</a>。
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;自 2010 年以来，AirPrint 已启用从 Mac 打印全质量照片和文档，而无需驱动程序软件。从 macOS 10.12 开始，系统级安全功能可防止打印对话框插件加载到启用库验证安全功能的应用程序中。从 macOS 10.14 开始，不推荐使用用于创建 macOS 打印驱动程序的 <code>APDialogExtension</code> 属性。所有新的打印机型号都应支持 AirPrint 。</p>
+      <p>&emsp;&emsp;自 2010 年以来， AirPrint 已启用从 Mac 打印全质量照片和文档，而无需驱动程序软件。从 macOS 10.12 开始，系统级安全功能可防止打印对话框插件加载到启用库验证安全功能的应用程序中。从 macOS 10.14 开始，不推荐使用用于创建 macOS 打印驱动程序的 <code>APDialogExtension</code> 属性。所有新的打印机型号都应支持 AirPrint 。
     </blockquote>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Add two panes for finishing and driver options
 *APDialogExtension: "/Library/Printers/vendor/finishing.plugin"
 *APDialogExtension: "/Library/Printers/vendor/options.plugin"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.4</span><a name='APDuplexRequiresFlippedMargin'>APDuplexRequiresFlippedMargin</a></h3>
-    <p class='summary'>*APDuplexRequiresFlippedMargin: boolean</p>
-    <p>&emsp;&emsp;此布尔关键字通知 RIP 筛选器，目标打印机需要将 <tt>ImageableArea</tt> 的顶部和底部页边距交换到后页。当 <tt>cupsBackSide</tt> 为 <tt>Flipped</tt> 时，默认值为 <tt>true</tt> ，否则为 <tt>false</tt>。<a href='#TABLE_2'>表 2</a> 显示了 <tt>APDuplexRequiresFlippedMargin</tt> 如何与 <tt>cupsBackSide</tt> 和 <tt>Tumble</tt> 页面属性交互。</p>
+    <p class='summary'>*APDuplexRequiresFlippedMargin: boolean
+    <p>&emsp;&emsp;此布尔关键字通知 RIP 筛选器，目标打印机需要将 <tt>ImageableArea</tt> 的顶部和底部页边距交换到后页。当 <tt>cupsBackSide</tt> 为 <tt>Flipped</tt> 时，默认值为 <tt>true</tt> ，否则为 <tt>false</tt>。<a href='#TABLE_2'>表 2</a> 显示了 <tt>APDuplexRequiresFlippedMargin</tt> 如何与 <tt>cupsBackSide</tt> 和 <tt>Tumble</tt> 页面属性交互。
     <div class='table'>
       <table width='80%' summary='Margin Flipping Modes'>
-        <caption>表 2：<a name='TABLE_2'>页边距翻转模式</a></caption>
+        <caption>表 2 ：<a name='TABLE_2'>页边距翻转模式</a></caption>
         <thead>
         <tr>
           <th>APDuplexRequiresFlippedMargin</th>
@@ -1325,7 +1325,7 @@ http://www.vendor.com/help"
         </tbody>
       </table>
     </div>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 <em>*% Rotate the back side images</em>
 *cupsBackSide: Rotated
@@ -1333,41 +1333,41 @@ http://www.vendor.com/help"
 <em>*% Don't swap the top and bottom margins for the back side</em>
 *APDuplexRequiresFlippedMargin: false</pre>
 
-    <p>&emsp;&emsp;另请参见相关的 <a href='#cupsBackSide'><tt>cupsBackSide</tt></a> 关键字。</p>
+    <p>&emsp;&emsp;另请参见相关的 <a href='#cupsBackSide'><tt>cupsBackSide</tt></a> 关键字。
 
     <h3 class="title"><a name='APHelpBook'>APHelpBook</a></h3>
-    <p class='summary'>*APHelpBook: "bundle URL"</p>
-    <p>&emsp;&emsp;此字符串关键字指定在查找此打印机驱动程序的 IPP 原因代码时要使用的 Apple 捆绑帮助文件。<a href='#cupsIPPReason'><tt>cupsIPPReason</tt></a> 关键字将 “help” URI 映射到此文件。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APHelpBook: "bundle URL"
+    <p>&emsp;&emsp;此字符串关键字指定在查找此打印机驱动程序的 IPP 原因代码时要使用的 Apple 捆绑帮助文件。<a href='#cupsIPPReason'><tt>cupsIPPReason</tt></a> 关键字将 “help” URI 映射到此文件。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>*APHelpBook: "file:///Library/Printers/vendor/Help.bundle"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.6</span><a name='APICADriver'>APICADriver</a></h3>
-    <p class='summary'>*APICADriver: boolean</p>
-    <p>&emsp;&emsp;此关键字指定设备是否具有用于扫描的匹配图像捕获体系结构（ICA）驱动程序。默认值为 <tt>False</tt> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APICADriver: boolean
+    <p>&emsp;&emsp;此关键字指定设备是否具有用于扫描的匹配图像捕获体系结构（ ICA ）驱动程序。默认值为 <tt>False</tt> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *APICADriver: True
 *APScanAppBundleID: "com.apple.ImageCaptureApp"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.3</span><a name='APPrinterIconPath'>APPrinterIconPath</a></h3>
-    <p class='summary'>*APPrinterIconPath: "/Library/Printers/vendor/filename.icns"</p>
-    <p>&emsp;&emsp;此关键字定义显示打印机时要使用的打印机图标文件的位置。文件必须采用 Apple 图标格式。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APPrinterIconPath: "/Library/Printers/vendor/filename.icns"
+    <p>&emsp;&emsp;此关键字定义显示打印机时要使用的打印机图标文件的位置。文件必须采用 Apple 图标格式。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Apple icon file
 *APPrinterIconPath: "/Library/Printers/vendor/Icons/filename.icns"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.4</span><a name='APPrinterLowInkTool'>APPrinterLowInkTool</a></h3>
-    <p class='summary'>*APPrinterLowInkTool: "/Library/Printers/vendor/program"</p>
-    <p>&emsp;&emsp;此关键字定义了一个程序，用于检查打印机上的墨水/墨粉/记号笔级别，并返回具有这些级别的 XML 文档。参见 “InkTool” 示例和 <a href='http://developer.apple.com/technotes/tn2005/tn2144.html'>Apple 技术说明 TN2144</a> 了解更多信息。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APPrinterLowInkTool: "/Library/Printers/vendor/program"
+    <p>&emsp;&emsp;此关键字定义了一个程序，用于检查打印机上的墨水/墨粉/记号笔级别，并返回具有这些级别的 XML 文档。参见 “InkTool” 示例和 <a href='http://developer.apple.com/technotes/tn2005/tn2144.html'>Apple 技术说明 TN2144</a> 了解更多信息。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Use a vendor monitoring program
 *APPrinterLowInkTool: "/Library/Printers/vendor/Tools/lowinktool"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.5</span><a name='APPrinterPreset'>APPrinterPreset</a></h3>
-    <p class='summary'>*APPrinterPreset name/text: "*Option Choice ..."</p>
-    <p>&emsp;&emsp;此关键字定义应用程序（如 iPhoto ）打印对话框中显示的多个选项的预设，这些应用程序将任务样式提示设置为 <tt>NSPrintPhotoJobStyleHint</tt> 。每个预设映射到一对或多对 PPD 选项和选项，并为应用程序提供键/值数据。当前定义了以下标准预设名称：</p>
+    <p class='summary'>*APPrinterPreset name/text: "*Option Choice ..."
+    <p>&emsp;&emsp;此关键字定义应用程序（如 iPhoto ）打印对话框中显示的多个选项的预设，这些应用程序将任务样式提示设置为 <tt>NSPrintPhotoJobStyleHint</tt> 。每个预设映射到一对或多对 PPD 选项和选项，并为应用程序提供键/值数据。当前定义了以下标准预设名称：
     <ul>
       <li><code>General_with_Paper_Auto-Detect</code>; 使用自动检测介质进行正常质量的常规打印。</li>
       <li><code>General_with_Paper_Auto-Detect_-_Draft</code>; 草稿质量：使用自动检测介质进行常规打印。</li>
@@ -1382,15 +1382,15 @@ http://www.vendor.com/help"
       <li><code>Photo_on_Matte_Paper</code>; 在无光纸上进行正常质量的照片打印。</li>
       <li><code>Photo_on_Matte_Paper_-_Fine</code>; 在无光纸上进行高质量照片打印。</li>
     </ul>
-    <p>&emsp;&emsp;值字符串由成对的关键字组成，可以是选项名称和选项（*MainKeyword OptionKeyword），也可以是预设标识符和值（com.apple.print.preset.foo value）。当前使用以下预设标识符：</p>
+    <p>&emsp;&emsp;值字符串由成对的关键字组成，可以是选项名称和选项（ *MainKeyword OptionKeyword ），也可以是预设标识符和值（ com.apple.print.preset.foo value ）。当前使用以下预设标识符：
     <ul>
       <li><code>com.apple.print.preset.graphicsType</code>; 指定用于此打印的打印类型 － “General” 用于通用打印，“Photo” 用于照片打印。</li>
       <li><code>com.apple.print.preset.media-front-coating</code>; 指定此预设选择的介质类型 － “none”（普通纸）、 “glossy” 、 “high-gloss” 、 “semi-gloss” 、 “satin” 、 “matte” 和 “autodetect” 。</li>
       <li><code>com.apple.print.preset.output-mode</code>; 指定此预设的输出模式 － “color”（彩色打印机的默认设置）或 “monochrome”（灰度，黑白打印机的默认设置）。</li>
       <li><code>com.apple.print.preset.quality</code>; 指定此预设选择的总体打印质量 － “low”（草稿）、 “mid”（正常）或 “high” 。</li>
     </ul>
-    <p>&emsp;&emsp;与选项一样，预设也可以用多种语言进行本地化。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p>&emsp;&emsp;与选项一样，预设也可以用多种语言进行本地化。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *APPrinterPreset Photo_on_Photo_Paper/Photo on Photo Paper: "
   *MediaType Glossy
@@ -1403,25 +1403,25 @@ http://www.vendor.com/help"
 *fr.APPrinterPreset Photo_on_Photo_Paper/Photo sur papier photographique: ""</pre>
 
     <h3 class="title"><span class='info'>macOS 10.3</span><a name='APPrinterUtilityPath'>APPrinterUtilityPath</a></h3>
-    <p class='summary'>*APPrinterPrinterUtilityPath: "/Library/Printers/vendor/filename.app"</p>
-    <p>&emsp;&emsp;此关键字定义可用于执行打印机维护功能（如清洁打印头）的 GUI 应用程序。看见了解更多信息。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APPrinterPrinterUtilityPath: "/Library/Printers/vendor/filename.app"
+    <p>&emsp;&emsp;此关键字定义可用于执行打印机维护功能（如清洁打印头）的 GUI 应用程序。看见了解更多信息。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *% Define the printer utility application
 *APPrinterPrinterUtilityPath: "/Library/Printers/vendor/Tools/utility.app"</pre>
 
     <h3 class="title"><span class='info'>macOS 10.6</span><a name='APScannerOnly'>APScannerOnly</a></h3>
-    <p class='summary'>*APScannerOnly: boolean</p>
-    <p>&emsp;&emsp;此关键字指定设备是否具有扫描功能但没有打印功能。默认值为 <tt>False</tt> 。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APScannerOnly: boolean
+    <p>&emsp;&emsp;此关键字指定设备是否具有扫描功能但没有打印功能。默认值为 <tt>False</tt> 。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *APICADriver: True
 *APScannerOnly: True</pre>
 
     <h3 class="title"><span class='info'>macOS 10.3</span><a name='APScanAppBundleID'>APScanAppBundleID</a></h3>
-    <p class='summary'>*APScanAppBundleID: "bundle ID"</p>
-    <p>&emsp;&emsp;此关键字定义从设备扫描页面时要使用的应用程序。</p>
-    <p>&emsp;&emsp;示例：</p>
+    <p class='summary'>*APScanAppBundleID: "bundle ID"
+    <p>&emsp;&emsp;此关键字定义从设备扫描页面时要使用的应用程序。
+    <p>&emsp;&emsp;示例：
     <pre class='command'>
 *APICADriver: True
 *APScanAppBundleID: "com.apple.ImageCaptureApp"</pre>

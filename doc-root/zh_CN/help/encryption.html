@@ -7,16 +7,16 @@
   </head>
   <body>
     <h1 class="title">管理加密</h1>
-    <p>&emsp;&emsp;CUPS 通过两种方式支持 TLS 加密：</p>
+    <p>&emsp;&emsp;CUPS 通过两种方式支持 TLS 加密：
     <ol>
-      <li>建立连接后立即使用 HTTPS（始终打开），以及</li>
-      <li>在建立连接后使用 HTTP 升级到 TLS（opportunistic）。</li>
+      <li>建立连接后立即使用 HTTPS （始终打开），以及</li>
+      <li>在建立连接后使用 HTTP 升级到 TLS （ opportunistic ）。</li>
     </ol>
-    <p>&emsp;&emsp;CUPS 支持自签名、CA 签名和企业证书，以及可配置的证书验证、密码套件和 SSL/TLS 版本策略。</p>
-    <p>&emsp;&emsp;开箱即用，CUPS 使用“首次使用信任（TOFU）”证书验证策略，如流行的 Secure Shell (ssh) 软件，需要 TLS/1.0 或更高版本，只允许安全密码套件，并自动创建“自签名”调度程序的证书和私钥，以便默认情况下加密远程管理操作和打印机共享。</p>
+    <p>&emsp;&emsp;CUPS 支持自签名、 CA 签名和企业证书，以及可配置的证书验证、密码套件和 SSL/TLS 版本策略。
+    <p>&emsp;&emsp;开箱即用， CUPS 使用“首次使用信任（ TOFU ）”证书验证策略，如流行的 Secure Shell (ssh) 软件，需要 TLS/1.0 或更高版本，只允许安全密码套件，并自动创建“自签名”调度程序的证书和私钥，以便默认情况下加密远程管理操作和打印机共享。
 
     <h2 class="title" id="CLIENT">配置客户端 TLS 策略</h2>
-    <p>&emsp;&emsp;<a href="man-client.conf.html"><var>client.conf</var></a> 文件控制客户端 TLS 策略。默认策略为：</p>
+    <p>&emsp;&emsp;<a href="man-client.conf.html"><var>client.conf</var></a> 文件控制客户端 TLS 策略。默认策略为：
     <pre class="command">
 AllowAnyRoot Yes
 AllowExpiredCerts No
@@ -24,7 +24,7 @@ Encryption IfRequested
 SSLOptions None
 TrustOnFirstUse Yes
 ValidateCerts No</pre>
-    <p>&emsp;&emsp;通过将相应的证书复制到客户端（<a href="#PLATFORM">见下文</a>），并在 <var>client.conf</var> 文件或 macOS<sup>&reg;</sup> 打印首选项使用以下策略，可以将客户端配置为仅与受信任的 TLS/1.1+ 服务器和打印机通信：</p>
+    <p>&emsp;&emsp;通过将相应的证书复制到客户端（<a href="#PLATFORM">见下文</a>），并在 <var>client.conf</var> 文件或 macOS<sup>&reg;</sup> 打印首选项使用以下策略，可以将客户端配置为仅与受信任的 TLS/1.1+ 服务器和打印机通信：
     <pre class="command">
 AllowAnyRoot No
 AllowExpiredCerts No
@@ -32,20 +32,20 @@ Encryption Required
 SSLOptions DenyTLS1.0
 TrustOnFirstUse No
 ValidateCerts Yes</pre>
-    <p>&emsp;&emsp;类似地，如果客户端需要支持仅支持 SSL/3.0 和 RC4 密码套件的旧服务器，则可以使用以下策略选项：</p>
+    <p>&emsp;&emsp;类似地，如果客户端需要支持仅支持 SSL/3.0 和 RC4 密码套件的旧服务器，则可以使用以下策略选项：
     <pre class="command">SSLOptions AllowRC4 AllowSSL3</pre>
 
     <h2 class="title" id="SERVER">配置服务器 TLS 策略</h2>
-    <p>&emsp;&emsp;<a href="man-cups-files.conf.html"><var>cups-files.conf</var></a> 文件中的两条指令控制服务器（调度程序）TLS 策略 － <a href="man-cups-files.conf.html#CreateSelfSignedCerts"><code>CreateSelfSignedCerts</code></a> 和 <a href="man-cups-files.conf.html#ServerKeychain"><code>ServerKeychain</code></a>。默认策略根据需要创建自签名证书。</p>
-    <p>&emsp;&emsp;<a href="man-cupsd.conf.html"><var>cupsd.conf</var></a> 文件中的 <a href="man-cupsd.conf.html#DefaultEncryption"><code>DefaultEncryption</code></a> 和 <a href="man-cupsd.conf.html#Encryption"><code>Encryption</code></a> 指令控制是否使用加密。当需要身份验证时，默认配置需要加密以进行远程访问。</p>
+    <p>&emsp;&emsp;<a href="man-cups-files.conf.html"><var>cups-files.conf</var></a> 文件中的两条指令控制服务器（调度程序） TLS 策略 － <a href="man-cups-files.conf.html#CreateSelfSignedCerts"><code>CreateSelfSignedCerts</code></a> 和 <a href="man-cups-files.conf.html#ServerKeychain"><code>ServerKeychain</code></a>。默认策略根据需要创建自签名证书。
+    <p>&emsp;&emsp;<a href="man-cupsd.conf.html"><var>cupsd.conf</var></a> 文件中的 <a href="man-cupsd.conf.html#DefaultEncryption"><code>DefaultEncryption</code></a> 和 <a href="man-cupsd.conf.html#Encryption"><code>Encryption</code></a> 指令控制是否使用加密。当需要身份验证时，默认配置需要加密以进行远程访问。
 
     <h2 class="title" id="PLATFORM">平台差异</h2>
     <h3>macOS<sup>&reg;</sup></h3>
-    <p>&emsp;&emsp;在 macOS 上，普通用户的客户端配置设置存储在 <var>~/Library/Preferences/org.cups.PrintingPrefs.plist</var> 文件中。系统范围和用户证书存储在系统和登录密钥链中，私有 CUPS 密钥链用于自签名和 CUPS 管理的证书。</p>
+    <p>&emsp;&emsp;在 macOS 上，普通用户的客户端配置设置存储在 <var>~/Library/Preferences/org.cups.PrintingPrefs.plist</var> 文件中。系统范围和用户证书存储在系统和登录密钥链中，私有 CUPS 密钥链用于自签名和 CUPS 管理的证书。
     <h3>Windows<sup>&reg;</sup></h3>
-    <p>&emsp;&emsp;在 Windows 上，客户端配置设置由 SSL/TLS 组策略设置和证书存储控制。</p>
+    <p>&emsp;&emsp;在 Windows 上，客户端配置设置由 SSL/TLS 组策略设置和证书存储控制。
     <h3>其他平台</h3>
-    <p>&emsp;&emsp;其他平台仅在 <var>/etc/cups/ssl</var> 和 <var>~/.cups/ssl</var> 目录中使用 <var>client.conf</var> 文件和 PEM 编码的证书（<i>主机名</i>.crt）以及私钥（<i>主机名</i>.key）。如果存在 <var>/etc/cups/ssl/site.crt</var> 文件，则该文件定义用于验证服务器和打印机证书的站点范围的 CA 证书。已知服务器和打印机的证书由 CUPS 存储在相应的 <var>ssl</var> 目录中，以便对其进行后续连接验证。</p>
-    <p>&emsp;&emsp;CUPS 还支持由流行的 <a href="https://letsencrypt.org/">Let's Encrypt</a> 证书服务创建和管理的证书，这些证书存储在 <var>/etc/letsencrypt/live</var> 目录中。</p>
+    <p>&emsp;&emsp;其他平台仅在 <var>/etc/cups/ssl</var> 和 <var>~/.cups/ssl</var> 目录中使用 <var>client.conf</var> 文件和 PEM 编码的证书（<i>主机名</i>.crt ）以及私钥（<i>主机名</i>.key ）。如果存在 <var>/etc/cups/ssl/site.crt</var> 文件，则该文件定义用于验证服务器和打印机证书的站点范围的 CA 证书。已知服务器和打印机的证书由 CUPS 存储在相应的 <var>ssl</var> 目录中，以便对其进行后续连接验证。
+    <p>&emsp;&emsp;CUPS 还支持由流行的 <a href="https://letsencrypt.org/">Let's Encrypt</a> 证书服务创建和管理的证书，这些证书存储在 <var>/etc/letsencrypt/live</var> 目录中。
   </body>
 </html>

@@ -27,11 +27,11 @@
       <dt><a name="CacheDir"></a><b>CacheDir </b><i>directory</i>
       <dd style="margin-left: 5.0em">指定用于长期有效的临时（缓存）文件的目录。默认值为 “/var/spool/cups/cache” 或 “/var/cache/cups” ，具体取决于平台。
       <dt><a name="ConfigFilePerm"></a><b>ConfigFilePerm </b><i>mode</i>
-      <dd style="margin-left: 5.0em">指定调度程序写入的所有配置文件的权限。macOS 上的默认值为 “0644” ，所有其他操作系统上的默认值为 “0640” 。<br>
+      <dd style="margin-left: 5.0em">指定调度程序写入的所有配置文件的权限。 macOS 上的默认值为 “0644” ，所有其他操作系统上的默认值为 “0640” 。<br>
         <b>提示：</b> <i>printers.conf</i> 文件的权限当前被屏蔽，仅允许调度器用户（通常是 root 用户）进行访问。之所以这样做，是因为打印机设备 URI 有时包含敏感的身份验证信息，而这些信息在系统中通常是未知的。无法禁用此安全功能。
       <dt><a name="CreateSelfSignedCerts"></a><b>CreateSelfSignedCerts yes</b>
       <dt><b>CreateSelfSignedCerts no</b>
-      <dd style="margin-left: 5.0em">指定调度程序是否使用 TLS 为客户端连接自动创建自签名证书。默认值为 yes。
+      <dd style="margin-left: 5.0em">指定调度程序是否使用 TLS 为客户端连接自动创建自签名证书。默认值为 yes 。
       <dt><a name="DataDir"></a><b>DataDir </b><i>path</i>
       <dd style="margin-left: 5.0em">指定可以在其中找到数据文件的目录。默认值通常为 “/usr/share/cups” 。
       <dt><a name="DocumentRoot"></a><b>DocumentRoot </b><i>directory</i>
@@ -85,9 +85,9 @@
       <dt><b>Sandboxing strict</b>
       <dd style="margin-left: 5.0em">指定应用于调度程序的打印筛选器、后端和其他子进程的安全沙盒级别。默认值为 “strict” 。此指令目前仅在 macOS 上支持和使用。
       <dt><a name="ServerBin"></a><b>ServerBin </b><i>directory</i>
-      <dd style="margin-left: 5.0em">指定包含后端、CGI 程序、筛选器、帮助程序、通知程序和端口监视器的目录。默认值为 “/usr/lib/cups” 或 “/usr/libexec/cups” ，具体取决于平台。
+      <dd style="margin-left: 5.0em">指定包含后端、 CGI 程序、筛选器、帮助程序、通知程序和端口监视器的目录。默认值为 “/usr/lib/cups” 或 “/usr/libexec/cups” ，具体取决于平台。
       <dt><a name="ServerKeychain"></a><b>ServerKeychain </b><i>path</i>
-      <dd style="margin-left: 5.0em">指定 TLS 证书和私钥的位置。在 macOS 上默认为 “/Library/Keychains/System.keychain” ，在所有其他操作系统上默认为 “/etc/cups/ssl” 。macOS 使用其密钥链数据库存储证书和密钥，而其他平台在指定目录中使用单独的文件，*.crt 用于 PEM 编码的证书， *.key 用于 PEM 编码的私钥。
+      <dd style="margin-left: 5.0em">指定 TLS 证书和私钥的位置。在 macOS 上默认为 “/Library/Keychains/System.keychain” ，在所有其他操作系统上默认为 “/etc/cups/ssl” 。 macOS 使用其密钥链数据库存储证书和密钥，而其他平台在指定目录中使用单独的文件，*.crt 用于 PEM 编码的证书， *.key 用于 PEM 编码的私钥。
       <dt><a name="ServerRoot"></a><b>ServerRoot </b><i>directory</i>
       <dd style="margin-left: 5.0em">指定包含服务器配置文件的目录。默认值为 “/etc/cups” 。
       <dt><a name="SetEnv"></a><b>SetEnv </b><i>variable value</i>
@@ -102,14 +102,14 @@
       <dt><a name="TempDir"></a><b>TempDir </b><i>directory</i>
       <dd style="margin-left: 5.0em">指定存储短期临时文件的目录。默认值为 “/var/spool/cups/tmp” 。
       <dt><a name="User"></a><b>User </b><i>username</i>
-      <dd style="margin-left: 5.0em">指定运行外部程序时使用的用户名或 ID。默认值为 “lp” 。
+      <dd style="margin-left: 5.0em">指定运行外部程序时使用的用户名或 ID 。默认值为 “lp” 。
     </dd>
     <h3><a name="DEPRECATED_DIRECTIVES">不建议使用的指令</a></h3>
     <p>&emsp;&emsp;以下指令已弃用，将从 CUPS 的未来版本中删除：
     <dl class="man">
       <dt><a name="FileDevice"></a><b>FileDevice Yes</b>
       <dt><b>FileDevice No</b>
-      <dd style="margin-left: 5.0em">指定文件伪设备是否可用于新打印机队列。URI “file:///dev/null” 是永远允许的。文件设备不能与 “raw” 打印队列一起使用 － 需要 PPD 文件。每个打印任务都会覆盖指定的文件。不支持写入目录。
+      <dd style="margin-left: 5.0em">指定文件伪设备是否可用于新打印机队列。 URI “file:///dev/null” 是永远允许的。文件设备不能与 “raw” 打印队列一起使用 － 需要 PPD 文件。每个打印任务都会覆盖指定的文件。不支持写入目录。
       <dt><a name="FontPath"></a><b>FontPath </b><i>directory[:...:directoryN]</i>
       <dd style="margin-left: 5.0em">指定可在其中找到字体的目录的冒号分隔列表。在 Linux 上，将使用 <b>font-config</b>(1) 机制。在 macOS 上，字体簿应用程序管理系统安装的字体。
       <dt><a name="LPDConfigFile"></a><b> LPDConfigFile </b><i>filename</i>
@@ -132,6 +132,6 @@
     <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
 
     <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
-    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
   </body>
 </html>

@@ -7,45 +7,45 @@
   </head>
   <body>
     <h1 CLASS="title">打印机共享</h1>
-    <p>&emsp;&emsp;本文档讨论了配置打印机共享的几种方法。</p>
+    <p>&emsp;&emsp;本文档讨论了配置打印机共享的几种方法。
 
     <h2><a name="BASICS">基础知识</h2>
-    <p>&emsp;&emsp;“服务器”是直接与打印机通信的任何机器。“客户机”是将打印任务发送到服务器进行最终打印的任何机器。如果客户机直接与自己的任何打印机通信，则客户机也可以是服务器。</p>
-    <p>&emsp;&emsp;默认情况下，CUPS 使用 Internet打印协议（IPP）将任务从客户端发送到服务器。当打印到旧的打印服务器时，您也可以在打印到旧的基于 UNIX 的服务器时使用行式打印机后台程序（LPD）协议，或者在打印到 Windows<sup>&reg;</sup> 服务器时使用服务器消息块（SMB）。</p>
-    <p>&emsp;&emsp;客户端可以通过 DNS 服务发现（DNS-SD a.k.a. Bonjour<sup>&reg;</sup>）自动发现和访问共享打印机。SMB 浏览还可用于在安装 <a href="http://www.samba.org/">Samba</a> 时手动查找和访问共享打印机。</p>
+    <p>&emsp;&emsp;“服务器”是直接与打印机通信的任何机器。“客户机”是将打印任务发送到服务器进行最终打印的任何机器。如果客户机直接与自己的任何打印机通信，则客户机也可以是服务器。
+    <p>&emsp;&emsp;默认情况下， CUPS 使用 Internet 打印协议（ IPP ）将任务从客户端发送到服务器。当打印到旧的打印服务器时，您也可以在打印到旧的基于 UNIX 的服务器时使用行式打印机后台程序（ LPD ）协议，或者在打印到 Windows<sup>&reg;</sup> 服务器时使用服务器消息块（ SMB ）。
+    <p>&emsp;&emsp;客户端可以通过 DNS 服务发现（ DNS-SD a.k.a. Bonjour<sup>&reg;</sup> ）自动发现和访问共享打印机。 SMB 浏览还可用于在安装 <a href="http://www.samba.org/">Samba</a> 时手动查找和访问共享打印机。
 
     <h2><a name="SERVER_CONFIG">配置服务器</a></h2>
-    <p>&emsp;&emsp;必须在服务器上启用打印机共享，客户端才能通过服务器进行打印。最简单的方法是在服务器上使用 <a href="man-cupsctl.html">cupsctl(8)</a> 命令：</p>
+    <p>&emsp;&emsp;必须在服务器上启用打印机共享，客户端才能通过服务器进行打印。最简单的方法是在服务器上使用 <a href="man-cupsctl.html">cupsctl(8)</a> 命令：
     <pre class="command">cupsctl --share-printers</pre>
-    <p>&emsp;&emsp;默认情况下，上述命令将允许从与服务器位于同一子网上的其他客户端进行打印。要允许从任何子网打印，请改用以下命令：</p>
+    <p>&emsp;&emsp;默认情况下，上述命令将允许从与服务器位于同一子网上的其他客户端进行打印。要允许从任何子网打印，请改用以下命令：
     <pre class="command">cupsctl --share-printers --remote-any</pre>
-    <p>&emsp;&emsp;接下来，使用服务器上的 <a href="man-lpadmin.html">lpadmin(8)</a> 命令标记要共享的每台打印机，例如：</p>
+    <p>&emsp;&emsp;接下来，使用服务器上的 <a href="man-lpadmin.html">lpadmin(8)</a> 命令标记要共享的每台打印机，例如：
     <pre class="command">lpadmin -p printer -o printer-is-shared=true</pre>
-    <p>&emsp;&emsp;通过在每台打印机上设置策略，可以要求对共享打印进行身份验证，例如：</p>
+    <p>&emsp;&emsp;通过在每台打印机上设置策略，可以要求对共享打印进行身份验证，例如：
     <pre class="command">lpadmin -p printer -o printer-op-policy=authenticated</pre>
 
     <h2><a name="AUTO_IPP">使用 IPP 进行自动配置</a></h2>
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;这种配置方法在 macOS 10.7 或更高版本上不起作用，因为沙盒应用程序并不总是可以直接访问网络。</p>
+      <p>&emsp;&emsp;这种配置方法在 macOS 10.7 或更高版本上不起作用，因为沙盒应用程序并不总是可以直接访问网络。
     </blockquote>
-    <p>&emsp;&emsp;CUPS 可以配置为在没有本地后台处理程序的情况下运行，并将所有任务发送到单个服务器。但是，如果该服务器关闭，则所有打印都将被禁用。仅在绝对必要时使用此配置。</p>
-    <p>&emsp;&emsp;默认服务器通常是本地系统（“localhost”）。要覆盖默认服务器，请创建一个名为 <var>/etc/cups/client.conf</var> 的文件，其中包含一行内容，如下所示：</p>
+    <p>&emsp;&emsp;CUPS 可以配置为在没有本地后台处理程序的情况下运行，并将所有任务发送到单个服务器。但是，如果该服务器关闭，则所有打印都将被禁用。仅在绝对必要时使用此配置。
+    <p>&emsp;&emsp;默认服务器通常是本地系统（“localhost”）。要覆盖默认服务器，请创建一个名为 <var>/etc/cups/client.conf</var> 的文件，其中包含一行内容，如下所示：
     <pre class='example'>ServerName <em>服务器名</em></pre>
-    <p>&emsp;&emsp;<var>服务器名</var>可以是默认服务器的主机名或 IP 地址。如果服务器未使用默认 IPP 端口（631），可以在末尾添加端口号，如下所示：</p>
+    <p>&emsp;&emsp;<var>服务器名</var>可以是默认服务器的主机名或 IP 地址。如果服务器未使用默认 IPP 端口（ 631 ），可以在末尾添加端口号，如下所示：
     <pre class='example'>ServerName <em>服务器名:端口</em></pre>
-    <p>&emsp;&emsp;默认服务器也可以根据每个用户进行自定义。要设置特定于用户的服务器，请创建名为 <var>~/.cups/client.conf</var> 的文件。用户的 <var>client.conf</var> 文件优先于系统文件。</p>
-    <p>&emsp;&emsp;最后，您可以将 <code>CUPS_SERVER</code> 环境变量设置为覆盖单个进程的默认服务器，例如：</p>
+    <p>&emsp;&emsp;默认服务器也可以根据每个用户进行自定义。要设置特定于用户的服务器，请创建名为 <var>~/.cups/client.conf</var> 的文件。用户的 <var>client.conf</var> 文件优先于系统文件。
+    <p>&emsp;&emsp;最后，您可以将 <code>CUPS_SERVER</code> 环境变量设置为覆盖单个进程的默认服务器，例如：
     <pre class='command'>CUPS_SERVER=server:port firefox http://www.cups.org</pre>
-    <p>&emsp;&emsp;将运行指向指定服务器和端口的 Firefox Web 浏览器。环境变量会覆盖用户和系统的 <var>client.conf</var> 文件配置（如果有这些文件的话）。</p>
+    <p>&emsp;&emsp;将运行指向指定服务器和端口的 Firefox Web 浏览器。环境变量会覆盖用户和系统的 <var>client.conf</var> 文件配置（如果有这些文件的话）。
 
     <h2><a name="MANUAL">手动配置打印队列</a></h2>
     <blockquote>
       <b>提示：</b>
-      <p>&emsp;&emsp;这种配置方法在 macOS 10.7 或更高版本上不起作用，因为沙盒应用程序并不总是可以直接访问网络。</p>
+      <p>&emsp;&emsp;这种配置方法在 macOS 10.7 或更高版本上不起作用，因为沙盒应用程序并不总是可以直接访问网络。
     </blockquote>
-    <p>&emsp;&emsp;配置客户机最繁琐的方法是使用 <a href="man-lpadmin.html">lpadmin(8)</a> 命令手动配置每个远程队列：</p>
+    <p>&emsp;&emsp;配置客户机最繁琐的方法是使用 <a href="man-lpadmin.html">lpadmin(8)</a> 命令手动配置每个远程队列：
     <pre class='command'>lpadmin -p <em>打印机</em> -E -v ipp://<em>服务器名</em>/printers/<em>打印机</em> -m everywhere</pre>
-    <p>&emsp;&emsp;<var>打印机</var>是服务器计算机上打印机的名称。<var>服务器名</var>是服务器计算机的主机名或 IP 地址。对要使用的每个远程打印机重复 <b>lpadmin</b> 命令。</p>
+    <p>&emsp;&emsp;<var>打印机</var>是服务器计算机上打印机的名称。<var>服务器名</var>是服务器计算机的主机名或 IP 地址。对要使用的每个远程打印机重复 <b>lpadmin</b> 命令。
   </body>
 </html>

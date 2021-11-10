@@ -7,27 +7,27 @@
   </head>
   <body>
     <h1 class="title">使用网络打印机</h1>
-    <p>&emsp;&emsp;本帮助文档介绍如何发现、配置和使用带有 CUPS 的 TCP/IP 网络打印机。</p>
+    <p>&emsp;&emsp;本帮助文档介绍如何发现、配置和使用带有 CUPS 的 TCP/IP 网络打印机。
 
     <h2 class="title" id="AUTOMATIC">使用 Bonjour 自动配置</h2>
-    <p>&emsp;&emsp;大多数网络打印机支持称为 Bonjour 的协议，它是由 Internet 工程任务组（IETF）发布的零配置网络（“ZeroConf”）、多播 DNS（MDN）和 DNS 服务发现（DNS-SD）标准的组合，该组定义了 TCP/IP 和我们今天使用的所有网络。</p>
-    <p>&emsp;&emsp;可以使用 <code>dnssd</code> 后端自动找到支持 Bonjour 的打印机。运行 <code>lpinfo(8)</code> 命令查找打印机的URI：</p>
+    <p>&emsp;&emsp;大多数网络打印机支持称为 Bonjour 的协议，它是由 Internet 工程任务组（ IETF ）发布的零配置网络（“ZeroConf”）、多播 DNS （ MDN ）和 DNS 服务发现（ DNS-SD ）标准的组合，该组定义了 TCP/IP 和我们今天使用的所有网络。
+    <p>&emsp;&emsp;可以使用 <code>dnssd</code> 后端自动找到支持 Bonjour 的打印机。运行 <code>lpinfo(8)</code> 命令查找打印机的 URI ：
     <pre class="command">
 lpinfo --include-schemes dnssd -v
 network dnssd://Acme%20Laser%20Pro._ipp._tcp.local./?uuid=545253fb-1cb7-4d8d-98ed-ab6cd607cea7
 network dnssd://Bar99._printer.tcp.local./?uuid=f9efff58-9086-4c95-accb-81dee876a475
 network dnssd://Example%20EX-42._ipps._tcp.local./?uuid=4a0c67ad-2824-4ddf-9115-7d4226c5fe65
 network dnssd://Foo%20Fighter-1969._pdl-datastream._tcp.local./?uuid=4e216bea-c3de-4f65-a710-c99e11c80d2b</pre>
-    <p>&emsp;&emsp;然后，您可以使用报告的URI<a href="admin.html#PRINTERS">添加打印机</a>。</p>
+    <p>&emsp;&emsp;然后，您可以使用报告的 URI <a href="admin.html#PRINTERS">添加打印机</a>。
 
     <h2 class="title" id="MANUAL">使用 IP 地址手动配置</h2>
-    <p>&emsp;&emsp;您还可以使用打印机的 Internet协议第4版（IPv4）地址手动配置打印机。此地址可以通过打印机的控制面板手动配置“静态IP”，也可以使用自动网络协议（如 DHCP 或 ZeroConf）设置。</p>
+    <p>&emsp;&emsp;您还可以使用打印机的 Internet 协议第 4 版（ IPv4 ）地址手动配置打印机。此地址可以通过打印机的控制面板手动配置“静态 IP”，也可以使用自动网络协议（如 DHCP 或 ZeroConf ）设置。
     <blockquote><b>提示：</b>不建议使用 DHCP 或 ZeroConf 设置的 IP 地址配置打印机，因为每次打开打印机或长时间不活动后，地址都会更改。因此，每次地址更改时，您都需要使用 <code>lpadmin</code> 命令修改打印队列。</blockquote>
 
     <h3>查找 IP 地址</h3>
-    <p>&emsp;&emsp;您通常可以在打印机的控制面板上或通过打印“配置”或“状态”页面找到打印机的 IP 地址。<a href="#SNMP">简单网络管理协议（SNMP）</a>也可用于远程获取 IP 地址。要测试 IP 地址是否已成功分配，以及打印机是否正确连接到 LAN 或 WiFi 网络，请键入：</p>
+    <p>&emsp;&emsp;您通常可以在打印机的控制面板上或通过打印“配置”或“状态”页面找到打印机的 IP 地址。<a href="#SNMP">简单网络管理协议（ SNMP ）</a>也可用于远程获取 IP 地址。要测试 IP 地址是否已成功分配，以及打印机是否正确连接到 LAN 或 WiFi 网络，请键入：
     <pre class="command">ping ip-address</pre>
-    <p>&emsp;&emsp;其中“ip地址”是打印机控制面板、配置页面和/或状态页面报告的地址。如果连接工作正常，您将看到如下情况：</p>
+    <p>&emsp;&emsp;其中“ip 地址”是打印机控制面板、配置页面和/或状态页面报告的地址。如果连接工作正常，您将看到如下情况：
     <pre class="command">
 ping 10.0.1.42
 PING 10.0.1.42 (10.0.1.42): 56 data bytes
@@ -36,33 +36,33 @@ PING 10.0.1.42 (10.0.1.42): 56 data bytes
 64 bytes from 10.0.1.42: icmp_seq=2 ttl=15 time=1.765 ms
 64 bytes from 10.0.1.42: icmp_seq=3 ttl=15 time=1.234 ms
 ...</pre>
-    <p>&emsp;&emsp;如果连接工作不正常，您将看到如下情况：</p>
+    <p>&emsp;&emsp;如果连接工作不正常，您将看到如下情况：
     <pre class="command">
 ping 10.0.1.42
 PING 10.0.1.42 (10.0.1.42): 56 data bytes
 Request timeout for icmp_seq 0
 Request timeout for icmp_seq 1
 ...</pre>
-    <p>&emsp;&emsp;按 <kbd>CTRL+C</kbd> 键退出 <code>ping</code> 命令。</p>
+    <p>&emsp;&emsp;按 <kbd>CTRL+C</kbd> 键退出 <code>ping</code> 命令。
     <blockquote><b>提示：</b>如果该命令未显示来自打印机的响应，请验证打印机或打印服务器是否已通电并连接到与计算机相同的 LAN 或 WiFi 网络。对于 LAN 连接，还要验证网络布线是否良好。</blockquote>
 
     <h3>选择网络协议（后端）</h3>
-    <p>&emsp;&emsp;CUPS 支持使用三种基于 TCP/IP 的协议之一的大多数网络打印机：<a href="#SOCKET">AppSocket</a>、<a href="#IPP">互联网打印协议</a>和<a href="#LPD">行式打印机守护程序</a>。以下各节描述了每个后端的选项。</p>
+    <p>&emsp;&emsp;CUPS 支持使用三种基于 TCP/IP 的协议之一的大多数网络打印机：<a href="#SOCKET">AppSocket</a>、<a href="#IPP">互联网打印协议</a>和<a href="#LPD">行式打印机守护程序</a>。以下各节描述了每个后端的选项。
 
-    <h4 id="SOCKET">AppSocket 协议（又称 JetDirect）</h4>
-    <p>&emsp;&emsp;AppSocket 协议（有时也称为 JetDirect 协议，因为它起源于 HP JetDirect 网络接口）是打印机使用的最简单、最快的网络协议。AppSocket 打印通常监听 9100 端口，并使用 <code>socket</code> 后端。<code>socket</code> 后端的设备 URI 如下所示：</p>
+    <h4 id="SOCKET">AppSocket 协议（又称 JetDirect ）</h4>
+    <p>&emsp;&emsp;AppSocket 协议（有时也称为 JetDirect 协议，因为它起源于 HP JetDirect 网络接口）是打印机使用的最简单、最快的网络协议. AppSocket 打印通常监听 9100 端口，并使用 <code>socket</code> 后端。<code>socket</code> 后端的设备 URI 如下所示：
     <pre class="example">
 socket://ip-address
 socket://ip-address/?contimeout=30
 socket://ip-address/?waiteof=false
 socket://ip-address/?contimeout=30&amp;waiteof=false
 socket://ip-address:port-number/?...</pre>
-    <p>&emsp;&emsp;“contimeout”选项控制后端为获得与打印机的连接而等待的秒数。默认值为 1 周或 604800 秒。</p>
-    <p>&emsp;&emsp;“waiteof”选项控制 <code>套接字</code> 后端是否等待打印机完成任务的打印。默认设置为等待（<code>waiteof=true</code>）。将 <code>waiteof=false</code> 添加到 URI 以告知后端不要等待。</p>
+    <p>&emsp;&emsp;“contimeout”选项控制后端为获得与打印机的连接而等待的秒数。默认值为 1 周或 604800 秒。
+    <p>&emsp;&emsp;“waiteof”选项控制 <code>套接字</code> 后端是否等待打印机完成任务的打印。默认设置为等待（<code>waiteof=true</code>）。将 <code>waiteof=false</code> 添加到 URI 以告知后端不要等待。
     <blockquote><b>提示：</b>虽然 AppSoT 协议简单快捷，但也不提供安全性，通常是带有打印机的攻击向量。考虑使用“<a href="#IPP">Internet 打印协议</a>”，它支持加密和其他安全特性。</blockquote>
 
-    <h4 id="IPP">Internet 打印协议（IPP）</h4>
-    <p>&emsp;&emsp;IPP 是 CUPS 本机支持的唯一协议，大多数网络打印机和打印服务器都支持 IPP。IPP 支持端口 631 上的加密和其他安全功能，并使用 <code>http</code>（Windows）、<code>IPP</code> 和 <code>IPP</code> 后端。这些后端的设备 URI 如下所示：</p>
+    <h4 id="IPP">Internet 打印协议（ IPP ）</h4>
+    <p>&emsp;&emsp;IPP 是 CUPS 本机支持的唯一协议，大多数网络打印机和打印服务器都支持 IPP 。 IPP 支持端口 631 上的加密和其他安全功能，并使用 <code>http</code>（ Windows ）、<code>IPP</code> 和 <code>IPP</code> 后端。这些后端的设备 URI 如下所示：
     <pre class="example">
 http://ip-address-or-hostname:port-number/printers/name/.printer</i>
 ipp://ip-address/ipp/print
@@ -70,13 +70,13 @@ ipp://ip-address-or-hostname/printers/name
 ipps://ip-address/ipp/print
 ipps://ip-address:443/ipp/print
 ipps://ip-address-or-hostname/printers/name</pre>
-    <p>&emsp;&emsp;后端支持许多选项，这些选项汇总在<a href="#TABLE2">表2</a>中。与所有后端一样，使用 URL 表单编码格式将选项添加到 URI 的末尾，例如：</p>
+    <p>&emsp;&emsp;后端支持许多选项，这些选项汇总在<a href="#TABLE2">表 2</a> 中。与所有后端一样，使用 URL 表单编码格式将选项添加到 URI 的末尾，例如：
     <pre class="example">
 ipp://10.0.1.42/ipp/print?version=1.1
 ipps://10.0.1.42:443/ipp/print?waitjob=false&amp;waitprinter=false</pre>
     <div class="table">
     <table summary="IPP URI Options">
-      <caption>表2: <a name="TABLE2">IPP URI 选项</a></caption>
+      <caption>表 2 ：<a name="TABLE2">IPP URI 选项</a></caption>
       <thead>
 	<tr>
 	  <th>选项</th>
@@ -128,17 +128,17 @@ ipps://10.0.1.42:443/ipp/print?waitjob=false&amp;waitprinter=false</pre>
     </table>
     </div>
 
-    <h4 id="LPD">行式打印机守护程序（LPD）协议（又名lpr）</h4>
-    <p>&emsp;&emsp;LPD 是为 Berkeley UNIX 行式打印机守护程序（后台打印程序）创建的原始网络打印协议，许多网络打印机都支持它。LPD 打印通常通过端口 515 进行，并使用 <code>lpd</code> 后端。<code>lpd</code> 后端的设备 URI 如下所示：</p>
+    <h4 id="LPD">行式打印机守护程序（ LPD ）协议（又名 lpr ）</h4>
+    <p>&emsp;&emsp;LPD 是为 Berkeley UNIX 行式打印机守护程序（后台打印程序）创建的原始网络打印协议，许多网络打印机都支持它。 LPD 打印通常通过端口 515 进行，并使用 <code>lpd</code> 后端。<code>lpd</code> 后端的设备 URI 如下所示：
     <pre class="example">
 lpd://ip-address/queue
 lpd://ip-address/queue?format=l
 lpd://ip-address/queue?format=l&amp;reserve=rfc1179</pre>
-    <p>&emsp;&emsp;<a href="#TABLE3">表3</a>总结了 <code>lpd</code> 后端支持的选项。</p>
-    <blockquote><b>提示：</b>由于 LPD 协议的限制，如果打印机或服务器支持任何其他协议，我们不建议使用它。像 AppSocket 一样，LPD 没有安全性，是一种常见的攻击向量。默认情况下，LPD 还要求计算机在将整个打印任务发送到打印机之前保存一份副本 － 这可能导致在任何打印发生之前将千兆字节的打印数据保存到磁盘，从而延迟打印任务并缩短大容量存储设备的寿命！</blockquote>
+    <p>&emsp;&emsp;<a href="#TABLE3">表 3</a> 总结了 <code>lpd</code> 后端支持的选项。
+    <blockquote><b>提示：</b>由于 LPD 协议的限制，如果打印机或服务器支持任何其他协议，我们不建议使用它。像 AppSocket 一样， LPD 没有安全性，是一种常见的攻击向量。默认情况下， LPD 还要求计算机在将整个打印任务发送到打印机之前保存一份副本 － 这可能导致在任何打印发生之前将千兆字节的打印数据保存到磁盘，从而延迟打印任务并缩短大容量存储设备的寿命！</blockquote>
     <div class="table">
     <table summary="LPD URI Options">
-      <caption>表3: <a name="TABLE3">LPD URI 选项</a></caption>
+      <caption>表 3 ：<a name="TABLE3">LPD URI 选项</a></caption>
       <thead>
 	<tr>
 	  <th>选项</th>
@@ -199,20 +199,20 @@ lpd://ip-address/queue?format=l&amp;reserve=rfc1179</pre>
     </div>
 
     <h2 class="title" id="SNMP">使用 SNMP 查找打印机</h2>
-    <p>&emsp;&emsp;每当您查看管理网页或支持的设备 URI 列表时，<code>snmp</code> 后端都可以使用简单网络管理协议（SNMP）版本1广播探测本地网络。然后查询响应这些广播的打印机的品牌、型号和支持的协议，生成可用于添加打印机的设备 URI。</p>
-    <p>&emsp;&emsp;<a href="man-cups-snmp.conf.html"><var>/etc/cups/snmp.conf</var></a> 文件配置 <code>snmp</code> 后端。添加以下行以使用 <code>snmp</code> 后端启用查找：</p>
+    <p>&emsp;&emsp;每当您查看管理网页或支持的设备 URI 列表时，<code>snmp</code> 后端都可以使用简单网络管理协议（ SNMP ）版本 1 广播探测本地网络。然后查询响应这些广播的打印机的品牌、型号和支持的协议，生成可用于添加打印机的设备 URI 。
+    <p>&emsp;&emsp;<a href="man-cups-snmp.conf.html"><var>/etc/cups/snmp.conf</var></a> 文件配置 <code>snmp</code> 后端。添加以下行以使用 <code>snmp</code> 后端启用查找：
     <pre class="example">Address @LOCAL</pre>
-    <p>&emsp;&emsp;如果您不使用“public”作为团体名称，请同时更改 <code>Community</code> 行：</p>
+    <p>&emsp;&emsp;如果您不使用“public”作为团体名称，请同时更改 <code>Community</code> 行：
     <pre class="example">Community <i>你的团体名称</i></pre>
     <blockquote><b>提示：</b>如果网络上禁用 SNMP v1 或广播，则 <code>snmp</code> 后端将无法在网络上找到任何打印机。此外，广播通常仅限于本地子网，因此无法使用 SNMP 查找不同网络上的打印机。</blockquote>
 
     <h3>SNMP 疑难问题解答</h3>
-    <p>&emsp;&emsp;<code>snmp</code> 后端有时会暴露供应商实施中的问题。如果您在加载 CUPS Web 界面管理页面时遇到长时间延迟，或者如果您没有看到列出的打印机，以下说明将帮助您诊断这些问题和/或向 CUPS 开发人员提供重要反馈，以便我们在未来版本中纠正问题并改进 <code>snmp</code> 后端。</p>
-    <p>&emsp;&emsp;SNMP 后端支持调试模式，该模式通过从 shell 提示符运行来激活。运行以下命令以获取 <code>snmp</code> 后端的详细日志：</p>
+    <p>&emsp;&emsp;<code>snmp</code> 后端有时会暴露供应商实施中的问题。如果您在加载 CUPS Web 界面管理页面时遇到长时间延迟，或者如果您没有看到列出的打印机，以下说明将帮助您诊断这些问题和/或向 CUPS 开发人员提供重要反馈，以便我们在未来版本中纠正问题并改进 <code>snmp</code> 后端。
+    <p>&emsp;&emsp;SNMP 后端支持调试模式，该模式通过从 shell 提示符运行来激活。运行以下命令以获取 <code>snmp</code> 后端的详细日志：
     <pre class="command">CUPS_DEBUG_LEVEL=2 /usr/lib/cups/backend/snmp @LOCAL 2>&amp;1 | tee snmp.log</pre>
-    <p>&emsp;&emsp;在 macOS 上，您可以在 /usr/libexec/cups/backend 中找到后端：</p>
+    <p>&emsp;&emsp;在 macOS 上，您可以在 /usr/libexec/cups/backend 中找到后端：
     <pre class="command">CUPS_DEBUG_LEVEL=2 /usr/libexec/cups/backend/snmp @LOCAL 2>&amp;1 | tee snmp.log</pre>
-    <p>&emsp;&emsp;输出将如下所示：</p>
+    <p>&emsp;&emsp;输出将如下所示：
     <pre class="example">
  1  INFO: Using default SNMP Address @LOCAL
  2  INFO: Using default SNMP Community public
@@ -277,18 +277,18 @@ lpd://ip-address/queue?format=l&amp;reserve=rfc1179</pre>
 61  DEBUG: 10.0.1.42 supports AppSocket!
 62  DEBUG: 1.002 Scan complete!
 63  network socket://10.0.1.42 "HP LaserJet 4000 Series" "HP LaserJet 4000 Series 10.0.1.42" ""</pre>
-    <p>&emsp;&emsp;前两行只是提供信息，让您知道正在使用默认的团体名称和地址。第 3-15 行包含来自主机 MIB 的设备类型 OID（.1.3.6.1.2.1.25.3.2.1.2.1）的初始 SNMP 查询。</p>
-    <p>&emsp;&emsp;第 16-31 行显示了我们从 HP LaserJet 4000 网络打印机获得的响应。此时，我们发现它是一个打印机设备，然后也从主机 MIB 发送另一个 SNMP 查询（第 32-43 行），查询设备描述 OID（.1.3.6.1.2.1.25.3.2.1.3.1）。</p>
-    <p>&emsp;&emsp;第 44-58 行显示对设备描述查询的响应，该查询告诉我们这是 HP LaserJet 4000 系列打印机。</p>
-    <p>&emsp;&emsp;在第 59 行，我们启动活动连接探测，发现此打印服务器支持端口 9100 上的 AppSocket（JetDirect）协议。</p>
-    <p>&emsp;&emsp;最后，第 63 行显示发送到 CUPS 的打印服务器的设备信息行。</p>
-    <p>&emsp;&emsp;如果您没有看到列出的打印机，或者列出了错误的信息，则需要收集有关打印机的更多信息。最简单的方法是运行 snmpwalk 命令：</p>
-    <pre class="command">snmpwalk -Cc -v 1 -c public IP地址 | tee snmpwalk.log</pre>
-    <p>&emsp;&emsp;其中“IP地址”是打印机或打印服务器的 IP 地址。您应该可以看到<em>大量</em>的值流 － 您希望看到的值有：</p>
+    <p>&emsp;&emsp;前两行只是提供信息，让您知道正在使用默认的团体名称和地址。第 3-15 行包含来自主机 MIB 的设备类型 OID （.1.3.6.1.2.1.25.3.2.1.2.1 ）的初始 SNMP 查询。
+    <p>&emsp;&emsp;第 16-31 行显示了我们从 HP LaserJet 4000 网络打印机获得的响应。此时，我们发现它是一个打印机设备，然后也从主机 MIB 发送另一个 SNMP 查询（第 32-43 行），查询设备描述 OID （.1.3.6.1.2.1.25.3.2.1.3.1 ）。
+    <p>&emsp;&emsp;第 44-58 行显示对设备描述查询的响应，该查询告诉我们这是 HP LaserJet 4000 系列打印机。
+    <p>&emsp;&emsp;在第 59 行，我们启动活动连接探测，发现此打印服务器支持端口 9100 上的 AppSocket （ JetDirect ）协议。
+    <p>&emsp;&emsp;最后，第 63 行显示发送到 CUPS 的打印服务器的设备信息行。
+    <p>&emsp;&emsp;如果您没有看到列出的打印机，或者列出了错误的信息，则需要收集有关打印机的更多信息。最简单的方法是运行 snmpwalk 命令：
+    <pre class="command">snmpwalk -Cc -v 1 -c public IP 地址 | tee snmpwalk.log</pre>
+    <p>&emsp;&emsp;其中“IP 地址”是打印机或打印服务器的 IP 地址。您应该可以看到<em>大量</em>的值流 － 您希望看到的值有：
     <pre class="example">
 HOST-RESOURCES-MIB::hrDeviceType.1 = OID: HOST-RESOURCES-TYPES::hrDevicePrinter
 HOST-RESOURCES-MIB::hrDeviceDescr.1 = STRING: HP LaserJet 4000 Series</pre>
-    <p>&emsp;&emsp;hrDeviceType 行应显示 hrDevicePrinter；如果不是，则您的打印机或打印服务器不会将自身标识为打印机。hrDeviceDescr 行应该为打印机的品牌和型号提供一个友好的字符串，尽管在某些情况下，您会看到一些不太有用的东西，如“Axis OfficeBASIC并行打印服务器”。</p>
-    <p>&emsp;&emsp;收集 snmpwalk 输出后，应转到<a href="https://github.com/apple/cups/issues">CUPS问题跟踪器</a>页面，用于提交功能请求以支持打印机或打印服务器。请务必附加您创建的两个日志文件 － 它们将帮助我们确定需要查找的 SNMP 值。</p>
+    <p>&emsp;&emsp;hrDeviceType 行应显示 hrDevicePrinter ；如果不是，则您的打印机或打印服务器不会将自身标识为打印机。 hrDeviceDescr 行应该为打印机的品牌和型号提供一个友好的字符串，尽管在某些情况下，您会看到一些不太有用的东西，如“Axis OfficeBASIC 并行打印服务器”。
+    <p>&emsp;&emsp;收集 snmpwalk 输出后，应转到<a href="https://github.com/apple/cups/issues">CUPS 问题跟踪器</a>页面，用于提交功能请求以支持打印机或打印服务器。请务必附加您创建的两个日志文件 － 它们将帮助我们确定需要查找的 SNMP 值。
   </body>
 </html>

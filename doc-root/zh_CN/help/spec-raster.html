@@ -8,34 +8,34 @@
   <body>
 
     <h1 class="title">CUPS 光栅格式</h1>
-    <p>&emsp;&emsp;CUPS 光栅文件是设备相关的光栅图像文件，包含 PostScript 页面设备字典和文档中每个页面的设备相关光栅图像。这些文件用于将光栅数据从 PostScript 和图像文件 RIP 传输到设备相关筛选器，这些筛选器将光栅数据转换为可打印格式。</p>
-    <p>&emsp;&emsp;CUPS 1.0 和 1.1 使用了光栅格式的版本 1 。CUPS 1.2 及更高版本使用版本 2（压缩）和版本 3（未压缩），这是版本 1 光栅格式的超集。CUPS 光栅的所有三个版本都是可流化格式，使用 CUPS 成像 API（ cupsRaster* 函数）的应用程序可以读取所有格式，而无需更改代码。</p>
-    <p>&emsp;&emsp;CUPS 光栅文件注册的 MIME 媒体类型为 <code>application/vnd.cups-raster</code> 。</p>
+    <p>&emsp;&emsp;CUPS 光栅文件是设备相关的光栅图像文件，包含 PostScript 页面设备字典和文档中每个页面的设备相关光栅图像。这些文件用于将光栅数据从 PostScript 和图像文件 RIP 传输到设备相关筛选器，这些筛选器将光栅数据转换为可打印格式。
+    <p>&emsp;&emsp;CUPS 1.0 和 1.1 使用了光栅格式的版本 1 。 CUPS 1.2 及更高版本使用版本 2 （压缩）和版本 3 （未压缩），这是版本 1 光栅格式的超集。 CUPS 光栅的所有三个版本都是可流化格式，使用 CUPS 成像 API （ cupsRaster* 函数）的应用程序可以读取所有格式，而无需更改代码。
+    <p>&emsp;&emsp;CUPS 光栅文件注册的 MIME 媒体类型为 <code>application/vnd.cups-raster</code> 。
 
 
     <h2 class="title"><a name="ORGANIZATION">CUPS 光栅文件的组织</a></h2>
-    <p>&emsp;&emsp;<a href="FILEFORMAT">图1，“光栅组织”</a>，显示所有 CUPS 光栅文件的常规组织。每个文件都以一个 32 位同步字开头，后跟零个或多个页面。每个页面由页头（ PostScript 页面设备字典和光栅特定值）和页面的位图图像组成。</p>
+    <p>&emsp;&emsp;<a href="FILEFORMAT">图 1 ，“光栅组织”</a>，显示所有 CUPS 光栅文件的常规组织。每个文件都以一个 32 位同步字开头，后跟零个或多个页面。每个页面由页头（ PostScript 页面设备字典和光栅特定值）和页面的位图图像组成。
     <div class="figure">
       <table summary="Raster Organization">
-        <caption><a name="FILEFORMAT">图1：光栅组织</a></caption>
+        <caption><a name="FILEFORMAT">图 1 ：光栅组织</a></caption>
         <tr><td><img src="../images/raster-organization.png" width="446" height="1056" alt="光栅组织"></td></tr>
       </table>
     </div>
-    <p>&emsp;&emsp;每个页面位图按页头中的 <code>cupsBitsPerColor</code> 、 <code>cupsBytesPerLine</code> 、 <code>cupsColorOrder</code> 、 <code>cupsColorSpace</code> 、 <code>cupsHeight</code> 和 <code>cupsWidth</code> 值存储。纸张正面的像素始终从左到右、从上到下存储。进行双面打印时，根据 PPD 文件中 <code>cupsBackSide</code> 关键字（“Normal” 、 “ManualTumble” 、 “Rotated” 或 “Flipped”）的值以及页头中的 <code>Tumble</code> 值（“true” 或 “false”），纸张背面的像素可能会以不同的方式存储<a href="#PAGEBITMAPS">图2，“页面位图”</a>，显示了每个组合的像素顺序。</p>
+    <p>&emsp;&emsp;每个页面位图按页头中的 <code>cupsBitsPerColor</code> 、 <code>cupsBytesPerLine</code> 、 <code>cupsColorOrder</code> 、 <code>cupsColorSpace</code> 、 <code>cupsHeight</code> 和 <code>cupsWidth</code> 值存储。纸张正面的像素始终从左到右、从上到下存储。进行双面打印时，根据 PPD 文件中 <code>cupsBackSide</code> 关键字（“Normal” 、 “ManualTumble” 、 “Rotated” 或 “Flipped”）的值以及页头中的 <code>Tumble</code> 值（“true” 或 “false”），纸张背面的像素可能会以不同的方式存储<a href="#PAGEBITMAPS">图 2 ，“页面位图”</a>，显示了每个组合的像素顺序。
     <div class="figure">
       <table summary="Page Bitmaps">
-        <caption><a name="PAGEBITMAPS">图2：页面位图</a></caption>
+        <caption><a name="PAGEBITMAPS">图 2 ：页面位图</a></caption>
         <tr><td><img src="../images/raster.png" width="624" height="448" alt="页面位图"></td></tr>
       </table>
     </div>
 
 
     <h2 class="title"><a name="V1">第 1 版光栅文件格式</a></h2>
-    <p>&emsp;&emsp;版本 1 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615374（“RaSt”），对于小端体系结构，为 0x74536152（“tSaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。CUPS 成像 API 光栅函数自动执行此功能。</p>
-    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以页面设备字典标题开始，紧接着是该页面的（未压缩/原始）光栅数据。</p>
+    <p>&emsp;&emsp;版本 1 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615374 （“RaSt”），对于小端体系结构，为 0x74536152 （“tSaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
+    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以页面设备字典标题开始，紧接着是该页面的（未压缩/原始）光栅数据。
     <div class="table">
       <table summary="CUPS Version 1 Raster Page Device Dictionary">
-        <caption><a name="TABLE1">表1：CUPS 第 1 版光栅页面设备字典</a></caption>
+        <caption><a name="TABLE1">表 1 ： CUPS 第 1 版光栅页面设备字典</a></caption>
         <thead>
         <tr>
           <th>比特</th>
@@ -172,7 +172,7 @@
           <td>328-331</td>
           <td>Unsigned Integer</td>
           <td>MediaWeight</td>
-          <td>介质重量（单位：克/平方米），0 = 打印机默认值</td>
+          <td>介质重量（单位：克/平方米）， 0 = 打印机默认值</td>
         </tr>
         <tr>
           <td>332-335</td>
@@ -192,7 +192,7 @@
           <td>340-343</td>
           <td>Unsigned Integer</td>
           <td>NumCopies</td>
-          <td>0 to 2<sup>32</sup> - 1, 0 = 打印机默认值</td>
+          <td>0 to 2<sup>32</sup> - 1 ， 0 = 打印机默认值</td>
         </tr>
         <tr>
           <td>344-347</td>
@@ -370,11 +370,11 @@
 
 
     <h2 class="title"><a name="V2">版本 2 光栅文件格式</a></h2>
-    <p>&emsp;&emsp;版本 2 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615332（“RaS2”），对于小端体系结构，为 0x32536152（“2SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。CUPS 成像 API 光栅函数自动执行此功能。</p>
-    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以版本 2 页面设备字典标题开始，紧接着是该页面的压缩光栅数据。</p>
+    <p>&emsp;&emsp;版本 2 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615332 （“RaS2”），对于小端体系结构，为 0x32536152 （“2SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
+    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以版本 2 页面设备字典标题开始，紧接着是该页面的压缩光栅数据。
     <div class="table">
       <table summary="CUPS Version 2 Raster Page Device Dictionary">
-        <caption><a name="TABLE2">表2：CUPS 第 2 版光栅页面设备字典</a></caption>
+        <caption><a name="TABLE2">表 2 ： CUPS 第 2 版光栅页面设备字典</a></caption>
         <thead>
         <tr>
           <th>比特</th>
@@ -387,7 +387,7 @@
         <tr>
           <td>0-419</td>
           <td>Version 1 header data</td>
-          <td>见表1</td>
+          <td>见表 1</td>
         </tr>
         <tr>
           <td>420-423</td>
@@ -454,10 +454,10 @@
     </div>
 
     <h3><a name="COMPRESSION">压缩光栅数据格式</a></h3>
-    <p>&emsp;&emsp;版本 2 的光栅数据使用类似 PackBits 的算法进行压缩。根据 <code>cupsColorOrder</code> 设置，行被分组为整数个颜色值：</p>
+    <p>&emsp;&emsp;版本 2 的光栅数据使用类似 PackBits 的算法进行压缩。根据 <code>cupsColorOrder</code> 设置，行被分组为整数个颜色值：
     <div class="table">
       <table summary="Color Value Sizes">
-        <caption><a name="TABLE3">表3：颜色值大小</a></caption>
+        <caption><a name="TABLE3">表 3 ：颜色值大小</a></caption>
         <tr>
           <th>CUPS 颜色顺序</th>
           <th>每个颜色值的字节数</th>
@@ -476,9 +476,9 @@
         </tr>
       </table>
     </div>
-    <p>&emsp;&emsp;光栅数据的每一行都以 1 到 256 的重复计数开始，该重复计数使用单个字节 “count - 1” 进行编码。</p>
-    <p>&emsp;&emsp;重复计数后，该行的整个颜色值使用类似 PackBits 的运行长度编码算法进行运行长度编码：1 到 128 个重复颜色使用 “count - 1” 的初始字节和颜色值字节进行编码，而 2 到 128 个非重复颜色使用 “257 - count” 的初始字节进行编码后跟颜色值字节。</p>
-    <p>&emsp;&emsp;例如，<a href="#SAMPLEIMAGE">图3，“示例图像”</a>中显示的 8 x 8 24位 sRGB 图像将被编码为以下 89 个八位字节：</p>
+    <p>&emsp;&emsp;光栅数据的每一行都以 1 到 256 的重复计数开始，该重复计数使用单个字节 “count - 1” 进行编码。
+    <p>&emsp;&emsp;重复计数后，该行的整个颜色值使用类似 PackBits 的运行长度编码算法进行运行长度编码： 1 到 128 个重复颜色使用 “count - 1” 的初始字节和颜色值字节进行编码，而 2 到 128 个非重复颜色使用 “257 - count” 的初始字节进行编码后跟颜色值字节。
+    <p>&emsp;&emsp;例如，<a href="#SAMPLEIMAGE">图 3 ，“示例图像”</a>中显示的 8 x 8 24 位 sRGB 图像将被编码为以下 89 个八位字节：
     <pre class="example">
 %x00 %x00.FF.FF.FF %x02.FF.FF.00 %x03.FF.FF.FF
 %x00 %xFE.FF.FF.00.00.00.FF.FF.FF.00 %x02.FF.FF.FF %x00.00.FF.00 %x00.FF.FF.FF
@@ -487,32 +487,32 @@
 %x00 %x00.FF.FF.FF %x02.FF.FF.00 %x03.FF.FF.FF
 %x00 %x07.FF.FF.FF
 %x01 %x07.FF.00.00</pre>
-    <p>&emsp;&emsp;第一行（%x00）包含 1 个白色像素（%x00.FF.FF.FF）、3 个黄色像素（%x02.FF.FF.00）和 4 个白色像素（%x03.FF.FF.FF）。</p>
-    <p>&emsp;&emsp;第二行（%x00）包含一系列黄色 + 蓝色 + 黄色像素（%xFE.FF.FF.00.00.FF.FF.FF.00）、3 个白色像素（%x02.FF.FF.FF）、1 个绿色像素（%x00.00.FF.00）和 1 个白色像素（%x00.FF.FF.FF）。</p>
-    <p>&emsp;&emsp;第三行（%x00）包含 2 个黄色像素（%x01.FF.FF.00）、3 个白色像素（%x02.FF.FF.FF）和 3 个绿色像素（%x02.00.FF.00）。</p>
-    <p>&emsp;&emsp;第四行（%x00）包含 3 个黄色像素（%x02.FF.FF.00）、3 个白色像素（%x02.FF.FF.FF）、1 个绿色像素（%x00.00.FF.00）和 1 个白色像素（%x00.FF.FF.FF）。</p>
-    <p>&emsp;&emsp;第五行（%x00）包含 1 个白色像素（%x00.FF.FF.FF）、3 个黄色像素（%x02.FF.FF.00）和 4 个白色像素（%x03.FF.FF.FF）。</p>
-    <p>&emsp;&emsp;第六行（%x00）包含 8 个白色像素（%x07.FF.FF.FF）。</p>
-    <p>&emsp;&emsp;第七行和第八行（%x01）包含 8 个红色像素（%x07.FF.00.00）。</p>
+    <p>&emsp;&emsp;第一行（ %x00 ）包含 1 个白色像素（ %x00.FF.FF.FF ）、 3 个黄色像素（ %x02.FF.FF.00 ）和 4 个白色像素（ %x03.FF.FF.FF ）。
+    <p>&emsp;&emsp;第二行（ %x00 ）包含一系列黄色 + 蓝色 + 黄色像素（ %xFE.FF.FF.00.00.FF.FF.FF.00 ）、 3 个白色像素（ %x02.FF.FF.FF ）、 1 个绿色像素（ %x00.00.FF.00 ）和 1 个白色像素（ %x00.FF.FF.FF ）。
+    <p>&emsp;&emsp;第三行（ %x00 ）包含 2 个黄色像素（ %x01.FF.FF.00 ）、 3 个白色像素（ %x02.FF.FF.FF ）和 3 个绿色像素（ %x02.00.FF.00 ）。
+    <p>&emsp;&emsp;第四行（ %x00 ）包含 3 个黄色像素（ %x02.FF.FF.00 ）、 3 个白色像素（ %x02.FF.FF.FF ）、 1 个绿色像素（ %x00.00.FF.00 ）和 1 个白色像素（ %x00.FF.FF.FF ）。
+    <p>&emsp;&emsp;第五行（ %x00 ）包含 1 个白色像素（ %x00.FF.FF.FF ）、 3 个黄色像素（ %x02.FF.FF.00 ）和 4 个白色像素（ %x03.FF.FF.FF ）。
+    <p>&emsp;&emsp;第六行（ %x00 ）包含 8 个白色像素（ %x07.FF.FF.FF ）。
+    <p>&emsp;&emsp;第七行和第八行（ %x01 ）包含 8 个红色像素（ %x07.FF.00.00 ）。
     <div class="figure">
       <table summary="Sample Image">
-        <caption><a name="SAMPLEIMAGE">图3：示例图像</a></caption>
+        <caption><a name="SAMPLEIMAGE">图 3 ：示例图像</a></caption>
         <tr><td><img src="../images/sample-image.png" width="257" height="257" alt="示例图像"></td></tr>
       </table>
     </div>
 
 
     <h2 class="title"><a name="V3">版本 3 光栅文件格式</a></h2>
-    <p>&emsp;&emsp;版本 3 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615333（“RaS3”），对于小端体系结构，为 0x33536152（“3SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。CUPS 成像 API 光栅函数自动执行此功能。</p>
-    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面以版本2页面设备字典标题开始，紧接着是该页面的未压缩/原始光栅数据。</p>
+    <p>&emsp;&emsp;版本 3 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615333 （“RaS3”），对于小端体系结构，为 0x33536152 （“3SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
+    <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面以版本 2 页面设备字典标题开始，紧接着是该页面的未压缩/原始光栅数据。
 
     <h2 class="title"><a name="ENCODING">像素值编码</a></h2>
-    <p>&emsp;&emsp;以下各节介绍 CUPS 光栅文件中颜色值的编码和解码。通常，颜色被压缩到最小字节数中，并特别考虑编码和访问的效率。多字节值以本机字节顺序存储，并在使用 CUPS 成像 API 读取它们时根据需要自动交换。</p>
+    <p>&emsp;&emsp;以下各节介绍 CUPS 光栅文件中颜色值的编码和解码。通常，颜色被压缩到最小字节数中，并特别考虑编码和访问的效率。多字节值以本机字节顺序存储，并在使用 CUPS 成像 API 读取它们时根据需要自动交换。
     <h3>CUPS_ORDER_CHUNKED</h3>
-    <p>&emsp;&emsp;分块顺序提供压缩在单个位置的像素值。每种颜色具有 8 位或更多位的像素值按顺序存储为颜色数组，例如，对于 <code>CUPS_CSPACE_RGB</code> 您将看到 8/16 位的红色、蓝色、绿色、红色、绿色、蓝色等。每种颜色小于 8 位的像素值被打包在一起，如表 4 所示。<i> 多字节像素值以本机字顺序存储，就像 16 位颜色值一样。</i></p>
+    <p>&emsp;&emsp;分块顺序提供压缩在单个位置的像素值。每种颜色具有 8 位或更多位的像素值按顺序存储为颜色数组，例如，对于 <code>CUPS_CSPACE_RGB</code> 您将看到 8/16 位的红色、蓝色、绿色、红色、绿色、蓝色等。每种颜色小于 8 位的像素值被打包在一起，如表 4 所示。<i> 多字节像素值以本机字顺序存储，就像 16 位颜色值一样。</i>
     <div class="table">
       <table summary="Chunked Color Values">
-        <caption><a name="TABLE4">表4：分块颜色值</a></caption>
+        <caption><a name="TABLE4">表 4 ：分块颜色值</a></caption>
         <thead>
         <tr>
           <th>位</th>
@@ -551,17 +551,17 @@
     </div>
 
     <h3>CUPS_ORDER_BANDED</h3>
-    <p>&emsp;&emsp;带状顺序将每种颜色作为单独的数据行提供。一条线的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code> 颜色空间，您将看到一条线的所有青色像素，然后是该线的洋红、黄色和黑色像素。对页面上的所有行重复此操作。颜色值从最高有效位（MSB）开始打包。</p>
+    <p>&emsp;&emsp;带状顺序将每种颜色作为单独的数据行提供。一条线的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code> 颜色空间，您将看到一条线的所有青色像素，然后是该线的洋红、黄色和黑色像素。对页面上的所有行重复此操作。颜色值从最高有效位（ MSB ）开始打包。
     <h3>CUPS_ORDER_PLANAR</h3>
-    <p>&emsp;&emsp;平面顺序使用共享页头将每种颜色作为单独的数据页提供。页面的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code>颜色空间，您将看到页面的所有青色像素，然后是该页面的洋红、黄色和黑色像素。颜色值从最高有效位（MSB）开始打包。每行从 8 位边界开始。</p>
+    <p>&emsp;&emsp;平面顺序使用共享页头将每种颜色作为单独的数据页提供。页面的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code>颜色空间，您将看到页面的所有青色像素，然后是该页面的洋红、黄色和黑色像素。颜色值从最高有效位（ MSB ）开始打包。每行从 8 位边界开始。
     <h3>CUPS_CSPACE_RGBW</h3>
-    <p>&emsp;&emsp;此颜色空间提供专用的黑色文本通道，并为 RGB 颜色通道使用 sRGB 颜色空间定义和白点。对于文本（或“true”）黑色，白色通道为 0 ，否则它必须包含最大颜色值：1 表示 1 位，3 表示 2 位，15 表示 4 位，255 表示 8 位，或 65535 表示 16 位。</p>
+    <p>&emsp;&emsp;此颜色空间提供专用的黑色文本通道，并为 RGB 颜色通道使用 sRGB 颜色空间定义和白点。对于文本（或“true”）黑色，白色通道为 0 ，否则它必须包含最大颜色值： 1 表示 1 位， 3 表示 2 位， 15 表示 4 位， 255 表示 8 位，或 65535 表示 16 位。
     <h3>CUPS_CSPACE_KCMYcm</h3>
-    <p>&emsp;&emsp;当 <code>cupsBitsPerColor</code> 为 1 时，将提供 6 个颜色平面 － 黑色、青色、品红、黄色、浅青色和浅品红。当 <code>cupsBitsPerColor</code> 大于 1 时，将使用 <code>CUPS_CSPACE_KCMY</code> 颜色空间提供 4 个颜色平面。</p>
-    <p>&emsp;&emsp;当 <code>cupsColorOrder</code> 是 <code>CUPS_ORDER_CHUNKED</code> 时，位 5 对应于黑色，位 0 对应于浅品红。对于 <code>CUPS_ORDER_BANDED</code> 和 <code>CUPS_ORDER_PLANAR</code> ，每个颜色平面都单独编码。</p>
+    <p>&emsp;&emsp;当 <code>cupsBitsPerColor</code> 为 1 时，将提供 6 个颜色平面 － 黑色、青色、品红、黄色、浅青色和浅品红。当 <code>cupsBitsPerColor</code> 大于 1 时，将使用 <code>CUPS_CSPACE_KCMY</code> 颜色空间提供 4 个颜色平面。
+    <p>&emsp;&emsp;当 <code>cupsColorOrder</code> 是 <code>CUPS_ORDER_CHUNKED</code> 时，位 5 对应于黑色，位 0 对应于浅品红。对于 <code>CUPS_ORDER_BANDED</code> 和 <code>CUPS_ORDER_PLANAR</code> ，每个颜色平面都单独编码。
     <h3>CUPS_CSPACE_CIELab 和 CUPS_CSPACE_ICCn</h3>
-    <p>&emsp;&emsp;这些颜色空间将带有 D65 白点的 CIE Lab 颜色值映射为每种颜色分块（<code>CUPS_ORDER_CHUNKED</code>）格式的 8 位或 16 位；不支持带状（<code>CUPS_ORDER_BANDED</code>）和平面（<code>CUPS_ORDER_PLANAR</code>）颜色顺序。</p>
-    <p>&emsp;&emsp;使用以下公式对值进行编码和解码：</p>
+    <p>&emsp;&emsp;这些颜色空间将带有 D65 白点的 CIE Lab 颜色值映射为每种颜色分块（<code>CUPS_ORDER_CHUNKED</code>）格式的 8 位或 16 位；不支持带状（<code>CUPS_ORDER_BANDED</code>）和平面（<code>CUPS_ORDER_PLANAR</code>）颜色顺序。
+    <p>&emsp;&emsp;使用以下公式对值进行编码和解码：
     <ul>
       <li>8-bit 编码：<br>
           <i>L8 = 2.55 * L + 0.5<br>
@@ -589,8 +589,8 @@
     </ul>
 
     <h3>CUPS_CSPACE_CIEXYZ</h3>
-    <p>&emsp;&emsp;这些颜色空间将带有 D65 白点的 CIE XYZ 颜色值映射为每种颜色块 8 位或 16 位（<code>CUPS_ORDER_CHUNKED</code>）格式；不支持带状（<code>CUPS_ORDER_BANDED</code>）和平面（<code>CUPS_ORDER_PLANAR</code>）颜色顺序。</p>
-    <p>&emsp;&emsp;使用以下公式对值进行编码和解码：</p>
+    <p>&emsp;&emsp;这些颜色空间将带有 D65 白点的 CIE XYZ 颜色值映射为每种颜色块 8 位或 16 位（<code>CUPS_ORDER_CHUNKED</code>）格式；不支持带状（<code>CUPS_ORDER_BANDED</code>）和平面（<code>CUPS_ORDER_PLANAR</code>）颜色顺序。
+    <p>&emsp;&emsp;使用以下公式对值进行编码和解码：
     <ul>
       <li>8-bit 编码：<br>
           <i>X8 = 231.8181 * X + 0.5<br>
@@ -616,7 +616,7 @@
           Z = Z16 / 59577.2727<br>
           &nbsp;</i></li>
     </ul>
-    <p>&emsp;&emsp;XYZ 值的比例因子为 1/1.1 ，8 位值为 231.8181 ，16 位值为 59577.2727 。这允许在从 RGB 转换时 XYZ 值稍微溢出，从而提高精度。</p>
+    <p>&emsp;&emsp;XYZ 值的比例因子为 1/1.1 ， 8 位值为 231.8181 ， 16 位值为 59577.2727 。这允许在从 RGB 转换时 XYZ 值稍微溢出，从而提高精度。
 
 
     <h2 class="title"><a name="HISTORY">改变历史</a></h2>
@@ -628,7 +628,7 @@
 
     <h3>CUPS 1.2.2 的变化</h3>
     <ul>
-      <li>添加了版本 3（未压缩）格式。</li>
+      <li>添加了版本 3 （未压缩）格式。</li>
     </ul>
 
     <h3>CUPS 1.2.1 的变化</h3>

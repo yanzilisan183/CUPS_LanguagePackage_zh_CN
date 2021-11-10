@@ -16,13 +16,13 @@
 
     <h2 class="title"><a name="DESCRIPTION">说明</a></h2>
     <p>&emsp;&emsp;CUPS 通知程序接口提供了一种标准方法，用于向 CUPS 添加对新事件通知方法的支持。每个通知程序将一个或多个 IPP 事件从标准输入传递给指定的收件人。
-    <p>&emsp;&emsp;通知程序<b>必须</b>使用 <b>ippNew</b>() 和<b>ippReadFile</b>() 功能从标准输入读取 IPP 消息，并在出现错误时退出。建议通知程序在适当的非活动期后退出，但它们可能在读取第一条消息后退出，或者在看到错误之前保留运行。通知程序继承环境，并可以使用 <b>filter</b>(7) 中记录的日志机制。
+    <p>&emsp;&emsp;通知程序<b>必须</b>使用 <b>ippNew</b>() 和<b>ippReadFile</b>() 函数从标准输入读取 IPP 消息，并在出现错误时退出。建议通知程序在适当的非活动期后退出，但它们可能在读取第一条消息后退出，或者在看到错误之前保留运行。通知程序继承环境，并可以使用 <b>filter</b>(7) 中记录的日志机制。
 
     <h2 class="title"><a name="SEE_ALSO">另见</a></h2>
     <p>&emsp;&emsp;<b>cupsd</b>(8) 、 <b>filter</b>(7)
     <p>&emsp;&emsp;CUPS 在线帮助（<a href="http://localhost:631/help">http://localhost:631/help</a>）
 
     <h2 class="title"><a name="COPYRIGHT">版权</a></h2>
-    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.</p>
+    <p>&emsp;&emsp;Copyright &copy; 2007-2019 by Apple Inc.
   </body>
 </html>

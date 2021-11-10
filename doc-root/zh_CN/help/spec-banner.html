@@ -17,7 +17,7 @@
     <h1 CLASS="title">CUPS Banner 文件格式</h1>
 
     <h2 class='title'><a name='INTRODUCTION'>介绍</a></h2>
-    <p>&emsp;&emsp;本规范描述了用于生成打印任务封面页和 CUPS 测试页的 CUPS 标题文件格式（application/vnd.CUPS banner）。格式本身由标题和 UTF-8 文本行组成，其中包含注释或关键字和值：</p>
+    <p>&emsp;&emsp;本规范描述了用于生成打印任务封面页和 CUPS 测试页的 CUPS 标题文件格式（ application/vnd.CUPS banner ）。格式本身由标题和 UTF-8 文本行组成，其中包含注释或关键字和值：
     <pre class='command'>
 #CUPS-BANNER
 
@@ -42,28 +42,28 @@ Image /usr/share/doc/cups/images/smiley.jpg
 
     <h2 class='title'><a name='KEYWORDS'>标准关键字</a></h2>
     <h3><a name='Footer'>Footer</a></h3>
-    <p class='summary'>页脚处的“页脚文本”</p>
-    <p>&emsp;&emsp;<code>Footer</code> 键定义位于页面底部的文本。只能指定一个 <code>Footer</code> 键。</p>
+    <p class='summary'>页脚处的“页脚文本”
+    <p>&emsp;&emsp;<code>Footer</code> 键定义位于页面底部的文本。只能指定一个 <code>Footer</code> 键。
     <h3><a name='Header'>Header</a></h3>
-    <p class='summary'>页眉处的“页眉文本”</p>
-    <p>&emsp;&emsp;<code>Header</code> 键定义位于页面顶部的文本。只能指定一个 <code>Header</code> 键。</p>
+    <p class='summary'>页眉处的“页眉文本”
+    <p>&emsp;&emsp;<code>Header</code> 键定义位于页面顶部的文本。只能指定一个 <code>Header</code> 键。
     <h3><a name='Image'>Image</a></h3>
-    <p class='summary'>Image /path/to/image/filename<br>Image relative/path/in/DocumentRoot/filename</p>
-    <p>&emsp;&emsp;<code>Image</code> 键定义页脚文本上方居中的图像。多个图像作为一组从左到右居中。图像根据需要进行缩放，以适合标称尺寸为 1"/25cm 的页面。</p>
+    <p class='summary'>Image /path/to/image/filename<br>Image relative/path/in/DocumentRoot/filename
+    <p>&emsp;&emsp;<code>Image</code> 键定义页脚文本上方居中的图像。多个图像作为一组从左到右居中。图像根据需要进行缩放，以适合标称尺寸为 1"/25cm 的页面。
     <h3><a name='Notice'>Notice</a></h3>
-    <p class='summary'>Notice 任务信息下方显示的文本。<br>Notice 要在任务信息下方显示的更多文本。</p>
-    <p>&emsp;&emsp;<code>Notice</code> 键定义任务信息下方居中的文本行。</p>
+    <p class='summary'>Notice 任务信息下方显示的文本。<br>Notice 要在任务信息下方显示的更多文本。
+    <p>&emsp;&emsp;<code>Notice</code> 键定义任务信息下方居中的文本行。
     <h3><a name='Show'>Show</a></h3>
-    <p class='summary'>Show <em>value value ... value</em></p>
-    <p>&emsp;&emsp;<code>Show</code> 键列出显示的任务信息。支持以下值：</p>
+    <p class='summary'>Show <em>value value ... value</em>
+    <p>&emsp;&emsp;<code>Show</code> 键列出显示的任务信息。支持以下值：
     <ul>
       <li><code>imageable-area</code>: 当前页面大小的可成像区域</li>
       <li><code>job-billing</code>: 任务的帐单信息</li>
-      <li><code>job-id</code>: 任务ID</li>
+      <li><code>job-id</code>: 任务 ID</li>
       <li><code>job-name</code>: 任务名称</li>
       <li><code>job-originating-host-name</code>: 打印任务的计算机</li>
       <li><code>job-originating-user-name</code>: 打印任务的用户</li>
-      <li><code>job-uuid</code>: 任务的UUID</li>
+      <li><code>job-uuid</code>: 任务的 UUID</li>
       <li><code>options</code>: 任务提供的选项</li>
       <li><code>paper-name</code>: 使用的纸张大小的名称</li>
       <li><code>paper-size</code>: 使用的纸张尺寸</li>

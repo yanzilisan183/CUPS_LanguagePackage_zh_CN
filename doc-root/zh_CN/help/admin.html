@@ -7,19 +7,19 @@
   </head>
   <body>
     <h1 class="title">使用命令行管理打印机</h1>
-    <p>&emsp;&emsp;本帮助文档介绍如何使用 CUPS 配置和管理目标。</p>
+    <p>&emsp;&emsp;本帮助文档介绍如何使用 CUPS 配置和管理目标。
 
 
     <h2 class="title" id="INTRO">介绍</h2>
-    <p>&emsp;&emsp;目标是单个打印机和打印机类（池）。<a href="#PRINTERS">打印机</a>将描述文件与一个或多个通过“后端”程序与打印机通信的驱动程序（“筛选器”）程序一起使用。CUPS 目前使用 PPD（PostScript打印机描述）文件来描述所需的打印机和驱动程序，其中一些随 CUPS 提供，而另一些随操作系统或 Linux 发行版提供。后端使用 URI（通用资源标识符）指定，其中 URI 方案是后端名称，例如“ipp://11.22.33.44/ipp/print”指定类似于“ipp”后端的 PPD 文件，一些后端随 CUPS 提供，而其他后端随操作系统提供。</p>
-    <p>&emsp;&emsp;<a href="#CLASSES">类</a>与一个或多个打印机关联，通常用于在一组打印机之间分配打印任务，或在打印时提供冗余或高可用性。发送到类的打印任务将转发到类中下一个可用的打印机。</p>
-    <p>&emsp;&emsp;<a href="man-lpadmin.html"><code>lpadmin(8)</code></a> 程序用于添加、修改或删除目标，而 <a href="man-lpinfo.html"><code>lpinfo(8)</code></a> 命令用于列出可用的打印机驱动程序和后端。<a href="man-cupsctl.html"><code>cupsctl(8)</code></a> 程序用于管理整个打印系统，包括<a href="#DEBUG">调试日志</a>和<a href="#SHARING">打印机共享</a>等。CUPS Web 界面（“http://localhost:631”或“https://servername:631”）也可以使用，大多数操作系统都提供自己的 GUI 管理工具。</p>
+    <p>&emsp;&emsp;目标是单个打印机和打印机类（池）。<a href="#PRINTERS">打印机</a>将描述文件与一个或多个通过“后端”程序与打印机通信的驱动程序（“筛选器”）程序一起使用。 CUPS 目前使用 PPD （ PostScript 打印机描述）文件来描述所需的打印机和驱动程序，其中一些随 CUPS 提供，而另一些随操作系统或 Linux 发行版提供。后端使用 URI （通用资源标识符）指定，其中 URI 方案是后端名称，例如“ipp://11.22.33.44/ipp/print”指定类似于“ipp”后端的 PPD 文件，一些后端随 CUPS 提供，而其他后端随操作系统提供。
+    <p>&emsp;&emsp;<a href="#CLASSES">类</a>与一个或多个打印机关联，通常用于在一组打印机之间分配打印任务，或在打印时提供冗余或高可用性。发送到类的打印任务将转发到类中下一个可用的打印机。
+    <p>&emsp;&emsp;<a href="man-lpadmin.html"><code>lpadmin(8)</code></a> 程序用于添加、修改或删除目标，而 <a href="man-lpinfo.html"><code>lpinfo(8)</code></a> 命令用于列出可用的打印机驱动程序和后端。<a href="man-cupsctl.html"><code>cupsctl(8)</code></a> 程序用于管理整个打印系统，包括<a href="#DEBUG">调试日志</a>和<a href="#SHARING">打印机共享</a>等。 CUPS Web 界面（“http://localhost:631”或“https://servername:631”）也可以使用，大多数操作系统都提供自己的 GUI 管理工具。
 
 
     <h2 class="title" id="PRINTERS">管理打印机</h2>
-    <p>&emsp;&emsp;<code>lpadmin</code> 命令用于创建、修改或删除打印机。<code>-p</code> 选项指定要创建或修改的打印机：</p>
+    <p>&emsp;&emsp;<code>lpadmin</code> 命令用于创建、修改或删除打印机。<code>-p</code> 选项指定要创建或修改的打印机：
     <pre class="command">lpadmin -p 打印机名称 ...</pre>
-    <p>&emsp;&emsp;添加或修改打印机时，<code>lpadmin</code> 在 <code>-p 打印机名称</code> 之后接受多个附加选项：</p>
+    <p>&emsp;&emsp;添加或修改打印机时，<code>lpadmin</code> 在 <code>-p 打印机名称</code> 之后接受多个附加选项：
     <dl>
       <dt><code>-D "描述"</code></dt>
       <dd>设置常见的打印机说明（品牌型号等），而不是打印机名称，例如“HP LaserJet”。</dd>
@@ -32,16 +32,16 @@
       <dd>使用<a href="#MODELS">型号</a>设置打印机驱动程序。</dd>
       <dt><code>-o option=value</code></dt>
       <dd>设置<a href="#OPTIONS">命名选项</a>。</dd>
-      <dt><code>-v 设备URI</code></dt>
-      <dd>设置<a href="#DEVICES">打印机的URI</a>。</dd>
+      <dt><code>-v device-uri</code></dt>
+      <dd>设置<a href="#DEVICES">打印机的 URI </a>。</dd>
     </dl>
-    <p>&emsp;&emsp;<code>-x</code> 选项删除指定的打印机：</p>
+    <p>&emsp;&emsp;<code>-x</code> 选项删除指定的打印机：
     <pre class="command">lpadmin -x 打印机名称</pre>
 
-    <h3 id="MODELS">打印机驱动程序和PPD</h3>
-    <p>&emsp;&emsp;<code>lpadmin</code> 的 <code>-m</code> 选项指定打印机使用的驱动程序（“型号”）。您可以运行 <code>lpinfo -m</code> 命令列出系统上所有可用的驱动程序（“型号”）：</p>
+    <h3 id="MODELS">打印机驱动程序和 PPD </h3>
+    <p>&emsp;&emsp;<code>lpadmin</code> 的 <code>-m</code> 选项指定打印机使用的驱动程序（“型号”）。您可以运行 <code>lpinfo -m</code> 命令列出系统上所有可用的驱动程序（“型号”）：
     <pre class="command">lpinfo -m</pre>
-    <p>&emsp;&emsp;每行包含驱动程序名称及其描述，例如： </p>
+    <p>&emsp;&emsp;每行包含驱动程序名称及其描述，例如： 
     <pre class="example">
 drv:///sample.drv/dymo.ppd Dymo Label Printer
 drv:///sample.drv/epson9.ppd Epson 9-Pin Series
@@ -57,26 +57,26 @@ drv:///sample.drv/zebracpl.ppd Zebra CPCL Label Printer
 drv:///sample.drv/zebraep1.ppd Zebra EPL1 Label Printer
 drv:///sample.drv/zebraep2.ppd Zebra EPL2 Label Printer
 drv:///sample.drv/zebra.ppd Zebra ZPL Label Printer
-everywhere IPP到处都是</pre>
-    <p>&emsp;&emsp;自2009年左右开始销售的几乎所有现代网络打印机都使用了 <code>everywhere</code> 驱动程序。例如，以下命令为 IP 地址为 11.22.33.44 的打印机创建目标：</p>
+everywhere IPP 到处都是</pre>
+    <p>&emsp;&emsp;自 2009 年左右开始销售的几乎所有现代网络打印机都使用了 <code>everywhere</code> 驱动程序。例如，以下命令为 IP 地址为 11.22.33.44 的打印机创建目标：
     <pre class="command">lpadmin -p 打印机名称 -E -v ipp://11.22.33.44/ipp/print -m everywhere</pre>
-    <p>&emsp;&emsp;CUPS 示例驱动程序（上行中的“drv:///sample.drv/...”）可用于“传统”打印机。例如，以下命令在 IP 地址 11.22.33.44 处为 HP LaserJet 打印机创建目标：</p>
+    <p>&emsp;&emsp;CUPS 示例驱动程序（上行中的“drv:///sample.drv/...”）可用于“传统”打印机。例如，以下命令在 IP 地址 11.22.33.44 处为 HP LaserJet 打印机创建目标：
     <pre class="command">lpadmin -p 打印机名称 -E -v socket://11.22.33.44 -m drv:///sample.drv/laserjet.ppd</pre>
-    <blockquote>注意：CUPS 示例驱动程序旨在为尽可能广泛的打印机提供基本打印功能，但通常不会充分发挥打印机或 CUPS 的潜力。其他驱动程序（包括 <code>everywhere</code> 驱动程序）提供了更大的打印能力和更好的打印质量。</blockquote>
+    <blockquote>注意： CUPS 示例驱动程序旨在为尽可能广泛的打印机提供基本打印功能，但通常不会充分发挥打印机或 CUPS 的潜力。其他驱动程序（包括 <code>everywhere</code> 驱动程序）提供了更大的打印能力和更好的打印质量。</blockquote>
 
-    <h3 id="DEVICES">设备URI（后端）</h3>
-    <p>&emsp;&emsp;CUPS 附带多个与打印机通信的标准后端：</p>
+    <h3 id="DEVICES">设备 URI （后端）</h3>
+    <p>&emsp;&emsp;CUPS 附带多个与打印机通信的标准后端：
     <ol>
-      <li><code>dnssd</code>: Bonjour（DNS-SD）协议。</li>
-      <li><code>ipp</code>: 带有可选加密的Internet打印协议（IPP）。</li>
-      <li><code>ipps</code>: 具有强制加密的Internet打印协议。 </li>
+      <li><code>dnssd</code>: Bonjour （ DNS-SD ）协议。</li>
+      <li><code>ipp</code>: 带有可选加密的 Internet 打印协议（ IPP ）。</li>
+      <li><code>ipps</code>: 具有强制加密的 Internet 打印协议。 </li>
       <li><code>lpd</code>: 行式打印机守护程序协议。</li>
-      <li><code>socket</code>: AppSocket（JetDirect）协议。</li>
-      <li><code>usb</code>: 通用串行总线（USB）打印机类。</li>
+      <li><code>socket</code>: AppSocket （ JetDirect ）协议。</li>
+      <li><code>usb</code>: 通用串行总线（ USB ）打印机类。</li>
     </ol>
-    <p>&emsp;&emsp;运行 <code>lpinfo -v</code> 命令列出可用的后端和打印机：</p>
+    <p>&emsp;&emsp;运行 <code>lpinfo -v</code> 命令列出可用的后端和打印机：
     <pre class="command">lpinfo -v</pre>
-    <p>&emsp;&emsp;每行包含后端“类”，后跟后端名称或完整的打印机设备URI，例如：</p>
+    <p>&emsp;&emsp;每行包含后端“类”，后跟后端名称或完整的打印机设备 URI ，例如：
     <pre class="example">
 network lpd
 network ipps
@@ -88,19 +88,19 @@ network dnssd://Example%20EX-42._ipps._tcp.local./?uuid=4a0c67ad-2824-4ddf-9115-
 network dnssd://Foo%20Fighter-1969._pdl-datastream._tcp.local./?uuid=4e216bea-c3de-4f65-a710-c99e11c80d2b
 direct usb://ZP/LazerJet%20MFP?serial=42
     </pre>
-    <p>&emsp;&emsp;<code>network</code> 后端类用于所有网络协议。<a href="network.html">使用网络打印机</a>的帮助文档介绍了如何使用标准 CUPS 网络后端。<code>direct</code> 后端类用于直接连接的打印机，如 USB 和蓝牙。因为这些后端使用特定于系统的标识符，所以您应该只使用报告的设备 URI。</p>
-    <p>&emsp;&emsp;知道打印机的正确 URI 后，使用 <code>lpadmin</code> 命令的 <code>-v</code> 选项进行设置：</p>
-    <pre class="command">lpadmin -p 打印机名称 -v 设备URI</pre>
+    <p>&emsp;&emsp;<code>network</code> 后端类用于所有网络协议。<a href="network.html">使用网络打印机</a>的帮助文档介绍了如何使用标准 CUPS 网络后端。<code>direct</code> 后端类用于直接连接的打印机，如 USB 和蓝牙。因为这些后端使用特定于系统的标识符，所以您应该只使用报告的设备 URI 。
+    <p>&emsp;&emsp;知道打印机的正确 URI 后，使用 <code>lpadmin</code> 命令的 <code>-v</code> 选项进行设置：
+    <pre class="command">lpadmin -p 打印机名称 -v device-uri</pre>
 
     <h3 id="OPTIONS">打印机选项</h3>
-    <p>&emsp;&emsp;<code>lpadmin</code> 命令允许您为打印机设置各种选项：</p>
+    <p>&emsp;&emsp;<code>lpadmin</code> 命令允许您为打印机设置各种选项：
     <dl>
       <dt><code>-o cupsIPPSupplies=false</code></dt>
       <dd>关闭打印机的 IPP 供应级别报告。</dd>
       <dt><code>-o cupsSNMPSupplies=false</code></dt>
       <dd>关闭打印机的 SNMP 供应级别报告。</dd>
       <dt><code>-o name=value</code></dt>
-      <dd>设置命名 PPD 选项的默认值。例如，<code>-o PageSize=Legal</code> 将默认页面大小设置为 US Legal。</dd>
+      <dd>设置命名 PPD 选项的默认值。例如，<code>-o PageSize=Legal</code> 将默认页面大小设置为 US Legal 。</dd>
       <dt><code>-o printer-error-policy=name</code></dt>
       <dd>设置错误策略，例如无法找到或访问打印机、不支持正在打印的格式、提交打印数据时失败或导致一个或多个筛选器崩溃：
         <dl>
@@ -127,15 +127,15 @@ direct usb://ZP/LazerJet%20MFP?serial=42
 
 
     <h2 class="title" id="SHARING">打印机共享</h2>
-    <p>&emsp;&emsp;CUPS 支持与其他计算机和移动设备共享打印机。两个 <code>cupsctl</code> 选项控制常规打印机共享功能：</p>
+    <p>&emsp;&emsp;CUPS 支持与其他计算机和移动设备共享打印机。两个 <code>cupsctl</code> 选项控制常规打印机共享功能：
     <dl>
       <dt><code>--share-printers</code></dt>
       <dd>允许与本地网络上的其他计算机和移动设备共享打印机。</dd>
       <dt><code>--remote-any</code></dt>
       <dd>将打印机共享扩展到可以连接到服务器的任何网络。</dd>
     </dl>
-    <p>&emsp;&emsp;启用打印机共享后，必须使用 <code>lpadmin</code> 命令和 <code>-o printer-is-shared=true</code> 选项选择要共享的打印机。</p>
-    <p>&emsp;&emsp;例如，要在本地网络上共享两台打印机（“foo”和“bar”），请运行以下命令：</p>
+    <p>&emsp;&emsp;启用打印机共享后，必须使用 <code>lpadmin</code> 命令和 <code>-o printer-is-shared=true</code> 选项选择要共享的打印机。
+    <p>&emsp;&emsp;例如，要在本地网络上共享两台打印机（“foo”和“bar”），请运行以下命令：
     <pre class="command">
 cupsctl --share-printers
 lpadmin -p foo -o printer-is-shared=true
@@ -144,18 +144,18 @@ lpadmin -p bar -o printer-is-shared=true
 
 
     <h2 class="title" id="CLASSES">管理类</h2>
-    <p>&emsp;&emsp;<code>lpadmin</code> 命令用于创建、修改或删除类。<code>-c</code> 选项指定要创建或修改的类，并与 <code>-p</code> 选项组合使用：</p>
+    <p>&emsp;&emsp;<code>lpadmin</code> 命令用于创建、修改或删除类。<code>-c</code> 选项指定要创建或修改的类，并与 <code>-p</code> 选项组合使用：
     <pre class="command">lpadmin -p 打印机名称 -c 类名</pre>
-    <p>&emsp;&emsp;<code>-r</code> 选项指定从类中删除指定的打印机：</p>
+    <p>&emsp;&emsp;<code>-r</code> 选项指定从类中删除指定的打印机：
     <pre class="command">lpadmin -p 打印机名称 -r 类名</pre>
-    <p>&emsp;&emsp;<code>-x</code> 选项删除命名类：</p>
+    <p>&emsp;&emsp;<code>-x</code> 选项删除命名类：
     <pre class="command">lpadmin -x 类名</pre>
 
 
     <h2 class="title" id="DEBUG">调试日志记录和故障排除</h2>
-    <p>&emsp;&emsp;<a href="man-cupsd-logs.html">打印系统日志文件</a>可以跟踪调度程序、打印机驱动程序和后端的活动。如果出现问题，并且日志文件没有提供足够的详细信息来诊断问题，则可以使用 <code>cupsctl</code> 命令启用调试日志记录：</p>
+    <p>&emsp;&emsp;<a href="man-cupsd-logs.html">打印系统日志文件</a>可以跟踪调度程序、打印机驱动程序和后端的活动。如果出现问题，并且日志文件没有提供足够的详细信息来诊断问题，则可以使用 <code>cupsctl</code> 命令启用调试日志记录：
     <pre class="command">cupsctl --debug-logging</pre>
-    <p>&emsp;&emsp;要禁用调试日志记录，请使用 <code>--no debug logging</code> 选项运行相同的命令：</p>
+    <p>&emsp;&emsp;要禁用调试日志记录，请使用 <code>--no debug logging</code> 选项运行相同的命令：
     <pre class="command">cupsctl --no-debug-logging</pre>
   </body>
 </html>

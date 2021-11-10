@@ -484,7 +484,7 @@ h3.title { border-bottom: solid 2px black; }
 
 
       <h2><a id="introduction">介绍</a></h2>
-      <p>&emsp;&emsp;CUPS提供 “cups” 库与 CUPS 的不同部分和互联网打印协议( IPP )打印机进行对话。“cups” 库通过包含 <code>&lt;cups/cups.h&gt;</code> 头文件来访问库函数。
+      <p>&emsp;&emsp;CUPS 提供 “cups” 库与 CUPS 的不同部分和互联网打印协议( IPP )打印机进行对话。“cups” 库通过包含 <code>&lt;cups/cups.h&gt;</code> 头文件来访问库函数。
       <p>&emsp;&emsp;CUPS 基于 Internet 打印协议（ “IPP” ），该协议允许客户端（应用程序）与服务器（调度程序、打印机等）通信，以获取目标列表、发送打印任务等。您可以使用指向不透明结构 <code>http_t</code> 的指针来确定要与哪个服务器通信。当您想与 CUPS 调度程序对话时，可以使用 <code>CUPS_HTTP_DEFAULT</code> 常量。
 
       <h3><a id="guidelines">指南</a></h3>
@@ -556,7 +556,7 @@ int cupsEnumDests(unsigned flags, int msec, int *cancel,
       <ul>
         <li><code>CUPS_PRINTER_CLASS</code>: 目标的集合。</li>
         <li><code>CUPS_PRINTER_FAX</code>: 传真机。</li>
-        <li><code>CUPS_PRINTER_LOCAL</code>: 本地打印机或类。此常量的值为 0（未设置位），仅用于 <code>type</code> 参数，并与 <code>CUPS_PRINTER_REMOTE</code> 或 <code>CUPS_PRINTER_DISCOVERED</code> 常量通过 <code>mask</code> 参数传递。
+        <li><code>CUPS_PRINTER_LOCAL</code>: 本地打印机或类。此常量的值为 0 （未设置位），仅用于 <code>type</code> 参数，并与 <code>CUPS_PRINTER_REMOTE</code> 或 <code>CUPS_PRINTER_DISCOVERED</code> 常量通过 <code>mask</code> 参数传递。
         <li><code>CUPS_PRINTER_REMOTE</code>: 远程（共享）打印机或类。</li>
         <li><code>CUPS_PRINTER_DISCOVERED</code>: 可用的网络打印机或类。</li>
         <li><code>CUPS_PRINTER_BW</code>: 可以 B&amp;W 印刷。</li>
@@ -661,7 +661,7 @@ int my_get_dests(cups_ptype_t type, cups_ptype_t mask,
       <li>&quot;printer-info&quot;: 目标的可读描述，如“我的激光打印机”。</li>
       <li>&quot;printer-is-accepting-jobs&quot;: &quot;true&quot; if the destination is accepting new jobs, &quot;false&quot; otherwise.</li>
       <li>&quot;printer-is-shared&quot;: 如果目标与其他计算机共享，则为 “true” ，否则为 “false” 。</li>
-      <li>&quot;printer-location&quot;: 目标的可读位置，如 “实验室4” 。</li>
+      <li>&quot;printer-location&quot;: 目标的可读位置，如 “实验室 4” 。</li>
       <li>&quot;printer-make-and-model&quot;: 目标的可读品牌和型号，如 “ExampleCorp LaserPrinter 4000 系列” 。</li>
       <li>&quot;printer-state&quot;: 如果目标处于空闲状态，则为 “3” ；如果目标正在打印任务，则为 “4” ；如果目标已停止，则为 “5” 。</li>
       <li>&quot;printer-state-change-time&quot;: 目标进入当前状态时的 UNIX 时间。</li>
@@ -1013,7 +1013,7 @@ ippAddStrings(request, IPP_TAG_OPERATION, IPP_TAG_KEYWORD,
     <p>&emsp;&emsp;CUPS 提供了许多函数来添加不同类型的属性：
     <ul>
       <li><code>ippAddBoolean</code> 使用一个值添加布尔（ <code>IPP_TAG_BOOLEAN</code> ）属性。</li>
-      <li><code>ippAddInteger</code> 使用一个值添加 enum（ <code>IPP_TAG_INTEGER</code> ）或 integer（ <code>IPP_TAG_INTEGER</code> ）属性。</li>
+      <li><code>ippAddInteger</code> 使用一个值添加 enum （ <code>IPP_TAG_INTEGER</code> ）或 integer （ <code>IPP_TAG_INTEGER</code> ）属性。</li>
       <li><code>ippAddIntegers</code> 添加具有一个或多个值的枚举或整数属性。</li>
       <li><code>ippAddOctetString</code> 添加带有一个值的 octetString 属性。</li>
       <li><code>ippAddOutOfBand</code> 添加 admin-defined （ <code>IPP_TAG_ADMINDEFINE</code> ）、 default （ <code>IPP_TAG_DEFAULT</code> ）、 delete-attribute （ <code>IPP_TAG_DELETEATTR</code> ）、 no-value （ <code>IPP_TAG_NOVALUE</code> ）、 not-settable （ <code>IPP_TAG_NOTSETTABLE</code> ）、 unknown （ <code>IPP_TAG_UNKNOWN</code> ）或 unsupported （ <code>IPP_TAG_UNSUPPORTED_VALUE</code> ）带外属性。</li>
@@ -1021,7 +1021,7 @@ ippAddStrings(request, IPP_TAG_OPERATION, IPP_TAG_KEYWORD,
       <li><code>ippAddRanges</code> 添加带有一个或多个范围的 rangeOfInteger 属性。</li>
       <li><code>ippAddResolution</code> 添加具有一个分辨率的 resolution 属性。</li>
       <li><code>ippAddResolutions</code> 添加具有一个或多个分辨率的 resolution 属性。</li>
-      <li><code>ippAddString</code> 添加 charset （ <code>IPP_TAG_CHARSET</code> ）、keyword （ <code>IPP_TAG_KEYWORD</code> ）、mimeMediaType （ <code>IPP_TAG_MIMETYPE</code> ）、name （ <code>IPP_TAG_NAME</code> 和 <code>IPP_TAG_NAMELANG</code> ）、naturalLanguage （ <code>IPP_TAG_NATURAL_LANGUAGE</code> ）、text （ <code>IPP_TAG_TEXT</code> 和 <code>IPP_TAG_TEXTLANG</code> ）、 uri （ <code>IPP_TAG_URI</code> ）或 uriScheme（ <code>IPP_TAG_URISCHEME</code> ）属性的一个值。</li>
+      <li><code>ippAddString</code> 添加 charset （ <code>IPP_TAG_CHARSET</code> ）、 keyword （ <code>IPP_TAG_KEYWORD</code> ）、 mimeMediaType （ <code>IPP_TAG_MIMETYPE</code> ）、 name （ <code>IPP_TAG_NAME</code> 和 <code>IPP_TAG_NAMELANG</code> ）、 naturalLanguage （ <code>IPP_TAG_NATURAL_LANGUAGE</code> ）、 text （ <code>IPP_TAG_TEXT</code> 和 <code>IPP_TAG_TEXTLANG</code> ）、 uri （ <code>IPP_TAG_URI</code> ）或 uriScheme （ <code>IPP_TAG_URISCHEME</code> ）属性的一个值。</li>
       <li><code>ippAddStrings</code> 使用一个或多个值添加 charset 、 keyword 、 mimeMediaType 、 name 、 naturalLanguage 、 text 、 uri 或 uriScheme 属性。</li>
     </ul>
     <h3><a id="sending-the-ipp-request">发送 IPP 请求</a></h3>
@@ -1079,7 +1079,7 @@ if ((attr = ippFindAttribute(response, &quot;printer-state-reasons&quot;,
     <pre><code>ippDelete(response);</code></pre>
     
     <h3><a id="authentication">认证</a></h3>
-    <p>&emsp;&emsp;CUPS 通常通过控制台处理身份验证。GUI 应用程序应使用 <code>cupsSetPasswordCB2</code> 函数设置密码回调：
+    <p>&emsp;&emsp;CUPS 通常通过控制台处理身份验证。 GUI 应用程序应使用 <code>cupsSetPasswordCB2</code> 函数设置密码回调：
     <pre><code>void
 cupsSetPasswordCB2(cups_password_cb2_t cb, void *user_data);</code></pre>
     <p>&emsp;&emsp;密码回调将在需要时调用，并负责使用 <code>cupsSetUser</code> 设置当前用户名并返回字符串：
@@ -1248,7 +1248,7 @@ cups_password_cb2(const char *prompt, http_t *http,
     <h4 class="returnvalue">返回值</h4>
     <p class="description">&emsp;&emsp;IPP 状态代码
     <h4 class="returnvalue">详述</h4>
-    <p class="discussion">&emsp;&emsp;当对 cupsStartDocument 的最后一次调用传递 0 给 “last_document” 时使用。 “job_id” 是 cupsCreateDestJob 返回的任务 id。成功返回 <code>IPP_STATUS_OK</code> 。
+    <p class="discussion">&emsp;&emsp;当对 cupsStartDocument 的最后一次调用传递 0 给 “last_document” 时使用。 “job_id” 是 cupsCreateDestJob 返回的任务 id 。成功返回 <code>IPP_STATUS_OK</code> 。
 
     <h3 class="function"><span class="info">&#160;CUPS 1.6/macOS 10.8&#160;</span><a id="cupsConnectDest">cupsConnectDest</a></h3>
     <p class="description">&emsp;&emsp;打开到目标的连接。
@@ -1473,7 +1473,7 @@ cups_password_cb2(const char *prompt, http_t *http,
       <tr><th>flags</th>
         <td class="description">枚举标志</td></tr>
       <tr><th>msec</th>
-        <td class="description">超时时间（以毫秒为单位，-1表示不确定）</td></tr>
+        <td class="description">超时时间（以毫秒为单位，-1 表示不确定）</td></tr>
       <tr><th>cancel</th>
         <td class="description">指向“cancel”变量的指针</td></tr>
       <tr><th>type</th>
@@ -2327,7 +2327,7 @@ cups_password_cb2(const char *prompt, http_t *http,
     <h4 class="returnvalue">返回值</h4>
     <p class="description">&emsp;&emsp;成功时为 0 ，错误时为 1
     <h4 class="returnvalue">详述</h4>
-    <p class="discussion">&emsp;&emsp;使用 <code>cupsArrayNew(NULL，NULL)</code> 创建证书数组。
+    <p class="discussion">&emsp;&emsp;使用 <code>cupsArrayNew(NULL, NULL)</code> 创建证书数组。
 
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="httpAddrAny">httpAddrAny</a></h3>
     <p class="description">&emsp;&emsp;检查“任何”地址。
@@ -2575,7 +2575,7 @@ cups_password_cb2(const char *prompt, http_t *http,
       <tr><th>uri</th>
         <td class="description">URI 缓冲区</td></tr>
       <tr><th>urilen</th>
-        <td class="description">URI缓冲区大小</td></tr>
+        <td class="description">URI 缓冲区大小</td></tr>
       <tr><th>scheme</th>
         <td class="description">方案名称</td></tr>
       <tr><th>username</th>
@@ -2645,7 +2645,7 @@ cups_password_cb2(const char *prompt, http_t *http,
       </tbody>
     </table>
     <h4 class="returnvalue">返回值</h4>
-    <p class="description">&emsp;&emsp;0 = 无数据，1 = 可用数据
+    <p class="description">&emsp;&emsp;0 = 无数据， 1 = 可用数据
 
     <h3 class="function"><span class="info">&#160;CUPS 1.1.19/macOS 10.3&#160;</span><a id="httpClearCookie">httpClearCookie</a></h3>
     <p class="description">&emsp;&emsp;清除 cookie 值。
@@ -2712,7 +2712,7 @@ cups_password_cb2(const char *prompt, http_t *http,
       <tr><th>encryption</th>
         <td class="description">要使用的加密类型</td></tr>
       <tr><th>blocking</th>
-        <td class="description">1 表示阻塞连接，0 表示非阻塞连接</td></tr>
+        <td class="description">1 表示阻塞连接， 0 表示非阻塞连接</td></tr>
       <tr><th>msec</th>
         <td class="description">连接超时（毫秒）， 0 表示不连接</td></tr>
       <tr><th>cancel</th>
@@ -3593,7 +3593,7 @@ cups_password_cb2(const char *prompt, http_t *http,
     <p class="discussion">&emsp;&emsp;目前只能设置 <code>HTTP_FIELD_ACCEPT_ENCODING</code> 、 <code>HTTP_FIELD_SERVER</code> 和 <code>HTTP_FIELD_USER_AGENT</code> 。
 
     <h3 class="function"><span class="info">&#160;CUPS 1.2/macOS 10.5&#160;</span><a id="httpSetExpect">httpSetExpect</a></h3>
-    <p class="description">&emsp;&emsp;在请求中设置 Expect: header。
+    <p class="description">&emsp;&emsp;在请求中设置 Expect: header 。
     <p class="code">void httpSetExpect(<a href="#http_t">http_t</a> *http, http_status_t expect);
     <h4 class="parameters">参数</h4>
     <table class="list">
@@ -4432,7 +4432,7 @@ cups_password_cb2(const char *prompt, http_t *http,
       </tbody>
     </table>
     <h4 class="returnvalue">返回值</h4>
-    <p class="description">&emsp;&emsp;枚举值或 -1（如果未知）
+    <p class="description">&emsp;&emsp;枚举值或 -1 （如果未知）
 
     <h3 class="function"><a id="ippErrorString">ippErrorString</a></h3>
     <p class="description">&emsp;&emsp;返回给定状态代码的名称。
@@ -6057,7 +6057,7 @@ cups_password_cb2(const char *prompt, http_t *http,
         <tr><th>HTTP_URI_STATUS_BAD_SCHEME</th>
             <td class="description">URI 中的错误方案（错误）</td></tr>
         <tr><th>HTTP_URI_STATUS_BAD_URI</th>
-            <td class="description">错误/空的 URI（错误）</td></tr>
+            <td class="description">错误/空的 URI （错误）</td></tr>
         <tr><th>HTTP_URI_STATUS_BAD_USERNAME</th>
             <td class="description">URI 中的用户名错误（错误）</td></tr>
         <tr><th>HTTP_URI_STATUS_MISSING_RESOURCE</th>

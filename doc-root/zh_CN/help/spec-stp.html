@@ -8,49 +8,49 @@
   <body>
 
     <h1 CLASS="title">CUPS 软件测试计划</h1>
-    <p>&emsp;&emsp;本软件测试计划提供了用于评估 CUPS 稳定性和合规性的详细测试。</p>
+    <p>&emsp;&emsp;本软件测试计划提供了用于评估 CUPS 稳定性和合规性的详细测试。
 
     <h2 CLASS="title"><a name="PROCEDURE">试验程序</a></h2>
-    <p>&emsp;&emsp;测试软件和数据文件位于源分发的 <var>test</var> 子目录中。提供了一个脚本来编译 <code>ipptool</code> 程序并运行随后的所有测试，生成成功/失败报告。</p>
-    <p>&emsp;&emsp;顶级 makefile 的<code>测试</code>目标可用于运行此脚本：</p>
+    <p>&emsp;&emsp;测试软件和数据文件位于源分发的 <var>test</var> 子目录中。提供了一个脚本来编译 <code>ipptool</code> 程序并运行随后的所有测试，生成成功/失败报告。
+    <p>&emsp;&emsp;顶级 makefile 的<code>测试</code>目标可用于运行此脚本：
     <pre class="command">make test</pre>
-    <p>&emsp;&emsp;或者，您可以直接运行测试脚本：</p>
+    <p>&emsp;&emsp;或者，您可以直接运行测试脚本：
     <pre class="command">cd test<br>./run-stp-tests</pre>
-    <p>&emsp;&emsp;测试结束时，软件测试报告存储在 <var>test</var> 子目录中的 HTML 文件中。</p>
+    <p>&emsp;&emsp;测试结束时，软件测试报告存储在 <var>test</var> 子目录中的 HTML 文件中。
 
 
     <h2 CLASS="title"><a name="IPP">IPP 合规性测试</a></h2>
-    <p>&emsp;&emsp;本节介绍用于验证 CUPS 服务器是否符合 IPP 标准的测试。</p>
+    <p>&emsp;&emsp;本节介绍用于验证 CUPS 服务器是否符合 IPP 标准的测试。
     <h3>请求测试</h3>
-    <p>&emsp;&emsp;这些测试验证 CUPS 调度程序仅接受以 <code>attributes-charset</code> 和 <code>attributes-natural-language</code> 属性开头的有效 IPP 请求，并且还包含 <code>printer-uri</code> 或 <code>job-uri</code> 属性。</p>
-    <p>&emsp;&emsp;它还验证 CUPS 调度程序是否始终使用 <code>attributes-charset</code> 和 <code>attributes-natural-language</code> 属性响应，如果客户端未提供这些属性，则使用默认值。</p>
+    <p>&emsp;&emsp;这些测试验证 CUPS 调度程序仅接受以 <code>attributes-charset</code> 和 <code>attributes-natural-language</code> 属性开头的有效 IPP 请求，并且还包含 <code>printer-uri</code> 或 <code>job-uri</code> 属性。
+    <p>&emsp;&emsp;它还验证 CUPS 调度程序是否始终使用 <code>attributes-charset</code> 和 <code>attributes-natural-language</code> 属性响应，如果客户端未提供这些属性，则使用默认值。
     <h3>CUPS 打印机操作测试</h3>
-    <p>&emsp;&emsp;这些测试验证 CUPS 打印机操作是否受支持并正常工作。创建了两台名为 <code>Test1</code> 和 <code>Test2</code> 的打印机，一台作为 PostScript 打印机，另一台作为光栅打印机。</p>
+    <p>&emsp;&emsp;这些测试验证 CUPS 打印机操作是否受支持并正常工作。创建了两台名为 <code>Test1</code> 和 <code>Test2</code> 的打印机，一台作为 PostScript 打印机，另一台作为光栅打印机。
     <h3>任务操作测试</h3>
-    <p>&emsp;&emsp;这些测试验证 CUPS 调度程序是否接受所有支持的文件格式的打印任务，以及 <code>cancel-job</code> 、 <code>hold-job</code> 和 <code>resume-job</code> 操作是否正常工作。</p>
+    <p>&emsp;&emsp;这些测试验证 CUPS 调度程序是否接受所有支持的文件格式的打印任务，以及 <code>cancel-job</code> 、 <code>hold-job</code> 和 <code>resume-job</code> 操作是否正常工作。
     <h3>订阅操作测试</h3>
-    <p>&emsp;&emsp;这些测试验证 CUPS 调度程序是否接受带有打印任务的订阅，以及所有订阅操作是否按照 IPP 通知和 mailto 规范的要求工作。</p>
+    <p>&emsp;&emsp;这些测试验证 CUPS 调度程序是否接受带有打印任务的订阅，以及所有订阅操作是否按照 IPP 通知和 mailto 规范的要求工作。
 
 
     <h2 CLASS="title"><a name="COMMAND">命令测试</a></h2>
-    <p>&emsp;&emsp;本节介绍用于验证 CUPS 附带的 Berkeley 和 System V 命令的测试。</p>
+    <p>&emsp;&emsp;本节介绍用于验证 CUPS 附带的 Berkeley 和 System V 命令的测试。
     <h3>lpadmin</h3>
-    <p>&emsp;&emsp;此测试验证是否可以使用 <code>lpadmin</code> 命令添加、修改和默认打印机。</p>
+    <p>&emsp;&emsp;此测试验证是否可以使用 <code>lpadmin</code> 命令添加、修改和默认打印机。
     <h3>lpc</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lpc</code> 命令是否可以显示所有打印队列的当前状态。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lpc</code> 命令是否可以显示所有打印队列的当前状态。
     <h3>lpq</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lpq</code> 命令是否列出队列中的任何任务。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lpq</code> 命令是否列出队列中的任何任务。
     <h3>lpstat</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lpstat</code> 命令是否可用于使用“<code>-t</code>”选项的所有报告。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lpstat</code> 命令是否可用于使用“<code>-t</code>”选项的所有报告。
     <h3>lp</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lp</code> 命令是否同时适用于默认目标和特定目标。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lp</code> 命令是否同时适用于默认目标和特定目标。
     <h3>lpr</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lpr</code> 命令是否同时适用于默认目标和特定目标。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lpr</code> 命令是否同时适用于默认目标和特定目标。
     <h3>lprm</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lprm</code> 命令是否可以正确取消任务。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lprm</code> 命令是否可以正确取消任务。
     <h3>cancel</h3>
-    <p>&emsp;&emsp;此测试验证 <code>cancel</code> 命令是否可以正确取消任务或所有任务。</p>
+    <p>&emsp;&emsp;此测试验证 <code>cancel</code> 命令是否可以正确取消任务或所有任务。
     <h3>lpinfo</h3>
-    <p>&emsp;&emsp;此测试验证 <code>lpinfo</code> 命令是否返回可用打印机驱动程序和设备的列表。</p>
+    <p>&emsp;&emsp;此测试验证 <code>lpinfo</code> 命令是否返回可用打印机驱动程序和设备的列表。
   </body>
 </html>
