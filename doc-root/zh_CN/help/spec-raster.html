@@ -31,7 +31,7 @@
 
 
     <h2 class="title"><a name="V1">第 1 版光栅文件格式</a></h2>
-    <p>&emsp;&emsp;版本 1 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615374 （“RaSt”），对于小端体系结构，为 0x74536152 （“tSaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
+    <p>&emsp;&emsp;版本 1 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615374 （ “RaSt” ），对于小端体系结构，为 0x74536152 （ “tSaR” ）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
     <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以页面设备字典标题开始，紧接着是该页面的（未压缩/原始）光栅数据。
     <div class="table">
       <table summary="CUPS Version 1 Raster Page Device Dictionary">
@@ -48,20 +48,20 @@
         <tr>
           <td>0-63</td>
           <td>C String</td>
-          <td>媒体类</td>
-          <td>媒体类字符串</td>
+          <td>MediaClass</td>
+          <td>介质类字符串</td>
         </tr>
         <tr>
           <td>64-127</td>
           <td>C String</td>
-          <td>媒体颜色</td>
-          <td>媒体颜色字符串</td>
+          <td>MediaColor</td>
+          <td>介质颜色字符串</td>
         </tr>
         <tr>
           <td>128-191</td>
           <td>C String</td>
-          <td>媒体类型</td>
-          <td>媒体类型字符串</td>
+          <td>MediaType</td>
+          <td>介质类型字符串</td>
         </tr>
         <tr>
           <td>192-255</td>
@@ -73,7 +73,7 @@
           <td>256-259</td>
           <td>Unsigned Integer</td>
           <td>AdvanceDistance</td>
-          <td>0 to 2<sup>32</sup> - 1 points</td>
+          <td>步进距离，0 到 2<sup>32</sup> - 1 点</td>
         </tr>
         <tr>
           <td>260-263</td>
@@ -192,7 +192,7 @@
           <td>340-343</td>
           <td>Unsigned Integer</td>
           <td>NumCopies</td>
-          <td>0 to 2<sup>32</sup> - 1 ， 0 = 打印机默认值</td>
+          <td>0 到 2<sup>32</sup> - 1 ， 0 = 打印机默认值</td>
         </tr>
         <tr>
           <td>344-347</td>
@@ -220,8 +220,8 @@
           <td>360-363</td>
           <td>Unsigned Integer</td>
           <td>Separations</td>
-          <td>0 = Print composite image<br>
-              1 = Print color separations</td>
+          <td>0 = 打印合成图像<br>
+              1 = 分色打印</td>
         </tr>
         <tr>
           <td>364-367</td>
@@ -253,27 +253,27 @@
           <td>380-383</td>
           <td>Unsigned Integer</td>
           <td>cupsMediaType</td>
-          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+          <td>驱动程序特定的 0 到 2<sup>32</sup> - 1</td>
         </tr>
         <tr>
           <td>384-387</td>
           <td>Unsigned Integer</td>
           <td>cupsBitsPerColor</td>
-          <td>1, 2, 4, 8 bits for version 1 raster files<br>
-              1, 2, 4, 8, and 16 bits for version 2/3 raster files</td>
+          <td>版本 1 光栅文件的 1, 2, 4, 8 位<br>
+              版本 2/3 光栅文件的 1, 2, 4, 8 和 16 位</td>
         </tr>
         <tr>
           <td>388-391</td>
           <td>Unsigned Integer</td>
           <td>cupsBitsPerPixel</td>
-          <td>1 to 32 bits for version 1 raster files<br>
-              1 to 240 bits for version 2/3 raster files</td>
+          <td>版本 1 光栅文件的 1 到 32 位<br>
+              版本 2/3 光栅文件的 1 到 240 位</td>
         </tr>
         <tr>
           <td>392-395</td>
           <td>Unsigned Integer</td>
           <td>cupsBytesPerLine</td>
-          <td>1 to 2<sup>32</sup> - 1 bytes</td>
+          <td>1 到 2<sup>32</sup> - 1 字节</td>
         </tr>
         <tr>
           <td>396-399</td>
@@ -344,25 +344,25 @@
           <td>404-407</td>
           <td>Unsigned Integer</td>
           <td>cupsCompression</td>
-          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+          <td>驱动程序特定的 0 到 2<sup>32</sup> - 1</td>
         </tr>
         <tr>
           <td>408-411</td>
           <td>Unsigned Integer</td>
           <td>cupsRowCount</td>
-          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+          <td>驱动程序特定的 0 到 2<sup>32</sup> - 1</td>
         </tr>
         <tr>
           <td>412-415</td>
           <td>Unsigned Integer</td>
           <td>cupsRowFeed</td>
-          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+          <td>驱动程序特定的 0 到 2<sup>32</sup> - 1</td>
         </tr>
         <tr>
           <td>416-419</td>
           <td>Unsigned Integer</td>
           <td>cupsRowStep</td>
-          <td>Driver-specific 0 to 2<sup>32</sup> - 1</td>
+          <td>驱动程序特定的 0 到 2<sup>32</sup> - 1</td>
         </tr>
         </tbody>
       </table>
@@ -370,7 +370,7 @@
 
 
     <h2 class="title"><a name="V2">版本 2 光栅文件格式</a></h2>
-    <p>&emsp;&emsp;版本 2 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615332 （“RaS2”），对于小端体系结构，为 0x32536152 （“2SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
+    <p>&emsp;&emsp;版本 2 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615332 （ “RaS2” ），对于小端体系结构，为 0x32536152 （ “2SaR” ）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
     <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面都以版本 2 页面设备字典标题开始，紧接着是该页面的压缩光栅数据。
     <div class="table">
       <table summary="CUPS Version 2 Raster Page Device Dictionary">
@@ -503,7 +503,7 @@
 
 
     <h2 class="title"><a name="V3">版本 3 光栅文件格式</a></h2>
-    <p>&emsp;&emsp;版本 3 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615333 （“RaS3”），对于小端体系结构，为 0x33536152 （“3SaR”）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
+    <p>&emsp;&emsp;版本 3 光栅文件以 32 位同步字开头：对于大端体系结构，为 0x52615333 （ “RaS3” ），对于小端体系结构，为 0x33536152 （ “3SaR” ）。光栅文件的编写器将使用本机字序，而读取器负责检测反转的字序文件并根据需要交换字节。 CUPS 成像 API 光栅函数自动执行此功能。
     <p>&emsp;&emsp;同步字后面是一系列光栅页面。每个页面以版本 2 页面设备字典标题开始，紧接着是该页面的未压缩/原始光栅数据。
 
     <h2 class="title"><a name="ENCODING">像素值编码</a></h2>
@@ -516,10 +516,10 @@
         <thead>
         <tr>
           <th>位</th>
-          <th>1-color</th>
-          <th>3-color</th>
-          <th>4-color</th>
-          <th>6-color</th>
+          <th>1 色</th>
+          <th>3 色</th>
+          <th>4 色</th>
+          <th>6 色</th>
        </tr>
        </thead>
        <tbody>
@@ -555,7 +555,7 @@
     <h3>CUPS_ORDER_PLANAR</h3>
     <p>&emsp;&emsp;平面顺序使用共享页头将每种颜色作为单独的数据页提供。页面的每个颜色平面都是按顺序写入的，例如，对于 <code>CUPS_CSPACE_CMYK</code>颜色空间，您将看到页面的所有青色像素，然后是该页面的洋红、黄色和黑色像素。颜色值从最高有效位（ MSB ）开始打包。每行从 8 位边界开始。
     <h3>CUPS_CSPACE_RGBW</h3>
-    <p>&emsp;&emsp;此颜色空间提供专用的黑色文本通道，并为 RGB 颜色通道使用 sRGB 颜色空间定义和白点。对于文本（或“true”）黑色，白色通道为 0 ，否则它必须包含最大颜色值： 1 表示 1 位， 3 表示 2 位， 15 表示 4 位， 255 表示 8 位，或 65535 表示 16 位。
+    <p>&emsp;&emsp;此颜色空间提供专用的黑色文本通道，并为 RGB 颜色通道使用 sRGB 颜色空间定义和白点。对于文本（或 “true” ）黑色，白色通道为 0 ，否则它必须包含最大颜色值： 1 表示 1 位， 3 表示 2 位， 15 表示 4 位， 255 表示 8 位，或 65535 表示 16 位。
     <h3>CUPS_CSPACE_KCMYcm</h3>
     <p>&emsp;&emsp;当 <code>cupsBitsPerColor</code> 为 1 时，将提供 6 个颜色平面 － 黑色、青色、品红、黄色、浅青色和浅品红。当 <code>cupsBitsPerColor</code> 大于 1 时，将使用 <code>CUPS_CSPACE_KCMY</code> 颜色空间提供 4 个颜色平面。
     <p>&emsp;&emsp;当 <code>cupsColorOrder</code> 是 <code>CUPS_ORDER_CHUNKED</code> 时，位 5 对应于黑色，位 0 对应于浅品红。对于 <code>CUPS_ORDER_BANDED</code> 和 <code>CUPS_ORDER_PLANAR</code> ，每个颜色平面都单独编码。

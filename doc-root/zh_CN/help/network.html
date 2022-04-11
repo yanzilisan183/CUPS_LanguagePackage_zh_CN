@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1 class="title">使用网络打印机</h1>
-    <p>&emsp;&emsp;本帮助文档介绍如何发现、配置和使用带有 CUPS 的 TCP/IP 网络打印机。
+    <p>&emsp;&emsp;本帮助文档介绍 CUPS 如何发现、配置和使用带有 TCP/IP 的网络打印机。
 
     <h2 class="title" id="AUTOMATIC">使用 Bonjour 自动配置</h2>
     <p>&emsp;&emsp;大多数网络打印机支持称为 Bonjour 的协议，它是由 Internet 工程任务组（ IETF ）发布的零配置网络（“ZeroConf”）、多播 DNS （ MDN ）和 DNS 服务发现（ DNS-SD ）标准的组合，该组定义了 TCP/IP 和我们今天使用的所有网络。
@@ -21,13 +21,13 @@ network dnssd://Foo%20Fighter-1969._pdl-datastream._tcp.local./?uuid=4e216bea-c3
     <p>&emsp;&emsp;然后，您可以使用报告的 URI <a href="admin.html#PRINTERS">添加打印机</a>。
 
     <h2 class="title" id="MANUAL">使用 IP 地址手动配置</h2>
-    <p>&emsp;&emsp;您还可以使用打印机的 Internet 协议第 4 版（ IPv4 ）地址手动配置打印机。此地址可以通过打印机的控制面板手动配置“静态 IP”，也可以使用自动网络协议（如 DHCP 或 ZeroConf ）设置。
+    <p>&emsp;&emsp;您还可以使用打印机的 Internet 协议第 4 版（ IPv4 ）地址手动配置打印机。此地址可以通过打印机的控制面板手动配置“静态 IP” ，也可以使用自动网络协议（如 DHCP 或 ZeroConf ）设置。
     <blockquote><b>提示：</b>不建议使用 DHCP 或 ZeroConf 设置的 IP 地址配置打印机，因为每次打开打印机或长时间不活动后，地址都会更改。因此，每次地址更改时，您都需要使用 <code>lpadmin</code> 命令修改打印队列。</blockquote>
 
     <h3>查找 IP 地址</h3>
     <p>&emsp;&emsp;您通常可以在打印机的控制面板上或通过打印“配置”或“状态”页面找到打印机的 IP 地址。<a href="#SNMP">简单网络管理协议（ SNMP ）</a>也可用于远程获取 IP 地址。要测试 IP 地址是否已成功分配，以及打印机是否正确连接到 LAN 或 WiFi 网络，请键入：
     <pre class="command">ping ip-address</pre>
-    <p>&emsp;&emsp;其中“ip 地址”是打印机控制面板、配置页面和/或状态页面报告的地址。如果连接工作正常，您将看到如下情况：
+    <p>&emsp;&emsp;其中 “ip-address” 是打印机控制面板、配置页面和/或状态页面报告的地址。如果连接工作正常，您将看到如下情况：
     <pre class="command">
 ping 10.0.1.42
 PING 10.0.1.42 (10.0.1.42): 56 data bytes
@@ -47,22 +47,22 @@ Request timeout for icmp_seq 1
     <blockquote><b>提示：</b>如果该命令未显示来自打印机的响应，请验证打印机或打印服务器是否已通电并连接到与计算机相同的 LAN 或 WiFi 网络。对于 LAN 连接，还要验证网络布线是否良好。</blockquote>
 
     <h3>选择网络协议（后端）</h3>
-    <p>&emsp;&emsp;CUPS 支持使用三种基于 TCP/IP 的协议之一的大多数网络打印机：<a href="#SOCKET">AppSocket</a>、<a href="#IPP">互联网打印协议</a>和<a href="#LPD">行式打印机守护程序</a>。以下各节描述了每个后端的选项。
+    <p>&emsp;&emsp;CUPS 支持使用三种基于 TCP/IP 协议之一的大多数网络打印机：<a href="#SOCKET">AppSocket</a>、<a href="#IPP">互联网打印协议</a>和<a href="#LPD">行式打印机守护程序</a>。以下各节描述了每个后端的选项。
 
     <h4 id="SOCKET">AppSocket 协议（又称 JetDirect ）</h4>
-    <p>&emsp;&emsp;AppSocket 协议（有时也称为 JetDirect 协议，因为它起源于 HP JetDirect 网络接口）是打印机使用的最简单、最快的网络协议. AppSocket 打印通常监听 9100 端口，并使用 <code>socket</code> 后端。<code>socket</code> 后端的设备 URI 如下所示：
+    <p>&emsp;&emsp;AppSocket 协议（有时也称为 JetDirect 协议，因为它起源于 HP JetDirect 网络接口）是打印机使用的最简单和最快速的网络协议。AppSocket 打印通常监听 9100 端口，并使用 <code>socket</code> 后端。<code>socket</code> 后端的设备 URI 如下所示：
     <pre class="example">
 socket://ip-address
 socket://ip-address/?contimeout=30
 socket://ip-address/?waiteof=false
 socket://ip-address/?contimeout=30&amp;waiteof=false
 socket://ip-address:port-number/?...</pre>
-    <p>&emsp;&emsp;“contimeout”选项控制后端为获得与打印机的连接而等待的秒数。默认值为 1 周或 604800 秒。
-    <p>&emsp;&emsp;“waiteof”选项控制 <code>套接字</code> 后端是否等待打印机完成任务的打印。默认设置为等待（<code>waiteof=true</code>）。将 <code>waiteof=false</code> 添加到 URI 以告知后端不要等待。
-    <blockquote><b>提示：</b>虽然 AppSoT 协议简单快捷，但也不提供安全性，通常是带有打印机的攻击向量。考虑使用“<a href="#IPP">Internet 打印协议</a>”，它支持加密和其他安全特性。</blockquote>
+    <p>&emsp;&emsp;“contimeout” 选项控制后端为获得与打印机的连接而等待的秒数。默认值为 1 周或 604800 秒。
+    <p>&emsp;&emsp;“waiteof” 选项控制 <code>socket</code> 后端是否等待打印机完成打印任务。默认设置为等待（<code>waiteof=true</code>）。将 <code>waiteof=false</code> 添加到 URI 以告知后端不要等待。
+    <blockquote><b>提示：</b>虽然 AppSocket 协议简单快捷，但却不提供安全性，常被用作打印机攻击载体。考虑使用 “<a href="#IPP">Internet 打印协议</a>”，它支持加密和其他安全特性。</blockquote>
 
     <h4 id="IPP">Internet 打印协议（ IPP ）</h4>
-    <p>&emsp;&emsp;IPP 是 CUPS 本机支持的唯一协议，大多数网络打印机和打印服务器都支持 IPP 。 IPP 支持端口 631 上的加密和其他安全功能，并使用 <code>http</code>（ Windows ）、<code>IPP</code> 和 <code>IPP</code> 后端。这些后端的设备 URI 如下所示：
+    <p>&emsp;&emsp;IPP 是 CUPS 唯一原生支持的协议，大多数网络打印机和打印服务器都支持 IPP 。 IPP 支持端口 631 上的加密和其他安全功能，并使用 <code>http</code>（ Windows ）、<code>ipp</code> 和 <code>ipps</code> 后端。这些后端的设备 URI 如下所示：
     <pre class="example">
 http://ip-address-or-hostname:port-number/printers/name/.printer</i>
 ipp://ip-address/ipp/print
@@ -135,9 +135,9 @@ lpd://ip-address/queue
 lpd://ip-address/queue?format=l
 lpd://ip-address/queue?format=l&amp;reserve=rfc1179</pre>
     <p>&emsp;&emsp;<a href="#TABLE3">表 3</a> 总结了 <code>lpd</code> 后端支持的选项。
-    <blockquote><b>提示：</b>由于 LPD 协议的限制，如果打印机或服务器支持任何其他协议，我们不建议使用它。像 AppSocket 一样， LPD 没有安全性，是一种常见的攻击向量。默认情况下， LPD 还要求计算机在将整个打印任务发送到打印机之前保存一份副本 － 这可能导致在任何打印发生之前将千兆字节的打印数据保存到磁盘，从而延迟打印任务并缩短大容量存储设备的寿命！</blockquote>
+    <blockquote><b>提示：</b>由于 LPD 协议的限制，如果打印机或服务器支持任何其他协议，我们不建议使用它。像 AppSocket 一样， LPD 没有安全性，是一种常见的攻击载体。默认情况下， LPD 还要求计算机在将整个打印任务发送到打印机之前保存一份副本 － 这可能导致在任何打印发生之前将数千兆字节的打印数据保存到磁盘，从而延迟打印任务并缩短大容量存储设备的寿命！</blockquote>
     <div class="table">
-    <table summary="LPD URI Options">
+    <table summary="LPD URI 选项">
       <caption>表 3 ：<a name="TABLE3">LPD URI 选项</a></caption>
       <thead>
 	<tr>
@@ -283,12 +283,12 @@ lpd://ip-address/queue?format=l&amp;reserve=rfc1179</pre>
     <p>&emsp;&emsp;在第 59 行，我们启动活动连接探测，发现此打印服务器支持端口 9100 上的 AppSocket （ JetDirect ）协议。
     <p>&emsp;&emsp;最后，第 63 行显示发送到 CUPS 的打印服务器的设备信息行。
     <p>&emsp;&emsp;如果您没有看到列出的打印机，或者列出了错误的信息，则需要收集有关打印机的更多信息。最简单的方法是运行 snmpwalk 命令：
-    <pre class="command">snmpwalk -Cc -v 1 -c public IP 地址 | tee snmpwalk.log</pre>
-    <p>&emsp;&emsp;其中“IP 地址”是打印机或打印服务器的 IP 地址。您应该可以看到<em>大量</em>的值流 － 您希望看到的值有：
+    <pre class="command">snmpwalk -Cc -v 1 -c public ip-address | tee snmpwalk.log</pre>
+    <p>&emsp;&emsp;其中 “ip-address” 是打印机或打印服务器的 IP 地址。您应该可以看到 <em>大量</em> 的值流 － 您希望看到的值有：
     <pre class="example">
 HOST-RESOURCES-MIB::hrDeviceType.1 = OID: HOST-RESOURCES-TYPES::hrDevicePrinter
 HOST-RESOURCES-MIB::hrDeviceDescr.1 = STRING: HP LaserJet 4000 Series</pre>
-    <p>&emsp;&emsp;hrDeviceType 行应显示 hrDevicePrinter ；如果不是，则您的打印机或打印服务器不会将自身标识为打印机。 hrDeviceDescr 行应该为打印机的品牌和型号提供一个友好的字符串，尽管在某些情况下，您会看到一些不太有用的东西，如“Axis OfficeBASIC 并行打印服务器”。
-    <p>&emsp;&emsp;收集 snmpwalk 输出后，应转到<a href="https://github.com/apple/cups/issues">CUPS 问题跟踪器</a>页面，用于提交功能请求以支持打印机或打印服务器。请务必附加您创建的两个日志文件 － 它们将帮助我们确定需要查找的 SNMP 值。
+    <p>&emsp;&emsp;hrDeviceType 行应显示 hrDevicePrinter ；如果不是，则您的打印机或打印服务器不会将自身标识为打印机。 hrDeviceDescr 行应该为打印机的品牌和型号提供一个友好的字符串，尽管在某些情况下，您会看到一些不太有用的东西，如 “Axis OfficeBASIC 并行打印服务器”。
+    <p>&emsp;&emsp;收集 snmpwalk 输出后，应转到 <a href="https://github.com/apple/cups/issues">CUPS 问题跟踪器</a>页面，用于提交功能请求以支持打印机或打印服务器。请务必附加您创建的两个日志文件 － 它们将帮助我们确定需要查找的 SNMP 值。
   </body>
 </html>

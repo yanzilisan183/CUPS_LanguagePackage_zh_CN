@@ -14,7 +14,7 @@
     <ul>
       <li><var>desktop/cups.desktop</var> - 指向 CUPS Web 界面的 GNOME/KDE 桌面文件</li>
       <li><var>doc/index.html.in</var> - Web 界面主页</li>
-      <li><var>locale/cups.pot</var> - 邮件目录</li>
+      <li><var>locale/cups.pot</var> - 消息目录</li>
       <li><var>templates/*.tmpl</var> 和 <var>templates/header.tmpl.in</var> - Web 界面模板文件</li>
     </ul>
     <p>&emsp;&emsp;除了消息目录和桌面文件外，本地化文件使用区域名称放置在 <var>doc</var> 和 <var>templates</var> 下的子目录中。地区名称可以是 <var>ll</var> 或 <var>ll_CC</var>，其中“ll”是两个字母的语言代码，“CC”是两个字母的国家代码 <em>CUPS 当前不使用或支持更新的 <var>ll-region</var> 语法作为区域名称</em>。
@@ -33,21 +33,21 @@ Name[<i>ll_CC</i>]=<i>“管理打印”的翻译</i>
 Comment[<i>ll_CC</i>]=<i>“CUPS Web 界面”的翻译</i></pre>
 
     <h2 class="title" id="HOMEPAGE">主页</h2>
-    <p>&emsp;&emsp;<var>index.html.in</var> 文件是用户访问时显示的完整 HTML 文件 “http://localhost:631/”。编辑现有的 <var>doc/index.html.in</var> 文件，并将其保存在 <var>doc/ll_CC</var> 子目录中，以便配置脚本可以生成它。配置后，在 <var>doc</var> 子目录中运行“make install”以测试新主页。
+    <p>&emsp;&emsp;<var>index.html.in</var> 文件是用户访问 “http://localhost:631/” 时显示的完整 HTML 文件。编辑现有的 <var>doc/index.html.in</var> 文件，并将其保存在 <var>doc/ll_CC</var> 子目录中，以便配置脚本可以生成它。配置后，在 <var>doc</var> 子目录中运行 “make install” 以测试新主页。
 
     <h2 class="title" id="CATALOGS">消息目录</h2>
-    <p>&emsp;&emsp;CUPS 消息目录是 GNU gettext “.po” 文本文件，为 CUPS 软件提供本地化消息字符串列表。消息目录名为 <var>cups_ll.po</var> 或 <var>cups_ll_CC.po</var>，其中“ll”是该语言的标准两个字母缩写，“CC”是该国家的标准两个字母缩写。
-    <p>&emsp;&emsp;翻译新的消息目录时，请复制 CUPS 源代码的 <var>locale</var> 子目录中的 <var>cups.pot</var> 消息目录文件。例如，要开始将邮件目录翻译为加拿大法语，请键入以下命令：
+    <p>&emsp;&emsp;CUPS 消息目录是 GNU gettext “.po” 文本文件，为 CUPS 软件提供本地化消息字符串列表。消息目录名为 <var>cups_ll.po</var> 或 <var>cups_ll_CC.po</var>，其中 “ll” 是该语言的标准两个字母缩写， “CC” 是该国家的标准双字母缩写。
+    <p>&emsp;&emsp;翻译新的消息目录时，请复制 CUPS 源代码的 <var>locale</var> 子目录中的 <var>cups.pot</var> 消息目录文件。例如，要开始将消息目录翻译为加拿大法语，请键入以下命令：
     <pre class="command">cd locale<br>cp cups.pot cups_fr_CA.po</pre>
     <p>&emsp;&emsp;或者，您可以复制现有的 <var>cups_fr.po</var> 消息目录，然后进行任何必要的更改。
     <p>&emsp;&emsp;制作文件副本后，请使用您喜爱的文本编辑器或翻译程序对其进行编辑，以将文本翻译为所需的语言。
     <p>&emsp;&emsp;然后使用 <var>locale/checkpo</var> 实用程序验证翻译：
     <pre class="command">cd locale<br>./checkpo cups_ll_CC.po</pre>
-    <p>&emsp;&emsp;修复翻译中的任何错误后，将您的区域设置添加到 <var>Makedefs</var> 文件中的 <code>LANGUAGES</code> 变量中，并在 <var>locale</var> 子目录中运行“make install”命令以测试翻译。<em>运行配置脚本时，此变量会自动更新。</em>
+    <p>&emsp;&emsp;修复翻译中的任何错误后，将您的区域设置添加到 <var>Makedefs</var> 文件中的 <code>LANGUAGES</code> 变量中，并在 <var>locale</var> 子目录中运行 “make install” 命令以测试翻译。<em>运行配置脚本时，此变量会自动更新。</em>
 
     <h2 class="title" id="TEMPLATES">模板文件</h2>
-    <p>&emsp;&emsp;CUPS 调度程序提供了一个 Web 界面，可用于执行许多常见的打印和管理任务。内置 Web 服务器支持通过使用每个语言环境的子目录对网页进行本地化，例如法语为“fr”，德语为“de”，加拿大法语为“fr_ca”，等等。
-    <p>&emsp;&emsp;模板文件是 HTML 文件，其中包含允许替换变量和数组的特殊格式字符。 CUPS CGI 程序（ <code>admin.cgi</code> ， <code>classes.cgi</code> ， <code>help.cgi</code> ， <code>jobs.cgi</code> 和 <code>printers.cgi</code> ）使用这些模板文件为 Web 界面提供动态内容。默认情况下，模板文件安装在 <var>/usr/share/cups/templates</var> 目录中<a href="table1">表 1</a> 列出了各种模板文件及其用途。
+    <p>&emsp;&emsp;CUPS 调度程序提供了一个 Web 界面，可用于执行许多常见的打印和管理任务。内置 Web 服务器支持通过使用每个语言环境的子目录对网页进行本地化，例如法语为 “fr” ，德语为 “de” ，加拿大法语为 “fr_ca” ，等等。
+    <p>&emsp;&emsp;模板文件是 HTML 文件，其中包含允许替换变量和数组的特殊格式字符。 CUPS CGI 程序（ <code>admin.cgi</code> ， <code>classes.cgi</code> ， <code>help.cgi</code> ， <code>jobs.cgi</code> 和 <code>printers.cgi</code> ）使用这些模板文件为 Web 界面提供动态内容。默认情况下，模板文件安装在 <var>/usr/share/cups/templates</var> 目录中。<a href="table1">表 1</a> 列出了各种模板文件及其用途。
     <p>&emsp;&emsp;模板文件的翻译版本应保存在 <var>templates/ll_CC</var> 子目录中。例如，加拿大法语模板文件应保存在 <var>templates/fr_CA</var> 子目录中。翻译完所有模板后，将区域设置添加到 <var>Makedefs</var> 文件中的 <code>LANGUAGES</code> 变量中，并在 <var>templates</var> 子目录中运行 “make install” 以测试翻译。
     <div class="table">
     <table id="table1" summary="Web 界面模板文件">
@@ -324,14 +324,14 @@ Comment[<i>ll_CC</i>]=<i>“CUPS Web 界面”的翻译</i></pre>
     </div>
 
     <h4 id="VARIABLE">插入属性和值</h4>
-    <p>&emsp;&emsp;模板文件由 HTML 组成，在大括号“{name}”内用变量替换命名。变量名通常是 IPP 属性名，其中连字符（“-”）替换为下划线（“_”）字符。例如，<tt>job-printer-uri</tt> 属性被重命名为 <tt>job_printer_uri</tt> 。
-    <p>&emsp;&emsp;大括号（“{”和“}”）表示替换，反斜杠（“\”）字符表示引用。要按原样插入这些特殊字符，需要使用 HTML <code>&amp;name;</code>机制或在每个特殊字符前面加反斜杠（“\”）。
+    <p>&emsp;&emsp;模板文件由 HTML 组成，用变量名替换 “{name}” 大括号内的 name 。变量名通常是 IPP 属性名，其中连字符（“-”）替换为下划线（“_”）。例如，<tt>job-printer-uri</tt> 属性被重命名为 <tt>job_printer_uri</tt> 。
+    <p>&emsp;&emsp;大括号（ “{” 和 “}” ）表示替换，反斜杠（ “\” ）表示转义。要按原样插入这些特殊字符，需要使用 HTML <code>&amp;name;</code> 机制或在每个特殊字符前面加反斜杠（ “\” ）。
     <p>&emsp;&emsp;在模板文件中使用 <code>{NAME}</code> 替换变量的值。如果变量未定义，则 <code>{NAME}</code> 字符串按原样输出。
-    <p>&emsp;&emsp;若要在变量未定义时替换空字符串，请改用 <code>{?NAME}</code>。
+    <p>&emsp;&emsp;若要在变量未定义时替换为空字符串，请改用 <code>{?NAME}</code>。
 
     <h4>数组替换</h4>
     <p>&emsp;&emsp;可以使用 <code>{#NAME}</code> 插入数组元素的数量。如果数组未定义，则输出 0 。当前数组元素（从 1 开始）以 <code>{#}</code> 形式插入。
-    <p>&emsp;&emsp;数组在节的开头使用 <code>{[NAME]</code> 标记，在结尾使用 <code>}</code> 标记。右括号（“]”）和右大括号（“}”）之间的信息对于命名数组中的元素重复。例如，以下模板将显示 <code>job_id</code> 数组中每个任务的列表：
+    <p>&emsp;&emsp;数组在节的开头使用 <code>{[NAME]</code> 标记，在结尾使用 <code>}</code> 标记。右括号（ “]” ）和右大括号（ “}” ）之间的信息对于命名数组中的元素重复。例如，以下模板将显示 <code>job_id</code> 数组中每个任务的列表：
     <pre class="command">
 &lt;TABLE&gt;
 &lt;TR&gt;
@@ -348,7 +348,7 @@ Comment[<i>ll_CC</i>]=<i>“CUPS Web 界面”的翻译</i></pre>
 &lt;/TR&gt;
 }
 &lt;/TABLE&gt;</pre>
-    <p>&emsp;&emsp;数组可以嵌套，但是大括号（“{”和“}”）中的所有元素都使用最里面的数组进行索引。
+    <p>&emsp;&emsp;数组可以嵌套，但是大括号（ “{” 和 “}” ）中的所有元素都使用最里面的数组进行索引。
 
     <h4>条件测试</h4>
     <p>&emsp;&emsp;模板还可以根据特定值测试变量，并有条件地在模板中包含文本。格式为：

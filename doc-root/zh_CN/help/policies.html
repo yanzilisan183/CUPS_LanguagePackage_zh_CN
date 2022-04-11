@@ -12,14 +12,13 @@
 
     <h2 class="title"><a name="BASICS">基础知识</a></h2>
     <p>&emsp;&emsp;操作策略用于发送到调度程序的所有 IPP 请求，并在基于访问控制规则的 <a href="man-cupsd.conf.html#Location"><tt>Location</tt></a> <em>之后</em> 进行评估。这意味着操作策略只能向请求添加额外的安全限制，而不能放松它们。对服务器范围的限制使用基于 <tt>Location</tt> 的访问控制规则，对单个打印机、任务或服务的限制使用基于操作策略的访问控制规则。
-    <p>&emsp;&emsp;策略存储在 <var>cupsd.conf</var> 文件的 <a href="man-cupsd.conf.html#Policy"><tt>Policy</tt></a> 部分中。每个策略都有一个用于选择它的字母数字名称。在策略部分中有一个或多个 <a href="man-cupsd.conf.html#LimitIPP"><tt>Limit</tt></a> 子部分，其中列出了受其内部规则影响的操作<a href="#LISTING01">清单 1</a> 显示了 CUPS 附带的默认操作策略，适当地称为“默认”。
+    <p>&emsp;&emsp;策略存储在 <var>cupsd.conf</var> 文件的 <a href="man-cupsd.conf.html#Policy"><tt>Policy</tt></a> 部分中。每个策略都有一个用于选择它的字母数字名称。在策略部分中有一个或多个 <a href="man-cupsd.conf.html#LimitIPP"><tt>Limit</tt></a> 子部分，其中列出了受其内部规则影响的操作。<a href="#LISTING01">清单 1</a> 显示了默认操作策略。因其与 CUPS 一起提供，所以称为“默认”是恰当的。
     <p>&emsp;&emsp;向 <var>cupsd.conf</var> 文件添加策略的最简单方法是使用 Web 界面。单击 <var>管理</var> 选项卡，然后单击 <var>编辑配置文件</var> 按钮编辑当前的 <var>cupsd.conf</var> 文件。单击 <var>保存更改</var> 按钮保存更改并重新启动调度程序。如果从控制台编辑 <var>cupsd.conf</var> 文件，请确保在尝试使用新策略之前重新启动 cupsd 进程。
     <pre class="example">
 <em>清单 1 ：<a name="LISTING01">默认操作策略</a></em>
 
  1    &lt;Policy default>
- 2      # Job-related operations must be done by the owner or an
-      administrator...
+ 2      # 与任务相关的操作必须由所有者或管理员完成……
  3      &lt;Limit Send-Document Send-URI Hold-Job Release-Job
       Restart-Job Purge-Jobs Set-Job-Attributes
       Create-Job-Subscription Renew-Subscription
@@ -30,8 +29,7 @@
  5        Order deny,allow
  6      &lt;/Limit>
  7
- 8      # All administration operations require an administrator
-      to authenticate...
+ 8      # 所有管理操作都需要管理员进行身份验证……
  9      &lt;Limit CUPS-Add-Modify-Printer CUPS-Delete-Printer CUPS-Add-Modify-Class
       CUPS-Delete-Class CUPS-Set-Default>
 10        AuthType Default
@@ -39,8 +37,7 @@
 12        Order deny,allow
 13      &lt;/Limit>
 14
-15      # All printer operations require a printer operator
-      to authenticate...
+15      # 所有打印机操作都需要打印机操作员进行身份验证……
 16      &lt;Limit Pause-Printer Resume-Printer
       Set-Printer-Attributes Enable-Printer Disable-Printer
       Pause-Printer-After-Current-Job Hold-New-Jobs
@@ -53,8 +50,7 @@
 19        Order deny,allow
 20      &lt;/Limit>
 21
-22      # Only the owner or an administrator can cancel or
-      authenticate a job...
+22      # 只有所有者或管理员才能取消或验证任务……
 23      &lt;Limit Cancel-Job CUPS-Authenticate-Job>
 24        Require user @OWNER @SYSTEM
 25        Order deny,allow
@@ -79,7 +75,7 @@
  4        Require user @OWNER @SYSTEM
  5        Order deny,allow
  6      &lt;/Limit></pre>
-    <p>&emsp;&emsp;操作名称列在一行中，并用空格分隔。每个名称对应于互联网打印协议的任何 IETF 或 PWG 标准文件中描述的 IPP 操作<a href="#TABLE01">表 1</a> 列出了所有已定义的操作及其在 CUPS 中的用法。
+    <p>&emsp;&emsp;操作名称列在一行中，并用空格分隔。每个名称对应于互联网打印协议的任何 IETF 或 PWG 标准文件中描述的 IPP 操作。<a href="#TABLE01">表 1</a> 列出了所有已定义的操作及其在 CUPS 中的用法。
     <p>&emsp;&emsp;访问控制规则列在 <tt>Limit</tt> 行之后，与 <a href="man-cupsd.conf.html#Location"><tt>Location</tt></a> 部分使用的规则相同。在这种情况下，我们需要任务的所有者（ @OWNER ）或 <a href="man-cups-files.conf.html#SystemGroup"><tt>SystemGroup</tt></a>（ @SYSTEM ）来执行该操作。由于此处不包含 <a href="man-cupsd.conf.html#AuthType"><tt>AuthType</tt></a> 指令，因此用户信息可以来自 IPP 请求本身，也可以来自 HTTP 请求的经过身份验证的用户名。但是，从第 9 行开始的管理操作使用 <tt>AuthType</tt> 指令，因此需要对管理操作进行身份验证：
     <pre class="example">
  9      &lt;Limit CUPS-Add-Modify-Printer CUPS-Delete-Printer CUPS-Add-Modify-Class
@@ -103,18 +99,18 @@
 19        Order deny,allow
 20      &lt;/Limit></pre>
     <p>&emsp;&emsp;两个 <tt>Limit</tt> 小节末尾的 “Order deny,allow” 行允许请求来自 <var>cupsd.conf</var> 文件中其他位置的 <tt>Location</tt> 部分所允许的任何系统。
-    <p>&emsp;&emsp;将分别列出 <tt>取消任务</tt>和<tt>CUPS 验证任务</tt>操作，以允许 Web 界面更轻松地编辑其策略，而不会干扰其他操作。与其他任务操作一样，我们希望任务的所有者（@OWNER ）或管理员（@SYSTEM ）执行以下操作：
+    <p>&emsp;&emsp;将分别列出 <TT>Cancel-Job</TT> 和 <TT>CUPS-Authenticate-Job</TT> 操作，以允许 Web 界面更轻松地编辑其策略，而不会干扰其他操作。与其他任务操作一样，我们希望任务的所有者（@OWNER ）或管理员（@SYSTEM ）执行以下操作：
     <pre class="example">
-16      &lt;Limit Cancel-Job CUPS-Authenticate-Job>
-17        Require user @OWNER @SYSTEM
-18        Order deny,allow
-19      &lt;/Limit></pre>
+23      &lt;Limit Cancel-Job CUPS-Authenticate-Job>
+24        Require user @OWNER @SYSTEM
+25        Order deny,allow
+26      &lt;/Limit></pre>
     <p>&emsp;&emsp;任何策略中的最后一个 <tt>Limit</tt> 小节使用特殊操作名 <tt>All</tt>。 CUPS 将使用本小节中的规则执行策略中未明确列出的任何操作。在这种情况下，允许在没有用户名或身份验证的情况下执行所有其他操作：
     <pre class="example">
-21      &lt;Limit All>
-22        Order deny,allow
-23      &lt;/Limit>
-24    &lt;/Policy></pre>
+28      &lt;Limit All>
+29        Order deny,allow
+30      &lt;/Limit>
+31    &lt;/Policy></pre>
 
     <div class="table">
     <table width="80%" summary="IPP Operation Names">
@@ -441,8 +437,10 @@
     </table>
     </div>
     <p>&emsp;&emsp;* = 这些操作仅适用于默认策略。
+    
+    
     <h2 class="title"><a name="CREATING">创建自己的策略</a></h2>
-    <p>&emsp;&emsp;创建新策略的最简单方法是从默认策略开始，然后对副本进行更改。您要做的第一个更改是为策略指定一个新名称。策略名称可以使用与打印机名称相同的字符，特别是除空格、斜杠（/）和磅（#）之外的所有可打印字符：
+    <p>&emsp;&emsp;创建新策略的最简单方法是从默认策略开始，然后对副本进行更改。您要做的第一个更改是为策略指定一个新名称。策略名称可以使用与打印机名称相同的字符，特别是除空格、斜杠（ / ）和井号（ # ）之外的所有可打印字符：
     <pre class="example">&lt;Policy mypolicy></pre>
     <p>&emsp;&emsp;然后，您需要准确地确定您想要的策略限制。例如，如果希望允许任何用户取消任何其他用户的打印任务，则可以将 <tt>Cancel-Job</tt> 限制更改为：
     <pre class="example">
@@ -514,8 +512,7 @@
 <em>清单 2 ：<a name="LISTING02">实验室操作策略</a></em>
 
  1    &lt;Policy lab999>
- 2      # Job- and subscription-related operations must be done
-      by the owner, a lab technician, or an administrator...
+ 2      # 与任务和订阅相关的操作必须由所有者、实验室技术人员或管理员完成……
  3      &lt;Limit Send-Document Send-URI Hold-Job Release-Job
       Restart-Job Purge-Jobs Set-Job-Attributes
       Create-Job-Subscription Renew-Subscription
@@ -527,8 +524,7 @@
  6        Allow from 10.0.2.0/24
  7      &lt;/Limit>
  8
- 9      # All administration operations require a lab technician
-      or an administrator to authenticate...
+ 9      # 所有管理操作都需要实验室技术人员或管理员进行身份验证……
 10      &lt;Limit Pause-Printer Resume-Printer
       Set-Printer-Attributes Enable-Printer Disable-Printer
       Pause-Printer-After-Current-Job Hold-New-Jobs
@@ -542,7 +538,7 @@
 14        Allow from 10.0.2.0/24
 15      &lt;/Limit>
 16
-17      # All other operations are allowed from the lab network...
+17      # 允许从实验室网络进行所有其他操作……
 18      &lt;Limit All>
 19        Order allow,deny
 20        Allow from 10.0.2.0/24
@@ -551,10 +547,10 @@
 
 
     <h2 class="title"><a name="SELECT">使用策略</a></h2>
-    <p>&emsp;&emsp;创建策略后，可以通过两种方式使用它。第一种方法是使用 <var>cupsd.conf</var> 文件中的 <a href="man-cupsd.conf.html#DefaultPolicy"><tt>DefaultPolicy</tt></a> 指令将其指定为系统的默认策略。例如，将以下行添加到 <var>cupsd.conf</var> 文件中，以使用上一节中的“lab999”策略：
+    <p>&emsp;&emsp;创建策略后，可以通过两种方式使用它。第一种方法是使用 <var>cupsd.conf</var> 文件中的 <a href="man-cupsd.conf.html#DefaultPolicy"><tt>DefaultPolicy</tt></a> 指令将其指定为系统的默认策略。例如，将以下行添加到 <var>cupsd.conf</var> 文件中，以使用上一节中的 “lab999” 策略：
     <pre class="example">DefaultPolicy lab999</pre>
-    <p>&emsp;&emsp;要将策略与一台或多台打印机关联，请使用 <a href="man-lpadmin.html">lpadmin(8)</a> 命令或 Web 界面更改每台打印机的操作策略。使用 <b>lpadmin</b> 命令时，<tt>-o printer-op-policy=name</tt> 选项设置打印机的操作策略。例如，输入以下命令，将上一节中的“lab999”策略用于名为“LaserJet4000”的打印机：
+    <p>&emsp;&emsp;要将策略与一台或多台打印机关联，请使用 <a href="man-lpadmin.html">lpadmin(8)</a> 命令或 Web 界面更改每台打印机的操作策略。使用 <b>lpadmin</b> 命令时，<tt>-o printer-op-policy=name</tt> 选项设置打印机的操作策略。例如，输入以下命令，将上一节中的 “lab999” 策略用于名为 “LaserJet4000” 的打印机：
     <pre class="command">lpadmin -p LaserJet4000 -o printer-op-policy=lab999</pre>
-    <p>&emsp;&emsp;要在 Web 界面中进行相同的更改，请转到打印机的网页，例如“http://localhost:631/printers/LaserJet4000”，然后从 <var>管理</var> 菜单按钮中选择 <var>设置默认选项</var>。单击 <var>策略</var> 链接，从下拉列表中选择所需的策略。单击设置默认选项以更改打印机的策略。
+    <p>&emsp;&emsp;要在 Web 界面中进行相同的更改，请转到打印机的网页，例如 “http://localhost:631/printers/LaserJet4000” ，然后从 <var>管理</var> 菜单按钮中选择 <var>设置默认选项</var>。单击 <var>策略</var> 链接，从下拉列表中选择所需的策略。单击设置默认选项以更改打印机的策略。
   </body>
 </html>

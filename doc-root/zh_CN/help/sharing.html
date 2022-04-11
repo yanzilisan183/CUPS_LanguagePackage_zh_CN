@@ -9,7 +9,7 @@
     <h1 CLASS="title">打印机共享</h1>
     <p>&emsp;&emsp;本文档讨论了配置打印机共享的几种方法。
 
-    <h2><a name="BASICS">基础知识</h2>
+    <h2><a name="BASICS">基础知识</a></h2>
     <p>&emsp;&emsp;“服务器”是直接与打印机通信的任何机器。“客户机”是将打印任务发送到服务器进行最终打印的任何机器。如果客户机直接与自己的任何打印机通信，则客户机也可以是服务器。
     <p>&emsp;&emsp;默认情况下， CUPS 使用 Internet 打印协议（ IPP ）将任务从客户端发送到服务器。当打印到旧的打印服务器时，您也可以在打印到旧的基于 UNIX 的服务器时使用行式打印机后台程序（ LPD ）协议，或者在打印到 Windows<sup>&reg;</sup> 服务器时使用服务器消息块（ SMB ）。
     <p>&emsp;&emsp;客户端可以通过 DNS 服务发现（ DNS-SD a.k.a. Bonjour<sup>&reg;</sup> ）自动发现和访问共享打印机。 SMB 浏览还可用于在安装 <a href="http://www.samba.org/">Samba</a> 时手动查找和访问共享打印机。

@@ -22,7 +22,7 @@
       </li>
       <li>正确配置的 Kerberos 基础架构：
 	<ol type='a'>
-          <li>KDC 配置为允许 CUPS 服务器获取“主机”和“HTTP”服务/主体的服务授予票证（ SGT ），</li>
+          <li>KDC 配置为允许 CUPS 服务器获取 “主机” 和 “HTTP” 服务/主体的服务授予票证（ SGTs ），</li>
           <li>基于 LDAP 的用户帐户 - OpenDirectory 和 ActiveDirectory 都通过 KDC 提供此功能，并且</li>
           <li>CUPS 客户端和服务器绑定到同一 KDC 和 LDAP 服务器。</li>
 	</ol>
@@ -48,8 +48,8 @@
     <p>&emsp;&emsp;启用 Kerberos 身份验证后，对要共享的打印机使用内置的“已验证”策略或您自己的自定义策略。有关更多信息，请参见<a href="policies.html">管理操作策略</a>。
 
     <h2 CLASS="title"><a name="IMPLEMENT">实施信息</a></h2>
-    <p>&emsp;&emsp;CUPS 通过 HTTP 实现 Kerberos ，使用 GSSAPI 和服务/主体名称“host/server.example.com”进行命令行访问，使用“HTTP/server.example.com”进行基于 Web 的访问，其中“server.example.com”替换为 CUPS 服务器的主机名。由于 HTTP GSSAPI 协议扩展的限制，仅支持单个 域/KDC 进行身份验证。<a href="http://tools.ietf.org/html/rfc4559">RFC 4559</a>中描述了 HTTP 扩展。
-    <p>&emsp;&emsp;当执行需要身份验证的打印任务时， CUPS 会从您的登录会话请求一次性“票证”来验证您是谁。这些票证为 CUPS 提供了“表单”的用户名 user@REALM ，然后出于用户和组检查的目的将其截断为“user”。
+    <p>&emsp;&emsp;CUPS 通过 HTTP 实现 Kerberos ，使用 GSSAPI 和服务/主体名称 “host/server.example.com” 进行命令行访问，使用 “HTTP/server.example.com” 进行基于 Web 的访问，其中 “server.example.com” 替换为 CUPS 服务器的主机名。由于 HTTP GSSAPI 协议扩展的限制，仅支持单个 域/KDC 进行身份验证。<a href="http://tools.ietf.org/html/rfc4559">RFC 4559</a> 中描述了 HTTP 扩展。
+    <p>&emsp;&emsp;当执行需要身份验证的打印任务时， CUPS 会从您的登录会话请求一次性“票证”来验证您是谁。这些票证为 CUPS 提供了“表单”的用户名 user@REALM ，然后出于用户和组检查的目的将其截断为 “user” 。
     <p>&emsp;&emsp;为了支持打印到共享打印机， CUPS 将 IPP 或 SMB 后端作为打印任务的所有者运行，以便在任务反后台打印到服务器时获得必要的凭据。
   </body>
 </html>
