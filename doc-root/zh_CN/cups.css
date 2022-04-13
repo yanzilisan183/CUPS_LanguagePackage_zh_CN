@@ -325,6 +325,10 @@ DIV.figure CAPTION {
   margin-right: auto;
 }
 
+TH {
+  white-space: nowrap;
+}
+
 TH.label {
   text-align: right;
   vertical-align: top;

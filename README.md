@@ -14,6 +14,7 @@ sudo cp -rp ./doc-root/zh\_CN /usr/share/cups/doc-root/
 sudo chown -R root:root /usr/share/cups/doc-root/zh\_CN/  
 sudo chmod 755 /usr/share/cups/doc-root/zh\_CN/  
 sudo chmod -R 644 /usr/share/cups/doc-root/zh\_CN/\*  
+sudo chmod 755 /usr/share/cups/doc-root/zh\_CN/help /usr/share/cups/doc-root/zh\_CN/images  
 
 \# 重命名原英文帮助文档目录  
 sudo mv /usr/share/cups/doc-root/help /usr/share/cups/doc-root/help\_en  
