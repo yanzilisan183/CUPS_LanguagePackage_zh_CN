@@ -32,14 +32,14 @@
 {?printer_is_shared=?不:{?printer_is_shared=0?不:}}共享这台打印机</TD>
 </TR>
 <TR>
-<TH CLASS="label">制造:</TH>
+<TH CLASS="label">制造商:</TH>
 <TD>{PPD_MAKE} <INPUT TYPE="SUBMIT" NAME="SELECT_MAKE" VALUE="选择其他品牌/制造商"></TD>
 </TR>
 <TR>
 <TH CLASS="label">模块:</TH>
 <TD>
 <SELECT NAME="PPD_NAME" SIZE="10">
-{op=add-printer?:<OPTION VALUE="__no_change__" SELECTED>Current Driver - {current_make_and_model}</OPTION>:}
+{op=add-printer?:<OPTION VALUE="__no_change__" SELECTED>当前驱动程序 - {current_make_and_model}</OPTION>:}
 {show_ipp_everywhere?<OPTION VALUE="everywhere" SELECTED>{current_make_and_model} - IPP Everywhere &trade;</OPTION>:}
 {[ppd_name]<OPTION VALUE="{ppd_name}" {op=modify-printer?:{?current_make_and_model={ppd_make_and_model}?SELECTED:}}>{ppd_make_and_model} ({ppd_natural_language})
 }</SELECT>
