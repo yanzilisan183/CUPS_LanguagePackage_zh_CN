@@ -8,7 +8,7 @@
 <TR VALIGN="TOP">
 <TD><A HREF="{job_printer_uri}">{job_printer_name}</A>-{job_id}{?phone? ({phone}):}&nbsp;</TD>
 <TD>{?job_name=?未知:{job_name}}&nbsp;</TD>
-<TD>{?job_originating_user_name=?保持:{job_originating_user_name}}&nbsp;</TD>
+<TD>{?job_originating_user_name=?--:{job_originating_user_name}}&nbsp;</TD>
 <TD>{job_k_octets}k&nbsp;</TD>
 <TD>{job_impressions_completed=0?未知:{?job_impressions_completed}}&nbsp;</TD>
 <TD>{job_state=3?等待于<BR>{?time_at_creation=?未知:{time_at_creation}}:{job_state=4?保持于<BR>{?time_at_creation=?未知:{time_at_creation}}:
@@ -18,7 +18,7 @@
 {job_preserved>0?{job_state>5?
 <FORM ACTION="/jobs/" METHOD="POST"><INPUT TYPE="HIDDEN" NAME="org.cups.sid" VALUE="{$org.cups.sid}"><INPUT TYPE="HIDDEN" NAME="OP" VALUE="restart-job"><INPUT TYPE="HIDDEN" NAME="job_id" VALUE="{job_id}"><INPUT TYPE="HIDDEN" NAME="job_printer_uri" VALUE="{job_printer_uri}">
 <INPUT TYPE="SUBMIT" VALUE="重启任务"></FORM>:}:}
-{job_state=4?{job_hold_until=auth-info-required?为认证而保持.:
+{job_state=4?{job_hold_until=auth-info-required?<INPUT TYPE="BUTTON" VALUE="等待认证" DISABLED>:
 <FORM ACTION="/jobs/" METHOD="POST"><INPUT TYPE="HIDDEN" NAME="org.cups.sid" VALUE="{$org.cups.sid}"><INPUT TYPE="HIDDEN" NAME="OP" VALUE="release-job"><INPUT TYPE="HIDDEN" NAME="job_id" VALUE="{job_id}"><INPUT TYPE="HIDDEN" NAME="job_printer_uri" VALUE="{job_printer_uri}">
 <INPUT TYPE="SUBMIT" VALUE="释放任务"></FORM>:}:}
 {job_state=3?

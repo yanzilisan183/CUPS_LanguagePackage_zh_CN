@@ -647,7 +647,7 @@ table.list {
   width: 100%;
 }
 table.list tr:nth-child(even) {
-  background: rgba(127,127,127,0.1);]n}
+  background: rgba(127,127,127,0.2);]n}
 table.list th {
   border-right: 2px solid gray;
   font-family: monospace;
